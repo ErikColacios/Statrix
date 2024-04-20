@@ -15,9 +15,7 @@ const nextConfig = {
             }
         ]
     }, images: {
-        domains: ['images.igdb.com/t_720p']
-        //https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`
-
+        domains: ['images.igdb.com']
     }
 }
 

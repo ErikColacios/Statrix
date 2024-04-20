@@ -169,7 +169,7 @@ Reload()
               </div>
               {gameList.map((gameInList, index) => (
                   <div key={index} className='flex items-center mb-3 w-full relative'>
-                    <Image src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar'/>
+                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar'/>
                     <p className='text-md ml-4'>{gameInList.name}</p>
                     <button className='ml-4 flex items-center'><Image src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0' onClick={()=> unselectGameList(gameInList.id)}/></button>
                   </div>
