@@ -48,7 +48,7 @@ export default async function VideogameslistLayout({
     }
 
     return (
-      <section className="w-full h-full bg-black text-white p-4 pt-20 md:p-16 md:pt-32">
+      <section className="w-full bg-black text-white p-4 pt-20 md:p-16 md:pt-32">
         <div className="flex flex-col md:flex-row md:items-center text-xl md:text-3xl pb-8">
           <h2>{session.user_name} videogame lists ( {numberOfLists} )</h2>
           <Link href={"newVideogameList"} className="w-48 text-center p-1 md:ml-28 rounded bg-green-500 hover:bg-green-600">+ Add list</Link>
