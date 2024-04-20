@@ -18,7 +18,7 @@ export default function Listavideojuegos() {
   const [listName, setListName] = useState<string>("")
   const [countGames, setCountGames] = useState(0)
   const [gameNameSearch, setGameNameSearch] = useState("")
-  const [showSidebar, setShowSidebar] = useState(true)
+  const [showSidebar, setShowSidebar] = useState(false)
 
 function Reload(){
   useEffect(()=>{
@@ -96,7 +96,18 @@ Reload()
         backdrop: false
       });
         return;
-    }else {
+    }
+    else if(countGames==0){
+      Swal.fire({
+        position: "top-end",
+        title: "You must add a videogame first",
+        showConfirmButton: false,
+        timer: 1500,
+        backdrop: false
+      });
+        return;
+    }
+    else {
         insertList(listName, gameList)
         Swal.fire({
           title: "List created successfuly!",
