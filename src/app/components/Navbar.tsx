@@ -14,15 +14,15 @@ export default async function Navbar() {
     return(
         <nav className="flex justify-center items-center w-full bg-gray-900 text-white fixed z-50 top p-4">
             <div className="absolute left-0 pl-4 md:pl-16">
-            <Link href="/"><p className={`text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
+            <Link href="/"><p className={`md:text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
             </div>
-            <div className="flex flex-row space-x-8">
+            <div className="flex flex-row space-x-8 text-xs md:text-base pr-20 md:pr-0">
                 <Link href="/" className="hover:text-green-400">Home</Link>
                 <Link href="/mylists" className="hover:text-green-400">My lists</Link>
                 {!session.isLoggedIn && <Link href="/signup" className="hover:text-green-400">Sign up</Link>}
             </div>
             <div className="flex absolute right-0 mr-8">
-                {session.isLoggedIn && <Link href="/profile" className="flex justify-center items-center bg-green-500 rounded pl-3 pr-4 text-center mr-4 hover:bg-green-600"><Image src="/staticImages/icon_user.png" className="w-5" alt="User icon" width={20} height={20}/><p>{session.user_name}</p></Link>}
+                {session.isLoggedIn && <Link href="/profile" className="flex text-xs md:text-base justify-center items-center bg-green-500 rounded pl-3 pr-4 text-center mr-2 md:mr-6 hover:bg-green-600"><Image src="/staticImages/icon_user.png" className="w-5" alt="User icon" width={20} height={20}/><p>{session.user_name}</p></Link>}
                 {session.isLoggedIn && <LogOutButton/>}
             </div>
         </nav>

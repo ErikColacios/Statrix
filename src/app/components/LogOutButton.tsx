@@ -6,7 +6,7 @@ const LogOutButton = async() => {
     const session = await getSession()
     return (
         <form action={logOut}>
-            <button className="hover:text-green-400">Log out</button>
+            <button className="hover:text-green-400 text-xs md:text-base">Log out</button>
         </form>
     )
 }

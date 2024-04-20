@@ -26,7 +26,6 @@ export default async function VideogameslistLayout({
 
       <section>
             {children}
-
       </section>
 
     )

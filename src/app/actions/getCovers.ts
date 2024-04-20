@@ -10,6 +10,7 @@ if(gameName){
 
 const client_id = process.env.CLIENT_ID
 const bearer = process.env.BEARER
+const base_url = process.env.BASE_URL
 
 const res = await fetch(
     "https://api.igdb.com/v4/games",
@@ -19,7 +20,7 @@ const res = await fetch(
             'Client-ID': `${client_id}`,
             'Authorization': `Bearer ${bearer}`,
             'Access-Control-Request-Headers': 'Content-Type,API-Key',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': `${base_url}`
         },
         body: `fields id, name, cover.image_id; limit 100; where cover != null & cover.image_id !=null ${condition};`
     })
