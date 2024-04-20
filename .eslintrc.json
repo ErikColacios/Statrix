@@ -6,6 +6,7 @@
     },
     "extends": [
         "next",
+        "react-app",
         "plugin:react/recommended"
     ],
     "parserOptions": {
