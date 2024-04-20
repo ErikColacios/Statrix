@@ -5,7 +5,7 @@
         "node": true
     },
     "extends": [
-        "standard-with-typescript",
+        "next",
         "plugin:react/recommended"
     ],
     "parserOptions": {

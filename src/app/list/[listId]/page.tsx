@@ -40,8 +40,8 @@ export default async function list({params}: {params: {listId:string}}) {
             </Link>
             
             {/* <h1>List: {params.listId}</h1> */}
-            {listInfo.map((item:any) => (
-                <div className="relative flex items-center mt-8 mb-8 space-x-32">
+            {listInfo.map((item:any, index:number) => (
+                <div className="relative flex items-center mt-8 mb-8 space-x-32" key={index}>
                     <p className="text-4xl">{item.list_name_res}</p>
                     <div className="flex absolute right-0">
                         <p className="text-xl">Creation date</p>
