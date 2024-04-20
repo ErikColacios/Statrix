@@ -17,7 +17,7 @@ const res = await fetch(
         headers: {
             'Accept': 'application/json',
             'Client-ID': `${client_id}`,
-            'Authorization': `${bearer}`,
+            'Authorization': `Bearer ${bearer}`,
             'Access-Control-Request-Headers': 'Content-Type,API-Key',
             'Access-Control-Allow-Origin': '*'
         },
