@@ -1,18 +1,19 @@
 import Link from "next/link";
+import localFont from 'next/font/local'
+
+const infiniteBeyondFont = localFont({src: 'fonts/InfiniteBeyondItalic-rgPlO.ttf'})
 
 export default async function Home() {
 
-
   return (
-    <div className="flex h-full bg-[url('/staticImages/bioshock.jpg')] bg-cover">
-      <div className="bg-black/90 w-1/2 text-white flex flex-col justify-center pl-24">
-        <h1 className="text-6xl bold">VIDEGOGAME TRACKER</h1>
-        <p className="text-xl">Welcome to the homepage</p>
-        <p className="text-xl mt-8 mb-8">Create your first list!</p>
-        <div>
-          <Link href={"newVideogameList"} className="text-4xl border-2 p-4 transition hover:bg-white hover:text-black">START NOW</Link>
+    <div className="flex h-screen bg-black text-white items-center">
+        <div className="w-2/3">
+          <div className="flex w-[30rem] flex-col text-left border rounded-2xl border-lime-300 p-12 ml-16">
+            <h1 className={`text-7xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</h1>
+            <p className="mt-2 text-lg">Keep track of what you play.</p>
+            <Link href={"newVideogameList"} className="border border-green-400 text-2xl w-48 p-3 mt-4 text-center transition hover:bg-green-400 hover:text-black">GET STARTED</Link>
+          </div>
         </div>
-      </div>
     </div>
   );
 }

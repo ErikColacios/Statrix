@@ -15,7 +15,7 @@ export default async function MyLists(){
 
 
     return (
-        <div>
+        <div className="">
             {userLists.map((list:any, index:number)=> (
                 <Link href={`list/${list.list_id_res}`} key={index} className="relative flex items-center space-x-24 mb-4 p-8 w-full h-24 border text-white hover:bg-gradient-to-r from-green-500 to-transparent">
                     <p className="text-3xl">{list.list_name_res}</p>

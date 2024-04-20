@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { getSession } from "../actions/getSession";
 import LogOutButton from "./LogOutButton";
+import localFont from 'next/font/local'
+
+const infiniteBeyondFont = localFont({src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf'})
 
 export default async function Navbar() {
 
     const session = await getSession()
     
     return(
-        <nav className="flex items-center justify-center w-full bg-gray-900 text-white fixed z-50 top p-4">
+        <nav className="flex justify-center items-center w-full bg-gray-900 text-white fixed z-50 top p-4">
+            <div className="absolute left-0 pl-4 md:pl-16">
+            <Link href="/"><p className={`text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
+            </div>
             <div className="flex flex-row space-x-8">
                 <Link href="/" className="hover:text-green-400">Home</Link>
                 <Link href="/mylists" className="hover:text-green-400">My lists</Link>

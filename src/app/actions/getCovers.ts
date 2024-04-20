@@ -8,13 +8,16 @@ if(gameName){
     console.log(condition)
 }
 
+const client_id = process.env.CLIENT_ID
+const bearer = process.env.BEARER
+
 const res = await fetch(
     "https://api.igdb.com/v4/games",
         { method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Client-ID': 'sc5icpsgg08616yi8rjfsm9kvicohm',
-            'Authorization': 'Bearer hpdz7egyacd0f1fy1oje1e34hl77ss',
+            'Client-ID': `${client_id}`,
+            'Authorization': `${bearer}`,
             'Access-Control-Request-Headers': 'Content-Type,API-Key',
             'Access-Control-Allow-Origin': '*'
         },
@@ -24,7 +27,7 @@ const res = await fetch(
         return response.json()
     })
     .then(response => {
-        console.log(response)
+        //console.log(response)
         return response;
 
     })
