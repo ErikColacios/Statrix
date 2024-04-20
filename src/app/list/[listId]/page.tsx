@@ -1,9 +1,11 @@
+import React from 'react'
 import { getListInfo } from "@/app/actions/getListInfo";
 import { getListContent } from "@/app/actions/getListContent";
 import { getSession } from "@/app/actions/getSession"
 import { redirect } from "next/navigation";
 import { List } from "@/app/types/List";
 import Link from "next/link";
+import Image from "next/image";
 
 
 export default async function list({params}: {params: {listId:string}}) {
@@ -52,7 +54,7 @@ export default async function list({params}: {params: {listId:string}}) {
             <div className="flex flex-col">
                 {listContent.map((item:any, index:number) => (
                     <div className="flex items-center mb-8 border" key={index}>
-                        <img src={item.videogame_base_image} className="w-24 h-32"/>
+                        <Image src={item.videogame_base_image} className="w-24 h-32" width={80} height={60} alt={'Videogame cover'}/>
                         <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-32 hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
                     </div>
                 ))}

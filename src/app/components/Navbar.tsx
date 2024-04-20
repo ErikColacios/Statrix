@@ -1,7 +1,9 @@
+import React from "react";
 import Link from "next/link";
 import { getSession } from "../actions/getSession";
 import LogOutButton from "./LogOutButton";
 import localFont from 'next/font/local'
+import Image from "next/image";
 
 const infiniteBeyondFont = localFont({src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf'})
 
@@ -20,7 +22,7 @@ export default async function Navbar() {
                 {!session.isLoggedIn && <Link href="/signup" className="hover:text-green-400">Sign up</Link>}
             </div>
             <div className="flex absolute right-0 mr-8">
-                {session.isLoggedIn && <Link href="/profile" className="flex justify-center items-center bg-green-500 rounded pl-3 pr-4 text-center mr-4 hover:bg-green-600"><img src="/staticImages/icon_user.png" className="w-5" alt="User icon" /><p>{session.user_name}</p></Link>}
+                {session.isLoggedIn && <Link href="/profile" className="flex justify-center items-center bg-green-500 rounded pl-3 pr-4 text-center mr-4 hover:bg-green-600"><Image src="/staticImages/icon_user.png" className="w-5" alt="User icon" width={20} height={20}/><p>{session.user_name}</p></Link>}
                 {session.isLoggedIn && <LogOutButton/>}
             </div>
         </nav>

@@ -1,4 +1,5 @@
 "use client"
+import React from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { sessionOptions, SessionData } from '@/session_lib'
 import { logInUser } from '../actions/logInUser'

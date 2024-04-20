@@ -6,7 +6,6 @@
     },
     "extends": [
         "next",
-        "react-app",
         "plugin:react/recommended"
     ],
     "parserOptions": {
@@ -18,5 +17,6 @@
         "react"
     ],
     "rules": {
+        "@next/next/no-img-element": "off"
     }
 }

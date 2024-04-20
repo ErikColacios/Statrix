@@ -1,3 +1,4 @@
+import React from "react";
 import { getSession } from "../actions/getSession"
 import { logOut } from "../actions/logOutUser"
 

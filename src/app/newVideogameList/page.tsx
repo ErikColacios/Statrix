@@ -1,14 +1,14 @@
 "use client"
+import React from 'react'
 import type { Videogame } from '../types/Videogame'
 import GetVideogames from '../actions/getVideogames'
 import { insertList } from '../actions/insertList'
 import { useState, useEffect, Suspense, HTMLInputTypeAttribute } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import localFont from 'next/font/local'
 import { getCovers } from '../actions/getCovers'
 import Loading from './loading'
-import VideogameCard from '../components/VideogameCard'
+import Image from 'next/image'
 
 export default function Listavideojuegos() {
 
@@ -20,7 +20,7 @@ export default function Listavideojuegos() {
   const [gameNameSearch, setGameNameSearch] = useState("")
   const [showSidebar, setShowSidebar] = useState(true)
 
-function reload(){
+function Reload(){
   useEffect(()=>{
     const fetchVideogames = async ()=> {
       try{
@@ -36,7 +36,7 @@ function reload(){
   },[gameNameSearch])
 }
 
-reload()
+Reload()
 
 
   /**
@@ -138,12 +138,12 @@ reload()
               <div className='flex items-center w-full pb-4'>
                 <label htmlFor="searchGame" className='text-xs lg:text-lg'>Search game</label>
                 <input type="text" name="searchGame" id="searchGame" className='ml-6 w-80 bg-black outline-none border'/>
-                <button className='bg-purple-500 p-1 rounded ml-2 hover:bg-purple-600' onClick={handleSearchGame}><img src="/staticImages/icon_search.png" alt="Search" className='w-5'/></button>
+                <button className='bg-purple-500 p-1 rounded ml-2 hover:bg-purple-600' onClick={handleSearchGame}><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={5} height={5}/></button>
               </div>
               <div className='grid justify-center md:grid-cols-3 2xl:grid-cols-5 gap-12'>
                 {videogameItems.map((videogame, index:number)=> (
                   <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer w-64 h-80 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' />
+                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>
                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>
                       <p className='text-lg '>{videogame.name}</p>
                     </div>
@@ -159,7 +159,7 @@ reload()
               <div className='flex items-center relative'>
                 <p className='text-lg 2xl:text-2xl'>Games added</p>
                 <p className='text-lg 2xl:text-2xl ml-14'>x{countGames}</p>
-                <button className='absolute right-0' onClick={()=>setShowSidebar(!showSidebar)}><img src="/staticImages/icon_minimize.png" className='w-5 lg:w-7' alt="Minimize button" /></button>
+                <button className='absolute right-0' onClick={()=>setShowSidebar(!showSidebar)}><Image src="/staticImages/icon_minimize.png" className='w-5 lg:w-7' alt="Minimize button" width={50} height={50}/></button>
               </div>
 
             </div>
@@ -169,9 +169,9 @@ reload()
               </div>
               {gameList.map((gameInList, index) => (
                   <div key={index} className='flex items-center mb-3 w-full relative'>
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12'/>
+                    <Image src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar'/>
                     <p className='text-md ml-4'>{gameInList.name}</p>
-                    <button className='ml-4 flex items-center'><img src="/staticImages/icon_remove.png" alt="Remove icon" className='w-5 absolute right-0' onClick={()=> unselectGameList(gameInList.id)}/></button>
+                    <button className='ml-4 flex items-center'><Image src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0' onClick={()=> unselectGameList(gameInList.id)}/></button>
                   </div>
               ))}
             </div>

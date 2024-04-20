@@ -1,4 +1,6 @@
+import React from 'react'
 import getGameInfo from "@/app/actions/getGameInfo"
+import Image from "next/image"
 import Link from "next/link"
 
 export default async function gamePage({params}: {params: {listId:string, gameId:string}}) {
@@ -13,10 +15,10 @@ export default async function gamePage({params}: {params: {listId:string, gameId
                 BACK
             </Link>
             <div className="border w-full mt-8">
-                {gameInfo.map((item:any)=>(
-                    <div className="flex flex-col md:flex-row">
+                {gameInfo.map((item:any, index:number)=>(
+                    <div className="flex flex-col md:flex-row" key={index}>
                         <div className="border">
-                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} alt="Videogame cover" className="w-[50rem]"/>
+                            <Image src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} alt="Videogame cover" className="w-[50rem]" quality={100} width={300} height={100}/>
                             <div className="flex flex-col border p-4">
                                 <p className="font-bold	text-xl mb-2">Game information</p>
                                 <div>

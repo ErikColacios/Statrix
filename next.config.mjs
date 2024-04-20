@@ -11,9 +11,14 @@ const nextConfig = {
                     { key: "Access-Control-Allow-Methods", value: "GET,DELETE,PATCH,POST,PUT" },
                     { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Authorization, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
                 ]
+
             }
         ]
+    }, images: {
+        domains: ['images.igdb.com/t_720p']
+        //https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`
+
     }
-};
+}
 
 export default nextConfig;

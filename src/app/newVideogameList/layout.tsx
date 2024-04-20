@@ -7,6 +7,8 @@ import { SessionData } from "@/session_lib"
 import { redirect } from "next/navigation"
 import { Suspense } from "react"
 import Loading from "./loading"
+import React from "react";
+
 
 export default async function VideogameslistLayout({
     children, 
