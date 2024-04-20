@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import Head from "./head";
 
 const roobertRegularFont = localFont({src: 'fonts/RoobertRegular.ttf'})
 
@@ -19,7 +18,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head/>
       <body className={roobertRegularFont.className}>
         <Navbar/>
         <div className="h-screen bg-black">
