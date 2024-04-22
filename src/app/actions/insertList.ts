@@ -33,6 +33,7 @@ export async function insertList(list_name:string, gameList:Videogame[]){
         console.log(error)
     } else {
         // Finally, we update the new quantity of lists of this user (data is the number of lists)
+        // In this case, we ADD 1, because we are inserting a new list
         let newNumberOfLists = result[0].user_lists;
         newNumberOfLists = newNumberOfLists +1;
         console.log(newNumberOfLists)

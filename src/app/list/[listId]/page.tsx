@@ -1,38 +1,38 @@
-import React from 'react'
+import React from 'react';
 import { getListInfo } from "@/app/actions/getListInfo";
 import { getListContent } from "@/app/actions/getListContent";
-import { getSession } from "@/app/actions/getSession"
+import { getSession } from "@/app/actions/getSession";
 import { redirect } from "next/navigation";
-import { List } from "@/app/types/List";
 import Link from "next/link";
 import Image from "next/image";
-
+import DeleteListButton from '@/app/components/DeleteListButton';
 
 export default async function list({params}: {params: {listId:string}}) {
-    const session = await getSession()
-    let userId = session.user_id;
     let listId = params.listId;
 
     let listInfo:any | undefined = []
-    let listContent:any | undefined = [] 
+    let listContent:any | undefined = []
 
+    const session = await getSession()
+    let user_id:string | undefined = session.user_id;
 
-    console.log(session.user_name + " entered to list id: " + params.listId)
+    if(!session.isLoggedIn){
+        return(
+            redirect("/")
+        )
+    }
 
-    if(userId !== undefined){
-        listInfo = await getListInfo(listId, userId)
-        listContent = await getListContent(listId, userId)
+    if(user_id !== undefined){
+        listInfo = await getListInfo(listId, user_id)
+        listContent = await getListContent(listId, user_id)
     }
 
     if(list !== null){
         console.log(list)
     }
+    console.log(user_id)
+    console.log(listId)
 
-    if (!session.isLoggedIn){
-        return(
-            redirect("/")
-        )
-    }
 
     return (
         <div className="p-8 md:p-24 pt-20 md:pt-32 text-2xl bg-black text-white">
@@ -41,11 +41,13 @@ export default async function list({params}: {params: {listId:string}}) {
                 MY LISTS
             </Link>
             
-            {/* <h1>List: {params.listId}</h1> */}
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
+
+
                     <p className="text-2xl md:text-4xl">{item.list_name_res}</p>
                     <div className="flex text-sm md:text-xl md:absolute md:right-0">
+                        <DeleteListButton userId={user_id} listId={listId} listName={item.list_name_res}/>
                         <p>Creation date</p>
                         <p className="ml-8">{item.list_creationdate_res}</p>
                     </div>

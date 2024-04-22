@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
 import type { Videogame } from '../types/Videogame'
-import GetVideogames from '../actions/getVideogames'
 import { insertList } from '../actions/insertList'
 import { useState, useEffect, Suspense, HTMLInputTypeAttribute } from 'react'
 import { useRouter } from 'next/navigation'
@@ -83,7 +82,7 @@ Reload()
   }
 
   /**
-   * Creates a list using the "insertList" funcion
+   * Creates a list using the "insertList" function
    * @returns
    */
   function createList() {
