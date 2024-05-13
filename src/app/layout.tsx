@@ -9,6 +9,7 @@ const roobertRegularFont = localFont({src: 'fonts/RoobertRegular.ttf'})
 export const metadata: Metadata = {
   title: "Statrix",
   description: "Videogame list creator",
+  icons: "/staticImages/statrix_favicon.png"
 };
 
 export default function RootLayout({
