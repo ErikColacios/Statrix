@@ -17,13 +17,14 @@ export default function Listavideojuegos() {
   const [listName, setListName] = useState<string>("")
   const [countGames, setCountGames] = useState(0)
   const [gameNameSearch, setGameNameSearch] = useState("")
+  const [genre, setGenre] = useState(0)
   const [showSidebar, setShowSidebar] = useState(false)
 
 function Reload(){
   useEffect(()=>{
     const fetchVideogames = async ()=> {
       try{
-        const covers = await getCovers(gameNameSearch)
+        const covers = await getCovers(gameNameSearch, genre)
         if(covers){
             setVideogameItems(covers)
         }
@@ -32,7 +33,7 @@ function Reload(){
       }
     } 
     fetchVideogames()
-  },[gameNameSearch])
+  },[gameNameSearch, genre])
 }
 
 Reload()
@@ -113,7 +114,6 @@ Reload()
           icon: "success"
         })
         router.push("mylists")
-
     }
   }
 
@@ -127,6 +127,14 @@ Reload()
     setGameNameSearch(name)
   }
 
+    /**
+   * Changes the genre
+   */
+    function handleSetGenre(genreId:number) {
+      setGenre(genreId);
+      setGameNameSearch("")
+    }
+
   if(videogameItems.length == 0){
     console.log(videogameItems.length)
     return(
@@ -138,6 +146,7 @@ Reload()
       <div className='flex justify-center md:justify-normal	 bg-black text-white'>
         {/* Videogames */}
           <div className="w-full sm:w-5/6 flex justify-center flex-col p-2">
+            {/* LIST NAME*/}
             <div className='flex items-center justify-center mt-40 lg:mt-32 mb-8'>
               <p className="text-sm md:text-xl lg:text-4xl 2xl:text-7xl">List name</p>
               <input type="text" placeholder='Super list' className='bg-black border-b border-white ml-8 h-8 w-48 lg:h-16 lg:w-96 outline-none text-md lg:text-2xl lg:text-4xl 2xl:text-5xl pl-4 mr-8' onChange={(e) => setListName(e.target.value)}/>
@@ -145,14 +154,24 @@ Reload()
             </div>
 
             <div className='p-8 lg:p-16'>
+              {/* Search game */}
               <div className='flex items-center w-full pb-4'>
                 <label htmlFor="searchGame" className='text-xs lg:text-lg'>Search game</label>
                 <input type="text" name="searchGame" id="searchGame" className='ml-6 w-80 bg-black outline-none border'/>
                 <button className='bg-purple-500 p-1 rounded ml-2 hover:bg-purple-600' onClick={handleSearchGame}><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={5} height={5}/></button>
               </div>
-              <div className='grid justify-center md:grid-cols-3 2xl:grid-cols-5 gap-12'>
+              <p className='text-xl mt-6'>Genres</p>
+              <div className='w-full grid mt-2 mb-8 justify-center text-xl grid-cols-6 gap-3'>
+                <button className='border p-2 transition hover:bg-yellow-300 hover:border-none' onClick={()=> handleSetGenre(5)}>Shooter</button>
+                <button className='border p-2 transition hover:bg-green-500 hover:border-none' onClick={()=> handleSetGenre(12)}>RPG</button>
+                <button className='border p-2 transition hover:bg-blue-700 hover:border-none' onClick={()=> handleSetGenre(4)}>Fighting</button>
+                <button className='border p-2 transition hover:bg-red-600 hover:border-none' onClick={()=> handleSetGenre(10)}>Racing</button>
+                <button className='border p-2 transition hover:bg-cyan-500 hover:border-none' onClick={()=> handleSetGenre(14)}>Sport</button>
+                <button className='border p-2 transition hover:bg-purple-700 hover:border-none' onClick={()=> handleSetGenre(13)}>Simulator</button>
+              </div>
+              <div className='grid justify-center md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
                 {videogameItems.map((videogame, index:number)=> (
-                  <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer w-64 h-80 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
+                  <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer w-48 h-64 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>
                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>
                       <p className='text-lg '>{videogame.name}</p>

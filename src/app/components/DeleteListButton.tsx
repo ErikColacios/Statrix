@@ -2,7 +2,6 @@
 import React from "react";
 import Swal from 'sweetalert2';
 import { deleteList } from '@/app/actions/deleteList';
-import { redirect, useRouter } from 'next/navigation'
 
 type Props  = {
     userId:string | undefined, 
@@ -36,8 +35,6 @@ export default async function LogOutButton({userId, listId, listName}:Props){
                 deleteList(listId, userId)
             }
           });
-        
-
 
     }
     return (
