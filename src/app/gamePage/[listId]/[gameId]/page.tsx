@@ -31,14 +31,14 @@ export default async function gamePage({params}: {params: {listId:string, gameId
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} alt="Videogame cover" className="w-full" />
                             </div>
                             <div className="flex flex-col p-4">
-                                <p className="font-bold	text-xl mb-2">Game information</p>
-                                <div>
+                                <p className="font-bold	text-sm sm:text-xl mb-2">Game information</p>
+                                <div className='text-sm sm:text-base'>
                                     <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
                                 </div>
-                                <div>
+                                <div className='text-sm sm:text-base'>
                                     <span className="text-green-400 mr-2">Developer: </span><span>{item.involved_companies[0] ? item.involved_companies[0].company.name : "-"}</span>
                                 </div>
-                                <div>
+                                <div className='text-sm sm:text-base'>
                                     <span className="text-green-400 mr-2">Editor: </span>
                                     <span>{item.involved_companies[1] ? item.involved_companies[1].company.name : "-"}</span>
                                 </div>
@@ -46,9 +46,9 @@ export default async function gamePage({params}: {params: {listId:string, gameId
                         </div>
                         <div className="flex flex-col lg:flex-row blur-none">
                             <div className="w-full sm:w-3/3 border flex flex-col relative">
-                                <div className='p-8'>
+                                <div className='p-4 sm:p-8'>
                                     <p className="text-2xl mb-2">{item.name}</p>
-                                    <p>{item.summary}</p>
+                                    <p className='text-sm sm:text-base'>{item.summary}</p>
                                 </div>
                                 <div className='grid xl:grid-cols-2 2xl:grid-cols-3 border 2xl:absolute bottom-0'>
                                     {/* Screenshots */}
