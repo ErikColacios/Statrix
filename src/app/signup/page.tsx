@@ -1,17 +1,14 @@
 "use client"
 import React from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { sessionOptions, SessionData } from '@/session_lib'
 import { logInUser } from '../actions/logInUser'
 import { signUp } from '../actions/signUpUser'
 import { useFormState } from 'react-dom'
-
 
 export default function SignUp() {
     const [state, formAction] = useFormState<any, FormData>(logInUser,undefined)
 
     return (
-        <div className="pt-16 lg:pt-64 w-full bg-black flex flex-col lg:flex-row items-center justify-center lg:space-x-8">
+        <div className="pt-24 lg:pt-64 w-full h-fit bg-black flex flex-col lg:flex-row items-center justify-center lg:space-x-8">
             <form className="bg-black text-white w-96 lg:w-[40rem] h-[40rem] p-12 flex flex-col justify-center border text-xl">
                 <div className="w-full flex flex-col h-96">
                     <p className="text-3xl md:text-5xl mb-4 bold">NEW USERS</p>

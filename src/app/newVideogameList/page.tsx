@@ -135,13 +135,6 @@ Reload()
       setGameNameSearch("")
     }
 
-  // if(videogameItems.length == 0){
-  //   console.log(videogameItems.length)
-  //   return(
-  //     <Loading/>
-  //   )
-  // }
-
     return (
       <div className='flex justify-center md:justify-normal	bg-black text-white'>
         {/* Videogames */}
@@ -161,7 +154,7 @@ Reload()
                 <button className='bg-purple-500 p-1 rounded ml-2 hover:bg-purple-600' onClick={handleSearchGame}><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={5} height={5}/></button>
               </div>
               <p className='text-xl mt-6'>Genres</p>
-              <div className='w-full grid mt-2 mb-8 justify-center text-xl grid-cols-6 gap-3'>
+              <div className='w-full grid mt-2 mb-8 justify-center text-sm   md:text-xl grid-cols-3 md:grid-cols-6 gap-3'>
                 <button className='border p-2 transition hover:bg-yellow-300 hover:border-none' onClick={()=> handleSetGenre(5)}>Shooter</button>
                 <button className='border p-2 transition hover:bg-green-500 hover:border-none' onClick={()=> handleSetGenre(12)}>RPG</button>
                 <button className='border p-2 transition hover:bg-blue-700 hover:border-none' onClick={()=> handleSetGenre(4)}>Fighting</button>
@@ -169,7 +162,7 @@ Reload()
                 <button className='border p-2 transition hover:bg-cyan-500 hover:border-none' onClick={()=> handleSetGenre(14)}>Sport</button>
                 <button className='border p-2 transition hover:bg-purple-700 hover:border-none' onClick={()=> handleSetGenre(13)}>Simulator</button>
               </div>
-              <div className='grid justify-center md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
+              <div className='grid justify-center md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
                 {videogameItems.map((videogame, index:number)=> (
                   <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer w-48 h-64 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>

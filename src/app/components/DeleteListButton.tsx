@@ -9,7 +9,7 @@ type Props  = {
     listName:string
 }
 
-export default async function LogOutButton({userId, listId, listName}:Props){
+export default async function DeleteListButton({userId, listId, listName}:Props){
 
     async function handleDeleteList(){
         console.log(userId)
@@ -38,6 +38,6 @@ export default async function LogOutButton({userId, listId, listName}:Props){
 
     }
     return (
-        <button onClick={handleDeleteList} className='mr-16 pl-2 pr-2 rounded bg-red-500 hover:bg-red-600'>Delete this list</button>
+        <button onClick={handleDeleteList} className='mr-8 p-1 pl-2 pr-2 rounded bg-red-500 hover:bg-red-600'>Delete list</button>
     )
 }
