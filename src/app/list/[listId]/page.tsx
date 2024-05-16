@@ -43,9 +43,7 @@ export default async function list({params}: {params: {listId:string}}) {
             
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
-
-
-                    <p className="text-2xl md:text-4xl">{item.list_name_res}</p>
+                    <p className="text-2xl mb-8 md:mb-0 md:text-4xl">{item.list_name_res}</p>
                     <div className="flex text-sm md:text-xl md:absolute md:right-0">
                         <DeleteListButton userId={user_id} listId={listId} listName={item.list_name_res}/>
                         <p>Creation date</p>

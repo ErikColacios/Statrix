@@ -16,7 +16,7 @@ export default async function VideogameslistLayout({
 
     return (
       <section>
-            {children}
+          {children}
       </section>
     )
   }

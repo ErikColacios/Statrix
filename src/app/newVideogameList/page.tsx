@@ -135,15 +135,15 @@ Reload()
       setGameNameSearch("")
     }
 
-  if(videogameItems.length == 0){
-    console.log(videogameItems.length)
-    return(
-      <Loading/>
-    )
-  }
+  // if(videogameItems.length == 0){
+  //   console.log(videogameItems.length)
+  //   return(
+  //     <Loading/>
+  //   )
+  // }
 
     return (
-      <div className='flex justify-center md:justify-normal	 bg-black text-white'>
+      <div className='flex justify-center md:justify-normal	bg-black text-white'>
         {/* Videogames */}
           <div className="w-full sm:w-5/6 flex justify-center flex-col p-2">
             {/* LIST NAME*/}
