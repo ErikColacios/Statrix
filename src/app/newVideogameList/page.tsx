@@ -6,7 +6,6 @@ import { useState, useEffect, Suspense, HTMLInputTypeAttribute } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import { getCovers } from '../actions/getCovers'
-import Loading from './loading'
 import Image from 'next/image'
 
 export default function Listavideojuegos() {
@@ -24,7 +23,7 @@ function Reload(){
   useEffect(()=>{
     const fetchVideogames = async ()=> {
       try{
-        const covers = await getCovers(gameNameSearch, genre)
+        const covers = await getCovers(gameNameSearch, genre, 100)
         if(covers){
             setVideogameItems(covers)
         }
@@ -127,7 +126,7 @@ Reload()
     setGameNameSearch(name)
   }
 
-    /**
+  /**
    * Changes the genre
    */
     function handleSetGenre(genreId:number) {

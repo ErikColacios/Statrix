@@ -1,5 +1,4 @@
 import { supabase } from "@/utils/supabase";
-import { List } from "@/app/types/List";
 
 /**
  * Returns the information of the list (list_id, list_name and list_creationdate)

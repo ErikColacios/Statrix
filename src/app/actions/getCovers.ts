@@ -1,13 +1,20 @@
 "use server"
 
-export async function getCovers(gameName:string, gameGenre:number) {
+/**
+ * Fetches game information from the IDGB Api. The restriction is the game name, the ame genre and the limit of responses.
+ * @param gameName 
+ * @param gameGenre 
+ * @param responseLimit 
+ * @returns 
+ */
+export async function getCovers(gameName:string, gameGenre:number, responseLimit:number) {
 let condition='';
 console.log(gameName)
 if(gameName){
     condition = `& name~"${gameName}"*`;
     console.log(condition)
 }
-else if(gameGenre && gameGenre !=0){
+else if(gameGenre && gameGenre != 0){
     condition = `& genres=${gameGenre}`;
     console.log(condition)
 }
@@ -26,7 +33,7 @@ const res = await fetch(
             'Access-Control-Request-Headers': 'Content-Type,API-Key',
             'Access-Control-Allow-Origin': `${base_url}`
         },
-        body: `fields id, name, genres, cover.image_id; limit 100; where cover != null & cover.image_id !=null ${condition};`
+        body: `fields id, name, genres, cover.image_id; limit ${responseLimit}; where cover != null & cover.image_id !=null ${condition};`
     })
     .then(response => {
         return response.json()
