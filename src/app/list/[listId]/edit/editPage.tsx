@@ -53,7 +53,20 @@ export default function EditPage({listId, getUser}:any) {
                 timer: 2200,
                 backdrop: false
               });
-        }else {
+        }
+        
+        if(oldGamesList.length ==0 && newGamesAdded.length == 0){
+            Swal.fire({
+                position: "top-end",
+                color: "#d9372b",
+                title: "You must select at least 1 game",
+                showConfirmButton: false,
+                timer: 2200,
+                backdrop: false
+              });
+        }
+        
+        else {
             updateList(listId, list_name, oldGamesList, newGamesAdded)
             Swal.fire({
                 title: "List updated successfuly!",
@@ -71,7 +84,7 @@ export default function EditPage({listId, getUser}:any) {
 
             <div className="flex flex-col md:flex-row w-full text-white h-full">
             {/* Edit - List content */}
-            <div className="md:w-1/3 h-[30rem] md:h-[42rem] p-4 border flex flex-col text-xl ">
+            <div className="md:w-1/3 h-[30rem] md:h-[40rem] p-4 border flex flex-col text-xl ">
                 {/* Search game */}
                 <SearchGameBar addNewGame={addNewGame}/>
                 <p>Games on the list</p>
