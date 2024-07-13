@@ -12,9 +12,7 @@ type Props  = {
 export default async function DeleteListButton({userId, listId, listName}:Props){
 
     async function handleDeleteList(){
-        console.log(userId)
-        console.log(listId)
-        
+      
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
               confirmButton: "bg-red-500 hover:bg-red-600 p-2 text-white rounded w-32 ml-2",

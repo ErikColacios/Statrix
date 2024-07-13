@@ -9,7 +9,6 @@
  */
 export async function getCovers(gameName:string, gameGenre:number, responseLimit:number) {
 let condition='';
-console.log(gameName)
 if(gameName){
     condition = `& name~"${gameName}"*`;
     console.log(condition)
@@ -47,6 +46,5 @@ const res = await fetch(
         console.error(err);
     });
 
-    console.log(res)
     return res;
 }
