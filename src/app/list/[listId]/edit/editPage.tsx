@@ -55,7 +55,7 @@ export default function EditPage({listId, getUser}:any) {
               });
         }
         
-        if(oldGamesList.length ==0 && newGamesAdded.length == 0){
+        else if(oldGamesList.length ==0 && newGamesAdded.length == 0){
             Swal.fire({
                 position: "top-end",
                 color: "#d9372b",
