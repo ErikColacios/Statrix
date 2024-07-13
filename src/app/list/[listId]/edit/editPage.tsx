@@ -6,9 +6,11 @@ import { Videogame } from '@/app/types/Videogame';
 import { getListContent } from '@/app/actions/getListContent';
 import updateList from '@/app/actions/updateList';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 export default function EditPage({listId, getUser}:any) {
-
+    
+    const router = useRouter()
     let [oldGamesList, setOldGamesList] = useState<Videogame[]>([])
     let [newGamesAdded, setNewGameAdded] = useState<Videogame[]>([])
 
@@ -51,9 +53,14 @@ export default function EditPage({listId, getUser}:any) {
                 timer: 2200,
                 backdrop: false
               });
+        }else {
+            updateList(listId, list_name, oldGamesList, newGamesAdded)
+            Swal.fire({
+                title: "List updated successfuly!",
+                icon: "success"
+              })
+              router.push("/list/" + listId)
         }
-        console.log(list_name)
-        updateList(listId, list_name, oldGamesList, newGamesAdded)
     }
 
     return (
@@ -64,10 +71,12 @@ export default function EditPage({listId, getUser}:any) {
 
             <div className="flex flex-col md:flex-row w-full text-white h-full">
             {/* Edit - List content */}
-            <div className="md:w-1/3 h-[50rem] p-4 border flex flex-col text-xl ">
+            <div className="md:w-1/3 h-[30rem] md:h-[42rem] p-4 border flex flex-col text-xl ">
                 {/* Search game */}
                 <SearchGameBar addNewGame={addNewGame}/>
                 <p>Games on the list</p>
+
+                {/* Old games added */}
                 <div className="overflow-scroll no-scrollbar">
                     {oldGamesList.map((item:any, index:number) => (
                         <div key={index} className="relative flex items-center bg-gray-900 mb-2">
@@ -79,6 +88,7 @@ export default function EditPage({listId, getUser}:any) {
                 </div>
             </div>
 
+            {/* New games added */}
             <div className="p-4 border flex flex-col md:w-1/3">
                 <p>Games added</p>
                 <div id="gamesAdded" className="flex flex-col  text-sm">

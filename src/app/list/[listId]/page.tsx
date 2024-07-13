@@ -32,7 +32,7 @@ export default async function list({params}: {params: {listId:string}}) {
                     <p className="text-2xl mb-4 md:mb-0 md:text-4xl">{item.list_name_res}</p>
                     
                     {/* Edit list  */}
-                    <Link href={`./${listId}/edit`} className='flex items-center text-sm mb-4 md:mb-0 md:text-xl bg-green-500 rounded pl-2 pr-2 hover:bg-green-600'><img src="/staticImages/icon_edit.png" alt="Edit icon" width={25} className='pr-2'/> Edit list</Link>
+                    <Link href={`./${listId}/edit`} className='flex items-center text-sm mb-4 md:mb-0 md:text-xl bg-green-500 rounded p-1 pl-2 pr-2 hover:bg-green-600'><img src="/staticImages/icon_edit.png" alt="Edit icon" width={25} className='pr-2'/> Edit list</Link>
                     
                     <div className="flex items-center text-xs md:text-xl md:absolute md:right-0">
                         {/* Delete list button*/}
