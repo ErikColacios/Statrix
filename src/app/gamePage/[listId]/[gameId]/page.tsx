@@ -51,9 +51,9 @@ export default async function gamePage({params}: {params: {listId:string, gameId
                                 </div>
                                 <div className='grid xl:grid-cols-2 2xl:grid-cols-3 border 2xl:absolute bottom-0'>
                                     {/* Screenshots */}
-                                    <img src={item.screenshots ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png` : ""} className=' border w-full sm:h-72'/>
-                                    <img src={item.screenshots[1] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[1].image_id}.png` : ""} className='border w-full sm:h-72'/>
-                                    <img src={item.screenshots[2] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[2].image_id}.png` : ""} className='border w-full sm:h-72'/>
+                                    <img src={item.screenshots ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png` : ""} className=' border w-full sm:h-72' alt="Screenshot"/>
+                                    <img src={item.screenshots[1] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[1].image_id}.png` : ""} className='border w-full sm:h-72' alt="Screenshot"/>
+                                    <img src={item.screenshots[2] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[2].image_id}.png` : ""} className='border w-full sm:h-72' alt="Screenshot"/>
                                 </div>
                             </div>
                             <div className="w-full lg:w-1/3 p-4 border">

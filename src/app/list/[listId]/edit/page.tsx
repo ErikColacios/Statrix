@@ -1,3 +1,4 @@
+import React from "react";
 import { getSession } from "@/app/actions/getSession";
 import EditPage from "./editPage";
 import { getListInfo } from "@/app/actions/getListInfo";

@@ -7,7 +7,7 @@ import { getListContent } from '@/app/actions/getListContent';
 import updateList from '@/app/actions/updateList';
 import Swal from 'sweetalert2';
 
-export default function editPage({listId, getUser}:any) {
+export default function EditPage({listId, getUser}:any) {
 
     let [oldGamesList, setOldGamesList] = useState<Videogame[]>([])
     let [newGamesAdded, setNewGameAdded] = useState<Videogame[]>([])
@@ -53,7 +53,7 @@ export default function editPage({listId, getUser}:any) {
               });
         }
         console.log(list_name)
-        //updateList(listId, list_name, oldGamesList, newGamesAdded)
+        updateList(listId, list_name, oldGamesList, newGamesAdded)
     }
 
     return (

@@ -9,7 +9,7 @@ type Props  = {
     listName:string
 }
 
-export default async function DeleteListButton({userId, listId, listName}:Props){
+export default function DeleteListButton({userId, listId, listName}:Props){
 
     async function handleDeleteList(){
       
