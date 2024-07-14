@@ -34,8 +34,13 @@ export default async function list({params}: {params: {listId:string}}) {
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
                     {/* List name */}
-                    <p className="text-2xl md:mb-0 md:text-4xl">{item.list_name_res}</p>
-                    <p className='text-sm md:text-xl pb-4 pt-2 md:pb-0 md:pt-0'>{listContent.length} games</p>
+                    <p className="text-2xl md:text-4xl">{item.list_name_res}</p>
+                    <div className='flex space-x-16 text-sm pt-2 pb-4 md:pt-0 md:pb-0 md:text-xl'>
+                        <p>{listContent.length} games</p>
+                        {/* Creation date */}
+                        <p>Creation date</p>
+                        <p>{item.list_creationdate_res}</p>
+                    </div>
 
                     <div className="flex items-center text-xs md:text-xl md:absolute md:right-0">
                         {/* Edit list  */}
@@ -43,8 +48,6 @@ export default async function list({params}: {params: {listId:string}}) {
 
                         {/* Delete list button*/}
                         <DeleteListButton userId={user_id} listId={listId} listName={item.list_name_res}/>
-                        <p>Creation date</p>
-                        <p className="ml-8">{item.list_creationdate_res}</p>
                     </div>
                 </div>
             ))}
@@ -53,7 +56,7 @@ export default async function list({params}: {params: {listId:string}}) {
                 {listContent.map((item:any, index:number) => (
                     <div className="relative flex items-center mb-8 border text-xs md:text-xl " key={index}>
                         <Image src={item.videogame_base_image} className="w-12 md:w-24" width={80} height={60} alt={'Videogame cover'}/>
-                        <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-4  xl:ml-32  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
+                        <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
                         <div className='flex absolute right-0 md:mr-12'>
                             <SelectScore score={item.videogame_user_score} list_id={listId} videogame_id={item.videogame_id}/>
                             <InputHoursPlayed hours_played={item.videogame_user_hoursplayed} list_id={listId} videogame_id={item.videogame_id}/>
