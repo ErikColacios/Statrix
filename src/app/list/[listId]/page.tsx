@@ -2,17 +2,20 @@ import React from 'react';
 import { getListInfo } from "@/app/actions/getListInfo";
 import { getListContent } from "@/app/actions/getListContent";
 import { getSession } from "@/app/actions/getSession";
+
 import Link from "next/link";
 import Image from "next/image";
 import DeleteListButton from '@/app/components/DeleteListButton';
+import SelectScore from '@/app/components/SelectScore';
+import InputHoursPlayed from '@/app/components/InputHoursPlayed';
 
 export default async function list({params}: {params: {listId:string}}) {
     let listId = params.listId;
-
     let listInfo:any | undefined = []
     let listContent:any | undefined = []
+
     const session = await getSession()
-    let user_id:string | undefined = session.user_id;
+    let user_id:string | undefined = session.user_id
  
     if(user_id !== undefined){
         listInfo = await getListInfo(listId, user_id)
@@ -20,6 +23,7 @@ export default async function list({params}: {params: {listId:string}}) {
     }
 
     return (
+        
         <div className="text-2xl bg-black text-white"> 
             {/* MY LISTS */}
             <Link href="../mylists" className="group flex items-center text-green-500 text-xl hover:text-green-600 border border-green-600 w-48 rounded">
@@ -29,12 +33,14 @@ export default async function list({params}: {params: {listId:string}}) {
             
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
-                    <p className="text-2xl mb-4 md:mb-0 md:text-4xl">{item.list_name_res}</p>
-                    
-                    {/* Edit list  */}
-                    <Link href={`./${listId}/edit`} className='flex items-center text-sm mb-4 md:mb-0 md:text-xl bg-green-500 rounded p-1 pl-2 pr-2 hover:bg-green-600'><img src="/staticImages/icon_edit.png" alt="Edit icon" width={25} className='pr-2'/> Edit list</Link>
-                    
+                    {/* List name */}
+                    <p className="text-2xl md:mb-0 md:text-4xl">{item.list_name_res}</p>
+                    <p className='text-sm md:text-xl pb-4 pt-2 md:pb-0 md:pt-0'>{listContent.length} games</p>
+
                     <div className="flex items-center text-xs md:text-xl md:absolute md:right-0">
+                        {/* Edit list  */}
+                        <Link href={`./${listId}/edit`} className='flex items-center md:mb-0 md:text-xl bg-green-500 rounded p-1 pl-2 pr-2 ml-4 mr-4 hover:bg-green-600'><img src="/staticImages/icon_edit.png" alt="Edit icon" width={25} className='pr-2'/> Edit list</Link>
+
                         {/* Delete list button*/}
                         <DeleteListButton userId={user_id} listId={listId} listName={item.list_name_res}/>
                         <p>Creation date</p>
@@ -45,9 +51,13 @@ export default async function list({params}: {params: {listId:string}}) {
             <div className="flex flex-col">
                 {/* List content */}
                 {listContent.map((item:any, index:number) => (
-                    <div className="flex items-center mb-8 border" key={index}>
+                    <div className="relative flex items-center mb-8 border text-xs md:text-xl " key={index}>
                         <Image src={item.videogame_base_image} className="w-12 md:w-24" width={80} height={60} alt={'Videogame cover'}/>
-                        <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-8 md:ml-32 text-sm md:text-xl hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
+                        <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-4  xl:ml-32  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
+                        <div className='flex absolute right-0 md:mr-12'>
+                            <SelectScore score={item.videogame_user_score} list_id={listId} videogame_id={item.videogame_id}/>
+                            <InputHoursPlayed hours_played={item.videogame_user_hoursplayed} list_id={listId} videogame_id={item.videogame_id}/>
+                        </div>
                     </div>
                 ))}
             </div>
