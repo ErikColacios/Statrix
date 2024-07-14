@@ -17,7 +17,6 @@ export default async function editList({params}: {params: {listId:string}}) {
         listInfo = await getListInfo(listId, user_id)
     }
 
-
     async function getUser(){
         "use server"
         let user_id:string | undefined = session.user_id

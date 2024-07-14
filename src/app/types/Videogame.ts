@@ -9,6 +9,8 @@ export type Videogame = {
         image_id:number,
         url:string
     },
-    videogame_base_image:string
+    videogame_base_image:string,
+    videogame_user_score:number
+    videogame_user_hoursplayed:number
 
 }

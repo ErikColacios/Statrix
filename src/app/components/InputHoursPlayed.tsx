@@ -13,7 +13,6 @@ export default function InputHoursPlayed({hours_played, list_id, videogame_id}:P
     const [value, setValue] = useState<number|null>(hours_played);
 
     function checkNumber (e: ChangeEvent<HTMLInputElement>){
-
         const value = !Number.isNaN(e.target.valueAsNumber) ? e.target.valueAsNumber : null
         if(!value){
             setValue(hours_played);
@@ -35,7 +34,7 @@ export default function InputHoursPlayed({hours_played, list_id, videogame_id}:P
                 <label>Hours played</label>
                 <input type="number" id={'hours'+videogame_id} className='w-20 sm:ml-2 pr-1 bg-black border border-white focus:none text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
             </div>
-            <button className='border border-black hover:bg-green-500 hover:border hover:border-green-500 p-1 ml-1' onClick={handleHoursPlayed}><img src="/staticImages/icon_confirmation.png" className='w-5' alt="Confirmation button"/></button>
+            <button className='border border-black bg-green-500 sm:bg-black hover:bg-green-500 hover:border hover:border-green-500 p-1 ml-1' onClick={handleHoursPlayed}><img src="/staticImages/icon_confirmation.png" className='w-5' alt="Confirmation button"/></button>
         </div>
     )
 }
