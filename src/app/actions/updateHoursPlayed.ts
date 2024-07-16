@@ -2,7 +2,7 @@
 import { supabase } from '../../utils/supabase'
 import { getSession } from './getSession';
 
-export default async function updateHoursPlayed(list_id:string, videogame_id:string, newHoursPlayed:string){
+export default async function updateHoursPlayed(list_id:string, videogame_id:string, newHoursPlayed:number){
     const session = await getSession()
     const user_id = session.user_id
 
