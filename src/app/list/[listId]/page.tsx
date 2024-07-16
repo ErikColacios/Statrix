@@ -54,7 +54,7 @@ export default async function list({params}: {params: {listId:string}}) {
             <div className="flex flex-col">
                 {/* List content */}
                 {listContent.map((item:any, index:number) => (
-                    <div className="relative flex items-center mb-8 border text-sm md:text-xl " key={index}>
+                    <div className="relative flex items-center mb-5 border text-sm md:text-xl " key={index}>
                         <Image src={item.videogame_base_image} className="w-12 md:w-24" width={80} height={60} alt={'Videogame cover'}/>
                         <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
                         <div className='flex absolute right-0 md:mr-12'>
