@@ -34,7 +34,7 @@ export default async function list({params}: {params: {listId:string}}) {
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
                     {/* List name */}
-                    <p className="text-2xl md:text-4xl">{item.list_name_res}</p>
+                    <p className="text-4xl md:text-4xl">{item.list_name_res}</p>
                     <div className='flex space-x-16 text-sm pt-2 pb-4 md:pt-0 md:pb-0 md:text-xl'>
                         <p>{listContent.length} games</p>
                         {/* Creation date */}
@@ -42,7 +42,7 @@ export default async function list({params}: {params: {listId:string}}) {
                         <p>{item.list_creationdate_res}</p>
                     </div>
 
-                    <div className="flex items-center text-xs md:text-xl md:absolute md:right-0">
+                    <div className="flex items-center text-lg md:text-xl md:absolute md:right-0">
                         {/* Edit list  */}
                         <Link href={`./${listId}/edit`} className='flex items-center md:mb-0 md:text-xl bg-green-500 rounded p-1 pl-2 pr-2 ml-4 mr-4 hover:bg-green-600'><img src="/staticImages/icon_edit.png" alt="Edit icon" width={25} className='pr-2'/> Edit list</Link>
 
@@ -54,7 +54,7 @@ export default async function list({params}: {params: {listId:string}}) {
             <div className="flex flex-col">
                 {/* List content */}
                 {listContent.map((item:any, index:number) => (
-                    <div className="relative flex items-center mb-8 border text-xs md:text-xl " key={index}>
+                    <div className="relative flex items-center mb-8 border text-sm md:text-xl " key={index}>
                         <Image src={item.videogame_base_image} className="w-12 md:w-24" width={80} height={60} alt={'Videogame cover'}/>
                         <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
                         <div className='flex absolute right-0 md:mr-12'>

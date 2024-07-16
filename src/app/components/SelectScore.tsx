@@ -18,7 +18,7 @@ export default function SelectScore({ score, list_id, videogame_id}:Props){
     }
 
     return (
-        <div className='flex flex-col sm:flex-row items-center mr-4 md:mr-12'>
+        <div className='flex flex-col items-end sm:flex-row  mr-4 md:mr-12'>
             <label>Score </label>
             <select id={"score"+videogame_id} className='ml-2 bg-black border border-white focus:none' defaultValue={score} onChange={handleUpdateScore}>
                 <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
