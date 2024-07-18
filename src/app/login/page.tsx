@@ -17,8 +17,8 @@ export default function SignUp() {
     return (
         <section className='relative flex w-full h-screen bg-[url("/staticImages/fallout_landscape.jpg")] bg-cover '>
             <div className='absolute bg-black/60 w-full h-full'></div>
-            <div className='flex items-center bg-black/80 p-24 w-full md:w-[50rem] backdrop-blur-md'>
-                <form className='flex flex-col bg-black text-white border border-green-500 w-96 p-8 pt-14 pb-14 text-base' action={formAction}>
+            <div className='flex items-center bg-black/80 p-8 md:p-24 w-full md:w-[50rem] backdrop-blur-md'>
+                <form className='flex flex-col bg-black text-white border border-green-500 w-full md:w-96 p-8 pt-14 pb-14 text-base' action={formAction}>
                     <div className='mb-8'>
                         <h2 className={`text-4xl font-medium`}>Welcome back</h2>
                         <p className='text-gray-400'>Enter to your account</p>

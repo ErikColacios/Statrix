@@ -36,7 +36,9 @@ export default async function VideogameslistLayout({
 
     if (!session.isLoggedIn){
         return(
+          <div className='flex h-screen items-center'>
             <NotLoggedVideogamelist/>
+          </div>
         )
     }
     else if(numberOfLists===0){
