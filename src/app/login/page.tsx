@@ -6,9 +6,7 @@ import { useFormState } from 'react-dom'
 import Link from 'next/link'
 import localFont from 'next/font/local'
 
-const infiniteBeyondFont = localFont({src: '../fonts/INFINITE BEYOND.ttf'})
 const backgrounds = ["fallout_landscape.jpg", "bioshock.jpg"]
-
 
 
 export default function SignUp() {
