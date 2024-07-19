@@ -9,15 +9,6 @@ export default async function Home() {
 
   const session = await getSession()
   const user = session.user_name
-  
-    // Get the actual date
-    var date = new Date()
-    var day = date.getDate()
-    var month = date.getMonth()+1
-    var year = date.getFullYear()
-    var user_creationdate:string = day+"/"+month+"/"+year;
-
-    console.log(date.toISOString())
 
   return (
     <div className="flex h-screen bg-black text-white items-center">
