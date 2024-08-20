@@ -25,11 +25,8 @@ export default async function updateList(list_id:number, list_name:string, oldGa
         const videogame_id = oldGamesList[i].videogame_id
         const videogame_name = oldGamesList[i].videogame_name
         const videogame_base_image = oldGamesList[i].videogame_base_image;
-        const videogame_user_score = oldGamesList[i].videogame_user_score;
-        const videogame_user_hoursplayed = oldGamesList[i].videogame_user_hoursplayed;
 
-
-        const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image, videogame_user_score, videogame_user_hoursplayed});
+        const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image});
         if(error){
             console.log(error)
             return;
@@ -43,10 +40,11 @@ export default async function updateList(list_id:number, list_name:string, oldGa
         const videogame_id = newGamesAdded[i].id
         const videogame_name = newGamesAdded[i].name
         const videogame_base_image = `https://images.igdb.com/igdb/image/upload/t_720p/${newGamesAdded[i].cover.image_id}.png`;
-        const videogame_user_score = 0;
-        const videogame_user_hoursplayed = 0;
+        const score = 0;
+        const hours_played = 0;
         
-        const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image, videogame_user_score, videogame_user_hoursplayed});
+        const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image});
+                            await supabase.from('user_videogame').insert({user_id, videogame_id, score, hours_played});
         if(error){
             console.log(error)
             return;

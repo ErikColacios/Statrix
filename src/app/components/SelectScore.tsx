@@ -14,7 +14,7 @@ export default function SelectScore({ score, list_id, videogame_id}:Props){
         const newScoreSelect = document.getElementById("score"+videogame_id) as HTMLSelectElement
         const newScore:string = newScoreSelect.value
 
-        updateScore(list_id, videogame_id, newScore)
+        updateScore(videogame_id, newScore)
     }
 
     return (

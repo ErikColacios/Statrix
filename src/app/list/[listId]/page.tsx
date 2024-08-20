@@ -20,6 +20,7 @@ export default async function list({params}: {params: {listId:string}}) {
     if(user_id !== undefined){
         listInfo = await getListInfo(listId, user_id)
         listContent = await getListContent(listId, user_id)
+
     }
 
     return (
@@ -58,8 +59,8 @@ export default async function list({params}: {params: {listId:string}}) {
                         <Image src={item.videogame_base_image} className="w-12 md:w-24" width={80} height={60} alt={'Videogame cover'}/>
                         <Link href={`/gamePage/${params.listId}/${item.videogame_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
                         <div className='flex absolute right-0 md:mr-12'>
-                            <SelectScore score={item.videogame_user_score} list_id={listId} videogame_id={item.videogame_id}/>
-                            <InputHoursPlayed hours_played={item.videogame_user_hoursplayed} list_id={listId} videogame_id={item.videogame_id}/>
+                            <SelectScore score={item.score} list_id={listId} videogame_id={item.videogame_id}/>
+                            <InputHoursPlayed hours_played={item.hours_played} list_id={listId} videogame_id={item.videogame_id}/>
                         </div>
                     </div>
                 ))}

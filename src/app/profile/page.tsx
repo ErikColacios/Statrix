@@ -89,7 +89,7 @@ export default async function Profile() {
 
             <div className="flex flex-col lg:w-1/2 xl:w-2/3 p-12 shadow-lg bg-zinc-900/80 greenShadow">
             <p className="text-2xl mb-12">Game stats</p>
-                        Coming soon ...
+                <p>GAMES PLAYED</p>
             </div>
 
 

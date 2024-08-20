@@ -10,7 +10,7 @@ export type Videogame = {
         url:string
     },
     videogame_base_image:string,
-    videogame_user_score:number
-    videogame_user_hoursplayed:number
+    score:number
+    hours_played:number
 
 }

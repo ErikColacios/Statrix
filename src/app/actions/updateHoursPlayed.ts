@@ -8,7 +8,7 @@ export default async function updateHoursPlayed(list_id:string, videogame_id:str
 
     console.log("User: " + user_id +"List: "+ list_id + " - Videogame: " + videogame_id)
 
-    const { error } = await supabase.from('list').update({'videogame_user_hoursplayed': newHoursPlayed}).match({list_id:list_id, user_id:user_id, videogame_id:videogame_id})
+    const { error } = await supabase.from('user_videogame').update({'hours_played': newHoursPlayed}).match({user_id:user_id, videogame_id:videogame_id})
 
     if(error){
         console.log(error)

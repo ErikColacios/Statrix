@@ -11,14 +11,18 @@ export async function insertList(list_name:string, gameList:Videogame[]){
     const session = await getSession()
     const user_id = session.user_id;
     const user_name = session.user_name;
+    const favourite = false;
+    const score = 0;
+    const hours_played = 0;
 
     for (let i = 0; i < videogameCount; i++) {
         const videogame_id = gameList[i].id;
         const videogame_name = gameList[i].name;
         const videogame_base_image = `https://images.igdb.com/igdb/image/upload/t_720p/${gameList[i].cover.image_id}.png`;
 
-        // First, we insert the new LIST
+        // First, we insert the new line to the LIST table and then in the USER_VIDEOGAME table
         const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image});
+                          await supabase.from('user_videogame').insert({user_id, videogame_id, favourite, score, hours_played });
         if(error){
             console.log(error)
             return;
@@ -26,6 +30,23 @@ export async function insertList(list_name:string, gameList:Videogame[]){
             console.log("List created successfuly!")
         }
     }
+
+
+    // for (let i = 0; i < videogameCount; i++) {
+    //     const videogame_id = gameList[i].id;
+
+    //     // Second
+    //     const { error } = await supabase.from('user_videogame').insert({user_id, videogame_id, favourite, score, hours_played });
+    //     if(error){
+    //         console.log(error)
+    //         return;
+    //     }else{
+    //         console.log("List created successfuly!")
+    //     }
+    // }
+
+    
+
 
     // Then, we get the NUMBER of LISTS of this user
     const { data:result, error } = await supabase.from('user').select('user_lists').eq('user_id', user_id)
