@@ -22,7 +22,7 @@ export async function insertList(list_name:string, gameList:Videogame[]){
 
         // First, we insert the new line to the LIST table and then in the USER_VIDEOGAME table
         const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image});
-                          await supabase.from('user_videogame').insert({user_id, videogame_id, favourite, score, hours_played });
+                          await supabase.from('user_videogame').insert({user_id, videogame_id, favourite, score, hours_played, videogame_name, videogame_base_image});
         if(error){
             console.log(error)
             return;

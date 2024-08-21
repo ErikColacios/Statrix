@@ -16,8 +16,11 @@ export async function signUp(formData: FormData) {
     var user_creationdate = new Date()
     user_creationdate.toISOString()
 
+    // Default user bio
+    const user_bio:string = "Welcome to my profile!"
+
     // Inserts the user data to the users table
-    const { error } = await supabase.from('user').insert({user_id, user_name, user_email, user_password, user_creationdate});
+    const { error } = await supabase.from('user').insert({user_id, user_name, user_email, user_password, user_creationdate, user_bio});
 
     if(error){
         console.log(error.message)

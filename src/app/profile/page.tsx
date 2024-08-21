@@ -2,6 +2,8 @@ import React from "react";
 import { getSession } from "../actions/getSession";
 import { redirect } from "next/navigation";
 import getUserInfo from "../actions/getUserInfo";
+import getUserGameStats from "../actions/getUserGameStats";
+import { getUserTotalHoursPlayed } from "../actions/getUserTotalHoursPlayed";
 import Link from "next/link";
 
 export default async function Profile() {
@@ -9,27 +11,25 @@ export default async function Profile() {
     const session = await getSession()
     const user_id:string | undefined = session.user_id
     const user_name:string | undefined = session.user_name
-    let userinfo:any | undefined = []
+    let userInfo:any | undefined = []
+    let userGameStats:any | undefined = []
+    let userTotalHoursPlayed:number | undefined
+
 
     if(user_id !==undefined){
-        userinfo = await getUserInfo(user_id)
-        console.log(userinfo)
-    }
+        userInfo = await getUserInfo(user_id)
 
+        userGameStats = await getUserGameStats(user_id)
+        console.log(userGameStats)
+
+        userTotalHoursPlayed = await getUserTotalHoursPlayed(session)
+        console.log(userTotalHoursPlayed)
+    }
 
     // Protect route in case someone types the route wihtout logging in
     if(!session.isLoggedIn){
         redirect("/")
     }
-
-    {/* <div className="flex items-center justify-center items-center w-full h-full mr-16">
-            <div className="h-52 w-52 rounded-full relative overflow-hidden">
-                <img src="/profileImages/riku.jpg" className="h-full w-full object-cover"/>
-            </div>
-            <div>
-                <p className="relative text-4xl ml-8">{user_name}</p>
-            </div>
-    </div> */}
        
 
     return (
@@ -49,9 +49,9 @@ export default async function Profile() {
                         <p className="text-4xl font-bold">{user_name}</p>
                         <button className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</button>
                     </div>
-                    {userinfo.map((item:any, index:number)=>(
+                    {userInfo.map((item:any, index:number)=>(
                     <div className="mt-4" key={index}>
-                        <p className="text-xl mb-1">Biography</p>
+                        {/* User biography */}
                         <p>{item.user_bio}</p>
 
                         <div className="flex mt-8 ">
@@ -68,30 +68,38 @@ export default async function Profile() {
                                 <a className="underline" href={"https://"+item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a>
                             </div>
                         </div>
-                        
-                        {/* <div className="mt-4">
-                                <span className="text-xl mr-12">Joined</span><span>{item.user_creationdate}</span>
-                            </div>
-                            <div className="mt-2">
-                                <span className="text-xl mr-12">Email</span><span>{item.user_email}</span>
-                            </div>
-                            <div className="mt-2">
-                                <span className="text-xl mr-12">Location</span><span>{item.user_location}</span>
-                            </div>
-                            <div className="mt-2">
-                                <span className="text-xl mr-12">Webpage</span><a className="underline" href={"https://"+item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a>
-                            </div> */}
                     </div>
                     ))}
                 </div>
-
             </div>
 
             <div className="flex flex-col lg:w-1/2 xl:w-2/3 p-12 shadow-lg bg-zinc-900/80 greenShadow">
-            <p className="text-2xl mb-12">Game stats</p>
-                <p>GAMES PLAYED</p>
-            </div>
+                <div className="flex space-x-8">
+                    <div className="flex flex-col items-center text-center w-32">
+                        <p className="text-6xl font-bold">{userGameStats.gamesPlayed}</p>
+                        <p className="text-green-400">Games played</p>
+                    </div>
+                    <div className="flex flex-col items-center text-center w-32">
+                        <p className="text-6xl font-bold">{userTotalHoursPlayed}</p>
+                        <p className="text-green-400">Hours played</p>
+                    </div>
+                </div>
 
+                
+                <p className="text-xl mt-12">Top played games</p>
+                <div className="flex space-x-8 mt-4">
+                    {userGameStats.topGames.map((item:any, index:number)=>(
+                        <Link key={index} href={`gamePage/${item.videogame_id}`} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer w-48 h-64 transition hover:scale-110'>
+                            <img src={item.videogame_base_image} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>
+                            <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
+                                <p className='text-lg '>{item.videogame_name}</p>
+                            </div>
+                        </Link>
+                        ))}
+                </div>
+            </div>
+                
+            
 
         </section>
     )

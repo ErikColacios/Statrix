@@ -6,7 +6,6 @@ export default async function getUserInfo(user_id:string) {
     if(error){
         console.log(error)
     }else{
-        console.log(data)
         return data;
     }
 }

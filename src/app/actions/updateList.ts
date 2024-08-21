@@ -44,7 +44,7 @@ export default async function updateList(list_id:number, list_name:string, oldGa
         const hours_played = 0;
         
         const { error } = await supabase.from('list').insert({list_id, user_id, videogame_id, list_name, user_name, videogame_name, videogame_base_image});
-                            await supabase.from('user_videogame').insert({user_id, videogame_id, score, hours_played});
+                            await supabase.from('user_videogame').insert({user_id, videogame_id, score, hours_played, videogame_name, videogame_base_image});
         if(error){
             console.log(error)
             return;
