@@ -17,7 +17,6 @@ export default async function Navbar() {
                 <Link href="/"><p className={`text-sm md:text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
             </div>
             <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base  pr-20 md:pr-0">
-                <Link href="/" className="hover:text-green-400">Home</Link>
                 <Link href="/mylists" className="hover:text-green-400">My lists</Link>
                 {!session.isLoggedIn && <Link href="/login" className="hover:text-green-400">Log in</Link>}
             </div>
