@@ -73,7 +73,7 @@ export default async function Profile() {
                 </div>
             </div>
 
-            <div className="flex flex-col lg:w-2/3 xl:w-2/3 p-6 shadow-lg bg-zinc-900/80 greenShadow">
+            <div className="flex flex-col lg:w-2/3 xl:w-2/3 p-4 md:p-10 shadow-lg bg-zinc-900/80 greenShadow">
                 <div className="flex space-x-8">
                     <div className="flex flex-col items-center text-center w-32">
                         <p className="text-6xl font-bold">{userGameStats.gamesPlayed}</p>
@@ -87,9 +87,10 @@ export default async function Profile() {
 
                 
                 <p className="text-xl mt-12">Top played games</p>
-                <div className="grid space-y-8 grid-cols-1 sm:space-y-0 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5  mt-4">
+                {/* sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 */}
+                <div className="flex mt-4">
                     {userGameStats.topGames.map((item:any, index:number)=>(
-                        <Link key={index} href={`gamePage/${item.videogame_id}`} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer w-56 h-72 sm:w-44 sm:h-38 xl:w-48 xl:h-62 transition hover:scale-110'>
+                        <Link key={index} href={`gamePage/${item.videogame_id}`} className='group relative mr-4 flex justify-center items-center rounded-lg overflow-hidden cursor-pointer w-16 h-21 sm:w-24 sm:h-32 md:w-32 md:h-48 2xl:w-48 2xl:h-64 transition hover:scale-110'>
                             <img src={item.videogame_base_image} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' alt='Videogame cover'/>
                             <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                                 <p className='text-lg '>{item.videogame_name}</p>
