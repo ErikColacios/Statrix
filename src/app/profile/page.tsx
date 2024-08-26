@@ -47,7 +47,8 @@ export default async function Profile() {
                 <div className="p-6 pt-16">
                     <div className="flex items-center relative">
                         <p className="text-4xl font-bold">{user_name}</p>
-                        <button className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</button>
+                        {/* Edit profile */}
+                        <Link href={"settings"} className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</Link>
                     </div>
                     {userInfo.map((item:any, index:number)=>(
                     <div className="mt-4" key={index}>
