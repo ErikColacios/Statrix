@@ -2,35 +2,38 @@
 import React, { useState } from "react"
 import { useFormState } from "react-dom"
 import updateUser from "../actions/updateUser"
+import ChooseAvatar from "./ChooseAvatar"
 
 export default function UserSettingsForm({userInfo}:any){
 
     const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
+    const [chooseAvatarOpened, setChooseAvatarOpened] = useState<boolean>(false)
 
     return (
             <form className="relative flex flex-col lg:flex-row pb-28" action={formAction}>
+                {chooseAvatarOpened && <ChooseAvatar isOpen={chooseAvatarOpened} handleClose={()=>setChooseAvatarOpened(!chooseAvatarOpened) }/>}
                 <div className="lg:mr-8">
                     {userInfo.map((item:any, index:number)=>(
                         <div key={index} className="w-full lg:w-96">
                                 <div>
                                 <p>Username</p>
-                                <input type="text" name="user_name" maxLength={20} className="w-full p-1 bg-gray-600 outline-none border border-2 border-gray-600 focus:border-green-600" defaultValue={item.user_name}/>
+                                <input type="text" name="user_name" maxLength={20} className="w-full p-1 bg-gray-700 outline-none border border-2 border-gray-700 focus:border-green-600" defaultValue={item.user_name}/>
                             </div>
                             <div className="mt-4">
                                 <p>Bio</p>
-                                <textarea rows={7} name="user_bio" className="w-full p-1 bg-gray-600 outline-none border border-2 border-gray-600 focus:border-green-600 resize-none" defaultValue={item.user_bio} maxLength={250}/>
+                                <textarea rows={7} name="user_bio" className="w-full p-1 bg-gray-700 outline-none border border-2 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} maxLength={250}/>
                             </div>
                             <div className="mt-4">
                                 <p>Email</p>
-                                <input type="email" name="user_email" maxLength={35} className="w-full p-1 bg-gray-600 outline-none border border-2 border-gray-600 focus:border-green-600" defaultValue={item.user_email}/>
+                                <input type="email" name="user_email" maxLength={35} className="w-full p-1 bg-gray-700 outline-none border border-2 border-gray-700 focus:border-green-600" defaultValue={item.user_email}/>
                             </div>
                             <div className="mt-4">
                                 <p>Location</p>
-                                <input type="text" name="user_location" maxLength={35} className="w-full p-1 bg-gray-600 outline-none border border-2 border-gray-600 focus:border-green-600" defaultValue={item.user_location}/>
+                                <input type="text" name="user_location" maxLength={35} className="w-full p-1 bg-gray-700 outline-none border border-2 border-gray-700 focus:border-green-600" defaultValue={item.user_location}/>
                             </div>
                             <div className="mt-4">
                                 <p>Webpage</p>
-                                <input type="text" name="user_webpage" maxLength={50} className="w-full p-1 bg-gray-600 outline-none border border-2 border-gray-600 focus:border-green-600" defaultValue={item.user_webpage}/>
+                                <input type="text" name="user_webpage" maxLength={50} className="w-full p-1 bg-gray-700 outline-none border border-2 border-gray-700 focus:border-green-600" defaultValue={item.user_webpage}/>
                             </div>
                             <div className="mt-4">
                                 <p className="text-gray-400">Was created {item.user_creationdate}</p>
@@ -41,7 +44,7 @@ export default function UserSettingsForm({userInfo}:any){
                 <div className="w-full flex flex-col lg:items-center lg:text-center mt-12 lg:mt-0">
                     <div>
                         <p className="mb-2">Choose your avatar</p>
-                        <div className="w-48 h-48 rounded-full overflow-hidden border border-green-600">
+                        <div className="w-48 h-48 rounded-full overflow-hidden border border-green-600 cursor-pointer" onClick={() => setChooseAvatarOpened(true)}>
                             <img src="/profileImages/leon.jpg" className="h-full w-full object-cover"/>
                         </div>
                     </div>
