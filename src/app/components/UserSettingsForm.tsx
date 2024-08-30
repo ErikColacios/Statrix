@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react"
 import { useFormState } from "react-dom"
-import { User } from "../types/User"
 import updateUser from "../actions/updateUser"
 
 export default function UserSettingsForm({userInfo}:any){
@@ -9,17 +8,10 @@ export default function UserSettingsForm({userInfo}:any){
     const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
 
     return (
-        <div>
-            <form className="flex flex-col lg:flex-row mt-8" action={formAction}>
+            <form className="relative flex flex-col lg:flex-row pb-28" action={formAction}>
                 <div className="lg:mr-8">
                     {userInfo.map((item:any, index:number)=>(
                         <div key={index} className="w-full lg:w-96">
-                            <div className="h-8">
-                                {/* Error message */}
-                                {state?.error && <p className='text-red-500'>{state.error}</p>}
-                                {/* Success message */}
-                                {state && <p className='text-green-500'>{state}</p>}
-                            </div>
                                 <div>
                                 <p>Username</p>
                                 <input type="text" name="user_name" maxLength={20} className="w-full p-1 bg-gray-600 outline-none border border-2 border-gray-600 focus:border-green-600" defaultValue={item.user_name}/>
@@ -58,10 +50,16 @@ export default function UserSettingsForm({userInfo}:any){
                         <img src="/staticImages/eldenring.jpg" className="border border-green-600"/>
                     </div>
                 </div>
+                <div className="absolute flex flex-col lg:flex-row items-center bottom-0">
+                    <button type="submit" className="p-2 pl-4 pr-4 mr-7 text-lg bg-green-500 hover:bg-green-600">Save changes</button>
+                    <div className="h-8">
+                        {/* Error message */}
+                        {state?.error && <p className='text-red-500'>{state.error}</p>}
+                        {/* Success message */}
+                        {state && <p className='text-sm mt-1 lg:text-base text-green-500'>{state}</p>}
+                    </div>
+
+                </div>
             </form>
-            <div className="mt-8">
-                <button type="submit" className="p-2 text-center text-lg bg-green-500 hover:bg-green-600">Save changes</button>
-            </div>
-        </div>
     )
 }
