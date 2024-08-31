@@ -24,7 +24,7 @@ export default async function Settings(){
 
 
     return (
-        <section className="relative w-full flex bg-black text-white justify-center p-2 pt-20 md:p-24 bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
+        <section className="relative w-full flex bg-black text-white justify-center pt-20 md:p-22 bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
             <div className="w-full 2xl:w-2/3 flex flex-col bg-gray-800 text-lg p-4 lg:p-8 bg-zinc-900/80">
                 {/* BACK TO PROFILE */}
                 <Link href={"profile"} className="group flex items-center text-green-500 text-base lg:text-xl hover:text-green-600 border border-green-600 w-48 lg:w-64 rounded">

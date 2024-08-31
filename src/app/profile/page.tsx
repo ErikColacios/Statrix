@@ -85,10 +85,8 @@ export default async function Profile() {
                         <p className="text-green-400">Hours played</p>
                     </div>
                 </div>
-
                 
                 <p className="text-xl mt-12">Top played games</p>
-                {/* sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 */}
                 <div className="flex mt-4">
                     {userGameStats.topGames.map((item:any, index:number)=>(
                         <Link key={index} href={`gamePage/${item.videogame_id}`} className='group relative mr-4 flex justify-center items-center rounded-lg overflow-hidden cursor-pointer w-16 h-21 sm:w-24 sm:h-32 md:w-32 md:h-48 2xl:w-48 2xl:h-64 transition hover:scale-110'>
