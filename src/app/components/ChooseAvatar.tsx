@@ -30,8 +30,6 @@ export default function ChooseAvatar({currentAvatarId, handleClose, userId}:Choo
         window.scrollTo(0,0)
     }
 
-
-
     useEffect(() => {
         async function getImages(){
             images = await getAvatarImages()
@@ -75,7 +73,6 @@ export default function ChooseAvatar({currentAvatarId, handleClose, userId}:Choo
             return res
         }
     }
-
 
 
     return (

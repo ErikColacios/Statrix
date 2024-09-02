@@ -39,7 +39,7 @@ export default async function Profile() {
             <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 md:mt-12 greenShadow" key={index}>
                 {/* DIV PROFILE IMAGE */}
                 <div className="relative h-70 z-10">
-                    <img src="/staticImages/eldenring.jpg" />
+                    <img src={"/bannerImages/"+item.banner_images.banner_image} />
                     <div className="w-28 h-28 md:w-36 md:h-36 2xl:w-48 2xl:h-48 rounded-full overflow-hidden ml-6 absolute top-12 sm:top-32 md:top-32 lg:top-10">
                         <img src={"/profileImages/"+item.avatar_images.avatar_image} className="h-full w-full object-cover"/>
                     </div>

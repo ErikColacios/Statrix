@@ -3,17 +3,22 @@ import React, { useState } from "react"
 import { useFormState } from "react-dom"
 import updateUser from "../actions/updateUser"
 import ChooseAvatar from "./ChooseAvatar"
+import ChooseBanner from "./ChooseBanner"
 
 export default function UserSettingsForm({userInfo}:any){
 
     const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
     const [chooseAvatarOpened, setChooseAvatarOpened] = useState<boolean>(false)
+    const [chooseBannerOpened, setChooseBannerOpened] = useState<boolean>(false)
+
 
     return (
         <>
             {userInfo.map((item:any, index:number)=>(
             <form className="relative flex flex-col lg:flex-row pb-24" action={formAction} key={index}>
                 {chooseAvatarOpened && <ChooseAvatar currentAvatarId={item.user_avatar_id} handleClose={()=>setChooseAvatarOpened(!chooseAvatarOpened)} userId={item.user_id} />}
+                {chooseBannerOpened && <ChooseBanner currentBannerId={item.user_banner_id} handleClose={()=>setChooseAvatarOpened(!chooseAvatarOpened)} userId={item.user_id} />}
+    
                     <div className="lg:mr-8" >
                             <div  className="w-full lg:w-96">
                                     <div>
@@ -42,7 +47,7 @@ export default function UserSettingsForm({userInfo}:any){
                             </div>
                     </div>
 
-                <div className="w-full flex flex-col lg:items-center lg:text-center mt-12 lg:mt-0">
+                <div className="w-full flex flex-col justify-center lg:items-center lg:text-center mt-12 lg:mt-0">
                     {/* AVATAR */}
                     <div>
                         <p className="mb-2">Change your avatar</p>
@@ -51,9 +56,9 @@ export default function UserSettingsForm({userInfo}:any){
                         </div>
                     </div>
                     {/* BANNER */}
-                    <div className="mt-8">
+                    <div className="w-full flex flex-col lg:items-center mt-8" onClick={() => setChooseBannerOpened(true)}>
                         <p className="mb-2">Change your banner</p>
-                        <img src="/staticImages/eldenring.jpg" className="outline outline-2 outline-green-600 hover:outline-4 cursor-pointer"/>
+                        <img src={"/bannerImages/"+item.banner_images.banner_image} className="w-[35rem] lg:h-56 outline outline-2 outline-green-600 hover:outline-4 cursor-pointer"/>
                     </div>
                 </div>
                 <div className="absolute flex flex-col lg:flex-row items-center bottom-0">
