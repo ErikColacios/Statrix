@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import getAvatarImages from "../actions/getAvatarImages";
+import { supabase } from "@/utils/supabase";
 
 interface ChooseAvatarProps {
     currentAvatarId: number,
     handleClose: () => void;
+    userId: string;
 }
 
 interface Avatar {
@@ -11,12 +13,24 @@ interface Avatar {
     avatar_name: string;
 }
 
-export default function ChooseAvatar({currentAvatarId, handleClose}:ChooseAvatarProps){
+export default function ChooseAvatar({currentAvatarId, handleClose, userId}:ChooseAvatarProps){
 
     const [avatarImages, setAvatarImages] = useState([])
     const [selectedAvatar, setSelectedAvatar] = useState<Avatar>({avatar_id: currentAvatarId, avatar_name: ""})
 
     let images:any = []
+
+    const renderCount = useRef(0);
+    useEffect(() => {
+        renderCount.current = renderCount.current + 1;
+      });
+    
+    // Scroll to top only when entering this component (first render of the component). In mobile version when you select an avatar it scrolls to the top and looks ugly
+    if(renderCount.current == 0){
+        window.scrollTo(0,0)
+    }
+
+
 
     useEffect(() => {
         async function getImages(){
@@ -45,8 +59,24 @@ export default function ChooseAvatar({currentAvatarId, handleClose}:ChooseAvatar
         }
     }
 
-    // Scroll to top when entering this component
-    window.scrollTo(0,0)
+    async function updateAndClose (passedFunctionClose: () => void){
+
+        passedFunctionClose()
+        window.location.reload()
+        const { error } = await supabase.from('user')
+            .update({"user_avatar_id": selectedAvatar.avatar_id, "user_avatar": selectedAvatar.avatar_name})
+            .match({"user_id": userId})
+        if(error){
+            console.log(error)
+            return error;
+        }else {
+            var res = "User avatar updated successfully!"
+            console.log(res)
+            return res
+        }
+    }
+
+
 
     return (
         <div className="absolute z-10 w-full h-full bg-black outline outline-1 outline-black flex flex-col overflow-scroll no-scrollbar">
@@ -54,7 +84,7 @@ export default function ChooseAvatar({currentAvatarId, handleClose}:ChooseAvatar
                 <p className="mr-4 md:mr-24">Choose your avatar</p>
                 <p className="text-green-600 mr-2">Current:</p>
                 <p>{selectedAvatar.avatar_name}</p>
-                <button className="border p-1 md:w-32 absolute right-4" onClick={handleClose}>Close</button>
+                <button className="border p-1 md:w-32 absolute right-4" onClick={()=> updateAndClose(handleClose)}>Close</button>
             </div>
             <div className="flex flex-col p-2 sm:p-6">
                 <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-12 mt-8">

@@ -34,24 +34,23 @@ export default async function Profile() {
 
     return (
         <section className="flex flex-col lg:flex-row space-y-12 lg:space-x-12 w-full h-screen pt-24 p-4 md:p-12 text-white bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
-            <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 md:mt-12 greenShadow">
-
+            {userInfo.map((item:any, index:number)=>(
+           
+            <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 md:mt-12 greenShadow" key={index}>
                 {/* DIV PROFILE IMAGE */}
                 <div className="relative h-70 z-10">
                     <img src="/staticImages/eldenring.jpg" />
                     <div className="w-28 h-28 md:w-36 md:h-36 2xl:w-48 2xl:h-48 rounded-full overflow-hidden ml-6 absolute top-12 sm:top-32 md:top-32 lg:top-10">
-                        <img src="/profileImages/leon.jpg" className="h-full w-full object-cover"/>
+                        <img src={"/profileImages/"+item.avatar_images.avatar_image} className="h-full w-full object-cover"/>
                     </div>
                 </div>
-
                 <div className="p-6 pt-16">
                     <div className="flex items-center relative">
                         <p className="text-4xl font-bold">{user_name}</p>
                         {/* Edit profile */}
                         <Link href={"settings"} className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</Link>
                     </div>
-                    {userInfo.map((item:any, index:number)=>(
-                    <div className="mt-4" key={index}>
+                    <div className="mt-4" >
                         {/* User biography */}
                         <p>{item.user_bio}</p>
 
@@ -70,9 +69,10 @@ export default async function Profile() {
                             </div>
                         </div>
                     </div>
-                    ))}
                 </div>
             </div>
+            ))}
+
 
             <div className="flex flex-col lg:w-2/3 xl:w-2/3 p-4 md:p-10 shadow-lg bg-zinc-900/80 greenShadow">
                 <div className="flex space-x-8">

@@ -20,9 +20,6 @@ export default async function Settings(){
         redirect("/")
     }
 
-
-
-
     return (
         <section className="relative w-full flex bg-black text-white justify-center pt-20 md:p-22 bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
             <div className="w-full 2xl:w-2/3 flex flex-col bg-gray-800 text-lg p-4 lg:p-8 bg-zinc-900/80">

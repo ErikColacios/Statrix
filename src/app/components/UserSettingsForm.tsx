@@ -13,7 +13,7 @@ export default function UserSettingsForm({userInfo}:any){
         <>
             {userInfo.map((item:any, index:number)=>(
             <form className="relative flex flex-col lg:flex-row pb-24" action={formAction} key={index}>
-                {chooseAvatarOpened && <ChooseAvatar currentAvatarId={item.user_avatar_id} handleClose={()=>setChooseAvatarOpened(!chooseAvatarOpened) }/>}
+                {chooseAvatarOpened && <ChooseAvatar currentAvatarId={item.user_avatar_id} handleClose={()=>setChooseAvatarOpened(!chooseAvatarOpened)} userId={item.user_id} />}
                     <div className="lg:mr-8" >
                             <div  className="w-full lg:w-96">
                                     <div>
@@ -47,7 +47,7 @@ export default function UserSettingsForm({userInfo}:any){
                     <div>
                         <p className="mb-2">Change your avatar</p>
                         <div className="w-48 h-48 rounded-full overflow-hidden outline outline-2 outline-green-600 hover:outline-4 cursor-pointer" onClick={() => setChooseAvatarOpened(true)}>
-                            <img src={"/profileImages/"+item.user_avatar} className="h-full w-full object-cover"/>
+                            <img src={"/profileImages/"+item.avatar_images.avatar_image} className="h-full w-full object-cover"/>
                         </div>
                     </div>
                     {/* BANNER */}
