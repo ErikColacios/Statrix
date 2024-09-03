@@ -58,7 +58,7 @@ export default function UserSettingsForm({userInfo}:any){
                     {/* BANNER */}
                     <div className="w-full flex flex-col lg:items-center mt-8" onClick={() => setChooseBannerOpened(true)}>
                         <p className="mb-2">Change your banner</p>
-                        <img src={"/bannerImages/"+item.banner_images.banner_image} className="w-[35rem] lg:h-56 outline outline-2 outline-green-600 hover:outline-4 cursor-pointer"/>
+                        <img src={"/bannerImages/"+item.banner_images.banner_image} className="w-[38rem] lg:h-56 outline outline-2 outline-green-600 hover:outline-4 cursor-pointer"/>
                     </div>
                 </div>
                 <div className="absolute flex flex-col lg:flex-row items-center bottom-0">
