@@ -33,7 +33,7 @@ export default async function Profile() {
        
 
     return (
-        <section className="flex flex-col lg:flex-row space-y-12 lg:space-x-12 w-full h-screen pt-24 p-4 md:p-12 text-white bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
+        <section className="flex flex-col lg:flex-row space-y-12 lg:space-x-12 w-full h-screen pt-24 p-4 md:p-12 text-white  bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
             {userInfo.map((item:any, index:number)=>(
            
             <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 md:mt-12 greenShadow" key={index}>

@@ -1,7 +1,7 @@
 "use server"
 
 /**
- * Fetches game information from the IDGB Api. The restriction is the game name, the ame genre and the limit of responses.
+ * Fetches game information from the IDGB Api. The restriction is the game name, the game genre and the limit of responses.
  * @param gameName 
  * @param gameGenre 
  * @param responseLimit 
@@ -32,8 +32,8 @@ const res = await fetch(
             'Access-Control-Request-Headers': 'Content-Type,API-Key',
             'Access-Control-Allow-Origin': `${base_url}`
         },
-        body: `fields id, name, genres, cover.image_id; limit ${responseLimit}; where cover != null & cover.image_id !=null ${condition};`
-    })
+        body: `fields id, name, genres, cover.image_id; limit ${responseLimit}; where cover != null & cover.image_id !=null & rating !=null & (category=0 | category=2) ${condition};`
+    })  
     .then(response => {
         return response.json()
     })

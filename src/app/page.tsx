@@ -11,7 +11,7 @@ export default async function Home() {
   const user = session.user_name
 
   return (
-    <div className="flex h-screen bg-black text-white items-center">
+    <div className="flex flex-col sm:flex-row h-screen bg-cover text-white items-center">
         <div className="p-12">
           {session.isLoggedIn && <p className="text-xl ml-3">Welcome back <span className="text-green-500">{user}</span></p>}
           <div className="flex w-72 md:w-[30rem] flex-col text-left border rounded-2xl border-lime-300 p-8 mt-2 md:p-12">
@@ -21,6 +21,7 @@ export default async function Home() {
             <Link href={"newVideogameList"} className="border border-green-400 text-2xl w-48 p-3 mt-4 text-center transition hover:bg-green-400 hover:text-black">GET STARTED</Link>
           </div>
         </div>
+        <img src="/staticImages/muñeco.png" className="w-32 sm:w-52"/>
     </div>
   );
 }

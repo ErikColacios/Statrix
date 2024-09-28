@@ -15,7 +15,7 @@ export default async function VideogameslistLayout({
     }
 
     return (
-      <section>
+      <section className="w-full h-screen bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
           {children}
       </section>
     )
