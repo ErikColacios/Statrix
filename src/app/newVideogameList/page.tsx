@@ -161,7 +161,7 @@ Reload()
                 <button className='bg-violet-500 p-1 lg:p-2 rounded ml-2 hover:bg-violet-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-10 sm:w-8' width={20} height={20}/></button>
               </form>
               <p className='text-xl mt-6'>Genres</p>
-              <div className='w-full grid mt-2 mb-8 justify-center text-sm   md:text-xl grid-cols-3 md:grid-cols-6 gap-3'>
+              <div className='w-full grid mt-2 mb-8 justify-center text-sm  md:text-xl grid-cols-3 md:grid-cols-6 gap-3'>
                 <button className='border p-2 transition hover:bg-yellow-300/90 hover:border-none' onClick={()=> handleSetGenre(5)}>Shooter</button>
                 <button className='border p-2 transition hover:bg-green-500/90 hover:border-none' onClick={()=> handleSetGenre(12)}>RPG</button>
                 <button className='border p-2 transition hover:bg-blue-700/90 hover:border-none' onClick={()=> handleSetGenre(4)}>Fighting</button>
@@ -172,7 +172,7 @@ Reload()
 
               {/* --- VIDEOGAMES SHOWN ---- */}
               {isLoading ? <SkeletonNewVideogameList/> : 
-              <div className='grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
+              <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
                 {videogameItems.map((videogame, index:number)=> (
                   <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>
