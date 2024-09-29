@@ -78,7 +78,8 @@ export default function EditPage({listId, getUser}:any) {
 
     return (
         <>
-            <button className="absolute flex items-center top-0 right-0 p-2 md:p-3 text-md md:text-2xl bg-green-500 hover:bg-green-600" onClick={saveChanges}><img src="/staticImages/icon_confirmation.png" width={25}/>
+            <button className="absolute flex items-center top-0 right-0 p-2 md:p-3 text-md md:text-2xl bg-green-500 hover:bg-green-600" onClick={saveChanges}>
+                <img src="/staticImages/icon_confirmation.png" width={25}/>
                 <p className='hidden md:block md:ml-2'>Save changes</p>
             </button>
 
