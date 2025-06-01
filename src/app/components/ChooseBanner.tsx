@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { supabase } from "@/utils/supabase";
 import getBannerImages from "../actions/getBannerImages";
+import { pool } from "@/util/postgres";
+import updateUserBanner from "../actions/updateUserBanner";
 
 interface ChooseBannerProps {
-    currentBannerId: number,
+    current_banner_id: number,
     handleClose: () => void;
-    userId: string;
 }
 
 interface Banner {
@@ -13,10 +13,10 @@ interface Banner {
     banner_name: string;
 }
 
-export default function ChooseBanner({currentBannerId, handleClose, userId}:ChooseBannerProps){
+export default function ChooseBanner({current_banner_id, handleClose}:ChooseBannerProps){
 
     const [bannerImages, setBannerImages] = useState([])
-    const [selectedBanner, setSelectedBanner] = useState<Banner>({banner_id: currentBannerId, banner_name: ""})
+    const [selectedBanner, setSelectedBanner] = useState<Banner>({banner_id: current_banner_id, banner_name: ""})
 
     let images:any = []
 
@@ -36,7 +36,7 @@ export default function ChooseBanner({currentBannerId, handleClose, userId}:Choo
             setBannerImages(images)
 
             // Here we get the image name of the current avatar using the currentAvatarId
-            setSelectedBanner({banner_id: currentBannerId, banner_name: images[currentBannerId-1].banner_image_name})
+            setSelectedBanner({banner_id: current_banner_id, banner_name: images[current_banner_id-1].banner_image_name})
         }
         getImages()
     }, [])
@@ -61,16 +61,12 @@ export default function ChooseBanner({currentBannerId, handleClose, userId}:Choo
 
         passedFunctionClose()
         window.location.reload()
-        const { error } = await supabase.from('user')
-            .update({"user_banner_id": selectedBanner.banner_id, "user_banner": selectedBanner.banner_name})
-            .match({"user_id": userId})
-        if(error){
+
+        try{
+            return updateUserBanner(selectedBanner.banner_id, selectedBanner.banner_name)
+        } catch (error){
             console.log(error)
-            return error;
-        }else {
-            var res = "User banner updated successfully!"
-            console.log(res)
-            return res
+            return;
         }
     }
 

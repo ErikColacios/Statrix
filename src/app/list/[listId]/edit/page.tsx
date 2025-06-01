@@ -3,6 +3,7 @@ import { getSession } from "@/app/actions/getSession";
 import EditPage from "./editPage";
 import { getListInfo } from "@/app/actions/getListInfo";
 import Link from "next/link";
+import { getListContent } from "@/app/actions/getListContent";
 
 export default async function editList({params}: {params: {listId:string}}) {
 
@@ -17,10 +18,23 @@ export default async function editList({params}: {params: {listId:string}}) {
         listInfo = await getListInfo(listId, user_id)
     }
 
-    async function getUser(){
+    /**
+     * This server function will be used in the EDIT PAGE (wich is a use_client page)
+     * @returns 
+     */
+    async function getUserServerSide(){
         "use server"
         let user_id:string | undefined = session.user_id
-        return user_id
+        return user_id;
+    }
+
+    /**
+     * This server function will be used in the EDIT PAGE (wich is a use_client page)
+     * @returns 
+     */
+    async function getListContentServerSide(listId:string, user:string){
+        "use server"
+        return await getListContent(listId, user);
     }
 
     
@@ -41,12 +55,12 @@ export default async function editList({params}: {params: {listId:string}}) {
                 </div>
                 {listInfo.map((item:any, index:number) => (
                         <div key={index} className="mb-8">
-                            <p className="mt-1 mb-1">Creation date: {item.list_creationdate_res}</p>
-                            <input className="w-full sm:w-96 text-black text-2xl p-3 focus:outline-none rounded-e" type="text" id="listName" defaultValue={item.list_name_res}/>
+                            <p className="mt-1 mb-1">Creation date: {item.list_creationdate.toISOString().split('T')[0]}</p>
+                            <input className="w-full sm:w-96 text-black text-2xl p-3 focus:outline-none rounded-e" type="text" id="listName" defaultValue={item.list_name}/>
                         </div>
                 ))}
 
-                <EditPage listId={listId} getUser={getUser} />
+                <EditPage listId={listId} getUserServerSide={getUserServerSide} getListContentServerSide={getListContentServerSide}/>
             </div>
         </div>
         

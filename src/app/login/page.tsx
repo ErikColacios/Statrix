@@ -4,34 +4,9 @@ import { logInUser } from '../actions/logInUser'
 import { useFormState } from 'react-dom'
 import Link from 'next/link'
 
-
 export default function LogIn() {
-    const backgroundsList: string[] = ["fallout.jpg","bioshock.jpg", "nightcity.jpg"]
 
-    const [cont, setCont] = useState(1)
-    const [background, setBackground] = useState<string>(backgroundsList[cont])
-    const [state, formAction] = useFormState<any, FormData>(logInUser,undefined)
-
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         setBackground(backgroundsList[cont])
-    //         setCont(cont +1)
-
-            
-    //         console.log("Backogrund:" + cont + "-" + background)
-    //         if(cont == backgroundsList.length){
-    //             setCont(1)
-    //             console.log("reseteado")
-    //         }
-
-
-    //     },2000);
-    //     return ()=> clearInterval(interval)
-
-    // }, [cont])
-
-
-
+    const [state, formAction] = useFormState<any, FormData>(logInUser, undefined)
 
     return (
         <section className={`relative flex w-full h-screen bg-[url("/staticImages/nightcity.jpg")] bg-cover`}>

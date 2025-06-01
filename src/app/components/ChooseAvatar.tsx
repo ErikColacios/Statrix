@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import getAvatarImages from "../actions/getAvatarImages";
-import { supabase } from "@/utils/supabase";
+import updateUserAvatar from "../actions/updateUserAvatar";
 
 interface ChooseAvatarProps {
-    currentAvatarId: number,
+    current_avatar_id: number,
     handleClose: () => void;
-    userId: string;
 }
 
 interface Avatar {
@@ -13,10 +12,10 @@ interface Avatar {
     avatar_name: string;
 }
 
-export default function ChooseAvatar({currentAvatarId, handleClose, userId}:ChooseAvatarProps){
+export default function ChooseAvatar({current_avatar_id, handleClose}:ChooseAvatarProps){
 
     const [avatarImages, setAvatarImages] = useState([])
-    const [selectedAvatar, setSelectedAvatar] = useState<Avatar>({avatar_id: currentAvatarId, avatar_name: ""})
+    const [selectedAvatar, setSelectedAvatar] = useState<Avatar>({avatar_id: current_avatar_id, avatar_name: ""})
 
     let images:any = []
 
@@ -36,7 +35,7 @@ export default function ChooseAvatar({currentAvatarId, handleClose, userId}:Choo
             setAvatarImages(images)
 
             // Here we get the image name of the current avatar using the currentAvatarId
-            setSelectedAvatar({avatar_id: currentAvatarId, avatar_name: images[currentAvatarId-1].avatar_image_name})
+            setSelectedAvatar({avatar_id: current_avatar_id, avatar_name: images[current_avatar_id-1].avatar_image_name})
         }
         getImages()
     }, [])
@@ -61,16 +60,12 @@ export default function ChooseAvatar({currentAvatarId, handleClose, userId}:Choo
 
         passedFunctionClose()
         window.location.reload()
-        const { error } = await supabase.from('user')
-            .update({"user_avatar_id": selectedAvatar.avatar_id, "user_avatar": selectedAvatar.avatar_name})
-            .match({"user_id": userId})
-        if(error){
+
+        try {
+            return updateUserAvatar(selectedAvatar.avatar_id, selectedAvatar.avatar_name)
+        } catch (error){
             console.log(error)
-            return error;
-        }else {
-            var res = "User avatar updated successfully!"
-            console.log(res)
-            return res
+            return;
         }
     }
 
@@ -88,7 +83,7 @@ export default function ChooseAvatar({currentAvatarId, handleClose, userId}:Choo
                     {avatarImages.map((item:any, ident:number)=> (
                         <div key={ident} className="flex flex-col items-center text-sm">
                             <div className="w-24 h-24 sm:w-32 sm:h-32 xl:w-48 xl:h-48 rounded-full overflow-hidden hover:outline hover:outline-green-600" id={"avatar"+item.avatar_image_id} onClick={()=> handleSelectAvatar(item.avatar_image_id, item.avatar_image_name)}>
-                                <img src={`/profileImages/${item.avatar_image}`} className="h-full w-full object-cover"/>
+                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover"/>
                             </div>
                             <p className="mt-2">{item.avatar_image_name}</p>
                         </div>

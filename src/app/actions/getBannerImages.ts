@@ -1,12 +1,14 @@
-import { supabase } from "@/utils/supabase";
+"use server"
+import { pool } from "@/util/postgres";
 
 export default async function getBannerImages (){
 
-    const {data, error} = await supabase.from("banner_images").select()
-
-    if(error){
+    try{
+        const res = await pool.query(`SELECT * FROM banner_images`)
+        return res.rows
+    }catch(error){
         console.log(error)
-    }else{
-        return data;
+        return;
     }
+
 }

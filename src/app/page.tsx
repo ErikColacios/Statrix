@@ -21,7 +21,6 @@ export default async function Home() {
             <Link href={"newVideogameList"} className="border border-green-400 text-2xl w-48 p-3 mt-4 text-center transition hover:bg-green-400 hover:text-black">GET STARTED</Link>
           </div>
         </div>
-        <img src="/staticImages/muñeco.png" className="w-32 sm:w-52"/>
     </div>
   );
 }

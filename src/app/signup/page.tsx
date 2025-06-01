@@ -8,7 +8,6 @@ export default function SignUp() {
     const [state, formAction] = useFormState<any, FormData>(logInUser,undefined)
 
     return (
-
         <section className={`relative flex w-full h-screen bg-[url("/staticImages/fallout.jpg")] bg-cover`}>
             <div className='absolute bg-black/50 w-full h-full'></div>
             <div className='flex items-center bg-black/60 p-8 md:p-24 w-full md:w-[50rem] backdrop-blur-md'>
@@ -31,21 +30,5 @@ export default function SignUp() {
                 </form>
             </div>
         </section>
-
-        // <div className="pt-24 lg:pt-64 w-full h-fit flex flex-col lg:flex-row items-center justify-center lg:space-x-8">
-        //     <form className=" text-white w-96 lg:w-[40rem] h-[40rem] p-12 flex flex-col justify-center border text-xl">
-        //         <div className="w-full flex flex-col h-96">
-        //             <p className="text-3xl md:text-5xl mb-4 bold">NEW USERS</p>
-        //             <p className="pt-4 pb-8 text-lg">Create an account</p>
-        //             <p>Username</p>
-        //             <input type="text" className="border-gray text-black border-2 rounded mb-4" name="username" id="username"/>
-        //             <p>Email</p>
-        //             <input type="email" className="border-gray text-black border-2 rounded mb-4" name="email" id="email"/>
-        //             <p>Password</p>
-        //             <input type="password" className="border-gray text-black border-2 rounded mb-4" name="password" id="password"/>
-        //         </div>
-        //         <button className="text-white bg-green-400 hover:bg-green-600 transition p-2" formAction={signUp}>Sign up</button>
-        //     </form>
-        // </div>
     )
 }

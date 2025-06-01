@@ -29,8 +29,10 @@ function Reload(){
       try{
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers = await getCovers(gameNameSearch, genre, 50)
+        const covers = await getCovers(gameNameSearch, genre, 30)
+        console.log(covers)
         if(covers){
+          console.log(covers)
             setVideogameItems(covers)
             setIsLoading(false)
         }

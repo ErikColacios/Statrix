@@ -35,12 +35,12 @@ export default async function list({params}: {params: {listId:string}}) {
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
                     {/* List name */}
-                    <p className="text-4xl md:text-4xl">{item.list_name_res}</p>
+                    <p className="text-4xl md:text-4xl">{item.list_name}</p>
                     <div className='flex space-x-10 md:space-x-16 text-sm pt-2 pb-4 md:pt-0 md:pb-0 md:text-xl'>
                         <p>{listContent.length} games</p>
                         {/* Creation date */}
                         <p>Created</p>
-                        <p>{item.list_creationdate_res}</p>
+                        <p>{item.list_creationdate.toISOString().split('T')[0]}</p>
                     </div>
 
                     <div className="flex items-center text-lg md:text-xl md:absolute md:right-0">

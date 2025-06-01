@@ -1,5 +1,5 @@
 import { SessionData } from "@/session_lib";
-import { supabase } from "@/utils/supabase";
+import { pool } from "@/util/postgres";
 import { IronSession } from "iron-session";
 
 export async function getUserTotalHoursPlayed(session:IronSession<SessionData>) {
@@ -14,15 +14,17 @@ export async function getUserTotalHoursPlayed(session:IronSession<SessionData>) 
     // END;
     // $$ LANGUAGE plpgsql;
     
-    const {data, error} = await supabase.rpc('usertotalhoursplayed', {user_id_input: session.user_id})
-    if(error){
-        console.log(error)
-    }else {
-        var totalHoursPlayed:number = data[0].sum_hours_played
+    try {
+        const res = await pool.query(`SELECT SUM(hours_played) AS sum_hours_played FROM user_videogame WHERE user_id = '${session.user_id}'`)
+        var totalHoursPlayed:number = res.rows[0].sum_hours_played
+        
         if(totalHoursPlayed==null){
             totalHoursPlayed = 0
         }
 
-        return totalHoursPlayed
+        return totalHoursPlayed;
+    } catch(error) {
+        console.log(error)
+        return;
     }
 }

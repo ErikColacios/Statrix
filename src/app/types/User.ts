@@ -1,15 +1,20 @@
-import { UUID } from "crypto";
+import mongoose, { Schema } from "mongoose";
 
-export type User = {
-    user_id: UUID,
-    user_name: string,
-    user_password: string,
-    user_bio:string,
-    user_email: string,
-    user_location:string,
-    user_webpage:string,
-    user_avatar:string,
-    user_banner:string,
-    user_lists:number,
-    user_creationdate:string
-}
+const userSchema = new mongoose.Schema({
+    user_name: String,
+    user_password: String,
+    user_bio:String,
+    user_email: String,
+    user_location:String,
+    user_webpage:String,
+    user_avatar:String,
+    user_banner:String,
+    user_lists: {
+        type: Number,
+        default: 0
+    },
+    user_creationdate:String 
+})
+
+const User = mongoose.models.User || mongoose.model('user', userSchema);
+export default User;

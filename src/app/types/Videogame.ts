@@ -11,6 +11,5 @@ export type Videogame = {
     },
     videogame_base_image:string,
     score:number
-    hours_played:number
-
+    hours_played:number,
 }

@@ -1,6 +1,6 @@
-import { supabase } from "@/utils/supabase";
+import { pool } from "@/util/postgres";
 
-export async function getListContent(listId:string, user_id:string) {
+export async function getListContent(list_id:string, user_id:string) {
 
 
 // SELECT list_id, list_name, list_creationdate FROM list WHERE user_id = user_id_input AND list_id = list_id_input GROUP BY list_id, list_name, list_creationdate;
@@ -26,12 +26,14 @@ export async function getListContent(listId:string, user_id:string) {
 
 
 
-    const {data, error} = await supabase.rpc('getuservideogamesinfo', {list_id_input: listId, user_id_input: user_id})
-    if(error){
+    try{
+        const res = await pool.query(`SELECT li.videogame_id, li.videogame_name, li.videogame_base_image, uv.score AS score, uv.hours_played
+            FROM list li
+            INNER JOIN user_videogame uv ON uv.user_id = li.user_id AND uv.videogame_id = li.videogame_id
+            WHERE li.list_id = '${list_id}' 
+            AND li.user_id = '${user_id}'`);
+        return res.rows
+    }catch(error){
         console.log(error)
-    }else{
-        if(data !== undefined &&  data !== null){
-            return data;
-        }
     }
 }

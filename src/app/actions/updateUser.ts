@@ -1,8 +1,8 @@
 "use server"
-import { supabase } from "@/utils/supabase"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { getSession } from "./getSession"
+import { pool } from "@/util/postgres"
 
 export default async function updateUser(prevState:any , formData: FormData){
     
@@ -14,15 +14,12 @@ export default async function updateUser(prevState:any , formData: FormData){
     var user_location = formData.get("user_location")
     var user_webpage = formData.get("user_webpage")
 
-
-    const { error } = await supabase.from('user')
-        .update({'user_name': user_name, "user_bio": user_bio, "user_email": user_email, "user_location": user_location, "user_webpage": user_webpage})
-        .match({user_id:user_id})
-        
-    if(error){
-        console.log(error)
-        return;
-    }else {
+    try{
+        await pool.query(`UPDATE users
+            SET user_name= '${user_name}' , user_bio ='${user_bio}' , user_email = '${user_email}' , user_location = '${user_location}', user_webpage = '${user_webpage}'
+            WHERE user_id = '${user_id}'`);
         return "User updated successfully!"
+    }catch(error){
+        console.log(error)
     }
 }

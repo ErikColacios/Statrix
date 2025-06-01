@@ -8,7 +8,7 @@ import updateList from '@/app/actions/updateList';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 
-export default function EditPage({listId, getUser}:any) {
+export default function EditPage({listId, getUserServerSide, getListContentServerSide}:any) {
     
     const router = useRouter()
     let [oldGamesList, setOldGamesList] = useState<Videogame[]>([])
@@ -31,8 +31,8 @@ export default function EditPage({listId, getUser}:any) {
     useEffect(() => {
         const fetchListGames = async () => {
             try{
-                const user = await getUser()
-                listContent = await getListContent(listId, user)
+                const user = await getUserServerSide()
+                listContent = await getListContentServerSide(listId, user)
                 setOldGamesList(listContent)
             }catch(error){
                 console.log(error)

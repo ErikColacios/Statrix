@@ -1,11 +1,11 @@
 import React from 'react'
 import { getSession } from "../actions/getSession"
-import { supabase } from '../../utils/supabase'
 import NoListCreated from "../components/NoListCreated"
 import NotLoggedVideogamelist from "../components/NotLoggedVideogamelist"
 import { IronSession } from "iron-session"
 import { SessionData } from "@/session_lib"
 import Link from "next/link"
+import { pool } from '@/util/postgres'
 
 export default async function VideogameslistLayout({
     children, 
@@ -14,18 +14,20 @@ export default async function VideogameslistLayout({
   }) {
 
     /**
-     * Checks if the user has created a list
+     * Gets the number of lists that this User has
      * @param session 
      * @returns numberOfLists
      */
     async function getUserListsNumber(session:IronSession<SessionData>) {
-      const {data:user} = await supabase.from('user').select('user_id, user_name, user_lists').eq('user_id',session.user_id)
-      let numberOfLists:number = 0;
-      if(user != null){
-        user.map((item)=>(
-          numberOfLists = item.user_lists
-        ))
-      }
+    let numberOfLists:number = 0;
+      try{
+        const res = await pool.query(`SELECT user_id, user_name, user_lists
+            FROM users 
+            WHERE user_id='${session.user_id}'`);
+        numberOfLists = res.rows[0].user_lists
+        }catch(error){
+          console.log(error)
+        }
 
       return numberOfLists;
   }
@@ -41,7 +43,7 @@ export default async function VideogameslistLayout({
           </div>
         )
     }
-    else if(numberOfLists===0){
+    else if(numberOfLists <= 0){
       userHasNoLists = true;
       console.log("User: "+ session.user_name +" - Number of lists: " + numberOfLists)
     }
