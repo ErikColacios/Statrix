@@ -27,7 +27,7 @@ export async function getListContent(list_id:string, user_id:string) {
 
 
     try{
-        const res = await pool.query(`SELECT li.videogame_id, li.videogame_name, li.videogame_base_image, uv.score AS score, uv.hours_played
+        const res = await pool.query(`SELECT li.videogame_id, li.videogame_name, li.videogame_base_image, uv.score AS score, uv.hours_played, uv.favourite
             FROM list li
             INNER JOIN user_videogame uv ON uv.user_id = li.user_id AND uv.videogame_id = li.videogame_id
             WHERE li.list_id = '${list_id}' 

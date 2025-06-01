@@ -36,6 +36,6 @@ export default function DeleteListButton({userId, listId, listName}:Props){
 
     }
     return (
-        <button onClick={handleDeleteList} className='mr-8 p-1 pl-2 pr-2 rounded bg-red-500 hover:bg-red-600'>Delete list</button>
+        <button onClick={handleDeleteList} className='p-3 pl-2 pr-2 text-md md:text-lg xl:text-2xl  w-32 xl:w-48 border border-red-400 text-center transition hover:bg-red-400 hover:text-black'>DELETE LIST</button>
     )
 }

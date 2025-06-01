@@ -8,6 +8,8 @@ import Image from "next/image";
 import DeleteListButton from '@/app/components/DeleteListButton';
 import SelectScore from '@/app/components/SelectScore';
 import InputHoursPlayed from '@/app/components/InputHoursPlayed';
+import AcceptButton from '@/app/components/AcceptButton';
+import StarButton from '@/app/components/StarButton';
 
 export default async function list({params}: {params: {listId:string}}) {
     let listId = params.listId;
@@ -20,7 +22,6 @@ export default async function list({params}: {params: {listId:string}}) {
     if(user_id !== undefined){
         listInfo = await getListInfo(listId, user_id)
         listContent = await getListContent(listId, user_id)
-
     }
 
     return (
@@ -35,8 +36,8 @@ export default async function list({params}: {params: {listId:string}}) {
             {listInfo.map((item:any, index:number) => (
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
                     {/* List name */}
-                    <p className="text-4xl md:text-4xl">{item.list_name}</p>
-                    <div className='flex space-x-10 md:space-x-16 text-sm pt-2 pb-4 md:pt-0 md:pb-0 md:text-xl'>
+                    <p className="text-3xl md:text-4xl">{item.list_name}</p>
+                    <div className='flex space-x-10 md:space-x-16 text-sm pt-2 pb-4 md:pt-0 md:pb-0 md:text-lg'>
                         <p>{listContent.length} games</p>
                         {/* Creation date */}
                         <p>Created</p>
@@ -45,7 +46,7 @@ export default async function list({params}: {params: {listId:string}}) {
 
                     <div className="flex items-center text-lg md:text-xl md:absolute md:right-0">
                         {/* Edit list  */}
-                        <Link href={`./${listId}/edit`} className='flex items-center md:mb-0 md:text-xl bg-green-500 rounded p-1 pl-2 pr-2 ml-4 mr-4 hover:bg-green-600'><img src="/staticImages/icon_edit.png" alt="Edit icon" width={25} className='pr-2'/> Edit list</Link>
+                        <Link href={`./${listId}/edit`} className='md:mb-0 p-1 pl-2 pr-2 ml-4 mr-4'><AcceptButton text='EDIT LIST'/></Link>
 
                         {/* Delete list button*/}
                         <DeleteListButton userId={user_id} listId={listId} listName={item.list_name_res}/>
@@ -55,12 +56,13 @@ export default async function list({params}: {params: {listId:string}}) {
             <div className="flex flex-col">
                 {/* List content */}
                 {listContent.map((item:any, index:number) => (
-                    <div className="relative flex items-center mb-5 border text-sm md:text-xl " key={index}>
+                    <div className="relative flex items-center mb-5 border border-gray-500 rounded text-sm md:text-xl " key={index}>
                         <Image src={item.videogame_base_image} className="w-12 md:w-24" width={80} height={60} alt={'Videogame cover'}/>
                         <Link href={`/gamePage/${item.videogame_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
                         <div className='flex absolute right-0 md:mr-12'>
-                            <SelectScore score={item.score} list_id={listId} videogame_id={item.videogame_id}/>
-                            <InputHoursPlayed hours_played={item.hours_played} list_id={listId} videogame_id={item.videogame_id}/>
+                            <StarButton favourite={item.favourite} videogame_id={item.videogame_id}/>
+                            <SelectScore score={item.score} videogame_id={item.videogame_id}/>
+                            <InputHoursPlayed hours_played={item.hours_played} videogame_id={item.videogame_id}/>
                         </div>
                     </div>
                 ))}

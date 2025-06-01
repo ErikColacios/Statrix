@@ -12,7 +12,7 @@ export default async function Navbar() {
     const session = await getSession()
     
     return(
-        <nav className="flex justify-center items-center w-full bg-gray-900 text-white fixed z-50 top p-4">
+        <nav className="flex justify-center items-center w-full bg-black/50 backdrop-blur-sm text-white fixed z-50 top p-4">
             <div className="absolute left-0 pl-4 md:pl-16">
                 <Link href="/"><p className={`text-sm md:text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
             </div>

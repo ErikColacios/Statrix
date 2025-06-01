@@ -14,7 +14,6 @@ export async function getListInfo(list_id:string, user_id:string) {
             WHERE user_id = '${user_id}'
             AND list_id = '${list_id}' 
             GROUP BY list_id, list_name, list_creationdate`);
-            console.log(res.rows)
         return res.rows
     }catch(error){
         console.log(error)
