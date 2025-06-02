@@ -10,18 +10,25 @@ import SelectScore from '@/app/components/SelectScore';
 import InputHoursPlayed from '@/app/components/InputHoursPlayed';
 import AcceptButton from '@/app/components/AcceptButton';
 import StarButton from '@/app/components/StarButton';
+import DenyButton from '@/app/components/DenyButton';
+import CustomModal from '@/app/components/CustomModal';
+import { deleteList } from '@/app/actions/deleteList';
 
-export default async function list({params}: {params: {listId:string}}) {
-    let listId = params.listId;
+type SearchParamProps = Record<string, string> | null | undefined;
+
+
+export default async function list({params, searchParams}: {params: {listId:string}, searchParams: SearchParamProps}) {
+    let list_id = params.listId;
     let listInfo:any | undefined = []
     let listContent:any | undefined = []
+    const showModal = searchParams?.show;
 
     const session = await getSession()
     let user_id:string | undefined = session.user_id
  
     if(user_id !== undefined){
-        listInfo = await getListInfo(listId, user_id)
-        listContent = await getListContent(listId, user_id)
+        listInfo = await getListInfo(list_id, user_id)
+        listContent = await getListContent(list_id, user_id)
     }
 
     return (
@@ -37,19 +44,19 @@ export default async function list({params}: {params: {listId:string}}) {
                 <div className="relative flex flex-col items-center md:flex-row mt-8 mb-8 md:space-x-32" key={index}>
                     {/* List name */}
                     <p className="text-3xl md:text-4xl">{item.list_name}</p>
-                    <div className='flex space-x-10 md:space-x-16 text-sm pt-2 pb-4 md:pt-0 md:pb-0 md:text-lg'>
+                    <div className='flex space-x-4 lg:space-x-16 text-sm text-gray-300 pt-2 pb-4 md:pt-0 md:pb-0 md:text-lg'>
                         <p>{listContent.length} games</p>
                         {/* Creation date */}
-                        <p>Created</p>
-                        <p>{item.list_creationdate.toISOString().split('T')[0]}</p>
+                        <p>Created: {item.list_creationdate.toISOString().split('T')[0]}</p>
                     </div>
 
                     <div className="flex items-center text-lg md:text-xl md:absolute md:right-0">
                         {/* Edit list  */}
-                        <Link href={`./${listId}/edit`} className='md:mb-0 p-1 pl-2 pr-2 ml-4 mr-4'><AcceptButton text='EDIT LIST'/></Link>
+                        <Link href={`./${list_id}/edit`} className='md:mb-0 p-1 pl-2 pr-2  mr-4'><AcceptButton text='EDIT LIST'/></Link>
 
                         {/* Delete list button*/}
-                        <DeleteListButton userId={user_id} listId={listId} listName={item.list_name_res}/>
+                        <Link href="?show=true"><DenyButton text={'DELETE LIST'}></DenyButton></Link>
+                        {showModal && <CustomModal text="Are you sure that you want to delete this list?" action={{actionName: "deleteList", parameters: {list_id}}} />}
                     </div>
                 </div>
             ))}

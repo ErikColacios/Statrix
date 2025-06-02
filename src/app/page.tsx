@@ -7,7 +7,6 @@ import AcceptButton from "./components/AcceptButton";
 const infiniteBeyondFont = localFont({src: 'fonts/InfiniteBeyondItalic-rgPlO.ttf'})
 
 export default async function Home() {
-
   const session = await getSession()
   const user = session.user_name
 
@@ -19,7 +18,7 @@ export default async function Home() {
             <p className="text-gray-400 ml-4">Alpha version</p>
             <h1 className={`text-5xl md:text-7xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</h1>
             <p className="mt-2 mb-2 text-sm md:text-lg">Keep track of what you play.</p>
-            <Link href={"newVideogameList"}><AcceptButton text={"GET STARTED"}/></Link>
+            <Link href={"newVideogameList"}><AcceptButton text={"GET STARTED"} /></Link>
           </div>
         </div>
     </div>
