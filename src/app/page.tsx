@@ -3,23 +3,26 @@ import Link from "next/link";
 import localFont from 'next/font/local'
 import { getSession } from "./actions/getSession";
 import AcceptButton from "./components/AcceptButton";
+import {Archivo_Black} from 'next/font/google'
 
 const infiniteBeyondFont = localFont({src: 'fonts/InfiniteBeyondItalic-rgPlO.ttf'})
+
+const archivo_black = Archivo_Black({
+  subsets: ['latin'],
+  weight: "400"
+})
 
 export default async function Home() {
   const session = await getSession()
   const user = session.user_name
 
   return (
-    <div className="flex flex-col sm:flex-row h-screen bg-cover text-white items-center">
-        <div className="p-12">
-          {session.isLoggedIn && <p className="text-xl ml-3">Welcome back <span className="text-green-500">{user}</span></p>}
-          <div className="flex w-72 md:w-[30rem] flex-col text-left border rounded-2xl border-lime-300 p-8 mt-2 md:p-12">
-            <p className="text-gray-400 ml-4">Alpha version</p>
-            <h1 className={`text-5xl md:text-7xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</h1>
-            <p className="mt-2 mb-2 text-sm md:text-lg">Keep track of what you play.</p>
-            <Link href={"newVideogameList"}><AcceptButton text={"GET STARTED"} /></Link>
-          </div>
+    <div className="bg-black/80 backdrop-blur-xl flex flex-col sm:flex-row h-screen text-white items-center justify-center sm:justify-start">
+        <div className="flex flex-col text-left p-8 mt-2 md:p-24 md:w-[55rem]">
+          <p className="text-gray-400 ml-4">Alpha version</p>
+          <p className={`${infiniteBeyondFont.className} tracking-wider pl-1 text-green-400 text-4xl`}>STATRIX</p>
+          <h1 className={`text-5xl mt-4 mb-8 md:text-7xl ${archivo_black.className}`}>KEEP TRACK OF WHAT YOU PLAY</h1>
+          <Link href={"newVideogameList"}><AcceptButton text={"GET STARTED"} /></Link>
         </div>
     </div>
   );

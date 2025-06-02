@@ -1,34 +1,50 @@
 import { pool } from "@/util/postgres";
 
-export default async function getUserGameStats(user_id:string) {
+type TopGame = {
+  videogame_id: string;
+  videogame_name: string;
+  score: number;
+  hours_played: number;
+  videogame_base_image: string;
+};
 
-    let respone = {}
+type UserGameStats = {
+  topGames: TopGame[];
+  gamesPlayed: number;
+};
 
-    async function getGamesPlayed(){
-     const res = await pool.query(`SELECT COUNT(*) FROM user_videogame WHERE user_id='${user_id}'`);
-     return res.rows[0].count
-    }
+export default async function getUserGameStats(user_id: string): Promise<UserGameStats> {
 
-    // Gets the top 5 more scored games and most played by the user
-    async function getTopGames(){
-        try{
-            const res = await pool.query(`SELECT videogame_id, videogame_name, score, hours_played, videogame_base_image
-                FROM user_videogame 
-                WHERE user_id='${user_id}'
-                ORDER BY score DESC, hours_played DESC
-                LIMIT 5`);
-                console.log(res.rows)
-            return res.rows;
-        }catch(error){
-            console.log(error)
-        }
-    }
+  if (!user_id) {
+    throw new Error("The parameter user_id is mandatory");
+  }
 
-    const gamesPlayed:number | null | undefined = await getGamesPlayed()
-    const topGames:any = await getTopGames()
+  try {
+    // Obtener número total de juegos jugados
+    const gamesPlayedResult = await pool.query(
+      `SELECT COUNT(*)::int FROM user_videogame WHERE user_id = $1`,
+      [user_id]
+    );
+    const gamesPlayed: number = gamesPlayedResult.rows[0].count;
 
-    respone = {"topGames": topGames,
-                "gamesPlayed":gamesPlayed}
+    // Obtener top 5 juegos con mayor puntuación y tiempo jugado
+    const topGamesResult = await pool.query(
+      `SELECT videogame_id, videogame_name, score, hours_played, videogame_base_image
+       FROM user_videogame
+       WHERE user_id = $1
+       ORDER BY score DESC, hours_played DESC
+       LIMIT 5`,
+      [user_id]
+    );
 
-    return respone;
+    const topGames: TopGame[] = topGamesResult.rows;
+
+    return {
+      topGames,
+      gamesPlayed,
+    };
+  } catch (error) {
+    console.error("Error al obtener estadísticas de usuario:", error);
+    throw error;
+  }
 }

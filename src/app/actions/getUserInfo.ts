@@ -1,23 +1,23 @@
 import { pool } from "@/util/postgres";
 
-export default async function getUserInfo(user_id:string) {
-
-    try {
-        const res = await pool.query(`SELECT * FROM users usr
-            INNER JOIN avatar_images avi ON avi.avatar_image_id = usr.user_avatar_id
-            INNER JOIN banner_images bani ON bani.banner_image_id = usr.user_banner_id
-            WHERE user_id='${user_id}'`);
-
-        return res.rows
-    } catch (error) {
-        console.log(error)
+export default async function getUserInfo(user_id: string) {
+    if (!user_id) {
+        throw new Error("El parámetro user_id es obligatorio");
     }
 
-    // const {data, error} = await supabase.from('user').select('*, avatar_images(avatar_image), banner_images(banner_image)').match({user_id:user_id})
-    // if(error){
-    //     console.log(error)
-    // }else{
-    //     console.log(data)
-    //     return data;
-    // }
+    try {
+        const query = `
+            SELECT * FROM users usr
+            INNER JOIN avatar_images avi ON avi.avatar_image_id = usr.user_avatar_id
+            INNER JOIN banner_images bani ON bani.banner_image_id = usr.user_banner_id
+            WHERE usr.user_id = $1
+        `;
+
+        const { rows } = await pool.query(query, [user_id]);
+
+        return rows;
+    } catch (error) {
+        console.error("Error al obtener la información del usuario:", error);
+        throw error; // Permite que el error sea manejado por el caller
+    }
 }

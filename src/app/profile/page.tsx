@@ -5,8 +5,6 @@ import getUserInfo from "../actions/getUserInfo";
 import getUserGameStats from "../actions/getUserGameStats";
 import { getUserTotalHoursPlayed } from "../actions/getUserTotalHoursPlayed";
 import Link from "next/link";
-import UserVideogame from "../types/UserVideogame";
-import { NextResponse } from "next/server";
 
 export default async function Profile() {
 
@@ -18,7 +16,7 @@ export default async function Profile() {
     let userTotalHoursPlayed:number | undefined
 
 
-    if(user_id !==undefined){
+    if(user_id !== undefined){
         userInfo = await getUserInfo(user_id)
         userGameStats = await getUserGameStats(user_id)
         userTotalHoursPlayed = await getUserTotalHoursPlayed(session)

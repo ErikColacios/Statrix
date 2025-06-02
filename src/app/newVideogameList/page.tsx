@@ -145,7 +145,7 @@ Reload()
     }
 
     return (
-      <div className="flex justify-center md:justify-normal text-white">
+      <div className="bg-black flex justify-center md:justify-normal text-white">
         {/* Videogames */}
           <div className="w-full sm:w-5/6 flex justify-center flex-col p-2">
             {/* LIST NAME*/}

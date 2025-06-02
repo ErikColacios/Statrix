@@ -4,12 +4,19 @@ import { getSession } from "../actions/getSession";
 import LogOutButton from "./LogOutButton";
 import localFont from 'next/font/local'
 import Image from "next/image";
+import getUserInfo from "../actions/getUserInfo";
 
 const infiniteBeyondFont = localFont({src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf'})
 
 export default async function Navbar() {
 
     const session = await getSession()
+    const user_id:string | undefined = session.user_id;
+    let user_info:any | undefined = []
+
+    if(user_id !== undefined){
+        user_info = await getUserInfo(user_id)
+    }
     
     return(
         <nav className="flex justify-center items-center w-full bg-black/50 backdrop-blur-sm text-white fixed z-50 top p-4">
@@ -20,8 +27,16 @@ export default async function Navbar() {
                 <Link href="/mylists" className="hover:text-green-400">My lists</Link>
                 {!session.isLoggedIn && <Link href="/login" className="hover:text-green-400">Log in</Link>}
             </div>
-            <div className="flex absolute right-0 mr-8">
-                {session.isLoggedIn && <Link href="/profile" className="flex text-xs md:text-base justify-center items-center bg-green-500 rounded pl-3 pr-4 text-center mr-2 md:mr-6 hover:bg-green-600"><Image src="/staticImages/icon_user.png" className="w-5" alt="User icon" width={20} height={20}/><p>{session.user_name}</p></Link>}
+            <div className="flex items-center absolute right-0 mr-8">
+                {session.isLoggedIn && 
+                <Link href="/profile" className="relative flex justify-center items-center bg-black border border-green-500 w-32 rounded rounded-2xl pt-1 pb-1 text-center mr-2 md:mr-6 transition hover:bg-green-500 hover:text-black">
+                {user_info.map((item:any)=> (
+                <div className="absolute left-0 w-8 rounded rounded-full overflow-hidden mr-2">
+                    <img src={"/avatarImages/"+item.avatar_image} className="h-full w-full object-cover"/>
+                </div>
+                ))}
+                <p>{session.user_name}</p></Link>}
+
                 {session.isLoggedIn && <LogOutButton/>}
             </div>
         </nav>

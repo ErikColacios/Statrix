@@ -30,11 +30,6 @@ input[type=number] {
 
 
 
-body{
-  background-color: black;
-}
-
-
  /* HTML: <div class="loader"></div> */
 .loader {
     width: 60px;

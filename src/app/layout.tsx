@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={roobertRegularFont.className}>
         <Navbar/>
-        <div className="bg-black">
+        <div className="bg-[url(/staticImages/preview.jpg)] bg-cover">
           {children}
         </div>
         </body>
