@@ -33,7 +33,7 @@ export default async function Navbar() {
                 </div>
                 <div className="flex items-center absolute right-0">
                     {/* Log In button */}
-                    {!session.isLoggedIn && <Link href="/login" className="relative flex justify-center items-center bg-zinc-900 border border-green-500 w-32 rounded rounded-2xl pt-1 pb-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
+                    {!session.isLoggedIn && <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 w-32 rounded rounded-2xl pt-1 pb-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
 
                     {/* Profile button */}
                     {session.isLoggedIn && <NavbarProfileButton userName={user_info[0].user_name} avatarImage={user_info[0].avatar_image} handleLogOut={handleLogOut}/> }
