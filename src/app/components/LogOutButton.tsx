@@ -1,14 +1,11 @@
+"use client"
 import React from "react";
-import { getSession } from "../actions/getSession"
 import { logOut } from "../actions/logOutUser"
 
-const LogOutButton = async() => {
-    const session = await getSession()
+export default async function LogOutButton({session}:any) {
+
     return (
-        <form action={logOut}>
-            <button className="hover:text-green-400 text-xs md:text-base">Log out</button>
-        </form>
+        <button className="hover:text-green-400" Log out</button>
     )
 }
 
-export default LogOutButton

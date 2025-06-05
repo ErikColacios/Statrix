@@ -1,3 +1,4 @@
+"use server"
 import { pool } from "@/util/postgres";
 
 export default async function getUserInfo(user_id: string) {

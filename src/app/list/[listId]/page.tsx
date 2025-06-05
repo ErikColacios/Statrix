@@ -5,14 +5,12 @@ import { getSession } from "@/app/actions/getSession";
 
 import Link from "next/link";
 import Image from "next/image";
-import DeleteListButton from '@/app/components/DeleteListButton';
 import SelectScore from '@/app/components/SelectScore';
 import InputHoursPlayed from '@/app/components/InputHoursPlayed';
 import AcceptButton from '@/app/components/AcceptButton';
 import StarButton from '@/app/components/StarButton';
 import DenyButton from '@/app/components/DenyButton';
 import CustomModal from '@/app/components/CustomModal';
-import { deleteList } from '@/app/actions/deleteList';
 
 type SearchParamProps = Record<string, string> | null | undefined;
 

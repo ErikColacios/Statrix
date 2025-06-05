@@ -12,7 +12,7 @@ export default async function listLayout({children}: {children: React.ReactNode}
     )
 }
     return (
-      <section className='p-4 pt-20 md:p-16 md:pt-24'>
+      <section className='bg-black p-4 pt-20 md:p-16 md:pt-24'>
         {children}
       </section>
     )
