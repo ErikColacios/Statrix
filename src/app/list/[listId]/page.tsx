@@ -48,7 +48,7 @@ export default async function list({params, searchParams}: {params: {listId:stri
                         <p>Created: {item.list_creationdate.toISOString().split('T')[0]}</p>
                     </div>
 
-                    <div className="flex items-center text-lg md:text-xl md:absolute md:right-0">
+                    <div className="flex items-center md:text-xl md:absolute md:right-0">
                         {/* Edit list  */}
                         <Link href={`./${list_id}/edit`} className='md:mb-0 p-1 pl-2 pr-2  mr-4'><AcceptButton text='EDIT LIST'/></Link>
 

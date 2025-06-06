@@ -13,6 +13,7 @@
     "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/supabase-js": "^2.39.7",
     "aws4": "^1.13.2",
+    "bcryptjs": "^3.0.2",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "iron-session": "^8.0.1",

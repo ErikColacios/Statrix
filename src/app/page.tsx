@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import localFont from 'next/font/local'
 import AcceptButton from "./components/AcceptButton";
-import {Archivo_Black} from 'next/font/google'
+import { Archivo_Black } from 'next/font/google'
 
 const infiniteBeyondFont = localFont({src: 'fonts/InfiniteBeyondItalic-rgPlO.ttf'})
 
@@ -11,7 +11,9 @@ const archivo_black = Archivo_Black({
   weight: "400"
 })
 
+
 export default async function Home() {
+
   return (
     <div className="bg-black/80 backdrop-blur-xl flex flex-col sm:flex-row h-screen text-white items-center justify-center sm:justify-start">
         <div className="flex flex-col text-left p-8 mt-2 md:p-24 md:w-[55rem]">

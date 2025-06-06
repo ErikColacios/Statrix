@@ -6,27 +6,18 @@ import { pool } from "@/util/postgres";
  * @param user_id 
  * @returns data
  */
-export async function getListInfo(list_id:string, user_id:string) {
-    console.log(list_id)
-    try{
-        const res = await pool.query(`SELECT list_id, list_name, list_creationdate
-            FROM list
-            WHERE user_id = '${user_id}'
-            AND list_id = '${list_id}' 
-            GROUP BY list_id, list_name, list_creationdate`);
-        return res.rows
-    }catch(error){
-        console.log(error)
+export async function getListInfo(list_id: string, user_id: string) {
+    try {
+        const res = await pool.query(
+            `SELECT list_id, list_name, list_creationdate
+             FROM list
+             WHERE user_id = $1 AND list_id = $2
+             GROUP BY list_id, list_name, list_creationdate`,
+            [user_id, list_id]
+        );
+        return res.rows;
+    } catch (error) {
+        console.error("Error fetching list info:", error);
+        return null;
     }
-
-
-    // SELECT list_id, list_name, list_creationdate FROM list WHERE user_id = user_id_input AND list_id = list_id_input GROUP BY list_id, list_name, list_creationdate;
-    // const {data, error} = await supabase.rpc('getlistinfo', {user_id_input: user_id, list_id_input: listId})
-    // if(error){
-    //     console.log(error)
-    // }else{
-    //     if(data !== undefined &&  data !== null){
-    //         return data;
-    //     }
-    // }
 }

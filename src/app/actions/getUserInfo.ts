@@ -19,6 +19,6 @@ export default async function getUserInfo(user_id: string) {
         return rows;
     } catch (error) {
         console.error("Error al obtener la información del usuario:", error);
-        throw error; // Permite que el error sea manejado por el caller
+        throw error;
     }
 }

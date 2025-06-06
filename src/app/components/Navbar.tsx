@@ -19,7 +19,6 @@ export default async function Navbar() {
 
     async function handleLogOut(){
         "use server"
-        console.log("Log out SERVER SIDE")
         await logOut()
     }
     

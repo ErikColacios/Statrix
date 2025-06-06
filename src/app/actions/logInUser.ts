@@ -2,6 +2,8 @@
 import { pool } from '@/util/postgres';
 import { getSession } from './getSession';
 import { redirect } from 'next/navigation';
+import bcrypt from 'bcryptjs';
+import { error } from 'console';
 
 export async function logInUser(prevState:{ error: undefined | string} , formData: FormData) {
 
@@ -16,51 +18,35 @@ export async function logInUser(prevState:{ error: undefined | string} , formDat
     
     // Postgres method
     try {
-        const res = await pool.query(`SELECT * FROM users WHERE user_name='${user_name}' AND user_password= '${user_password}' `);
-        if(res.rows.length == 1){
-            // Now we create the SESSION
-            const userIdLogged = res.rows[0].user_id
-            const userNameLogged = res.rows[0].user_name
-            console.log(userIdLogged + ' ' + userNameLogged)
+        const res = await pool.query(
+            `SELECT user_id, user_name, user_password FROM users WHERE user_name = $1`,
+            [user_name]
+        );
 
-            session.user_id = userIdLogged
-            session.user_name = userNameLogged
-            session.isLoggedIn = true
-            await session.save()
-
-            redirectPath = "/"
-            
-        }else{
-            return {error: "Wrong credentials"}
+        if (res.rows.length !== 1) {
+            return { error: "Wrong credentials" };
         }
+
+        // Now we create the SESSION
+        const userIdLogged = res.rows[0].user_id
+        const userNameLogged = res.rows[0].user_name
+        const passwordMatch = await bcrypt.compare(user_password, res.rows[0].user_password);
+
+        if (!passwordMatch) {
+            return { error: "Wrong credentials" };
+        }
+
+        session.user_id = userIdLogged
+        session.user_name = userNameLogged
+        session.isLoggedIn = true
+        await session.save()
+
+        redirectPath = "/"
+            
     } catch (error){
         console.log(error)
     }finally{
         if(redirectPath)
             redirect(redirectPath)
     }
-    
-    //Supabase method
-    // Then we do a SELECT filtering with the username and the password
-    //const {data} = await supabase.from('user').select().match({user_name: user_name, user_password: user_password})
-
-    // if(data != null){
-    //     const count:number = data.length;
-    //     console.log("Count: " + count)
-    //     if(count == 1) {
-    //         // Now we create the SESSION
-    //         const userIdLogged = data.map((user:any) => user._id.toString())
-    //         const userNameLogged = data.map((user:any) => user.user_name)
-    //         console.log(userIdLogged)
-    //         console.log("Welcome " + userNameLogged)
-    //         session.user_id = userIdLogged[0]
-    //         session.user_name = userNameLogged
-    //         session.isLoggedIn = true
-    //         await session.save()
-    //         redirect("/")
-            
-    //     }else {
-    //         return {error: "Wrong credentials"}
-    //     }
-    //}
 }
