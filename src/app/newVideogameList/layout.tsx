@@ -1,6 +1,7 @@
 import { getSession } from "../actions/getSession"
 import { redirect } from "next/navigation"
 import React from "react";
+import NewVideogameList from "./page";
 
 export default async function VideogameslistLayout({
     children, 
@@ -15,8 +16,8 @@ export default async function VideogameslistLayout({
     }
 
     return (
-      <section className="w-full h-screen bg-black">
-          {children}
+      <section className="w-full h-screen bg-black text-white pt-16">
+          { children }
       </section>
     )
   }

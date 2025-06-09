@@ -1,6 +1,5 @@
 import React from 'react'
 import getGameInfo from "@/app/actions/getGameInfo"
-import Link from "next/link"
 
 export default async function gamePage({params}: {params: {listId:string, gameId:string}}) {
 
@@ -30,32 +29,42 @@ export default async function gamePage({params}: {params: {listId:string, gameId
                                 <div className='w-72 lg:w-96 blur-none'>
                                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} alt="Videogame cover" className="w-full" />
                                 </div>
-                                <div className="flex flex-col p-4">
-                                    <p className="font-bold	text-sm sm:text-xl mb-2">Game information</p>
-                                    <div className='text-sm sm:text-base'>
-                                        <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
-                                    </div>
-                                    <div className='text-sm sm:text-base'>
-                                        <span className="text-green-400 mr-2">Developer: </span><span>{item.involved_companies[0] ? item.involved_companies[0].company.name : "-"}</span>
-                                    </div>
-                                    <div className='text-sm sm:text-base'>
-                                        <span className="text-green-400 mr-2">Editor: </span>
-                                        <span>{item.involved_companies[1] ? item.involved_companies[1].company.name : "-"}</span>
-                                    </div>
-                                </div>
                             </div>
                             <div className="flex flex-col lg:flex-row blur-none">
-                                <div className="w-full sm:w-3/3 border flex flex-col relative">
-                                    <div className='p-4 sm:p-8'>
-                                        <p className="text-2xl mb-2">{item.name}</p>
-                                        <p className='text-sm sm:text-base'>{item.summary}</p>
+                                <div className="w-full p-4 sm:w-3/3 border flex flex-col relative">
+                                    <p className="text-2xl font-bold mb-2">{item.name}</p>
+                                    <div className='flex space-x-12 mb-4'>
+                                        <div className="flex flex-col">
+                                            <div className='text-sm sm:text-base'>
+                                                <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
+                                            </div>
+                                            <div className='text-sm sm:text-base'>
+                                                <span className="text-green-400 mr-2">Developer: </span><span>{item.involved_companies[0] ? item.involved_companies[0].company.name : "-"}</span>
+                                            </div>
+                                            <div className='text-sm sm:text-base'>
+                                                <span className="text-green-400 mr-2">Editor: </span>
+                                                <span>{item.involved_companies[1] ? item.involved_companies[1].company.name : "-"}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <div className='text-sm sm:text-base'>
+                                                <span className="text-green-400 mr-2">Genre: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
+                                            </div>
+                                            <div className='text-sm sm:text-base'>
+                                                <span className="text-green-400 mr-2">Nosecuantos: </span><span>{item.involved_companies[0] ? item.involved_companies[0].company.name : "-"}</span>
+                                            </div>
+                                            <div className='text-sm sm:text-base'>
+                                                <span className="text-green-400 mr-2">Lalalal: </span>
+                                                <span>{item.involved_companies[1] ? item.involved_companies[1].company.name : "-"}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className='grid xl:grid-cols-2 2xl:grid-cols-3 border 2xl:absolute bottom-0'>
-                                        {/* Screenshots */}
-                                        <img src={item.screenshots ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png` : ""} className=' border w-full sm:h-72' alt="Screenshot"/>
-                                        <img src={item.screenshots[1] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[1].image_id}.png` : ""} className='border w-full sm:h-72' alt="Screenshot"/>
-                                        <img src={item.screenshots[2] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[2].image_id}.png` : ""} className='border w-full sm:h-72' alt="Screenshot"/>
-                                    </div>
+                                    <p className='text-sm sm:text-sm'>{item.summary}</p>
+
+                                    {/* <div className='grid grid-cols-1 sm:grid-cols-2 border 2xl:absolute bottom-0'>
+                                        <img src={item.screenshots ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png` : ""} className=' border sm:h-72' alt="Screenshot"/>
+                                        <img src={item.screenshots[1] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[1].image_id}.png` : ""} className='border sm:h-72' alt="Screenshot"/>
+                                    </div> */}
                                 </div>
                                 <div className="w-full lg:w-1/3 p-4 border">
                                     <p className="font-bold	text-xl mb-2">User status</p>

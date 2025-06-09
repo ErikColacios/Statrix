@@ -2,15 +2,14 @@
 import React from 'react'
 import type { Videogame } from '../types/Videogame'
 import { insertList } from '../actions/insertList'
-import { useState, useEffect, Suspense, HTMLInputTypeAttribute } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import { getCovers } from '../actions/getCovers'
-import Image from 'next/image'
 import SkeletonNewVideogameList from './skeleton'
 import { useFormState } from 'react-dom'
 
-export default function Listavideojuegos() {
+export default function NewVideogameList() {
 
   const router = useRouter()
   let [videogameItems, setVideogameItems] = useState<Videogame[]>([])
@@ -23,16 +22,14 @@ export default function Listavideojuegos() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame,undefined)
 
-function Reload(){
+function reload(){
   useEffect(()=>{
     const fetchVideogames = async ()=> {
       try{
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers = await getCovers(gameNameSearch, genre, 30)
-        console.log(covers)
+        const covers = await getCovers(gameNameSearch, genre, 50)
         if(covers){
-          console.log(covers)
             setVideogameItems(covers)
             setIsLoading(false)
         }
@@ -45,7 +42,7 @@ function Reload(){
   },[gameNameSearch, genre])
 }
 
-Reload()
+reload()
 
 
   /**
@@ -145,36 +142,48 @@ Reload()
     }
 
     return (
-      <div className="bg-black flex justify-center md:justify-normal text-white">
-        {/* Videogames */}
-          <div className="w-full sm:w-5/6 flex justify-center flex-col p-2">
-            {/* LIST NAME*/}
-            <div className='flex items-center justify-center mt-40 lg:mt-32 mb-8 text-md sm:text-3xl lg:text-4xl 2xl:text-5xl'>
-              <span>List</span><span className='hidden sm:flex ml-3'>name</span>
-              <input type="text" placeholder='Super list' className='bg-transparent border-b border-white pl-4 mr-4 ml-2 md:ml-8 h-8 w-48 lg:h-16 lg:w-96 outline-none' onChange={(e) => setListName(e.target.value)}/>
-              <button onClick={()=> createList()} className='bg-green-500 rounded-lg p-2 lg:p-4 hover:bg-green-600'><img src="/staticImages/icon_confirmation.png" width={20} className='sm:hidden'/><span className='hidden sm:flex'>Create</span></button>
+      <div className='flex'>
+        {/* Sidebar */}
+        <aside className='hidden sm:flex flex-col w-36 items-center pt-4 text-sm '>
+          <p className="text-gray-200">Genres</p>
+          <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
+          <div className="flex flex-col pt-4 text-gray-400 pb-4">
+            <button className={genre !== 5 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(5)}>Shooter</button>
+            <button className={genre !== 12 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(12)}>RPG</button>
+            <button className={genre !== 4 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(4)}>Fighting</button>
+            <button className={genre !== 10 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(10)}>Racing</button>
+            <button className={genre !== 14 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(14)}>Sport</button>
+            <button className={genre !== 13 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(13)}>Simulator</button>
+          </div>
+          <p className="text-gray-200">Categories</p>
+          <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
+          <div className="flex flex-col pt-4 text-gray-400">
+            <button className={genre !== 0 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={()=> handleSetGenre(0)}>Trending</button>
+          </div>
+        </aside>
+
+        <div className="flex flex-col w-full pl-4 pr-4 md:pl-8 md:pr-8">
+            
+            {/* List name*/}
+            <div className='relative w-full flex flex-col md:flex-row md:items-center mb-8 text-2xl sm:text-3xl lg:text-4xl'>
+              <span className='text-base md:text-3xl'>New list</span>
+              <input type="text" placeholder='Super list' className='bg-transparent border-b border-white pl-4 mr-4 md:ml-4 h-8 w-48 lg:h-16 xl:w-96 outline-none' onChange={(e) => setListName(e.target.value)}/>
+              <button onClick={()=> createList()} className="border bg-black border-green-400 text-sm md:text-lg xl:text-2xl w-32 p-3 mt-4 md:mt-0 text-center transition hover:bg-green-400 hover:text-black">
+                Create
+              </button>
+
+              {/* Search bar */}
+              <form className='absolute right-0 flex items-center text-sm border' action={formAction}>
+                <input type="text" name="searchGame" id="searchGame" className='w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='Hollow Knight'/>
+                <button className='p-1 rounded ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20}/></button>
+              </form>
             </div>
 
-            <div className='p-1 lg:p-16'>
-              {/* Search game */}
-              <form className='flex items-center justify-center w-full pb-4 text-sm lg:text-xl' action={formAction}>
-                <label htmlFor="searchGame">Search</label>
-                <input type="text" name="searchGame" id="searchGame" className='ml-6 w-96 p-1 md:p-2 bg-black/70 outline-none border'/>
-                <button className='bg-violet-500 p-1 lg:p-2 rounded ml-2 hover:bg-violet-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-10 sm:w-8' width={20} height={20}/></button>
-              </form>
-              <p className='text-xl mt-6'>Genres</p>
-              <div className='w-full grid mt-2 mb-8 justify-center text-sm  md:text-xl grid-cols-3 md:grid-cols-6 gap-3'>
-                <button className='border p-2 transition hover:bg-yellow-300/90 hover:border-none' onClick={()=> handleSetGenre(5)}>Shooter</button>
-                <button className='border p-2 transition hover:bg-green-500/90 hover:border-none' onClick={()=> handleSetGenre(12)}>RPG</button>
-                <button className='border p-2 transition hover:bg-blue-700/90 hover:border-none' onClick={()=> handleSetGenre(4)}>Fighting</button>
-                <button className='border p-2 transition hover:bg-red-600/90 hover:border-none' onClick={()=> handleSetGenre(10)}>Racing</button>
-                <button className='border p-2 transition hover:bg-cyan-500/90 hover:border-none' onClick={()=> handleSetGenre(14)}>Sport</button>
-                <button className='border p-2 transition hover:bg-purple-700/90 hover:border-none' onClick={()=> handleSetGenre(13)}>Simulator</button>
-              </div>
 
+            <div className='flex'>
               {/* --- VIDEOGAMES SHOWN ---- */}
               {isLoading ? <SkeletonNewVideogameList/> : 
-              <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
+              <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
                 {videogameItems.map((videogame, index:number)=> (
                   <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>
@@ -184,12 +193,9 @@ Reload()
                   </div>
                 ))}
               </div> }
-              
-              
             </div>
-          </div> 
           {/* Sidebar - Games added */}
-          <div className={`${showSidebar ? 'h-[50rem] 2xl:h-[55rem]':'h-16 2xl:h-16'} bg-black flex flex-col text-white w-64 2xl:w-80 p-4 right-0 border-2 border-white z-0 mt-16 mr-4 fixed`}>
+          {/* <div className={`${showSidebar ? 'h-[50rem] 2xl:h-[55rem]':'h-16 2xl:h-16'} bg-black flex flex-col text-white w-64 2xl:w-80 p-4 right-0 border-2 border-white z-0 mt-16 mr-4 fixed`}>
             <div className='w-full'>
               <div className='flex items-center relative'>
                 <p className='text-lg 2xl:text-2xl'>Games added</p>
@@ -210,9 +216,8 @@ Reload()
                   </div>
               ))}
             </div>
+          </div> */}
           </div>
       </div>
-      
     )
-  
 }

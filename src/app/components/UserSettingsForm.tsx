@@ -19,8 +19,8 @@ export default function UserSettingsForm({userInfo}:any){
                 {chooseBannerOpened && <ChooseBanner current_banner_id={item.user_banner_id} handleClose={()=>setChooseAvatarOpened(!chooseAvatarOpened)} />}
     
                     <div className="lg:mr-8" >
-                        <div  className="w-full lg:w-96">
-                                <div>
+                        <div className="w-full lg:w-96">
+                            <div>
                                 <p>Username</p>
                                 <input type="text" name="user_name" maxLength={20} className="w-full p-1 bg-gray-700 outline-none border border-2 border-gray-700 focus:border-green-600" defaultValue={item.user_name}/>
                             </div>

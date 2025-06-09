@@ -23,7 +23,7 @@ export default async function Navbar() {
     }
     
     return(
-        <nav className="flex flex-col">
+        <header className="flex flex-col">
             <div className="flex justify-center items-center w-full bg-black/50 backdrop-blur-sm text-white fixed z-50 top p-4">
                 <div className="absolute left-0 pl-4 md:pl-16">
                     <Link href="/"><p className={`text-sm md:text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
@@ -38,6 +38,6 @@ export default async function Navbar() {
                     {session.isLoggedIn && <NavbarProfileButton userName={user_info[0].user_name} avatarImage={user_info[0].avatar_image} handleLogOut={handleLogOut}/> }
                 </div>
             </div>
-        </nav>
+        </header>
     )
 }
