@@ -185,7 +185,7 @@ reload()
 
         {/* Sidebar of games added */}
         <div ref={sidebarRef} className='fixed bottom-0 z-50'>
-          <div className={showSidebar ? `overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/70 backdrop-blur-sm border border-gray-600 rounded-2xl m-2 p-4` : 'hidden'}>
+          <div className={showSidebar ? `overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/80 backdrop-blur-sm border border-gray-600 rounded-2xl m-2 p-4` : 'hidden'}>
           {gameList.map((gameInList, index) => (
               <div key={index} className='flex items-center mb-3 w-full relative'>
                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar'/>
@@ -201,14 +201,6 @@ reload()
             <p className='text-gray-300'>Games</p>
           </div>
         </div>
-
-
-
-
-
-
-
-
 
 
         <div className="flex flex-col w-full pl-4 pr-4 md:pl-8 md:pr-8">
@@ -227,22 +219,24 @@ reload()
               </form>
             </div>
 
-
             <div className='flex'>
               {/* --- VIDEOGAMES SHOWN ---- */}
               {isLoading ? <SkeletonNewVideogameList/> : 
               <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
                 {videogameItems.map((videogame, index:number)=> (
-                  <div key={index} className='group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110' onClick={()=> handleSetGameList(videogame)}>
+                  <div key={index} className={ `${gameList.includes(videogame) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} onClick={()=> handleSetGameList(videogame)}>
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover'/>
                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>
                       <p className='text-sm md:text-lg'>{videogame.name}</p>
+                    </div>
+
+                    <div className={gameList.includes(videogame) ? 'absolute bottom-0 right-0' : 'hidden'}>
+                      <svg fill="#00ff4c" width="45px" height="45px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" stroke="#00ff4c"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M760 380.4l-61.6-61.6-263.2 263.1-109.6-109.5L264 534l171.2 171.2L760 380.4z"></path></g></svg>
                     </div>
                   </div>
                 ))}
               </div> }
             </div>
-
           </div>
       </div>
     )

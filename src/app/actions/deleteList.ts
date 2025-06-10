@@ -6,6 +6,7 @@ import { getSession } from './getSession';
 export async function deleteList(list_id: string) {
   const session = await getSession();
   const user_id = session.user_id;
+  let redirectPath: string | null = null
 
   if (!user_id) {
     console.error("User session not found.");
@@ -36,8 +37,7 @@ export async function deleteList(list_id: string) {
     // If everything went right, we commit the transaction
     await client.query('COMMIT');
     console.log(`List ${list_id} deleted successfully.`);
-
-    redirect("/mylists");
+    redirectPath = '/mylists'
 
   } catch (error) {
     // If an error happened, we rollack the transaction
@@ -45,5 +45,7 @@ export async function deleteList(list_id: string) {
     console.error("Error deleting list:", error);
   } finally {
     client.release();
+    if(redirectPath)
+      redirect(redirectPath)
   }
 }
