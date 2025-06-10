@@ -16,7 +16,7 @@ export default async function VideogameslistLayout({
     }
 
     return (
-      <section className="w-full h-screen bg-black text-white pt-16">
+      <section className="w-full h-screen bg-black text-white pt-16 pb-16">
           { children }
       </section>
     )

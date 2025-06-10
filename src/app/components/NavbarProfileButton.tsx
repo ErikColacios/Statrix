@@ -8,7 +8,6 @@ export default function NavbarProfileButton({userName, avatarImage, handleLogOut
     
     const handleClickOutside = (e:MouseEvent) => {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
-
             setDropdown(false);
         }
      };
@@ -25,7 +24,7 @@ export default function NavbarProfileButton({userName, avatarImage, handleLogOut
 
     return(
         <div ref={dropdownRef}>
-            <button  onClick={()=> setDropdown(!dropdown)} className="relative flex justify-center items-center bg-zinc-900 border border-green-500 w-32 rounded rounded-2xl pt-1 pb-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">
+            <button onClick={()=> setDropdown(!dropdown)} className="relative flex justify-center items-center bg-zinc-900 border border-green-500 w-32 rounded rounded-2xl pt-1 pb-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">
                 <div className="absolute left-0 w-8 rounded rounded-full overflow-hidden mr-2">
                     <img src={`/avatarImages/${avatarImage}`} className="h-full w-full object-cover"/>
                 </div>

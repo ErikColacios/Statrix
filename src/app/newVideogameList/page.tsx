@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useRef } from 'react'
 import type { Videogame } from '../types/Videogame'
 import { insertList } from '../actions/insertList'
 import { useState, useEffect } from 'react'
@@ -21,6 +21,8 @@ export default function NewVideogameList() {
   const [showSidebar, setShowSidebar] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame,undefined)
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
 
 function reload(){
   useEffect(()=>{
@@ -136,15 +138,34 @@ reload()
   /**
    * Changes the genre
    */
-    function handleSetGenre(genreId:number) {
-      setGenre(genreId);
-      setGameNameSearch("")
+  function handleSetGenre(genreId:number) {
+    setGenre(genreId);
+    setGameNameSearch("")
+  }
+
+  /**
+   * Controls if the user clicked outside the sidebar, if so it hides it
+   * @param e Event
+   */
+  const handleClickOutside = (e:MouseEvent) => {
+    if (sidebarRef.current && (!sidebarRef.current.contains(e.target as Node))) {
+        setShowSidebar(false);
     }
+  };
+
+  useEffect(() => {
+    if (showSidebar) {
+        document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSidebar])
 
     return (
       <div className='flex'>
         {/* Sidebar */}
-        <aside className='hidden sm:flex flex-col w-36 items-center pt-4 text-sm '>
+        <aside className='hidden sm:flex h-screen flex-col w-36 items-center pt-4 text-sm '>
           <p className="text-gray-200">Genres</p>
           <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
           <div className="flex flex-col pt-4 text-gray-400 pb-4">
@@ -162,8 +183,35 @@ reload()
           </div>
         </aside>
 
+        {/* Sidebar of games added */}
+        <div ref={sidebarRef} className='fixed bottom-0 z-50'>
+          <div className={showSidebar ? `overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/70 backdrop-blur-sm border border-gray-600 rounded-2xl m-2 p-4` : 'hidden'}>
+          {gameList.map((gameInList, index) => (
+              <div key={index} className='flex items-center mb-3 w-full relative'>
+                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar'/>
+                <p className='text-sm ml-4'>{gameInList.name}</p>
+                <button className='ml-8 flex items-center'><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0' onClick={()=> unselectGameList(gameInList.id)}/></button>
+              </div>
+          ))}
+          </div>
+
+          {/* Games counter */}
+          <div onClick={()=>setShowSidebar(!showSidebar)} className='flex space-x-2 items-center justify-center w-36 sm:w-96 bg-black/70 backdrop-blur-sm cursor-pointer border hover:border-green-500 pt-2 pb-2 m-2 z-50'>
+            <p className='text-xl font-bold'>{countGames}</p>
+            <p className='text-gray-300'>Games</p>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
         <div className="flex flex-col w-full pl-4 pr-4 md:pl-8 md:pr-8">
-            
             {/* List name*/}
             <div className='relative w-full flex flex-col md:flex-row md:items-center mb-8 text-2xl sm:text-3xl lg:text-4xl'>
               <span className='text-base md:text-3xl'>New list</span>
@@ -194,29 +242,7 @@ reload()
                 ))}
               </div> }
             </div>
-          {/* Sidebar - Games added */}
-          {/* <div className={`${showSidebar ? 'h-[50rem] 2xl:h-[55rem]':'h-16 2xl:h-16'} bg-black flex flex-col text-white w-64 2xl:w-80 p-4 right-0 border-2 border-white z-0 mt-16 mr-4 fixed`}>
-            <div className='w-full'>
-              <div className='flex items-center relative'>
-                <p className='text-lg 2xl:text-2xl'>Games added</p>
-                <p className='text-lg 2xl:text-2xl ml-14'>x{countGames}</p>
-                <button className='absolute right-0' onClick={()=>setShowSidebar(!showSidebar)}><Image src="/staticImages/icon_minimize.png" className='w-5 lg:w-7' alt="Minimize button" width={50} height={50}/></button>
-              </div>
 
-            </div>
-            <div className='sidebar overflow-scroll no-scrollbar'>
-            <div className='flex'>
-                <span className='bg-white w-full h-[1px] mt-2 mb-4'></span>
-              </div>
-              {gameList.map((gameInList, index) => (
-                  <div key={index} className='flex items-center mb-3 w-full relative'>
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar'/>
-                    <p className='text-md ml-4'>{gameInList.name}</p>
-                    <button className='ml-4 flex items-center'><Image src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0' onClick={()=> unselectGameList(gameInList.id)}/></button>
-                  </div>
-              ))}
-            </div>
-          </div> */}
           </div>
       </div>
     )
