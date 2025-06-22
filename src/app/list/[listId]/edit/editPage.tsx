@@ -3,16 +3,22 @@ import { useState } from 'react'
 import SearchGameBar from "@/app/components/SearchGameBar";
 import React, { useEffect } from "react"
 import { Videogame } from '@/app/types/Videogame';
-import { getListContent } from '@/app/actions/getListContent';
 import updateList from '@/app/actions/updateList';
-import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
+import CustomModal from '@/app/components/CustomModal';
 
 export default function EditPage({listId, getUserServerSide, getListContentServerSide}:any) {
     
     const router = useRouter()
     let [oldGamesList, setOldGamesList] = useState<Videogame[]>([])
     let [newGamesAdded, setNewGameAdded] = useState<Videogame[]>([])
+
+    // States for the modals and alerts
+    const [showModal, setShowModal] = useState(false)
+    const [modalTrigger, setModalTrigger] = useState(0)
+
+    // Custom alert
+    const [alert, setAlert] = useState(<></>)
 
     function addNewGame(videogame:Videogame) {
         setNewGameAdded([...newGamesAdded, videogame])
@@ -44,40 +50,27 @@ export default function EditPage({listId, getUserServerSide, getListContentServe
     async function saveChanges() {
         const list_name_input = document.getElementById("listName") as HTMLInputElement
         const list_name:string = list_name_input.value
-        if(list_name==""){
-            Swal.fire({
-                position: "top-end",
-                color: "#d9372b",
-                title: "The list name can't be empty!",
-                showConfirmButton: false,
-                timer: 2200,
-                backdrop: false
-              });
+        if(list_name===""){
+            setModalTrigger(t => t + 1)
+            setShowModal(true)
+            setAlert(<CustomModal key={modalTrigger} title='hola' text="The list name can't be empty!" type='alert' action={{actionName: "displayAlert", parameters: {showModal}}}/>)
         }
         
         else if(oldGamesList.length ==0 && newGamesAdded.length == 0){
-            Swal.fire({
-                position: "top-end",
-                color: "#d9372b",
-                title: "You must select at least 1 game",
-                showConfirmButton: false,
-                timer: 2200,
-                backdrop: false
-              });
+            setModalTrigger(t => t + 1)
+            setShowModal(true)
+            setAlert(<CustomModal key={modalTrigger} title='hola' text="You must select at least 1 game" type='alert' action={{actionName: "displayAlert", parameters: {showModal}}}/>)
         }
         
         else {
             updateList(listId, list_name, oldGamesList, newGamesAdded)
-            Swal.fire({
-                title: "List updated successfuly!",
-                icon: "success"
-              })
-              router.push("/list/" + listId)
+            router.push("/list/" + listId)
         }
     }
 
     return (
         <>
+        {showModal && alert}
             <button className="absolute flex items-center top-0 right-0 p-2 md:p-3 text-md md:text-2xl bg-green-500 hover:bg-green-600" onClick={saveChanges}>
                 <img src="/staticImages/icon_confirmation.png" width={25}/>
                 <p className='hidden md:block md:ml-2'>Save changes</p>

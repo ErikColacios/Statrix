@@ -4,12 +4,12 @@ import type { Videogame } from '../types/Videogame'
 import { insertList } from '../actions/insertList'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Swal from 'sweetalert2'
 import { getCovers } from '../actions/getCovers'
 import SkeletonNewVideogameList from './skeleton'
 import { useFormState } from 'react-dom'
+import CustomModal from '../components/CustomModal'
 
-export default function NewVideogameList() {
+export default function NewList() {
 
   const router = useRouter()
   let [videogameItems, setVideogameItems] = useState<Videogame[]>([])
@@ -23,11 +23,16 @@ export default function NewVideogameList() {
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame,undefined)
   const sidebarRef = useRef<HTMLDivElement>(null);
 
+  // States for the modals and alerts
+  const [showModal, setShowModal] = useState(false)
+  const [modalTrigger, setModalTrigger] = useState(0)
 
-function reload(){
+  // Custom alert
+  const [alert, setAlert] = useState(<></>)
+
   useEffect(()=>{
     const fetchVideogames = async ()=> {
-      try{
+      try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
         const covers = await getCovers(gameNameSearch, genre, 50)
@@ -35,16 +40,13 @@ function reload(){
             setVideogameItems(covers)
             setIsLoading(false)
         }
-      }catch(error){
+      } catch (error){
         console.log(error)
         setIsLoading(false)
       }
     } 
     fetchVideogames()
   },[gameNameSearch, genre])
-}
-
-reload()
 
 
   /**
@@ -52,24 +54,20 @@ reload()
    * @param videogame 
    */
   function handleSetGameList (videogame:Videogame) {
-    let listLength:number = gameList.length
+    let listLength:number = gameList.length;
+    let gameFound = false;
 
     if(listLength===0){
       setGameList([...gameList, videogame]),
       setCountGames(countGames+1)
     }else {
-      let gameFound = false;
+      
       for(let i=0; i < listLength; i++) {
         if(gameList[i].name === videogame.name){
-          Swal.fire({
-            position: "top-end",
-            title: "This game is already on the list",
-            showConfirmButton: false,
-            timer: 1500,
-            backdrop: false,
-          });
-
+          setModalTrigger(t => t + 1)
           gameFound=true;
+          setShowModal(true)
+          setAlert(<CustomModal key={modalTrigger} title='hola' text='The game is already in the list' type='alert' action={{actionName: "displayAlert", parameters: {showModal}}}/>)
           break;
         }
       } 
@@ -95,32 +93,19 @@ reload()
    * @returns
    */
   function createList() {
-    if(listName==""){
-      Swal.fire({
-        position: "top-end",
-        title: "Introduce a list name",
-        showConfirmButton: false,
-        timer: 1500,
-        backdrop: false
-      });
-        return;
+    if(listName === ""){
+      setShowModal(true)
+      setAlert(<CustomModal key={modalTrigger} title='hola' text='Introduce a list name' type='alert' action={{actionName: "displayAlert", parameters: {showModal}}}/>)
+      setModalTrigger(t => t + 1)
+      
     }
-    else if(countGames==0){
-      Swal.fire({
-        position: "top-end",
-        title: "You must add a videogame first",
-        showConfirmButton: false,
-        timer: 1500,
-        backdrop: false
-      });
-        return;
+    else if(countGames === 0){
+        setShowModal(true)
+        setAlert(<CustomModal key={modalTrigger} title='hola' text='You must add a videogame first' type='alert' action={{actionName: "displayAlert", parameters: {showModal}}}/>)
+        setModalTrigger(t => t + 1)
     }
     else {
-        insertList(listName, gameList)
-        Swal.fire({
-          title: "List created successfuly!",
-          icon: "success"
-        })
+        insertList(listName, gameList);
         router.push("mylists")
     }
   }
@@ -162,8 +147,10 @@ reload()
     };
   }, [showSidebar])
 
+  
     return (
       <div className='flex'>
+        { alert }
         {/* Sidebar */}
         <aside className='hidden sm:flex h-screen flex-col w-36 items-center pt-4 text-sm '>
           <p className="text-gray-200">Genres</p>
@@ -198,7 +185,7 @@ reload()
           {/* Games counter */}
           <div onClick={()=>setShowSidebar(!showSidebar)} className='flex space-x-2 items-center justify-center w-36 sm:w-96 bg-black/70 backdrop-blur-sm cursor-pointer border hover:border-green-500 pt-2 pb-2 m-2 z-50'>
             <p className='text-xl font-bold'>{countGames}</p>
-            <p className='text-gray-300'>Games</p>
+            <p className='text-gray-300'>games</p>
           </div>
         </div>
 

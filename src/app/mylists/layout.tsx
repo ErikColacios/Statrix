@@ -8,7 +8,7 @@ import Link from "next/link"
 import { pool } from '@/util/postgres'
 import AcceptButton from '../components/AcceptButton'
 
-export default async function VideogameslistLayout({
+export default async function MyListsLayout({
     children, 
   }: {
     children: React.ReactNode
@@ -46,17 +46,14 @@ export default async function VideogameslistLayout({
     }
     else if(numberOfLists <= 0){
       userHasNoLists = true;
-      console.log("User: "+ session.user_name +" - Number of lists: " + numberOfLists)
-    }
-    else{
-      console.log("User: "+ session.user_name +" - Number of lists: " + numberOfLists)
     }
 
     return (
       <section className="w-full h-screen bg-black text-white p-4 pt-20 md:p-16 md:pt-32">
+        
         <div className="flex flex-col md:flex-row md:items-center text-xl md:text-3xl pb-8">
           <h2>{session.user_name} videogame lists ( {numberOfLists} )</h2>
-          <Link href={"newVideogameList"} className="md:ml-28"><AcceptButton text='ADD LIST'/></Link>
+          <Link href={"newList"} className="md:ml-28"><AcceptButton text='ADD LIST'/></Link>
         </div>
         {/* If the user has no lists, shows the component NoListCreated, if not it shows the children (mylists) */}
         {userHasNoLists ? <NoListCreated/> : children}

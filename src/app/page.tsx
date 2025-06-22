@@ -20,7 +20,7 @@ export default async function Home() {
           <p className="text-gray-400 ml-4">Alpha version</p>
           <p className={`${infiniteBeyondFont.className} tracking-wider pl-1 text-green-400 text-4xl`}>STATRIX</p>
           <h1 className={`text-5xl mt-4 mb-8 md:text-7xl ${archivo_black.className}`}>KEEP TRACK OF WHAT YOU PLAY</h1>
-          <Link href={"newVideogameList"}><AcceptButton text={"GET STARTED"} /></Link>
+          <Link href={"newList"}><AcceptButton text={"GET STARTED"} /></Link>
         </div>
     </div>
   );

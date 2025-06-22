@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/newVideogameList/[videojuegoId]/page.tsx", "src/app/actions/getVideogames.ts", "tailwind.config.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/newList/[videojuegoId]/page.tsx", "src/app/actions/getVideogames.ts", "tailwind.config.ts"],
   "exclude": ["node_modules"]
 }

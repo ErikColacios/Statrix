@@ -1,7 +1,6 @@
 import { getSession } from "../actions/getSession"
 import { redirect } from "next/navigation"
 import React from "react";
-import NewVideogameList from "./page";
 
 export default async function VideogameslistLayout({
     children, 

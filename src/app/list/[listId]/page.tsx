@@ -11,6 +11,7 @@ import AcceptButton from '@/app/components/AcceptButton';
 import StarButton from '@/app/components/StarButton';
 import DenyButton from '@/app/components/DenyButton';
 import CustomModal from '@/app/components/CustomModal';
+import { CustomModalClass } from '@/util/CustomModalClass';
 
 type SearchParamProps = Record<string, string> | null | undefined;
 
@@ -28,6 +29,7 @@ export default async function list({params, searchParams}: {params: {listId:stri
         listInfo = await getListInfo(list_id, user_id)
         listContent = await getListContent(list_id, user_id)
     }
+    
 
     return (
         
@@ -54,7 +56,7 @@ export default async function list({params, searchParams}: {params: {listId:stri
 
                         {/* Delete list button*/}
                         <Link href="?show=true"><DenyButton text={'DELETE LIST'}></DenyButton></Link>
-                        {showModal && <CustomModal text="Are you sure that you want to delete this list?" action={{actionName: "deleteList", parameters: {list_id}}} />}
+                        {showModal && <CustomModal title='Warning' text="Are you sure that you want to delete this list?" type='question' action={{actionName: "deleteList", parameters: {list_id}}} />}
                     </div>
                 </div>
             ))}
