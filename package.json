@@ -22,7 +22,6 @@
     "pg": "^8.16.0",
     "react": "^18",
     "react-dom": "^18",
-    "sweetalert2": "^11.10.6",
     "tailwind-scrollbar-hide": "^1.1.7",
     "uuid": "^9.0.1",
     "v4": "^0.0.1"

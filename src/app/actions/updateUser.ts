@@ -1,6 +1,4 @@
 "use server";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { getSession } from "./getSession";
 import { pool } from "@/util/postgres";
 

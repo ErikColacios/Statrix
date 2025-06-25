@@ -11,7 +11,6 @@ import AcceptButton from '@/app/components/AcceptButton';
 import StarButton from '@/app/components/StarButton';
 import DenyButton from '@/app/components/DenyButton';
 import CustomModal from '@/app/components/CustomModal';
-import { CustomModalClass } from '@/util/CustomModalClass';
 
 type SearchParamProps = Record<string, string> | null | undefined;
 
@@ -69,7 +68,12 @@ export default async function list({params, searchParams}: {params: {listId:stri
                         <div className='flex absolute right-0 md:mr-12'>
                             <StarButton favourite={item.favourite} videogame_id={item.videogame_id}/>
                             <SelectScore score={item.score} videogame_id={item.videogame_id}/>
-                            <InputHoursPlayed hours_played={item.hours_played} videogame_id={item.videogame_id}/>
+                            <div className='flex items-center mr-1'>
+                                <div className='flex flex-col items-end sm:flex-row sm:items-center'>
+                                    <label className='text-gray-300 text-sm'>Hours</label>
+                                    <InputHoursPlayed hours_played={item.hours_played} videogame_id={item.videogame_id} source='listPage'/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))}

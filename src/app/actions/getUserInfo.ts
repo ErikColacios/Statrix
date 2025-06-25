@@ -3,7 +3,7 @@ import { pool } from "@/util/postgres";
 
 export default async function getUserInfo(user_id: string) {
     if (!user_id) {
-        throw new Error("El parámetro user_id es obligatorio");
+        throw new Error("The parameter user_id is mandatory");
     }
 
     try {
@@ -18,7 +18,7 @@ export default async function getUserInfo(user_id: string) {
 
         return rows;
     } catch (error) {
-        console.error("Error al obtener la información del usuario:", error);
+        console.error("Error fetching user info:", error);
         throw error;
     }
 }

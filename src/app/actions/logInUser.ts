@@ -3,7 +3,6 @@ import { pool } from '@/util/postgres';
 import { getSession } from './getSession';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs';
-import { error } from 'console';
 
 export async function logInUser(prevState:{ error: undefined | string} , formData: FormData) {
 
@@ -16,7 +15,6 @@ export async function logInUser(prevState:{ error: undefined | string} , formDat
 
     let redirectPath: string | null = null
     
-    // Postgres method
     try {
         const res = await pool.query(
             `SELECT user_id, user_name, user_password FROM users WHERE user_name = $1`,
