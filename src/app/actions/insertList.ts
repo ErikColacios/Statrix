@@ -3,6 +3,7 @@ import type { Videogame } from '../types/Videogame';
 import { v4 as uuid } from "uuid";
 import { getSession } from './getSession';
 import { pool } from '@/util/postgres';
+import { Status } from '../enums/Status';
 
 export async function insertList(list_name: string, gameList: Videogame[]) {
     const client = await pool.connect();
@@ -29,10 +30,10 @@ export async function insertList(list_name: string, gameList: Videogame[]) {
             );
 
             await client.query(
-                `INSERT INTO user_videogame (user_id, videogame_id, favourite, score, hours_played, videogame_name, videogame_base_image)
+                `INSERT INTO user_videogame (user_id, videogame_id, favourite, score, hours_played, videogame_name, videogame_base_image, status)
                  VALUES ($1, $2, $3, $4, $5, $6, $7)
                  ON CONFLICT (user_id, videogame_id) DO NOTHING`, // evita duplicados si ya existe
-                [user_id, videogame_id, favourite, score, hours_played, videogame_name, videogame_base_image]
+                [user_id, videogame_id, favourite, score, hours_played, videogame_name, videogame_base_image, Status.PLAYING]
             );
         }
 

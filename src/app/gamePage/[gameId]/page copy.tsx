@@ -28,19 +28,21 @@ export default async function gamePage({ params }: { params: { listId: string, g
 
     return (
         gameInfo.map((item: any, index: number) => (
-            <section style={{ backgroundImage: `url(${imagen})` }} className="relative w-full h-screen text-white text-sm bg-center bg-cover" key={index} >
+            <section style={{ backgroundImage: `url(${imagen})` }} className="relative w-full 2xl:h-screen text-white text-sm bg-center bg-cover " key={index} >
                 <div className='bg-black/60 w-full h-full absolute backdrop-blur-md'></div>
-                <div className='pt-8 w-full h-full flex items-center justify-center blur-none'>
-                    {/* GAME BOX */}
-                    <div className='md:w-3/4 2xl:w-1/2 h-[100vh] bg-black mt-20'>
-                        <div className='relative'>
-                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full h-80 md:h-96'/>
-                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} alt="Videogame cover" className="bottom-[-60px] absolute w-36 md:w-48 ml-4 rounded" />
-                        </div>
-                        <div className='flex flex-col md:flex-row'>
-
-                            <div className='relative text-sm md:w-2/3 pl-4'>
-                                <div className='w-full flex items-center justify-end space-x-8 pt-6 pr-4'>
+                <div className='p-4 md:p-20'>
+                    {/* MY LISTS */}
+                    <Link href="../mylists" className="group absolute z-50 top-20 flex items-center text-green-500 text-xl hover:text-green-600 border border-green-600 w-40 rounded">
+                        <svg className="w-8 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" /></svg>
+                        MY LISTS
+                    </Link>
+                    <div className="bg-black border mt-12">
+                        <div className="flex flex-col lg:flex-row">
+                            <div className="flex lg:flex-col border blur-none">
+                                <div className='w-72 lg:w-96 blur-none'>
+                                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} alt="Videogame cover" className="w-full" />
+                                </div>
+                                <div className='flex items-center justify-center space-x-8 p-3'>
                                     {/* Played by x users */}
                                     <div className='tooltip'>
                                         <svg width="18px" height="18px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>game_controller [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-380.000000, -4679.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M342,4527 L326,4527 L326,4537 L330,4537 L330,4535 L338,4535 L338,4537 L342,4537 L342,4527 Z M344,4525 L344,4527 L344,4537 L344,4539 L336,4539 L336,4537 L332,4537 L332,4539 L324,4539 L324,4537 L324,4527 L324,4525 L326,4525 L333,4525 L333,4523 L333,4521 L338,4521 L338,4519 L340,4519 L340,4521 L340,4523 L335,4523 L335,4525 L342,4525 L344,4525 Z M336,4529 L336,4531 L336,4533 L340,4533 L340,4531 L340,4529 L336,4529 Z M328,4529 L332,4529 L332,4531 L332,4533 L328,4533 L328,4531 L328,4529 Z" id="game_controller-[#ffffff]"> </path> </g> </g> </g> </g></svg>
@@ -60,50 +62,62 @@ export default async function gamePage({ params }: { params: { listId: string, g
                                         <span className="tooltiptext">Starred by {globalStats[2]} users</span>
                                     </div>
                                 </div>
-                                <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-8">{item.name}</h2>
-                                <div className="grid grid-cols-2 gap-x-8 lg:w-3/4">
-                                    <div className=''>
-                                        <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
-                                    </div>
-                                    <div className=''>
-                                        <span className="text-green-400 mr-2">Developer: </span><span>{item.involved_companies[0] ? item.involved_companies[0].company.name : "-"}</span>
-                                    </div>
-                                    <div className=''>
-                                        <span className="text-green-400 mr-2">Editor: </span>
-                                        <span>{item.involved_companies[1] ? item.involved_companies[1].company.name : "-"}</span>
-                                    </div>
-                                    <div className=''>
-                                        <span className="text-green-400 mr-2">General rating: </span><span>{item.rating ? Math.trunc(item.rating) : "-"}</span>
-                                    </div>
-                                </div>
-
-                                {/* Summary */}
-                                <p className='mt-6'>{item.summary}</p>
                             </div>
-                            <aside className='md:w-1/3 p-4'>
-                                <div className="flex flex-col w-full p-4 blur-none">
-                                    <div className='flex flex-col space-y-4 text-base'>
-                                        <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
-                                            <option value={Status.PLAYING}>{Status.PLAYING}</option>
-                                            <option value={Status.COMPLETED}>{Status.COMPLETED}</option>
-                                            <option value={Status.ON_HOLD}>{Status.ON_HOLD}</option>
-                                            <option value={Status.DROPPED}>{Status.DROPPED}</option>
-                                        </select>
-                                        <SelectScoreScroll score={userVideogame[0].score} videogame_id={item.id} />
-                                        <div className='flex'>
-                                            <span className='mr-4'>Hours played </span>
-                                            <InputHoursPlayed hours_played={userVideogame[0].hours_played} videogame_id={item.id} source='gamePage' />
+
+                            <div className="flex flex-col lg:flex-row blur-none">
+                                <div className="w-full sm:w-3/3 border flex flex-col relative p-4">
+                                    <p className="text-2xl font-bold mb-2">{item.name}</p>
+                                    <div className='flex space-x-12'>
+                                        <div className="flex flex-col space-y-1">
+                                            <div className='text-sm'>
+                                                <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
+                                            </div>
+                                            <div className='text-sm'>
+                                                <span className="text-green-400 mr-2">Developer: </span><span>{item.involved_companies[0] ? item.involved_companies[0].company.name : "-"}</span>
+                                            </div>
+                                            <div className='text-sm'>
+                                                <span className="text-green-400 mr-2">Editor: </span>
+                                                <span>{item.involved_companies[1] ? item.involved_companies[1].company.name : "-"}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col space-y-1">
+                                            <div className='text-sm'>
+                                                <span className="text-green-400 mr-2">General rating: </span><span>{item.rating ? Math.trunc(item.rating) : "-"}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <UpdateUserVideogameButton gameId={params.gameId} />
-                                </div>
-                            </aside>
-                        </div>
+                                    <div className='text-sm mt-1'>
+                                        <span className="text-green-400 mr-2">Genres: </span>
+                                        {item.genres?.map((g: any) => (
+                                            <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200'>{g.name}</span>
+                                        ))}
+                                    </div>
 
-                        {/* Images */}
-                        <div className='bg-black mt-4 grid grid-cols-1 xl:grid-cols-2'>
-                            <img src={item.screenshots ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png` : ""} className='xl:h-72'/>
-                            <img src={item.screenshots[1] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[1].image_id}.png` : ""} className='xl:h-72' />
+                                    <p className='text-sm sm:text-sm mt-2'>{item.summary}</p>
+                                </div>
+                                <div className='grid grid-cols-1 mt-12 sm:grid-cols-2 2xl:absolute bottom-0'>
+                                    <img src={item.screenshots ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png` : ""} className='sm:h-72' alt="Screenshot" />
+                                    <img src={item.screenshots[1] ? `https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[1].image_id}.png` : ""} className='sm:h-72' alt="Screenshot" />
+                                </div>
+                            </div>
+
+                            <aside className="flex flex-col w-full p-4 border blur-none">
+                                <p className='text-xl'>{session.user_name} status</p>
+                                <div className='flex flex-col space-y-4 text-base'>
+                                    <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
+                                        <option value={Status.PLAYING}>{Status.PLAYING}</option>
+                                        <option value={Status.COMPLETED}>{Status.COMPLETED}</option>
+                                        <option value={Status.ON_HOLD}>{Status.ON_HOLD}</option>
+                                        <option value={Status.DROPPED}>{Status.DROPPED}</option>
+                                    </select>
+                                    <SelectScoreScroll score={userVideogame[0].score} videogame_id={item.id} />
+                                    <div className='flex'>
+                                        <span className='mr-4'>Hours played </span>
+                                        <InputHoursPlayed hours_played={userVideogame[0].hours_played} videogame_id={item.id} source='gamePage' />
+                                    </div>
+                                </div>
+                                <UpdateUserVideogameButton gameId={params.gameId} />
+                            </aside>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 import { pool } from '@/util/postgres';
 import { Videogame } from '../types/Videogame';
 import { getSession } from './getSession';
+import {Status} from '../enums/Status';
 
 export default async function updateList(
     list_id: number,
@@ -61,18 +62,18 @@ export default async function updateList(
                     videogame_base_image
                 ]
             );
-
             // Insert into 'user_videogame' if not already present
             await client.query(
                 `INSERT INTO user_videogame (
-                    user_id, videogame_id, score, hours_played, videogame_name, videogame_base_image
-                ) VALUES ($1, $2, 0, 0, $3, $4)
+                    user_id, videogame_id, score, hours_played, videogame_name, videogame_base_image, status
+                ) VALUES ($1, $2, 0, 0, $3, $4, $5)
                 ON CONFLICT (user_id, videogame_id) DO NOTHING`,
                 [
                     user_id,
                     game.id,
                     game.name,
-                    videogame_base_image
+                    videogame_base_image,
+                    Status.PLAYING
                 ]
             );
         }

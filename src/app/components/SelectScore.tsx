@@ -21,10 +21,7 @@ export default function SelectScore({ score, videogame_id}:Props){
     return (
         <div className='flex flex-col items-end sm:flex-row sm:items-center  mr-4 md:mr-12'>
             <label className='text-gray-300 text-sm'>Score</label>
-            <select id={"score"+videogame_id} className='ml-2 bg-black border border-gray-500 focus:none' defaultValue={score} onChange={handleUpdateScore}>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-            </select>
+            <input id={"score"+videogame_id} max={10} type="number" className='w-10 ml-2 pr-1 bg-black outline-none border border-gray-500 rounded text-right' defaultValue={score} onChange={handleUpdateScore}/>
         </div>
     )
 }
