@@ -53,7 +53,7 @@ export default async function MyListsLayout({
         
         <div className="flex flex-col md:flex-row md:items-center text-xl md:text-3xl pb-8">
           <h2>{session.user_name} videogame lists ( {numberOfLists} )</h2>
-          <Link href={"newList"} className="md:ml-28"><AcceptButton text='ADD LIST'/></Link>
+          <Link href={"newList"} className="md:ml-28"><AcceptButton text='ADD LIST' size=''/></Link>
         </div>
         {/* If the user has no lists, shows the component NoListCreated, if not it shows the children (mylists) */}
         {userHasNoLists ? <NoListCreated/> : children}

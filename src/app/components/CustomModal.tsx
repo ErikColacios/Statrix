@@ -10,12 +10,12 @@ type Props = {
     action: { actionName: string; parameters: Record<string, any> }; // Ex: actionName = deleteLists. parameters = list_id, user_id ...
 };
 
-export default function CustomModal({ title, text, type, action }: Props){
+export default function CustomModal({ title, text, type, action }: Props) {
     const router = useRouter()
     const dialogRef = useRef<React.ElementRef<"dialog">>(null)
-    const closeModal = (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) => e.target === dialogRef.current && router.back()
+    const closeModal = (e: React.MouseEvent<HTMLDialogElement, MouseEvent>) => e.target === dialogRef.current && dialogRef.current?.showModal()
 
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(true);
     const [fadingOut, setFadingOut] = useState(false);
 
     useEffect(() => {
@@ -33,23 +33,24 @@ export default function CustomModal({ title, text, type, action }: Props){
 
     useEffect(() => {
         const timer = setTimeout(() => {
-        setFadingOut(true);
-        setTimeout(() => setVisible(false), 1000);
+            setFadingOut(true);
+            setTimeout(() => setVisible(false), 1000);
         }, 2000);
         return () => clearTimeout(timer);
     }, []);
+
 
     //if (!visible) return null;
 
     switch (type) {
         case "alert":
-            return(
+            return (
                 <div className={`transition-opacity duration-1000 ${fadingOut ? "opacity-0" : "opacity-100"} fixed top-20 right-20 z-50 p-2 w-80 backdrop-blur-sm rounded text-xl text-center border border-green-600 bg-gray-800/70 bg-black text-white `}>
                     <p>{text}</p>
                 </div>
             )
         case "question":
-            return(
+            return (
                 <dialog className="rounded rounded-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm" ref={dialogRef} onClick={closeModal} onClose={router.back}>
                     <div className="rounded rounded-2xl flex flex-col justify-center items-center text-center w-96 h-80 border border-green-500 bg-black text-white p-8">
                         <p className="text-3xl font-black mb-4">{title}</p>

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/supabase-js": "^2.39.7",
     "aws4": "^1.13.2",
@@ -20,8 +21,10 @@
     "net": "^1.0.2",
     "next": "14.1.0",
     "pg": "^8.16.0",
+    "radix-ui": "^1.4.2",
     "react": "^18",
     "react-dom": "^18",
+    "swiper": "^11.2.10",
     "tailwind-scrollbar-hide": "^1.1.7",
     "uuid": "^9.0.1",
     "v4": "^0.0.1"

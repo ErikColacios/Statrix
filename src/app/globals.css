@@ -157,3 +157,27 @@ input[type=number] {
   visibility: visible;
   opacity: 1;
 }
+
+/* Fade in animation to open the dialogs */
+@keyframes dialog-content-show {
+  from{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Fade in animation to open the dialogs */
+@keyframes dialog-content-hide {
+  from{
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}

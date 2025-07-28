@@ -49,7 +49,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
 
     async function saveChanges() {
         const list_name_input = document.getElementById("listName") as HTMLInputElement
-        const list_name: string = list_name_input.value
+        const list_name: string = list_name_input.value;
         if (list_name === "") {
             setModalTrigger(t => t + 1)
             setShowModal(true)
@@ -109,6 +109,5 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
                 </div>
             </div>
         </>
-
     )
 }

@@ -16,8 +16,6 @@ export async function signUp(formData: FormData) {
     const user_name = formData.get("username") as string;
     const user_email = formData.get("email") as string;
     const user_password_plain = formData.get("password") as string;
-
-    // Get the actual date
     const user_bio:string = "Welcome to my profile!"
     const user_lists:number = 0
     const user_location:string = "No mans land"
@@ -46,7 +44,7 @@ export async function signUp(formData: FormData) {
     redirectPath = "/"
     } catch (error){
         console.log(error)
-    }finally{
+    } finally{
         if(redirectPath)
             redirect(redirectPath)
     }
