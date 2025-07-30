@@ -12,13 +12,15 @@ import getGameReviews from '@/app/actions/getGameReviews'
 import AcceptButton from '@/app/components/AcceptButton'
 import ReviewModal from '@/app/components/ReviewModal'
 import { Dialog } from "radix-ui";
+import ReviewSelection from '@/app/components/ReviewSection'
+import { ReviewMode } from '@/app/enums/ReviewMode'
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: string } }) {
 
     let gameInfo: any[] = await getGameInfo(params.game_id)
     let userVideogame: any[] = await getUserVideogame(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
-    let gameReviews: any[] = await getGameReviews(params.game_id)
+    let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
 
     let image: string = "";
     gameInfo.map((item: any) => {
@@ -28,11 +30,11 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
     return (
         gameInfo.map((item: any, index: number) => (
-            <section style={{ backgroundImage: `url(${image})`}} className="relative w-full h-full text-white text-sm bg-center bg-cover pb-12" key={index}>
+            <section style={{ backgroundImage: `url(${image})` }} className="relative w-full h-full text-white text-sm bg-center bg-cover pb-12" key={index}>
                 <Dialog.Root>
                     <Dialog.Portal>
                         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                        <Dialog.Content className={`fixed w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                        <Dialog.Content className={`fixed w-full p-2 md:w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
                             data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                             <Dialog.Title className="DialogTitle"></Dialog.Title>
                             <Dialog.Description className="DialogDescription"></Dialog.Description>
@@ -82,14 +84,14 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     </div>
                                     <div className='text-sm mt-2'>
                                         <span className="text-green-400 mr-2">Genres: </span>
-                                        {item.genres?.map((g: any, index:number) => (
+                                        {item.genres?.map((g: any, index: number) => (
                                             <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200' key={index}>{g.name}</span>
                                         ))}
                                     </div>
 
                                     <div className='text-sm mt-2'>
                                         <span className="text-green-400 mr-2">Developers: </span>
-                                        {item.involved_companies?.map((c: any, index:number) => (
+                                        {item.involved_companies?.map((c: any, index: number) => (
                                             <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200' key={index}>{c.company.name}</span>
                                         ))}
                                     </div>
@@ -118,7 +120,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             </div>
                             {/* Slider of images */}
                             <SliderImages screenshots={item.screenshots} />
-                            <div className='p-4 mt-12'>
+                            {/* <div className='p-4 mt-12'>
                                 <div className='relative flex flex-col mb-3'>
                                     <h2 className='text-3xl mb-4'>Popular reviews</h2>
                                     <div className='absolute right-0'>
@@ -126,8 +128,17 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             <AcceptButton text={'Add review'} size='small' />
                                         </Dialog.Trigger>
                                     </div>
-                                </div>
-                                <div className='grid'>
+                                </div> */}
+
+                            <section className='mt-14 relative'>
+                                <Dialog.Trigger asChild className='absolute right-5 z-30'>
+                                    <AcceptButton text={'Add review'} size='small' />
+                                </Dialog.Trigger>
+
+                                <ReviewSelection gameReviews={gameReviews} game_id={params.game_id} />
+                            </section>
+
+                            {/* <div className='grid'>
                                     {gameReviews?.map((r: any, index: number) => (
                                         <div className={`flex flex-col space-y-2 p-4 rounded-lg mb-8 h-32 ${r.recommended ? "bg-teal-950/70" : "bg-rose-950/70"}`} key={index}>
                                             <div className='flex items-center text-gray-300'>
@@ -144,13 +155,13 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                         </div>
                                     ))}
 
-                                    {!gameReviews.length &&(
+                                    {!gameReviews.length && (
                                         <div className='flex justify-center items-center h-36 border border-gray-500'>
-                                            <p>There are no reviews of this game yet. Add the first one!</p>
+                                            <p>There are no reviews of this game yet... Add the first one!</p>
                                         </div>
                                     )}
-                                </div>
-                            </div>
+                                </div> 
+                            </div> */}
                         </div>
                     </div>
                 </Dialog.Root>

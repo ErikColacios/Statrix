@@ -181,3 +181,13 @@ input[type=number] {
     transform: translate(-50%, -50%) scale(0.95);
   }
 }
+
+.cardReviewGreen {
+  background-color: rgba(10, 70, 50, 0.444);
+  background-image: radial-gradient(black, transparent);
+}
+
+.cardReviewRed {
+  background-color: rgba(80, 18, 18, 0.444);
+  background-image: radial-gradient(black, transparent);
+}

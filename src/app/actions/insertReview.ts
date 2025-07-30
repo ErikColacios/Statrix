@@ -1,7 +1,6 @@
 "use server";
 import { getSession } from "./getSession";
 import { pool } from "@/util/postgres";
-import { revalidatePath } from "next/cache"
 
 export async function insertReview(
   game_id: string,
@@ -20,7 +19,7 @@ export async function insertReview(
           VALUES ($1, $2, $3, $4, $5, $6);`,
       [user_id, game_id, user_name, game_name, reviewBody, recommended]
     );
-    revalidatePath("/gamePage/"+game_id)
+    
   } catch (error) {
     console.error("Error inserting review:", error);
   }
