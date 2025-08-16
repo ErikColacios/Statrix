@@ -16,8 +16,11 @@ export default async function getGameReviews(game_id:string, reviewMode:ReviewMo
 
     try {
         const query = `
-            SELECT * FROM user_reviews
-            WHERE videogame_id = $1
+            SELECT rev.user_id, rev.videogame_id, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date, COUNT(revlikes.review_id) AS likes
+            FROM reviews rev
+            LEFT OUTER JOIN review_likes revlikes ON rev.review_id = revlikes.review_id
+            WHERE rev.videogame_id = $1
+            GROUP BY rev.user_id, rev.videogame_id, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date
             ${reviewMode === ReviewMode.POPULAR ? "ORDER BY likes DESC": "ORDER BY review_date DESC"}`;
 
         const { rows } = await pool.query(query, [game_id]);

@@ -14,7 +14,7 @@ export async function insertReview(
     const user_name = session.user_name;
 
     await pool.query(
-      `INSERT INTO public.user_reviews (
+      `INSERT INTO public.reviews (
           user_id, videogame_id, user_name, videogame_name, body, recommended)
           VALUES ($1, $2, $3, $4, $5, $6);`,
       [user_id, game_id, user_name, game_name, reviewBody, recommended]

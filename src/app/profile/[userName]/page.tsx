@@ -1,31 +1,34 @@
 import React from "react";
-import { getSession } from "../actions/getSession";
+import { getSession } from "../../actions/getSession";
 import { redirect } from "next/navigation";
-import getUserInfo from "../actions/getUserInfo";
-import getUserGameStats from "../actions/getUserGameStats";
-import { getUserTotalHoursPlayed } from "../actions/getUserTotalHoursPlayed";
+import getUserInfo from "../../actions/getUserInfo";
+import getUserGameStats from "../../actions/getUserGameStats";
+import { getUserTotalHoursPlayed } from "../../actions/getUserTotalHoursPlayed";
 import Link from "next/link";
 
-export default async function Profile() {
+export default async function Profile({ params }: { params: { userName: string } }) {
 
     const session = await getSession()
     const user_id:string | undefined = session.user_id
-    const user_name:string | undefined = session.user_name
     let userInfo:any | undefined = []
     let userGameStats:any | undefined = []
     let userTotalHoursPlayed:number | undefined
-
-
-    if(user_id !== undefined){
-        userInfo = await getUserInfo(user_id)
-        userGameStats = await getUserGameStats(user_id)
-        userTotalHoursPlayed = await getUserTotalHoursPlayed(session)
-    }
+    let canEdit:Boolean = false
 
     // Protect route in case someone types the route wihtout logging in
     if(!session.isLoggedIn){
         redirect("/")
     }
+
+    if(user_id !== undefined){
+        if(params.userName == session.user_name){
+            canEdit = true;
+        }
+        userInfo = await getUserInfo(params.userName)
+        userGameStats = await getUserGameStats(params.userName)
+        userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
+    }
+
 
     return (
         <section className="flex flex-col lg:flex-row space-y-12 lg:space-x-12 w-full h-screen pt-24 p-4 md:p-12 text-white  bg-[url('/staticImages/dark_bg.jpg')] bg-cover">
@@ -41,9 +44,9 @@ export default async function Profile() {
                 </div>
                 <div className="p-6 pt-16">
                     <div className="flex items-center relative">
-                        <p className="text-4xl font-bold">{user_name}</p>
+                        <p className="text-4xl font-bold">{params.userName}</p>
                         {/* Edit profile */}
-                        <Link href={"settings"} className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</Link>
+                        {canEdit ? <Link href={"/settings"} className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</Link> : ''}
                     </div>
                     <div className="mt-4" >
                         {/* User biography */}
@@ -83,7 +86,7 @@ export default async function Profile() {
                  <p className="text-xl mt-12">Top played games</p>
                  <div className="flex mt-4">
                      {userGameStats.topGames.map((item:any, index:number)=>(
-                         <Link key={index} href={`gamePage/${item.videogame_id}`} className='group relative mr-4 flex justify-center items-center rounded-lg overflow-hidden cursor-pointer w-16 h-21 sm:w-24 sm:h-32 md:w-32 md:h-48 2xl:w-48 2xl:h-64 transition hover:scale-110'>
+                         <Link key={index} href={`/gamePage/${item.videogame_id}`} className='group relative mr-4 flex justify-center items-center rounded-lg overflow-hidden cursor-pointer w-16 h-21 sm:w-24 sm:h-32 md:w-32 md:h-48 2xl:w-48 2xl:h-64 transition hover:scale-110'>
                              <img src={item.videogame_base_image} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' alt='Videogame cover'/>
                              <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                                  <p className='text-sm lg:text-lg'>{item.videogame_name}</p>

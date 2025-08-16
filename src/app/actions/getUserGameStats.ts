@@ -13,28 +13,32 @@ type UserGameStats = {
   gamesPlayed: number;
 };
 
-export default async function getUserGameStats(user_id: string): Promise<UserGameStats> {
+export default async function getUserGameStats(user_name: string): Promise<UserGameStats> {
 
-  if (!user_id) {
-    throw new Error("The parameter user_id is mandatory");
+  if (!user_name) {
+    throw new Error("The parameter user_name is mandatory");
   }
 
   try {
-    // Obtener número total de juegos jugados
+    // Get total of games played
     const gamesPlayedResult = await pool.query(
-      `SELECT COUNT(*)::int FROM user_videogame WHERE user_id = $1`,
-      [user_id]
+      `SELECT COUNT(*)::int
+       FROM user_videogame uv
+       INNER JOIN users usr ON usr.user_id = uv.user_id
+       WHERE usr.user_name = $1`,
+      [user_name]
     );
     const gamesPlayed: number = gamesPlayedResult.rows[0].count;
 
-    // Obtener top 5 juegos con mayor puntuación y tiempo jugado
+    // Get top 5 games with highest rate and playtime
     const topGamesResult = await pool.query(
-      `SELECT videogame_id, videogame_name, score, hours_played, videogame_base_image
-       FROM user_videogame
-       WHERE user_id = $1
-       ORDER BY score DESC, hours_played DESC
+      `SELECT uv.videogame_id, uv.videogame_name, uv.score, uv.hours_played, uv.videogame_base_image
+       FROM user_videogame uv
+       INNER JOIN users usr ON usr.user_id = uv.user_id
+       WHERE usr.user_name = $1
+       ORDER BY uv.score DESC, uv.hours_played DESC
        LIMIT 5`,
-      [user_id]
+      [user_name]
     );
 
     const topGames: TopGame[] = topGamesResult.rows;
@@ -44,7 +48,7 @@ export default async function getUserGameStats(user_id: string): Promise<UserGam
       gamesPlayed,
     };
   } catch (error) {
-    console.error("Error al obtener estadísticas de usuario:", error);
+    console.error("Error fetching user statistics:", error);
     throw error;
   }
 }

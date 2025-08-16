@@ -7,9 +7,9 @@ import { IronSession } from "iron-session";
  * @param session IronSession containing user_id
  * @returns Total hours played as number
  */
-export async function getUserTotalHoursPlayed(session: IronSession<SessionData>) {
-    if (!session?.user_id) {
-        console.warn("No user session found.");
+export async function getUserTotalHoursPlayed(user_name:string | undefined) {
+    if (!user_name) {
+        console.warn("Parameter user_name not found.");
         return 0;
     }
 
@@ -17,8 +17,8 @@ export async function getUserTotalHoursPlayed(session: IronSession<SessionData>)
         const res = await pool.query(
             `SELECT SUM(hours_played) AS sum_hours_played 
              FROM user_videogame 
-             WHERE user_id = $1`,
-            [session.user_id]
+             WHERE user_name = $1`,
+            [user_name]
         );
 
         const totalHoursPlayed: number = res.rows[0].sum_hours_played ?? 0;

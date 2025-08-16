@@ -31,8 +31,8 @@ export default function NavbarProfileButton({userName, avatarImage, handleLogOut
                 <p>{userName}</p>
             </button>
 
-            { dropdown && <div  className="flex flex-col absolute bg-zinc-900/90 backdrop-blur-lg text-sm w-36 text-gray-200 border border-green-500 rounded rounded-lg top-10 space-y-2 z-40 right-2 p-4">
-                <Link href="/profile" className="flex items-center hover:text-green-400">
+            {dropdown && <div  className="flex flex-col absolute bg-zinc-900/90 backdrop-blur-lg text-sm w-36 text-gray-200 border border-green-500 rounded rounded-lg top-10 space-y-2 z-40 right-2 p-4">
+                <Link href={`/profile/${userName}`} className="flex items-center hover:text-green-400">
                     <svg className="mr-1" width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 8.976C3 4.05476 4.05476 3 8.976 3H15.024C19.9452 3 21 4.05476 21 8.976V15.024C21 19.9452 19.9452 21 15.024 21H8.976C4.05476 21 3 19.9452 3 15.024V8.976Z" stroke="#ffffff" strokeWidth="1.7280000000000002"></path> <path d="M21 9L3 9" stroke="#ffffff" strokeWidth="1.7280000000000002" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M9 21L9 9" stroke="#ffffff" strokeWidth="1.7280000000000002" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>                    My profile
                 </Link>
                 <Link href="/mylists" className="flex items-center hover:text-green-400">

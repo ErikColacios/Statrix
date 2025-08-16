@@ -1,9 +1,9 @@
 "use server"
 import { pool } from "@/util/postgres";
 
-export default async function getUserInfo(user_id: string) {
-    if (!user_id) {
-        throw new Error("The parameter user_id is mandatory");
+export default async function getUserInfo(user_name: string | undefined) {
+    if (!user_name) {
+        throw new Error("The parameter user_name is mandatory");
     }
 
     try {
@@ -11,10 +11,10 @@ export default async function getUserInfo(user_id: string) {
             SELECT * FROM users usr
             INNER JOIN avatar_images avi ON avi.avatar_image_id = usr.user_avatar_id
             INNER JOIN banner_images bani ON bani.banner_image_id = usr.user_banner_id
-            WHERE usr.user_id = $1
+            WHERE usr.user_name = $1
         `;
 
-        const { rows } = await pool.query(query, [user_id]);
+        const { rows } = await pool.query(query, [user_name]);
 
         return rows;
     } catch (error) {

@@ -1,3 +1,4 @@
+
 export default function getGameInfo(gameId: string) {
   const client_id = process.env.CLIENT_ID;
   const bearer = process.env.BEARER;

@@ -12,9 +12,10 @@ export default async function Navbar() {
 
     const session = await getSession()
     let user_info:any = []
+    const user_name:string | undefined = session.user_name
 
     if(session.user_id !== undefined){
-        user_info = await getUserInfo(session.user_id)
+        user_info = await getUserInfo(user_name)
     }
 
     async function handleLogOut(){
