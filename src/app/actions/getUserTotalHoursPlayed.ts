@@ -1,6 +1,4 @@
-import { SessionData } from "@/session_lib";
 import { pool } from "@/util/postgres";
-import { IronSession } from "iron-session";
 
 /**
  * Gets the total hours played for the user.
@@ -15,9 +13,10 @@ export async function getUserTotalHoursPlayed(user_name:string | undefined) {
 
     try {
         const res = await pool.query(
-            `SELECT SUM(hours_played) AS sum_hours_played 
-             FROM user_videogame 
-             WHERE user_name = $1`,
+            `SELECT SUM(uv.hours_played) AS sum_hours_played
+             FROM user_videogame uv
+             INNER JOIN users usr ON usr.user_id = uv.user_id
+             WHERE usr.user_name = $1`,
             [user_name]
         );
 

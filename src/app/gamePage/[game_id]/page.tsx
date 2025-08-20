@@ -14,6 +14,7 @@ import ReviewModal from '@/app/components/ReviewModal'
 import { Dialog } from "radix-ui";
 import ReviewSection from '@/app/components/ReviewSection'
 import { ReviewMode } from '@/app/enums/ReviewMode'
+import AddToListButton from '@/app/components/AddToListButton'
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: string } }) {
 
@@ -41,7 +42,6 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             <ReviewModal game_id={item.id} game_name={item.name} game_cover={item.cover.image_id} />
                         </Dialog.Content>
                     </Dialog.Portal>
-
 
                     <div className='bg-black/60 w-full h-full absolute backdrop-blur-md'></div>
                     <div className='pt-8 w-full h-full flex flex-col items-center justify-center blur-none'>
@@ -102,7 +102,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
                                 {/* USER VIDEOGAME panel */}
                                 <aside className='md:w-1/3 p-4'>
-                                {userVideogame[0] ? 
+                                {userVideogame[0] ?
                                     <div className="flex flex-col w-full p-4 blur-none">
                                         <div className='flex flex-col space-y-4 text-base'>
                                             <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
@@ -114,7 +114,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             <SelectScoreScroll score={userVideogame[0].score} videogame_id={item.id} />
                                             <div className='flex'>
                                                 <span className='mr-4'>Hours played </span>
-                                                <InputHoursPlayed hours_played={userVideogame[0].hours_played} videogame_id={item.id} source='gamePage' />
+                                                <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={item.id} source='gamePage' />
                                             </div>
                                         </div>
                                         <UpdateUserVideogameButton gameId={params.game_id} />
@@ -122,7 +122,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                 :
                                 <div className='flex flex-col h-full justify-center items-center'>
                                     <p className='text-gray-300 mb-2'>This game is in any of your lists</p>
-                                    <AcceptButton text={'ADD TO LIST'} size='large' />
+                                    <AddToListButton game_id={item.id} game_name={item.name} game_cover={item.cover.image_id}/>
                                 </div>
                                 }
 
@@ -130,6 +130,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             </div>
                             {/* Slider of images */}
                             <SliderImages screenshots={item.screenshots} />
+
                             <section className='mt-14 relative'>
                                 <Dialog.Trigger asChild className='absolute right-5 z-30'>
                                     <AcceptButton text={'Add review'} size='small' />

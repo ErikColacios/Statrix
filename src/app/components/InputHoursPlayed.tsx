@@ -4,11 +4,11 @@ import updateHoursPlayed from '../actions/updateHoursPlayed';
 
 type Props  = {
     hours_played:number,
-    videogame_id: string,
+    game_id: string,
     source: string
 }
 
-export default function InputHoursPlayed({hours_played, videogame_id, source}:Props){
+export default function InputHoursPlayed({hours_played, game_id, source}:Props){
 
     const [value, setValue] = useState<number|null>(hours_played);
 
@@ -20,7 +20,7 @@ export default function InputHoursPlayed({hours_played, videogame_id, source}:Pr
         } else {
             setValue(valueNumber);
             if(source == "listPage"){
-                updateHoursPlayed(videogame_id, valueNumber).then(res => {
+                updateHoursPlayed(game_id, valueNumber).then(res => {
                     console.log(res.message)
                 })
             }
@@ -30,7 +30,7 @@ export default function InputHoursPlayed({hours_played, videogame_id, source}:Pr
     switch(source){
         case "listPage":
             return (
-                <input type="number" id={'hours'+videogame_id} className='w-12 lg:w-16 pr-1 bg-black border border-gray-500 outline-none rounded text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
+                <input type="number" id={'hours'+game_id} className='w-12 lg:w-16 pr-1 bg-black border border-gray-500 outline-none rounded text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
             )
         case "gamePage":
             return (

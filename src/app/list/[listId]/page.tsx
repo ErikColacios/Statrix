@@ -63,15 +63,15 @@ export default async function list({ params, searchParams }: { params: { listId:
                 {/* List content */}
                 {listContent.map((item: any, index: number) => (
                     <div className="relative flex items-center mb-5 border border-gray-500 rounded text-sm md:text-lg " key={index}>
-                        <Image src={item.videogame_base_image} className="w-12 md:w-18" width={80} height={60} alt={'Videogame cover'} />
-                        <Link href={`/gamePage/${item.videogame_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.videogame_name}</Link>
+                        <Image src={item.game_base_image} className="w-12 md:w-18" width={80} height={60} alt={'Videogame cover'} />
+                        <Link href={`/gamePage/${item.game_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.game_name}</Link>
                         <div className='flex absolute right-0 md:mr-12'>
-                            <StarButton favourite={item.favourite} videogame_id={item.videogame_id} />
-                            <SelectScore score={item.score} videogame_id={item.videogame_id} />
+                            <StarButton favourite={item.favourite} game_id={item.game_id} />
+                            <SelectScore score={item.score} game_id={item.game_id} />
                             <div className='flex items-center mr-1'>
                                 <div className='flex flex-col items-end sm:flex-row sm:items-center'>
                                     <label className='text-gray-300 text-sm mr-1'>Hours</label>
-                                    <InputHoursPlayed hours_played={item.hours_played} videogame_id={item.videogame_id} source='listPage' />
+                                    <InputHoursPlayed hours_played={item.hours_played} game_id={item.game_id} source='listPage' />
                                 </div>
                             </div>
                         </div>

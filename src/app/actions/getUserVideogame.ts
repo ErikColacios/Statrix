@@ -10,11 +10,11 @@ export default async function getUserVideogame(game_id: string) {
         throw new Error("The parameter user_id is mandatory");
     }
     else if (!game_id) {
-        throw new Error("The parameter videogame_id is mandatory");
+        throw new Error("The parameter game_id is mandatory");
     }
 
     try {
-        const query = `SELECT * FROM public.user_videogame WHERE user_id = $1 AND videogame_id = $2`;
+        const query = `SELECT * FROM public.user_videogame WHERE user_id = $1 AND game_id = $2`;
         const { rows } = await pool.query(query, [user_id, game_id]);
 
         return rows;

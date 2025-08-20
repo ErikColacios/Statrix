@@ -19,7 +19,6 @@ export async function insertReview(
           VALUES ($1, $2, $3, $4, $5, $6);`,
       [user_id, game_id, user_name, game_name, reviewBody, recommended]
     );
-    
   } catch (error) {
     console.error("Error inserting review:", error);
   }

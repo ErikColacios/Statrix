@@ -1,26 +1,28 @@
-import { SessionData } from "@/session_lib";
+"use server"
 import { pool } from "@/util/postgres";
-import { IronSession } from "iron-session";
+import { getSession } from "./getSession";
 
 /**
  * Retrieves all lists created by the user associated with the session.
- * @param session IronSession containing user_id
  * @returns List of user-created lists, ordered by creation date
  */
-export async function getListsUser(session: IronSession<SessionData>) {
-    if (!session?.user_id) {
+export async function getListsUser() {
+    const session = await getSession();
+    const user_id = session.user_id;
+    
+    if (!user_id) {
         console.warn("No user session found.");
         return { success: false, message: "User not logged in." };
     }
 
     try {
         const res = await pool.query(
-            `SELECT list_id, list_name, list_creationdate 
+            `SELECT list_id, list_name, list_creationdate
              FROM list
              WHERE user_id = $1
              GROUP BY list_id, list_name, list_creationdate 
              ORDER BY list_creationdate DESC`,
-            [session.user_id]
+            [user_id]
         );
 
         return res.rows;

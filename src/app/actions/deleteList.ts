@@ -1,12 +1,12 @@
 "use server";
-import { pool } from '@/util/postgres';
-import { redirect } from 'next/navigation';
-import { getSession } from './getSession';
+import { pool } from "@/util/postgres";
+import { redirect } from "next/navigation";
+import { getSession } from "./getSession";
 
 export async function deleteList(list_id: string) {
   const session = await getSession();
   const user_id = session.user_id;
-  let redirectPath: string | null = null
+  let redirectPath: string | null = null;
 
   if (!user_id) {
     console.error("User session not found.");
@@ -16,16 +16,26 @@ export async function deleteList(list_id: string) {
   const client = await pool.connect();
   try {
     // First we begin transaction
-    await client.query('BEGIN');
+    await client.query("BEGIN");
 
     // Delete the user list
-    const deleteRes = await client.query(
+    const deleteListRes = await client.query(
       `DELETE FROM list WHERE list_id = $1 AND user_id = $2 RETURNING *`,
       [list_id, user_id]
     );
 
-    if (deleteRes.rowCount === 0) {
+    if (deleteListRes.rowCount === 0) {
       throw new Error("No list found.");
+    }
+
+    // Delete the list games
+    const deleteListGamesRes = await client.query(
+      `DELETE FROM list_games WHERE list_id = $1 RETURNING *`,
+      [list_id]
+    );
+
+    if (deleteListGamesRes.rowCount === 0) {
+      throw new Error("No games found in the list.");
     }
 
     // Update the number of lists of this user
@@ -35,17 +45,15 @@ export async function deleteList(list_id: string) {
     );
 
     // If everything went right, we commit the transaction
-    await client.query('COMMIT');
+    await client.query("COMMIT");
     console.log(`List ${list_id} deleted successfully.`);
-    redirectPath = '/mylists'
-
+    redirectPath = "/mylists";
   } catch (error) {
     // If an error happened, we rollack the transaction
-    await client.query('ROLLBACK');
+    await client.query("ROLLBACK");
     console.error("Error deleting list:", error);
   } finally {
     client.release();
-    if(redirectPath)
-      redirect(redirectPath)
+    if (redirectPath) redirect(redirectPath);
   }
 }

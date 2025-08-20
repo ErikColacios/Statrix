@@ -11,9 +11,10 @@ export async function getListContent(list_id:string, user_id:string) {
             console.warn("No user session found.");
             return { success: false, message: "No user session found." };
     }
-        const res = await pool.query(`SELECT li.videogame_id, li.videogame_name, li.videogame_base_image, uv.score AS score, uv.hours_played, uv.favourite
+        const res = await pool.query(`SELECT lg.game_id, lg.game_name, lg.game_base_image, uv.score AS score, uv.hours_played, uv.favourite
             FROM list li
-            INNER JOIN user_videogame uv ON uv.user_id = li.user_id AND uv.videogame_id = li.videogame_id
+            INNER JOIN list_games lg ON lg.list_id = li.list_id
+            INNER JOIN user_videogame uv ON uv.user_id = li.user_id AND uv.game_id = lg.game_id
             WHERE li.list_id = $1
             AND li.user_id = $2`, [list_id, user_id]);
         return res.rows

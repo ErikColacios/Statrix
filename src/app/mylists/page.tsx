@@ -8,7 +8,7 @@ export default async function MyLists(){
     const session = await getSession()
     let userLists:List[] = []
     if(session.isLoggedIn){
-        userLists = await getListsUser(session)
+        userLists = await getListsUser()
     }
 
     return (

@@ -1,11 +1,11 @@
 import { pool } from "@/util/postgres";
 
 type TopGame = {
-  videogame_id: string;
-  videogame_name: string;
+  game_id: string;
+  game_name: string;
   score: number;
   hours_played: number;
-  videogame_base_image: string;
+  game_base_image: string;
 };
 
 type UserGameStats = {
@@ -13,7 +13,7 @@ type UserGameStats = {
   gamesPlayed: number;
 };
 
-export default async function getUserGameStats(user_name: string): Promise<UserGameStats> {
+export default async function getUserGameStats(user_name: string | undefined): Promise<UserGameStats> {
 
   if (!user_name) {
     throw new Error("The parameter user_name is mandatory");
@@ -32,7 +32,7 @@ export default async function getUserGameStats(user_name: string): Promise<UserG
 
     // Get top 5 games with highest rate and playtime
     const topGamesResult = await pool.query(
-      `SELECT uv.videogame_id, uv.videogame_name, uv.score, uv.hours_played, uv.videogame_base_image
+      `SELECT uv.game_id, uv.game_name, uv.score, uv.hours_played, uv.game_base_image
        FROM user_videogame uv
        INNER JOIN users usr ON usr.user_id = uv.user_id
        WHERE usr.user_name = $1

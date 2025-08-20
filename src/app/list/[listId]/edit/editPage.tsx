@@ -20,16 +20,16 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
     // Custom alert
     const [alert, setAlert] = useState(<></>)
 
-    function addNewGame(videogame: Videogame) {
-        setNewGameAdded([...newGamesAdded, videogame])
+    function addNewGame(game: Videogame) {
+        setNewGameAdded([...newGamesAdded, game])
     }
 
-    async function removeAddedGame(videogame_id: number) {
-        setNewGameAdded(newGamesAdded.filter(item => item.id !== videogame_id))
+    async function removeAddedGame(game_id: number) {
+        setNewGameAdded(newGamesAdded.filter(item => item.id !== game_id))
     }
 
-    async function removeGamesInList(videogame_id: number) {
-        setOldGamesList(oldGamesList.filter(item => item.videogame_id !== videogame_id))
+    async function removeGamesInList(game_id: number) {
+        setOldGamesList(oldGamesList.filter(item => item.game_id !== game_id))
     }
 
     let listContent: any | undefined = []
@@ -88,9 +88,9 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
                     <div className="overflow-scroll no-scrollbar border border-gray-500 mt-1">
                         {oldGamesList.map((item: any, index: number) => (
                             <div key={index} className="relative flex items-center bg-gray-900 mb-2">
-                                <img src={item.videogame_base_image} className="w-8 md:w-12 mr-4" width={80} height={60} alt={'Videogame cover'} />
-                                <p>{item.videogame_name}</p>
-                                <button className='ml-4 flex items-center' onClick={() => removeGamesInList(item.videogame_id)}><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0 mr-4' /></button>
+                                <img src={item.game_base_image} className="w-8 md:w-12 mr-4" width={80} height={60} alt={'Game cover'} />
+                                <p>{item.game_name}</p>
+                                <button className='ml-4 flex items-center' onClick={() => removeGamesInList(item.game_id)}><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0 mr-4' /></button>
                             </div>
                         ))}
                     </div>

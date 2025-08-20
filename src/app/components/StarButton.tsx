@@ -4,18 +4,16 @@ import updateFavourite from '../actions/updateFavourite';
 
 type Props  = {
     favourite: boolean,
-    videogame_id: string
+    game_id: string
 }
 
-export default function StarButton({ favourite, videogame_id }:Props){
+export default function StarButton({ favourite, game_id }:Props){
     const [strokeWidth, setStrokeWidth] = useState(1)
     const [starred, setStarred] = useState(favourite)
 
     function handleStar (){
         const newStarred:boolean = !starred;
-        console.log(newStarred)
-        updateFavourite(videogame_id, newStarred).then(res => {
-            console.log(res.message)
+        updateFavourite(game_id, newStarred).then(res => {
             setStarred(newStarred)
         })
     }
