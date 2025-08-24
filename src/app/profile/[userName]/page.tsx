@@ -24,9 +24,9 @@ export default async function Profile({ params }: { params: { userName: string }
         if(params.userName == session.user_name){
             canEdit = true;
         }
-        userInfo = await getUserInfo(session.user_name)
-        userGameStats = await getUserGameStats(session.user_name)
-        userTotalHoursPlayed = await getUserTotalHoursPlayed(session.user_name)
+        userInfo = await getUserInfo(params.userName)
+        userGameStats = await getUserGameStats(params.userName)
+        userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
     }
 
 

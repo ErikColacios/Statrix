@@ -11,10 +11,6 @@ export default async function updateFavourite(game_id:string, starred:boolean){
         return { success: false, message: "No user session found." };
     }
 
-    if (typeof game_id !== 'string' || typeof starred !== 'boolean') {
-        return { success: false, message: "Invalid input types." };
-    }
-
     try{
         await pool.query(`UPDATE user_videogame SET favourite = $1 WHERE user_id = $2 AND game_id = $3`,
             [starred, user_id, game_id])

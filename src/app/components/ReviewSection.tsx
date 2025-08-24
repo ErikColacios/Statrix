@@ -34,7 +34,7 @@ export default function ReviewSection({ gameReviews, game_id }: Props) {
 
 
     return (
-        <div className='pt-5'>
+        <div className='pt-14 sm:pt-5'>
             <div className='relative flex flex-col'>
                 <div className="flex text-base">
                     <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-gray-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
@@ -74,7 +74,7 @@ export default function ReviewSection({ gameReviews, game_id }: Props) {
                 ))}
 
                 {!gameReviews.length && (
-                    <div className='flex justify-center items-center h-36 border border-gray-500'>
+                    <div className='flex justify-center items-center p-2 h-36 border border-gray-500'>
                         <p>There are no reviews of this game yet... Add the first one!</p>
                     </div>
                 )}

@@ -2,7 +2,7 @@
 import { pool } from '@/util/postgres';
 import { getSession } from './getSession';
 
-export default async function updateUserVideogame(videogame_id:string, newStatus:string, newScore:number, newHoursPlayed:number){
+export default async function updateUserVideogame(game_id:string, newStatus:string, newScore:number, newHoursPlayed:number){
     const session = await getSession()
     const user_id = session.user_id
 
@@ -18,8 +18,8 @@ export default async function updateUserVideogame(videogame_id:string, newStatus
 
     try{
         await pool.query(
-        `UPDATE user_videogame SET status = $1, score = $2, hours_played= $3 WHERE user_id = $4 AND videogame_id = $5`,
-        [newStatus, newScore, newHoursPlayed, user_id, videogame_id]
+        `UPDATE user_videogame SET status = $1, score = $2, hours_played= $3 WHERE user_id = $4 AND game_id = $5`,
+        [newStatus, newScore, newHoursPlayed, user_id, game_id]
         );
         return { success: true, message: "Score updated." };
     }catch(error){

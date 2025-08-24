@@ -4,6 +4,8 @@ import { Dialog } from "radix-ui";
 import AcceptButton from "./AcceptButton";
 import { getListsUser } from "../actions/getListsUser";
 import updateListOneGame from "../actions/updateListOneGame";
+import NoListCreated from "./NoListCreated";
+import Link from "next/link";
 
 type Props = {
     game_id: string,
@@ -15,12 +17,10 @@ type Props = {
 export default function AddToListModal({ game_id, game_name, game_cover, lists }: Props) {
 
     const handleAddToList = async () => {
-        const selectedIndex = (document.getElementById("selectList") as HTMLSelectElement).selectedIndex;
         const selectedListId: string = (document.getElementById("selectList") as HTMLSelectElement).value;
-        const selectedListName = (document.getElementById("selectList") as HTMLSelectElement).options[selectedIndex].text;
 
         // We update the list adding only this one game
-        await updateListOneGame(selectedListId, selectedListName, game_id, game_name, game_cover);
+        await updateListOneGame(selectedListId, game_id, game_name, game_cover);
 
         // We simulate that the user presses ESC to close the modal
         const escEvent = new KeyboardEvent('keydown', {
@@ -34,8 +34,6 @@ export default function AddToListModal({ game_id, game_name, game_cover, lists }
         document.dispatchEvent(escEvent);
     }
 
-    console.log(lists)
-
     return (
         <div className="flex relative w-full h-[75vh] md:h-[65vh] flex-col border border-gray-500 space-y-8 pl-4 pr-4 md:pl-10 md:pr-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
             <Dialog.Close className="mt-8 absolute right-10 p-2 rounded transition hover:bg-gray-800" >
@@ -45,16 +43,23 @@ export default function AddToListModal({ game_id, game_name, game_cover, lists }
             <div className="flex flex-col md:flex-row items-center md:items-start md:pt-12">
                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game_cover}.png`} alt="Videogame cover" className="w-36 lg:w-48 rounded" />
                 <div className="flex flex-col w-full md:ml-8">
-                    <p className="text-lg">{game_name}</p>
-                    <select className='w-96 bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='selectList' defaultValue={lists[0].list_name}>
+                    {lists.length !== 0 ? 
+                        <select className='w-full md:w-96 bg-black border border-gray-500 outline-none focus:border-green-500 mt-8 md:mt-2 p-2 rounded' id='selectList' >
                         {lists.map((list:any, index:number) =>(
                             <option key={index} value={list.list_id}>{list.list_name}</option>
                         ))}
-                    </select>
+                    </select> 
+                    : <div className='flex w-full h-64 items-center justify-center rounded bg-black text-white border border-gray-600'>
+                        <div className="flex flex-col text-center items-center">
+                            <p className="text-xl mb-4">You have no lists yet, create one!</p>
+                            <Link href={"/newList"} className="w-full text-md md:text-xl p-2 md:p-4 bg-green-500 transition hover:bg-green-600">Create list</Link>
+                        </div>
+                    </div>}
+
                 </div>
             </div>
             <div className="absolute right-5 md:right-10 bottom-10" onClick={() => handleAddToList()}>
-                <AcceptButton text="Save game" size="small" />
+                {lists.length !== 0 ? <AcceptButton text="Save game" size="small" /> : ""}
             </div>
         </div>
     )

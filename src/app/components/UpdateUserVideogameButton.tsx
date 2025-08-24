@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import updateUserVideogame from '../actions/updateUserVideogame';
 
 type Props = {

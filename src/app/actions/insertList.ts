@@ -3,7 +3,7 @@ import type { Videogame } from "../types/Videogame";
 import { v4 as uuid } from "uuid";
 import { getSession } from "./getSession";
 import { pool } from "@/util/postgres";
-import { Status } from "../enums/Status";
+import { GameStatus } from "../enums/GameStatus";
 
 export async function insertList(list_name: string, gameList: Videogame[]) {
   const client = await pool.connect();
@@ -46,7 +46,7 @@ export async function insertList(list_name: string, gameList: Videogame[]) {
           hours_played,
           game_name,
           game_base_image,
-          Status.PLAYING,
+          GameStatus.PLAYING,
         ]
       );
     }

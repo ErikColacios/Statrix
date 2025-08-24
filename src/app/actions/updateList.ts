@@ -2,7 +2,7 @@
 import { pool } from "@/util/postgres";
 import { Videogame } from "../types/Videogame";
 import { getSession } from "./getSession";
-import { Status } from "../enums/Status";
+import { Status } from "../enums/GameStatus";
 
 export default async function updateList(
   list_id: number,

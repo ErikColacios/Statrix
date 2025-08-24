@@ -5,7 +5,7 @@ import InputHoursPlayed from '@/app/components/InputHoursPlayed'
 import SelectScoreScroll from '@/app/components/SelectScoreRange'
 import getUserVideogame from '@/app/actions/getUserVideogame'
 import getGlobalUserVideogame from '@/app/actions/getGlobalUserVideogame'
-import { Status } from '@/app/enums/Status'
+import { GameStatus } from '@/app/enums/GameStatus'
 import UpdateUserVideogameButton from '@/app/components/UpdateUserVideogameButton'
 import SliderImages from '@/app/components/SliderImages'
 import getGameReviews from '@/app/actions/getGameReviews'
@@ -75,10 +75,10 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     </div>
                                     <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-8">{item.name}</h2>
                                     <div className="grid grid-cols-2 gap-x-8 lg:w-3/4">
-                                        <div className=''>
+                                        <div>
                                             <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
                                         </div>
-                                        <div className=''>
+                                        <div>
                                             <span className="text-green-400 mr-2">General rating: </span><span>{item.rating ? Math.trunc(item.rating) : "-"}</span>
                                         </div>
                                     </div>
@@ -106,12 +106,12 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     <div className="flex flex-col w-full p-4 blur-none">
                                         <div className='flex flex-col space-y-4 text-base'>
                                             <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
-                                                <option value={Status.PLAYING}>{Status.PLAYING}</option>
-                                                <option value={Status.COMPLETED}>{Status.COMPLETED}</option>
-                                                <option value={Status.ON_HOLD}>{Status.ON_HOLD}</option>
-                                                <option value={Status.DROPPED}>{Status.DROPPED}</option>
+                                                <option value={GameStatus.PLAYING}>{GameStatus.PLAYING}</option>
+                                                <option value={GameStatus.COMPLETED}>{GameStatus.COMPLETED}</option>
+                                                <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
+                                                <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
                                             </select>
-                                            <SelectScoreScroll score={userVideogame[0].score} videogame_id={item.id} />
+                                            <SelectScoreScroll score={userVideogame[0].score} game_id={item.id} />
                                             <div className='flex'>
                                                 <span className='mr-4'>Hours played </span>
                                                 <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={item.id} source='gamePage' />
@@ -132,7 +132,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             <SliderImages screenshots={item.screenshots} />
 
                             <section className='mt-14 relative'>
-                                <Dialog.Trigger asChild className='absolute right-5 z-30'>
+                                <Dialog.Trigger asChild className='absolute right-1 md:right-5 z-30'>
                                     <AcceptButton text={'Add review'} size='small' />
                                 </Dialog.Trigger>
                                 <ReviewSection gameReviews={gameReviews} game_id={params.game_id} />

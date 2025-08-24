@@ -4,10 +4,10 @@ import updateScore from '../actions/updateScore';
 
 type Props  = {
     score:number, 
-    videogame_id: string
+    game_id: string
 }
 
-export default function SelectScoreRange({ score, videogame_id}:Props){
+export default function SelectScoreRange({ score, game_id}:Props){
 
     const [newScore, setNewScore] = useState<number>(score)
 
@@ -18,10 +18,10 @@ export default function SelectScoreRange({ score, videogame_id}:Props){
     }
 
     function handleUpdateScore (){
-        const newScoreSelect = document.getElementById("score"+videogame_id) as HTMLSelectElement
+        const newScoreSelect = document.getElementById("score"+game_id) as HTMLSelectElement
         const newScore:string = newScoreSelect.value;
 
-        updateScore(videogame_id, newScore).then(res => {
+        updateScore(game_id, newScore).then(res => {
             console.log(res.message)
         })
     }

@@ -1,6 +1,6 @@
 "use server"
 import { pool } from "@/util/postgres";
-import { Status } from "../enums/Status";
+import { GameStatus } from "../enums/GameStatus";
 
 type GameGlobalStats = {
     globalPlaying:number,
@@ -16,10 +16,10 @@ export default async function getGlobalUserVideogame(game_id: string) {
 
     try {
         const query1 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and status = $2`;
-        const count1 = await pool.query(query1, [game_id, Status.PLAYING]);
+        const count1 = await pool.query(query1, [game_id, GameStatus.PLAYING]);
 
         const query2 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and status = $2`;
-        const count2 = await pool.query(query2, [game_id, Status.COMPLETED]);
+        const count2 = await pool.query(query2, [game_id, GameStatus.COMPLETED]);
 
         const query3 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and favourite = $2`;
         const count3 = await pool.query(query3, [game_id, true]);
