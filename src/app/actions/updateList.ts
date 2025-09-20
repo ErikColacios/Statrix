@@ -2,7 +2,7 @@
 import { pool } from "@/util/postgres";
 import { Videogame } from "../types/Videogame";
 import { getSession } from "./getSession";
-import { Status } from "../enums/GameStatus";
+import { GameStatus } from "../enums/GameStatus";
 
 export default async function updateList(
   list_id: number,
@@ -65,7 +65,7 @@ export default async function updateList(
                     user_id, game_id, score, hours_played, game_name, game_base_image, status
                 ) VALUES ($1, $2, $3, $4, $5, $6, $7)
                 ON CONFLICT (user_id, game_id) DO NOTHING`,
-        [user_id, game.id, 0, 0, game.name, game_base_image, Status.PLAYING]
+        [user_id, game.id, 0, 0, game.name, game_base_image, GameStatus.PLAYING]
       );
     }
 

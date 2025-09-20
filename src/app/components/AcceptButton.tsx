@@ -12,7 +12,7 @@ export default function AcceptButton({ text, size }: Props){
                 {text}
             </button>
         )
-    }else{
+    } else {
         return(
             <button className="border bg-black border-green-400 text-sm md:text-lg xl:text-2xl w-32 md:w-48 p-3 text-center transition hover:bg-green-400 hover:text-black">
                 {text}

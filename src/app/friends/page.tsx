@@ -1,50 +1,102 @@
 "use client"
-import React, { useState } from 'react'
-import getUserSearched from '../actions/getUserSearched'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { FriendshipStatus } from '../enums/FriendshipStatus'
+import getUsers from '../actions/getUsers'
+import { Dialog } from 'radix-ui'
+import AddNewFriendModal from '../components/AddNewFriendModal'
+import getSessionUser from '../actions/getSessionUser'
+import updateUserFriendship from '../actions/updateUserFriendship'
 
 export default function friendsLayout() {
 
+    const [user, setUser] = useState<string | undefined>('')
     const [usersFound, setUsersFound] = useState([])
+    const [userSearchMode, setUserSearchMode] = useState<FriendshipStatus>(FriendshipStatus.ACCEPTED)
 
-    async function searchUser(formData: FormData) {
-        const searchedUser: string = formData.get('searchUser') as string
+    async function loadUsers(userSearchMode: FriendshipStatus) {
         let users: any = []
-        if (searchedUser !== "") {
-            users = await getUserSearched(searchedUser)
-            setUsersFound(users)
-        }
+        setUserSearchMode(userSearchMode)
+        users = await getUsers(userSearchMode)
+        setUsersFound(users)
+        console.log(users)
     }
 
-    return (
-        <div className='w-1/2'>
-            <div className='flex'>
-                <h2 className='text-2xl'>Friends</h2>
-                {/* Search user */}
-                <form className='flex text-sm border ml-auto' action={searchUser}>
-                    <input type="text" name="searchUser" id="searchUser" className='w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='Search user' />
-                    <button className='p-1 rounded ml-2 transition hover:bg-gray-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
-                </form>
-            </div>
-            <div className='mt-6'>
-                {/* Users found */}
-                {usersFound.map((item: any, index: number) => (
-                    <div key={index} className='relative flex items-center p-2 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
-                        <div className="w-12 rounded rounded-full overflow-hidden">
-                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
-                        </div>
-                        <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
-                        <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
-                            <p>{item.user_location}</p>
-                            <p>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
-                        </div>
-                        
-                        {/* ADD FRIEND BUTTON */}
-                        <button className='absolute right-5 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Add friend</button>
-                    </div>
-                ))}
+    async function acceptFriendRequest(requester_id: string) {
+        if (requester_id !== null && user !== null)
+            try {
+                await updateUserFriendship(requester_id, user, FriendshipStatus.ACCEPTED)
+            } catch (error) {
+                console.log(error)
+            }
+    }
 
-            </div>
+    useEffect(() => {
+        loadUsers(userSearchMode)
+        const getSess = async() =>{
+            const user_id:string | undefined = await getSessionUser()
+            setUser(user_id)
+        }
+        getSess()
+    }, [])
+    
+    
+
+    return (
+        <div className='w-full lg:w-3/4 2xl:w-1/2'>
+            <Dialog.Root>
+                <Dialog.Portal>
+                    <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                    <Dialog.Content className={`fixed w-full p-2 md:w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                            data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
+                        <Dialog.Title className="DialogTitle"></Dialog.Title>
+                        <Dialog.Description className="DialogDescription"></Dialog.Description>
+                            <AddNewFriendModal />
+                    </Dialog.Content>
+                </Dialog.Portal>
+                <div className='flex border-b-2 border-gray-500 pb-3'>
+                    <h2 className='text-2xl'>Friends</h2>
+                    <Dialog.Trigger asChild className='ml-auto'>
+                        <button className="border bg-black border-green-400 text-sm md:text-base w-32 h-10 transition hover:bg-green-400 hover:text-black">Add new friend</button>
+                    </Dialog.Trigger>
+                </div>
+                <div className='relative flex flex-col'>
+                    <div className="flex text-base">
+                        <button className={`pl-4 pt-1 pr-4 pb-1 ${userSearchMode === FriendshipStatus.ACCEPTED ? 'bg-gray-600' : 'bg-transparent'}`}
+                            onClick={() => loadUsers(FriendshipStatus.ACCEPTED)}>Accepted</button>
+                        <button className={`pl-4 pt-1 pr-4 pb-1 ${userSearchMode === FriendshipStatus.PENDING ? 'bg-gray-600' : 'bg-transparent'}`}
+                            onClick={() => loadUsers(FriendshipStatus.PENDING)}>Pending</button>
+                        <button className={`pl-4 pt-1 pr-4 pb-1 ${userSearchMode === FriendshipStatus.BLOCKED ? 'bg-gray-600' : 'bg-transparent'}`}
+                            onClick={() => loadUsers(FriendshipStatus.BLOCKED)}>Blocked</button>
+                    </div>
+                </div>
+                
+                <div className='mt-5'>
+                    {/* Users found */}
+                    {usersFound.map((item: any, index: number) => (
+                        <div key={index} className='relative flex items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                            <div className="w-12 rounded rounded-full overflow-hidden">
+                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full" />
+                            </div>
+                            <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
+                            <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
+                                <p className='text-sm'>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
+                                {userSearchMode === FriendshipStatus.PENDING ? user === item.requester_id ? 
+                                    <p>Pending</p> :
+                                    <button onClick={()=> acceptFriendRequest(item.requester_id)} 
+                                        className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button> 
+                                : ''}
+                                
+                            </div>
+                        </div>
+                    ))}
+                    {usersFound.length === 0 && 
+                        <div className='flex flex-col items-center justify-center text-center mb-4 h-64 text-gray-400 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                            <p>(－_－) zzZ</p>
+                            <p>Nothing to check here by now</p>
+                        </div>}
+                </div>
+            </Dialog.Root>
         </div>
     )
 }

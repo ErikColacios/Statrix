@@ -5,7 +5,7 @@ import { pool } from '@/util/postgres'
 import bcrypt from "bcryptjs";
 import { getSession } from './getSession';
 
-export async function signUp(formData: FormData) {
+export async function signUp(prevState:{ error: undefined | string} , formData: FormData) {
     
     const session = await getSession()
     
@@ -22,8 +22,11 @@ export async function signUp(formData: FormData) {
 
     let redirectPath: string | null = null
 
-    // Postgresql method
     try {
+        if(user_name.includes(" ")) {
+            return { error: "The user name must not contain whitespaces"};
+        }
+
         const hashedPassword = await bcrypt.hash(user_password_plain, 10)
 
         await pool.query(

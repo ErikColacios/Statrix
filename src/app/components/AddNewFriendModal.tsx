@@ -1,0 +1,106 @@
+"use client"
+import React, { useState } from "react";
+import { Dialog } from "radix-ui";
+import getUserSearched from "../actions/getUserSearched";
+import Link from "next/link";
+import { insertUserFriendship } from "../actions/insertUserFriendship";
+import { deleteUserFriendship } from "../actions/deleteUserFriendship";
+
+type Props = {
+
+};
+
+export default function AddNewFriendModal({ }: Props) {
+
+    const [usersFound, setUsersFound] = useState([])
+
+    async function searchUser(formData: FormData) {
+        const searchedUser: string = formData.get('searchUser') as string
+        let users: any = []
+
+        if (searchedUser !== "") {
+            users = await getUserSearched(searchedUser)
+            setUsersFound(users)
+        }
+    }
+
+    async function sendFriendRequest(addressee_id: string, addressee_name: string) {
+        if (addressee_id !== null && addressee_name !== null)
+            try {
+                await insertUserFriendship(addressee_id, addressee_name)
+            } catch (error) {
+                console.log(error)
+            }
+    }
+
+    async function removeFriendRequest(addressee_id: string) {
+        if (addressee_id !== null)
+            try {
+                await deleteUserFriendship(addressee_id)
+            } catch (error) {
+                console.log(error)
+            }
+    }
+
+    // const handleAddFriend = async () => {
+    //     // We simulate that the user presses ESC to close the modal
+    //     const escEvent = new KeyboardEvent('keydown', {
+    //         key: 'Escape',
+    //         code: 'Escape',
+    //         keyCode: 27,
+    //         which: 27,
+    //         bubbles: true
+    //     });
+
+    //     document.dispatchEvent(escEvent);
+    // }
+
+    return (
+        <div className="flex w-full h-[75vh] md:h-[65vh] flex-col border border-gray-500 space-y-8 pl-4 pr-4 md:pl-10 md:pr-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+            <Dialog.Close className="mt-8 absolute right-10 p-2 rounded transition hover:bg-gray-800" >
+                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+            </Dialog.Close>
+            <h2 className="text-3xl">Search user</h2>
+            <p className="text-gray-300">Search a friend typing the user name here</p>
+            {/* Search user */}
+            <div className="flex">
+                <form className='flex w-1/3 text-sm border' action={searchUser}>
+                    <input type="text" name="searchUser" id="searchUser" className='w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='User name' />
+                    <button className='p-1 rounded ml-2 transition hover:bg-gray-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
+                </form>
+                <div className="loader-small ml-3 hidden" id="loader"></div>
+            </div>
+
+            <div className='mt-5 overflow-scroll no-scrollbar'>
+                {/* Users found */}
+                {usersFound.map((item: any, index: number) => (
+                    <div key={index} className='relative flex items-center mb-4 p-2 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                        <div className="w-12 rounded rounded-full overflow-hidden">
+                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
+                        </div>
+                        <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
+                        <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
+                            <p>{item.user_location}</p>
+                            <p>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
+                            <p>{item.user_location}</p>
+                            <p>{item.status}</p>
+                        </div>
+
+                        {/* ADD FRIEND BUTTON */}
+                        {item.status === 'Pending' ?
+                            <button className='w-28 absolute right-5 text-sm p-1 rounded border border-gray-400 bg-gray-800 hover:bg-green-500 hover:text-black'
+                                onClick={() => removeFriendRequest(item.user_id)}>Remove request</button>
+                            :
+                            <button className='w-28 absolute right-5 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
+                                onClick={() => sendFriendRequest(item.user_id, item.user_name)}>Add friend</button>
+                        }
+                    </div>
+                ))}
+                {usersFound.length === 0 &&
+                    <div className='flex items-center justify-center mb-4 h-80 text-gray-400 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                        Here you will see the users found in the database
+                    </div>}
+            </div>
+        </div>
+    )
+}

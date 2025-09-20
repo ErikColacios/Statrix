@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import { Dialog } from "radix-ui";
 import AcceptButton from "./AcceptButton";
-import { getListsUser } from "../actions/getListsUser";
 import updateListOneGame from "../actions/updateListOneGame";
-import NoListCreated from "./NoListCreated";
 import Link from "next/link";
 
 type Props = {

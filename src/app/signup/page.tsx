@@ -5,7 +5,7 @@ import { signUp } from '../actions/signUpUser'
 import { useFormState } from 'react-dom'
 
 export default function SignUp() {
-    const [state, formAction] = useFormState<any, FormData>(logInUser,undefined)
+    const [state, formAction] = useFormState<any, FormData>(signUp, undefined)
 
     return (
         <section className={`relative flex w-full h-screen bg-[url("/staticImages/fallout.jpg")] bg-cover`}>
@@ -26,7 +26,7 @@ export default function SignUp() {
                     {/* Show error message */}
                     {state?.error && <p className='text-red-500'>{state.error}</p>}
 
-                    <button className="mt-2 text-white bg-gradient-to-r from-orange-300 to-yellow-400 p-2 hover:from-orange-400 hover:to-yellow-500 "  formAction={signUp}>Sign up</button>
+                    <button className="mt-2 text-white bg-gradient-to-r from-orange-300 to-yellow-400 p-2 hover:from-orange-400 hover:to-yellow-500 ">Sign up</button>
                 </form>
             </div>
         </section>
