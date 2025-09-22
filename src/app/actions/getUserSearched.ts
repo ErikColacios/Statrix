@@ -5,6 +5,7 @@ import { getSession } from "./getSession";
 export default async function getUserSearched(userSearched: string) {
     const session = await getSession()
     const user_id:string | undefined = session.user_id
+    const user_name:string | undefined = session.user_name
     
     if (!userSearched) {
         throw new Error("The parameter userSearched is mandatory");
@@ -17,8 +18,8 @@ export default async function getUserSearched(userSearched: string) {
             (uf.requester_id = usr.user_id AND uf.addressee_id = $1)
             OR (uf.requester_id = $1 AND uf.addressee_id = usr.user_id)
         WHERE LOWER(usr.user_name) LIKE LOWER($2 || '%')
-        AND usr.user_name <> $2`;
-        const { rows } = await pool.query(query, [user_id, userSearched]);
+        AND usr.user_name <> $3`;
+        const { rows } = await pool.query(query, [user_id, userSearched, user_name]);
         return rows;
     } catch (error) {
         console.error("Error fetching users:", error);
