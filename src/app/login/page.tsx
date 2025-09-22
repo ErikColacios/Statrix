@@ -23,7 +23,7 @@ export default function LogIn() {
                         <input type="password" className="bg-black text-white border-gray-400 text-black border-2 mb-4 p-1 focus:outline-none focus:border-green-500" name="passwordLogIn" id="passwordLogIn"/>
                     
                     {/* Show error message */}
-                    {state?.error && <p className='text-red-500'>{state.error}</p>}
+                    {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
 
                     <button className="mt-2 text-white bg-gradient-to-r from-green-400 to-lime-400 p-2 hover:from-green-500 hover:to-lime-600 transition duration-300">Log in</button>
 

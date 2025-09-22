@@ -24,7 +24,7 @@ export default function SignUp() {
                         <input type="password" className="bg-black text-white border-gray-400 text-black border-2 mb-4 p-1 focus:outline-none focus:border-green-500" name="password" id="password"/>
                     
                     {/* Show error message */}
-                    {state?.error && <p className='text-red-500'>{state.error}</p>}
+                    {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
 
                     <button className="mt-2 text-white bg-gradient-to-r from-orange-300 to-yellow-400 p-2 hover:from-orange-400 hover:to-yellow-500 ">Sign up</button>
                 </form>

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FriendshipStatus } from '../enums/FriendshipStatus'
-import getUsers from '../actions/getUsers'
+import getUsers from '../actions/getUsersFriendship'
 import { Dialog } from 'radix-ui'
 import AddNewFriendModal from '../components/AddNewFriendModal'
 import getSessionUser from '../actions/getSessionUser'
@@ -19,7 +19,6 @@ export default function friendsLayout() {
         setUserSearchMode(userSearchMode)
         users = await getUsers(userSearchMode)
         setUsersFound(users)
-        console.log(users)
     }
 
     async function acceptFriendRequest(requester_id: string) {
@@ -41,7 +40,6 @@ export default function friendsLayout() {
     }, [])
     
     
-
     return (
         <div className='w-full lg:w-3/4 2xl:w-1/2'>
             <Dialog.Root>
@@ -62,21 +60,21 @@ export default function friendsLayout() {
                 </div>
                 <div className='relative flex flex-col'>
                     <div className="flex text-base">
-                        <button className={`pl-4 pt-1 pr-4 pb-1 ${userSearchMode === FriendshipStatus.ACCEPTED ? 'bg-gray-600' : 'bg-transparent'}`}
+                        <button className={`pl-4 pt-1 pr-4 pb-1 hover:bg-gray-700 ${userSearchMode === FriendshipStatus.ACCEPTED ? 'bg-gray-600' : 'bg-transparent'}`}
                             onClick={() => loadUsers(FriendshipStatus.ACCEPTED)}>Accepted</button>
-                        <button className={`pl-4 pt-1 pr-4 pb-1 ${userSearchMode === FriendshipStatus.PENDING ? 'bg-gray-600' : 'bg-transparent'}`}
+                        <button className={`pl-4 pt-1 pr-4 pb-1 hover:bg-gray-700 ${userSearchMode === FriendshipStatus.PENDING ? 'bg-gray-600' : 'bg-transparent'}`}
                             onClick={() => loadUsers(FriendshipStatus.PENDING)}>Pending</button>
-                        <button className={`pl-4 pt-1 pr-4 pb-1 ${userSearchMode === FriendshipStatus.BLOCKED ? 'bg-gray-600' : 'bg-transparent'}`}
+                        <button className={`pl-4 pt-1 pr-4 pb-1 hover:bg-gray-700 ${userSearchMode === FriendshipStatus.BLOCKED ? 'bg-gray-600' : 'bg-transparent'}`}
                             onClick={() => loadUsers(FriendshipStatus.BLOCKED)}>Blocked</button>
                     </div>
                 </div>
                 
-                <div className='mt-5'>
+                <div className='mt-5 overflow-scroll no-scrollbar'>
                     {/* Users found */}
                     {usersFound.map((item: any, index: number) => (
                         <div key={index} className='relative flex items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
-                            <div className="w-12 rounded rounded-full overflow-hidden">
-                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full" />
+                            <div className="w-10 h-10 rounded rounded-full overflow-hidden">
+                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
                             </div>
                             <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
                             <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>

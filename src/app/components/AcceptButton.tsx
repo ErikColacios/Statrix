@@ -19,5 +19,4 @@ export default function AcceptButton({ text, size }: Props){
             </button>
         )
     }
-
 }

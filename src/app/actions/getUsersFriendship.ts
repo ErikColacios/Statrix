@@ -3,7 +3,7 @@ import { pool } from "@/util/postgres";
 import { getSession } from "./getSession";
 import { FriendshipStatus } from "../enums/FriendshipStatus";
 
-export default async function getUsers(userSearchMode: FriendshipStatus) {
+export default async function getUsersFriendship(userSearchMode: FriendshipStatus) {
   const session = await getSession();
   const user_id = session.user_id;
 
