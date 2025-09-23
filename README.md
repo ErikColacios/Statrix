@@ -15,7 +15,6 @@ With Statrix, you can:
 
 - **Next.js 14** – App router, optimized for modern React.
 - **Tailwind CSS** – Utility-first styling with dark/green theme.
-- **Framer Motion** – Smooth animations and transitions.
 - **TypeScript** – Strongly typed for safety and scalability.
 
 ---
