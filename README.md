@@ -24,6 +24,6 @@ With Statrix, you can:
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/statrix.git
+git clone https://github.com/ErikColacios/Statrix.git
 cd statrix
 npm install
