@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import localFont from 'next/font/local'
+import PrimaryButton from "./components/PrimaryButton";
 
 const infiniteBeyondFont = localFont({ src: 'fonts/InfiniteBeyondItalic-rgPlO.ttf' })
 
@@ -18,7 +19,7 @@ export default async function Home() {
           games, and connect with friends in a vibrant community of players.
         </p>
         <div className="mt-10 flex justify-center gap-4">
-          <Link href={'/login'}><button className="text-lg text-white px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Get started</button></Link>
+          <Link href={'/login'}><PrimaryButton text="Get started"/></Link>
           <button
             className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-lg"
           >
@@ -28,7 +29,7 @@ export default async function Home() {
       </section>
 
       {/* Features */}
-      <section id="features" className="px-8 py-6 max-w-6xl mx-auto">
+      <section id="features" className="px-8 py-20 max-w-6xl mx-auto">
         <h3 className="text-3xl font-bold text-center text-green-400 mb-16">
           What You Can Do with Statrix
         </h3>
@@ -69,7 +70,7 @@ export default async function Home() {
           Whether you’re a casual gamer or a hardcore completionist, Statrix is
           the place to showcase your gaming identity and connect with like-minded players.
         </p>
-        <Link href={'/signup'}><button className="text-lg text-white px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Create your profile</button></Link>
+        <Link href={'/signup'}><PrimaryButton text="Create your profile"/></Link>
 
       </section>
 

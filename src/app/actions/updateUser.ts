@@ -12,6 +12,9 @@ export default async function updateUser(prevState: any, formData: FormData) {
     const user_email = formData.get("user_email") as string;
     const user_location = formData.get("user_location") as string;
     const user_webpage = formData.get("user_webpage") as string;
+    const user_steam = formData.get("user_steam") as string;
+    const user_twitch = formData.get("user_twitch") as string;
+    const user_x = formData.get("user_x") as string;
 
     try {
         // Use parameterized query to prevent SQL injection
@@ -21,15 +24,18 @@ export default async function updateUser(prevState: any, formData: FormData) {
                  user_bio = $2,
                  user_email = $3,
                  user_location = $4,
-                 user_webpage = $5
-             WHERE user_id = $6`,
-            [user_name, user_bio, user_email, user_location, user_webpage, user_id]
+                 user_webpage = $5,
+                 user_steam = $6,
+                 user_twitch = $7,
+                 user_x = $8
+             WHERE user_id = $9`,
+            [user_name, user_bio, user_email, user_location, user_webpage, user_steam, user_twitch, user_x, user_id]
         );
 
-        console.log("User updated successfully.");
-        return "User updated successfully!";
+        console.log("User settings updated successfully.");
+        return "User settings updated successfully!";
     } catch (error) {
-        console.error("Error updating user:", error);
-        return "Error updating user.";
+        console.error("Error updating user settings:", error);
+        return "Error updating user settings.";
     }
 }

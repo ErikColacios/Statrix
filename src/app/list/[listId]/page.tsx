@@ -7,9 +7,9 @@ import Link from "next/link";
 import Image from "next/image";
 import SelectScore from '@/app/components/SelectScore';
 import InputHoursPlayed from '@/app/components/InputHoursPlayed';
-import AcceptButton from '@/app/components/AcceptButton';
+import AcceptButton from '@/app/components/PrimaryButton';
 import StarButton from '@/app/components/StarButton';
-import DenyButton from '@/app/components/DenyButton';
+import DenyButton from '@/app/components/DangerButton';
 import CustomModal from '@/app/components/CustomModal';
 
 type SearchParamProps = Record<string, string> | null | undefined;

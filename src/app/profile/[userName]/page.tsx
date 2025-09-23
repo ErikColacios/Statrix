@@ -58,12 +58,19 @@ export default async function Profile({ params }: { params: { userName: string }
                                 <p>Email</p>
                                 <p>Location</p>
                                 <p>Webpage</p>
+                                <p>Steam Account</p>
+                                <p>Twitch Account</p>
+                                <p>X Account</p>
                             </div>
                             <div className="text-md sm:text-lg">
                                 <p className="">{item.user_creationdate.toISOString().split('T')[0]}</p>
                                 <p className="">{item.user_email}</p>
                                 <p className="">{item.user_location}</p>
-                                <a className="underline" href={"https:"+item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a>
+                                <p><a className="underline" href={"https://"+item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a></p>
+                                <p><a className="underline" href={"https://"+item.user_steam} target="_blank" rel="noopener noreferrer">{item.user_steam}</a></p>
+                                <p><a className="underline" href={"https://"+item.user_twitch} target="_blank" rel="noopener noreferrer">{item.user_twitch}</a></p>
+                                <p><a className="underline" href={"https://"+item.user_x} target="_blank" rel="noopener noreferrer">{item.user_x}</a></p>
+
                             </div>
                         </div>
                     </div>

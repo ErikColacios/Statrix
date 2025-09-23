@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react";
-import AcceptButton from "./AcceptButton";
+import AcceptButton from "./PrimaryButton";
 import { Dialog } from "radix-ui";
 import LikeDislikeButtons from "./LikeDislikeButtons";
 import { insertReview } from "../actions/insertReview";

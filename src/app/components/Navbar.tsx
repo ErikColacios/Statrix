@@ -41,8 +41,8 @@ export default async function Navbar() {
                     {session.isLoggedIn &&
                         <Notifications userId={user_info[0].user_id} notificationCount={notificationCount}/>}
 
-                    {session.isLoggedIn && 
-                        <Link className="transition hover:text-green-400" href={"/friends"}>Friends</Link> }
+                    {session.isLoggedIn &&
+                        <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/friends"}>Friends</Link> }
 
                     {/* Log In button */}
                     {!session.isLoggedIn && 

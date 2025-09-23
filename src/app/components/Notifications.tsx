@@ -58,7 +58,7 @@ export default function Notifications({ userId, notificationCount }: Props) {
             </button>
 
             {dropdown &&
-                <div className="overflow-scroll no-scrollbar md:left-10 flex flex-col absolute bg-zinc-900 text-sm w-80 h-80 text-gray-200 border border-zinc-600 rounded rounded-lg top-16 md:top-10 space-y-2 z-30 p-2">
+                <div className="absolute overflow-scroll no-scrollbar flex flex-col space-y-2 bg-zinc-900 text-sm w-80 h-80 text-gray-200 border border-zinc-600 rounded rounded-lg top-16 md:top-10 left-5 sm:left-20 z-30 p-2">
                     <p className="text-base ml-2">Notifications</p>
                     {notifications.map((item: any, index: number) => (
                         <div key={index} className='flex p-2 mb-4 h-18 border border-gray-600 bg-zinc-800 rounded-lg'>

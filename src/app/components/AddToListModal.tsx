@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from "react";
 import { Dialog } from "radix-ui";
-import AcceptButton from "./AcceptButton";
+import AcceptButton from "./PrimaryButton";
 import updateListOneGame from "../actions/updateListOneGame";
 import Link from "next/link";
+import PrimaryButton from "./PrimaryButton";
 
 type Props = {
     game_id: string,
@@ -57,7 +58,7 @@ export default function AddToListModal({ game_id, game_name, game_cover, lists }
                 </div>
             </div>
             <div className="absolute right-5 md:right-10 bottom-10" onClick={() => handleAddToList()}>
-                {lists.length !== 0 ? <AcceptButton text="Save game" size="small" /> : ""}
+                {lists.length !== 0 && <PrimaryButton text="Save game"/> }
             </div>
         </div>
     )

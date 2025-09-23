@@ -6,7 +6,7 @@ import { IronSession } from "iron-session"
 import { SessionData } from "@/session_lib"
 import Link from "next/link"
 import { pool } from '@/util/postgres'
-import AcceptButton from '../components/AcceptButton'
+import AcceptButton from '../components/PrimaryButton'
 
 export default async function MyListsLayout({
     children, 

@@ -9,7 +9,7 @@ import { GameStatus } from '@/app/enums/GameStatus'
 import UpdateUserVideogameButton from '@/app/components/UpdateUserVideogameButton'
 import SliderImages from '@/app/components/SliderImages'
 import getGameReviews from '@/app/actions/getGameReviews'
-import AcceptButton from '@/app/components/AcceptButton'
+import AcceptButton from '@/app/components/PrimaryButton'
 import ReviewModal from '@/app/components/ReviewModal'
 import { Dialog } from "radix-ui";
 import ReviewSection from '@/app/components/ReviewSection'

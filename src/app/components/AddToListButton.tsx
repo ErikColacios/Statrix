@@ -1,5 +1,5 @@
 import React from "react";
-import AcceptButton from "./AcceptButton";
+import PrimaryButton from "./PrimaryButton";
 import { Dialog } from "radix-ui";
 import AddToListModal from "./AddToListModal";
 import { getListsUser } from "../actions/getListsUser";
@@ -27,7 +27,7 @@ export default async function AddToListButton({ game_id, game_name, game_cover }
                 </Dialog.Content>
             </Dialog.Portal>
             <Dialog.Trigger asChild>
-                <AcceptButton text="Add to list" size="large" />
+                <PrimaryButton text="Add to list"/>
             </Dialog.Trigger>
         </Dialog.Root>
     )
