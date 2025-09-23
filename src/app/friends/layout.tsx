@@ -13,7 +13,7 @@ export default async function friendsLayout({ children }: { children: React.Reac
     }
 
     return (
-        <section className='flex justify-center bg-black p-4 pt-20 md:p-16 md:pt-20 text-white'>
+        <section className='flex justify-center p-4 pt-20 md:p-16 md:pt-20 text-white bg-gradient-to-b from-black via-gray-900 to-black'>
             {children}
         </section>
     )

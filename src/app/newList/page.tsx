@@ -138,6 +138,7 @@ export default function NewList() {
     }
   };
 
+
   useEffect(() => {
     if (showSidebar) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -153,6 +154,11 @@ export default function NewList() {
       {alert}
       {/* Sidebar */}
       <aside className='hidden sm:flex h-screen flex-col w-36 items-center pt-4 text-sm '>
+        <p className="text-gray-200">Categories</p>
+        <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
+        <div className="flex flex-col mt-1 pb-4 text-gray-400">
+          <button className={genre !== 0 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(0)}>Trending</button>
+        </div>
         <p className="text-gray-200">Genres</p>
         <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
         <div className="flex flex-col pt-4 text-gray-400 pb-4">
@@ -163,41 +169,12 @@ export default function NewList() {
           <button className={genre !== 14 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(14)}>Sport</button>
           <button className={genre !== 13 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(13)}>Simulator</button>
         </div>
-        <p className="text-gray-200">Categories</p>
-        <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
-        <div className="flex flex-col pt-4 text-gray-400">
-          <button className={genre !== 0 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(0)}>Trending</button>
-        </div>
       </aside>
-
-      {/* Sidebar of games added */}
-      <div ref={sidebarRef} className='fixed bottom-0 z-50'>
-        <div className={showSidebar ? `overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/80 backdrop-blur-sm border border-gray-600 rounded-2xl m-2 p-4` : 'hidden'}>
-          {gameList.map((gameInList, index) => (
-            <div key={index} className='flex items-center mb-3 w-full relative'>
-              <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar' />
-              <p className='text-sm ml-4'>{gameInList.name}</p>
-              <button className='ml-8 flex items-center'><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0' onClick={() => unselectGameList(gameInList.id)} /></button>
-            </div>
-          ))}
-        </div>
-
-        {/* Games counter */}
-        <div onClick={() => setShowSidebar(!showSidebar)} className='flex space-x-2 items-center justify-center w-36 sm:w-96 bg-black/70 backdrop-blur-sm cursor-pointer border hover:border-green-500 pt-2 pb-2 m-2 z-50'>
-          <p className='text-xl font-bold'>{countGames}</p>
-          <p className='text-gray-300'>games</p>
-        </div>
-      </div>
 
 
       <div className="flex flex-col w-full pl-4 pr-4 md:pl-8 md:pr-8">
         {/* List name*/}
         <div className='relative w-full flex flex-col md:flex-row md:items-center mb-8 text-2xl sm:text-3xl lg:text-4xl'>
-          <span className='text-base md:text-3xl'>New list</span>
-          <input type="text" placeholder='Super list' className='bg-transparent border-b border-white pl-4 mr-4 md:ml-4 h-8 w-48 lg:h-16 xl:w-96 outline-none' onChange={(e) => setListName(e.target.value)} />
-          <button onClick={() => createList()} className="border bg-black border-green-400 text-sm md:text-lg xl:text-2xl w-32 p-3 mt-4 md:mt-0 text-center transition hover:bg-green-400 hover:text-black">
-            Create
-          </button>
 
           {/* Search bar */}
           <form className='absolute right-0 flex items-center text-sm border' action={formAction}>
@@ -223,6 +200,35 @@ export default function NewList() {
                 </div>
               ))}
             </div>}
+        </div>
+      </div>
+      <div className='fixed flex w-full h-20 bg-zinc-900 p-2 bottom-0'>
+        {/* Sidebar of games added */}
+        <div ref={sidebarRef}>
+          {showSidebar &&
+            <div className={`fixed bottom-20 z-50 overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/80 backdrop-blur-sm border border-gray-600 rounded-2xl m-2 p-4`}>
+              {gameList.map((gameInList, index) => (
+                <div key={index} className='flex items-center mb-3 w-full relative'>
+                  <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar' />
+                  <p className='text-sm ml-4'>{gameInList.name}</p>
+                  <button className='ml-8 flex items-center'><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0' onClick={() => unselectGameList(gameInList.id)} /></button>
+                </div>
+              ))}
+            </div>
+          }
+          {/* Games counter */}
+          <div onClick={() => setShowSidebar(!showSidebar)} className='flex space-x-2 text-sm xl:text-xl items-center justify-center w-36 lg:w-96 bg-black/70 backdrop-blur-sm cursor-pointer border hover:border-green-500 pt-2 pb-2 m-2 z-50'>
+            <p className='font-bold'>{countGames}</p>
+            <p className='text-gray-300'>games added</p>
+          </div>
+        </div>
+
+        <div className='flex items-center justify-center md:text-3xl ml-12'>
+          <p className='hidden sm:flex'>List name</p>
+          <input type="text" placeholder='Super list' className='bg-transparent border-b border-white pl-4 mr-4 md:ml-4 h-8 w-48 lg:h-16 xl:w-96 outline-none' onChange={(e) => setListName(e.target.value)} />
+          <button onClick={() => createList()} className="border bg-black border-green-400 text-sm md:text-lg xl:text-2xl md:w-32 p-3 mt-4 md:mt-0 text-center transition hover:bg-green-400 hover:text-black">
+            Create
+          </button>
         </div>
       </div>
     </div>

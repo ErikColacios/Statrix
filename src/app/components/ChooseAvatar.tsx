@@ -76,7 +76,7 @@ export default function ChooseAvatar({current_avatar_id, handleClose}:ChooseAvat
                 <p className="mr-4 md:mr-24">Choose your avatar</p>
                 <p className="text-green-600 mr-2">Current:</p>
                 <p>{selectedAvatar.avatar_name}</p>
-                <button className="border p-1 md:w-32 absolute right-4" onClick={()=> updateAndClose(handleClose)}>Close</button>
+                <button className="border p-1 md:w-36 absolute right-4" onClick={()=> updateAndClose(handleClose)}>Save</button>
             </div>
             <div className="flex flex-col p-2 sm:p-6">
                 <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-12 mt-8">

@@ -4,11 +4,10 @@ import localFont from 'next/font/local'
 import "./globals.css";
 import Navbar from "./components/Navbar";
 
-const roobertRegularFont = localFont({src: 'fonts/RoobertRegular.ttf'})
 
 export const metadata: Metadata = {
   title: "Statrix",
-  description: "Videogame list creator",
+  description: "Showcase your gaming identity",
   icons: "/staticImages/statrix_favicon.png"
 };
 
@@ -18,15 +17,19 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com"/>
+        <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"></link>
+      </head>
       <body className='bg-black'>
-        <Navbar />
-        <div className={`${roobertRegularFont.className} bg-[url(/staticImages/preview.jpg)] bg-cover`}>
+        <Navbar />        
+        <div>
           {children}
         </div>
-        </body>
+      </body>
     </html>
   );
 }

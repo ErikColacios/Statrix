@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import getBannerImages from "../actions/getBannerImages";
-import { pool } from "@/util/postgres";
 import updateUserBanner from "../actions/updateUserBanner";
 
 interface ChooseBannerProps {
@@ -77,7 +76,7 @@ export default function ChooseBanner({current_banner_id, handleClose}:ChooseBann
                 <p className="mr-4 md:mr-24">Choose your banner</p>
                 <p className="text-green-600 mr-2">Current:</p>
                 <p>{selectedBanner.banner_name}</p>
-                <button className="border p-1 md:w-32 absolute right-4" onClick={()=> updateAndClose(handleClose)}>Close</button>
+                <button className="border p-1 md:w-36 absolute right-4" onClick={()=> updateAndClose(handleClose)}>Save</button>
             </div>
             <div className="flex flex-col p-2 sm:p-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6  mt-8">

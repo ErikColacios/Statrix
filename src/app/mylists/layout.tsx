@@ -49,7 +49,7 @@ export default async function MyListsLayout({
     }
 
     return (
-      <section className="w-full h-screen bg-black text-white p-4 pt-20 md:p-16 md:pt-32">
+      <section className="w-full h-screen text-white p-4 pt-20 md:p-16 md:pt-32 bg-gradient-to-b from-black via-gray-900 to-black">
         
         <div className="flex flex-col md:flex-row md:items-center text-xl md:text-3xl pb-8">
           <h2>{session.user_name} videogame lists ( {numberOfLists} )</h2>

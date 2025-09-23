@@ -37,11 +37,11 @@ export default function ReviewSection({ gameReviews, game_id }: Props) {
         <div className='pt-14 sm:pt-5'>
             <div className='relative flex flex-col'>
                 <div className="flex text-base">
-                    <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-gray-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
-                    <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-gray-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.RECENT)}>Recent reviews</button>
+                    <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
+                    <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.RECENT)}>Recent reviews</button>
                 </div>
             </div>
-            <div className='grid bg-gray-900 p-4'>
+            <div className='grid bg-zinc-900 p-4'>
                 {reviews?.map((r: any, index: number) => (
                     <div className={`flex flex-col space-y-2 p-4 rounded-lg mb-8 h-32 bg-black/50 shadow-lg border ${r.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
                         <div className='flex items-center text-white'>

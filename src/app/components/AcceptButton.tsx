@@ -8,7 +8,7 @@ type Props = {
 export default function AcceptButton({ text, size }: Props){
     if(size === "small"){
         return(
-            <button className="border bg-black border-green-400 text-sm md:text-base w-32 h-10 transition hover:bg-green-400 hover:text-black">
+            <button className="border bg-black border-green-400 text-sm  w-32 h-10 transition hover:bg-green-400 hover:text-black">
                 {text}
             </button>
         )
