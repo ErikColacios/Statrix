@@ -6,17 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "chat": "npx tsx watch src/websocket/server.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.9.1",
     "@radix-ui/react-dialog": "^1.1.14",
-    "@supabase/auth-helpers-nextjs": "^0.9.0",
-    "@supabase/supabase-js": "^2.39.7",
     "aws4": "^1.13.2",
     "bcryptjs": "^3.0.2",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
+    "express": "^4.21.2",
     "iron-session": "^8.0.1",
     "net": "^1.0.2",
     "next": "14.1.0",
@@ -24,12 +23,15 @@
     "radix-ui": "^1.4.2",
     "react": "^18",
     "react-dom": "^18",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "swiper": "^11.2.10",
     "tailwind-scrollbar-hide": "^1.1.7",
     "uuid": "^9.0.1",
     "v4": "^0.0.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^20.11.19",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -41,6 +43,7 @@
     "prisma": "^5.9.1",
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.3.3",
     "webpack": "^5.99.9"
   }

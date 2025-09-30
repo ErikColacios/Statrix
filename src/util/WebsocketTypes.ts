@@ -6,6 +6,9 @@ interface ServerToClientEvents {
 
 interface ClientToServerEvents {
   hello: () => void;
+  message: (text:string) => void;
+  join: (roomId:string) => void;
+  leave: (roomId:string) => void;
 }
 
 interface InterServerEvents {

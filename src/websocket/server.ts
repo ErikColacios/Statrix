@@ -1,46 +1,46 @@
-// import express from 'express';
-// import { createServer } from 'http';
-// import { fileURLToPath } from 'url';
-// import { dirname, join } from 'path';
-// import { Server } from 'socket.io';
+import express from "express";
+import { createServer } from "http";
+import { Server, Socket } from "socket.io";
 
-import { Server } from "socket.io";
-
-// const app = express()
-// const server = createServer(app)
-// const io = new Server(server) // The ws server is ON
-
-// const __dirname = dirname(fileURLToPath(import.meta.url))
-
-// // app.get('/chat', (req, res) => {
-// //     res.sendFile(join(__dirname, ''))
-// // })
-
-// io.on('connection', (socket) => {
-//     console.log('User connected')
-// })
-
-// server.listen(4000, () => {
-//     console.log('Chat server running on port 4000')
-// })
+const PORT = process.env.PORT || 4000;
+const app = express();
+const server = createServer(app);
 
 const io = new Server<
   ClientToServerEvents,
   ServerToClientEvents,
   InterServerEvents,
   SocketData
->();
+>(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
-io.on("connection", (socket) => {
-  socket.emit("noArg");
-  socket.emit("basicEmit", 1, "2", Buffer.from([3]));
-  socket.emit("withAck", "4", (e) => {
-    // e is inferred as number
+
+io.on("connect", (socket:Socket) => {
+  console.log(`✅ Cliente conectado: ${socket.id}`);
+
+  socket.on('join', async (roomId: string) => {
+    await socket.join(roomId);
   });
 
-  // works when broadcast to all
-  io.emit("noArg");
+  socket.on('leave', async (roomId: string) => {
+    await socket.leave(roomId);
+  });
 
-  // works when broadcasting to a room
-  io.to("room1").emit("basicEmit", 1, "2", Buffer.from([3]));
+  socket.on('message', (data:string) => {
+    console.log(data);
+    io.to("1").emit("basicEmit", 1, data, Buffer.from([3]));
+  });
+
+
+  socket.on('disconnect', () => console.log(`❌ Cliente desconectado: ${socket.id}`));
+});
+
+
+
+server.listen(PORT, () => {
+  console.log("Chat server running on port 4000");
 });

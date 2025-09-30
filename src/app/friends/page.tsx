@@ -9,7 +9,7 @@ import getSessionUser from '../actions/getSessionUser'
 import updateUserFriendship from '../actions/updateUserFriendship'
 import PrimaryButton from '../components/PrimaryButton'
 
-export default function friendsLayout() {
+export default function friends() {
 
     const [user, setUser] = useState<string | undefined>('')
     const [usersFound, setUsersFound] = useState([])

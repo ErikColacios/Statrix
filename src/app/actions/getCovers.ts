@@ -13,7 +13,7 @@ if (gameName){
     condition = `& name~"${gameName}"*`;
     console.log(condition)
 }
-else if (gameGenre && gameGenre != 0){
+else if (gameGenre && gameGenre != 0) {
     condition = `& genres=${gameGenre}`;
     console.log(condition)
 }
