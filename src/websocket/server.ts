@@ -20,19 +20,21 @@ const io = new Server<
 
 
 io.on("connect", (socket:Socket) => {
-  console.log(`✅ Cliente conectado: ${socket.id}`);
+  //console.log(`✅ Cliente conectado: ${socket.id}`);
 
-  socket.on('join', async (roomId: string) => {
+  socket.on('joinRoom', async (roomId: string) => {
+    console.log('Joined room: ' + roomId)
     await socket.join(roomId);
   });
 
-  socket.on('leave', async (roomId: string) => {
+  socket.on('leaveRoom', async (roomId: string) => {
     await socket.leave(roomId);
   });
 
-  socket.on('message', (data:string) => {
-    console.log(data);
-    io.to("1").emit("basicEmit", 1, data, Buffer.from([3]));
+  
+  socket.on('message', (data:{roomId: string; userId:string | undefined, userName:string | undefined, text: string; timestamp: number}) => {
+    console.log(data)
+    io.to(data.roomId).emit("basicEmit", 1, data, Buffer.from([3]));
   });
 
 

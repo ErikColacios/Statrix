@@ -2,7 +2,7 @@ import { pool } from "@/util/postgres";
 
 /**
  * Gets the total hours played for the user.
- * @param session IronSession containing user_id
+ * @param user_name User name
  * @returns Total hours played as number
  */
 export async function getUserTotalHoursPlayed(user_name:string | undefined) {

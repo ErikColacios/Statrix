@@ -11,7 +11,7 @@ import PrimaryButton from '../components/PrimaryButton'
 
 export default function friends() {
 
-    const [user, setUser] = useState<string | undefined>('')
+    const [user, setUser] = useState<User>()
     const [usersFound, setUsersFound] = useState([])
     const [userSearchMode, setUserSearchMode] = useState<FriendshipStatus>(FriendshipStatus.ACCEPTED)
 
@@ -25,7 +25,7 @@ export default function friends() {
     async function acceptFriendRequest(requester_id: string) {
         if (requester_id !== null && user !== null)
             try {
-                await updateUserFriendship(requester_id, user, FriendshipStatus.ACCEPTED)
+                await updateUserFriendship(requester_id, user?.user_id, FriendshipStatus.ACCEPTED)
             } catch (error) {
                 console.log(error)
             }
@@ -33,11 +33,11 @@ export default function friends() {
 
     useEffect(() => {
         loadUsers(userSearchMode)
-        const getSess = async () => {
-            const user_id: string | undefined = await getSessionUser()
-            setUser(user_id)
+        const getSessionUserId = async () => {
+            const user = await getSessionUser()
+            setUser(user)
         }
-        getSess()
+        getSessionUserId()
     }, [])
 
 
@@ -78,7 +78,7 @@ export default function friends() {
                         <div key={index} className='relative grid grid-cols-5 items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
                             <div className='flex items-center'>
                                 <div className="w-10 h-10 rounded rounded-full overflow-hidden">
-                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
+                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover"/>
                                 </div>
                                 {/* User name */}
                                 <Link href={`/profile/${item.user_name}`} className='ml-4 text-lg hover:text-green-400'>{item.user_name}</Link>
@@ -88,11 +88,18 @@ export default function friends() {
                                 <p className='text-sm'>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
                             </div>
 
+                            {/* Friend row buttons */}
                             <div className='absolute right-5'>
-                                {userSearchMode === FriendshipStatus.PENDING ? user === item.requester_id ?
+                                {userSearchMode === FriendshipStatus.PENDING ? user?.user_id === item.requester_id ?
                                     <p>Pending</p> :
                                     <button onClick={() => acceptFriendRequest(item.requester_id)}
                                         className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
+                                    : ''}
+
+                                {userSearchMode === FriendshipStatus.ACCEPTED ?
+                                    <button className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>
+                                        Chat
+                                    </button>
                                     : ''}
                             </div>
 

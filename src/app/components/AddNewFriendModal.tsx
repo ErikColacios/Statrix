@@ -82,7 +82,6 @@ export default function AddNewFriendModal({ }: Props) {
                         <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
                             <p>{item.user_location}</p>
                             <p>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
-                            <p>{item.user_location}</p>
                             <p>{item.status}</p>
                         </div>
 

@@ -15,6 +15,7 @@ import { Dialog } from "radix-ui";
 import ReviewSection from '@/app/components/ReviewSection'
 import { ReviewMode } from '@/app/enums/ReviewMode'
 import AddToListButton from '@/app/components/AddToListButton'
+import PrimaryButton from '@/app/components/PrimaryButton'
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: string } }) {
 
@@ -133,7 +134,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
                             <section className='mt-14 relative'>
                                 <Dialog.Trigger asChild className='absolute right-1 md:right-5 z-30'>
-                                    <AcceptButton text={'Add review'} size='small' />
+                                    <PrimaryButton text={'Add review'}/>
                                 </Dialog.Trigger>
                                 <ReviewSection gameReviews={gameReviews} game_id={params.game_id} />
                             </section>

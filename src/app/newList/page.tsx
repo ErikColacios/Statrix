@@ -150,7 +150,7 @@ export default function NewList() {
 
 
   return (
-    <div className='flex'>
+    <section className='flex pt-4'>
       {alert}
       {/* Sidebar */}
       <aside className='hidden sm:flex h-screen flex-col w-36 items-center pt-4 text-sm '>
@@ -172,10 +172,9 @@ export default function NewList() {
       </aside>
 
 
-      <div className="flex flex-col w-full pl-4 pr-4 md:pl-8 md:pr-8">
+      <div className="flex flex-col w-full px-4 pb-24 md:px-8">
         {/* List name*/}
         <div className='relative w-full flex flex-col md:flex-row md:items-center mb-8 text-2xl sm:text-3xl lg:text-4xl'>
-
           {/* Search bar */}
           <form className='absolute right-0 flex items-center text-sm border' action={formAction}>
             <input type="text" name="searchGame" id="searchGame" className='w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='Hollow Knight' />
@@ -183,7 +182,7 @@ export default function NewList() {
           </form>
         </div>
 
-        <div className='flex'>
+        <div className='flex pt-4'>
           {/* --- VIDEOGAMES SHOWN ---- */}
           {isLoading ? <SkeletonNewVideogameList /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
@@ -217,20 +216,20 @@ export default function NewList() {
             </div>
           }
           {/* Games counter */}
-          <div onClick={() => setShowSidebar(!showSidebar)} className='flex space-x-2 text-sm xl:text-xl items-center justify-center w-36 lg:w-96 bg-black/70 backdrop-blur-sm cursor-pointer border hover:border-green-500 pt-2 pb-2 m-2 z-50'>
+          <div onClick={() => setShowSidebar(!showSidebar)} className='flex space-x-2 text-sm xl:text-xl items-center justify-center w-32 xl:w-96 bg-black/70 backdrop-blur-sm cursor-pointer border hover:border-green-500 pt-2 pb-2 m-2 z-50'>
             <p className='font-bold'>{countGames}</p>
             <p className='text-gray-300'>games added</p>
           </div>
         </div>
 
-        <div className='flex items-center justify-center md:text-3xl ml-12'>
+        <div className='flex items-center justify-center md:text-3xl md:ml-12'>
           <p className='hidden sm:flex'>List name</p>
-          <input type="text" placeholder='Super list' className='bg-transparent border-b border-white pl-4 mr-4 md:ml-4 h-8 w-48 lg:h-16 xl:w-96 outline-none' onChange={(e) => setListName(e.target.value)} />
-          <button onClick={() => createList()} className="border bg-black border-green-400 text-sm md:text-lg xl:text-2xl md:w-32 p-3 mt-4 md:mt-0 text-center transition hover:bg-green-400 hover:text-black">
+          <input type="text" placeholder='Relaxing games' className='bg-transparent border-b border-white pb-1 ml-2 mr-4 md:ml-4 h-8 w-36 lg:h-16 md:w-80 lg:w-96 outline-none' onChange={(e) => setListName(e.target.value)} />
+          <button onClick={() => createList()} className="text-sm md:text-lg text-white px-3 md:px-6 py-2 md:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
             Create
           </button>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

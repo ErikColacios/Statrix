@@ -5,6 +5,7 @@ import getUserInfo from "../../actions/getUserInfo";
 import getUserGameStats from "../../actions/getUserGameStats";
 import { getUserTotalHoursPlayed } from "../../actions/getUserTotalHoursPlayed";
 import Link from "next/link";
+import { getUserTotalReviews } from "@/app/actions/getUserTotalReviews";
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 
@@ -13,6 +14,7 @@ export default async function Profile({ params }: { params: { userName: string }
     let userInfo:any | undefined = []
     let userGameStats:any | undefined = []
     let userTotalHoursPlayed:number | undefined
+    let userTotalReviews:number | undefined
     let canEdit:Boolean = false
 
     // Protect route in case someone types the route wihtout logging in
@@ -27,6 +29,7 @@ export default async function Profile({ params }: { params: { userName: string }
         userInfo = await getUserInfo(params.userName)
         userGameStats = await getUserGameStats(params.userName)
         userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
+        userTotalReviews = await getUserTotalReviews(params.userName)
     }
 
 
@@ -87,6 +90,10 @@ export default async function Profile({ params }: { params: { userName: string }
                      <div className="flex flex-col items-center text-center w-32">
                          <p className="text-6xl font-bold">{userTotalHoursPlayed}</p>
                          <p className="text-green-400">Hours played</p>
+                     </div>
+                    <div className="flex flex-col items-center text-center w-32">
+                         <p className="text-6xl font-bold">{userTotalReviews}</p>
+                         <p className="text-green-400">Games reviewed</p>
                      </div>
                  </div>
                 
