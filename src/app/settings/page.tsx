@@ -1,37 +1,117 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { getSession } from "../actions/getSession";
 import { redirect } from "next/navigation";
 import getUserInfo from "../actions/getUserInfo";
 import Link from "next/link";
 import UserSettingsForm from "../components/UserSettingsForm";
+import { Dialog } from 'radix-ui'
+import ChooseAvatar from "../components/ChooseAvatar";
+import ChooseAvatarBanner from "../components/ChooseAvatarBanner";
+import PrimaryButton from "../components/PrimaryButton";
+import updateUser from "../actions/updateUser";
+import { useFormState } from "react-dom";
+import getSessionUser from "../actions/getSessionUser";
 
-export default async function Settings(){
+export default function Settings(){
 
-    const session = await getSession()
-    const user_id:string | undefined = session.user_id
-    const user_name:string | undefined = session.user_name
+    const [user, setUser] = useState<User>()
+    const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
     let userInfo:any | undefined = []
+    const [chooseMode, setChooseMode] = useState<"avatar" | "banner">("avatar")
 
-    if(user_id !== undefined){
-        userInfo = await getUserInfo(user_name)
-    }
+    // useEffect(() => {
+    //     const getSessionUserId = async () => {
+    //         const user = await getSessionUser()
+    //         setUser(user)
+    //     }
+    //     getSessionUserId()
+    //     if(user !== undefined){
+    //         //userInfo = await getUserInfo(user_name)
+    //     }
+    // }, [])
 
-    // Protect route in case someone types the route wihtout logging in
-    if(!session.isLoggedIn){
-        redirect("/")
-    }
 
     return (
-        <section className="relative w-full flex bg-black text-white justify-center pt-20 md:p-22 bg-gradient-to-b from-black via-gray-900 to-black">
-            <div className="w-full 2xl:w-2/3 flex flex-col bg-gray-800 text-lg p-4 bg-zinc-900/80">
-                {/* BACK TO PROFILE */}
-                <Link href={`/profile/${user_name}`} className="group flex items-center text-green-500 text-base lg:text-xl hover:text-green-600 border border-green-600 w-48 lg:w-64 rounded">
-                    <svg className="w-8 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z"/></svg>
-                    BACK TO PROFILE
-                    </Link>
-                <h2 className="text-3xl text-center mt-12 lg:mt-0 mb-8">Profile settings</h2>
-                <UserSettingsForm userInfo={userInfo}/>
-            </div>
+        <section className="relative w-full flex bg-black text-white justify-center py-20 bg-gradient-to-b from-black via-gray-900 to-black">
+        <Dialog.Root>
+            <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                <Dialog.Content className={`fixed w-full p-2 md:w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
+                    <Dialog.Title className="DialogTitle"></Dialog.Title>
+                    <Dialog.Description className="DialogDescription"></Dialog.Description>
+                        <ChooseAvatarBanner chooseMode={chooseMode} current_avatar_id={0} current_banner_id={0} handleClose={() => {}} />
+                </Dialog.Content>
+            </Dialog.Portal>
+            <div className="w-full md:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80">
+                <form className="w-full relative rounded  outline-gray-700" action={formAction}>
+        
+                        {/* BANNER */}
+                        <Dialog.Trigger asChild onClick={() => setChooseMode("banner")}>
+                            <div className="w-full">
+                                <img src={"/bannerImages/aperture.jpg"} className="w-full h-56 outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" />
+                            </div>
+                        </Dialog.Trigger>
+        
+        
+                        {/* AVATAR */}
+                        <Dialog.Trigger asChild onClick={() => setChooseMode("avatar")}>
+                            <div className="ml-2 absolute top-10 w-48 h-48 rounded-full overflow-hidden outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
+                                <img src={"/avatarImages/leon.jpg"} className="h-full w-full object-cover" />
+                            </div>
+                        </Dialog.Trigger>
+                
+                            <div className="w-full px-4 py-8">
+                                <div>
+                                    <p className="text-sm text-gray-400">Username</p>
+                                    <input type="text" name="user_name" maxLength={20} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={'erik'} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">Bio</p>
+                                    <textarea rows={7} name="user_bio" className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={'Welcome to my profile'} maxLength={250} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">Email</p>
+                                    <input type="email" name="user_email" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={'erikcolacios@gmail.com'} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">Location</p>
+                                    <input type="text" name="user_location" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={'Barcelona Spain'} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">Webpage</p>
+                                    <input type="text" name="user_webpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={'www.erikcolacios.com'} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">Steam Profile</p>
+                                    <input type="text" name="user_steam" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={''} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">Twitch Profile</p>
+                                    <input type="text" name="user_twitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={''} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-400">X Profile</p>
+                                    <input type="text" name="user_x" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={''} />
+                                </div>
+                                <div className="mt-4">
+                                    <p className="text-gray-400">Was created </p>
+                                </div>
+        
+                                <div className="py-6 flex flex-col lg:flex-row items-center">
+                                    <PrimaryButton text="Save changes"/>
+                                    <div className="h-8">
+                                        {/* Error message */}
+                                        {state?.error && <p className='text-red-500'>{state.error}</p>}
+                                        {/* Success message */}
+                                        {state && <p className='text-sm mt-1 lg:text-base text-green-500'>{state}</p>}
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </Dialog.Root>
         </section>
     )
 }
