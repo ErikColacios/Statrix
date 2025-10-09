@@ -19,26 +19,26 @@ export default function ChooseAvatar({current_avatar_id, handleClose}:ChooseAvat
 
     let images:any = []
 
-    const renderCount = useRef(0);
-    useEffect(() => {
-        renderCount.current = renderCount.current + 1;
-      });
+    // const renderCount = useRef(0);
+    // useEffect(() => {
+    //     renderCount.current = renderCount.current + 1;
+    //   });
     
     // Scroll to top only when entering this component (first render of the component). In mobile version when you select an avatar it scrolls to the top and looks ugly
-    if(renderCount.current == 0){
-        window.scrollTo(0,0)
-    }
+    // if(renderCount.current == 0){
+    //     window.scrollTo(0,0)
+    // }
 
-    useEffect(() => {
-        async function getImages(){
-            images = await getAvatarImages()
-            setAvatarImages(images)
+    // useEffect(() => {
+    //     async function getImages(){
+    //         //images = await getAvatarImages()
+    //         setAvatarImages(images)
 
-            // Here we get the image name of the current avatar using the currentAvatarId
-            setSelectedAvatar({avatar_id: current_avatar_id, avatar_name: images[current_avatar_id-1].avatar_image_name})
-        }
-        getImages()
-    }, [])
+    //         // Here we get the image name of the current avatar using the currentAvatarId
+    //         setSelectedAvatar({avatar_id: current_avatar_id, avatar_name: images[current_avatar_id-1].avatar_image_name})
+    //     }
+    //     getImages()
+    // }, [])
 
 
     function handleSelectAvatar(avatar_image_id:number, avatar_image_name:string){
@@ -58,15 +58,15 @@ export default function ChooseAvatar({current_avatar_id, handleClose}:ChooseAvat
 
     async function updateAndClose (passedFunctionClose: () => void){
 
-        passedFunctionClose()
+        //passedFunctionClose()
         window.location.reload()
 
-        try {
-            return updateUserAvatar(selectedAvatar.avatar_id, selectedAvatar.avatar_name)
-        } catch (error){
-            console.log(error)
-            return;
-        }
+        // try {
+        //     return updateUserAvatar(selectedAvatar.avatar_id, selectedAvatar.avatar_name)
+        // } catch (error){
+        //     console.log(error)
+        //     return;
+        // }
     }
 
 
@@ -75,11 +75,12 @@ export default function ChooseAvatar({current_avatar_id, handleClose}:ChooseAvat
             <div className="flex items-center bg-gray-800 text-xs md:text-xl p-2 sm:p-4">
                 <p className="mr-4 md:mr-24">Choose your avatar</p>
                 <p className="text-green-600 mr-2">Current:</p>
-                <p>{selectedAvatar.avatar_name}</p>
+                {/* <p>{selectedAvatar.avatar_name}</p> */}
+                <p>Leon</p>
                 <button className="border p-1 md:w-36 absolute right-4" onClick={()=> updateAndClose(handleClose)}>Save</button>
             </div>
             <div className="flex flex-col p-2 sm:p-6">
-                <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-12 mt-8">
+                {/* <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-12 mt-8">
                     {avatarImages.map((item:any, ident:number)=> (
                         <div key={ident} className="flex flex-col items-center text-sm">
                             <div className="w-24 h-24 sm:w-32 sm:h-32 xl:w-48 xl:h-48 rounded-full overflow-hidden hover:outline hover:outline-green-600" id={"avatar"+item.avatar_image_id} onClick={()=> handleSelectAvatar(item.avatar_image_id, item.avatar_image_name)}>
@@ -88,7 +89,7 @@ export default function ChooseAvatar({current_avatar_id, handleClose}:ChooseAvat
                             <p className="mt-2">{item.avatar_image_name}</p>
                         </div>
                     ))}
-                </div>
+                </div> */}
             </div>                    
         </div>
     )
