@@ -1,4 +1,4 @@
-# Statrix 🎮
+# 🎮 Statrix 
 
 Statrix is a modern web platform that lets gamers **share their gaming journey**, connect with friends, and explore a growing database of video games.  
 

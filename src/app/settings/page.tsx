@@ -10,7 +10,6 @@ import getSessionUser from "../actions/getSessionUser";
 
 export default function Settings(){
 
-    const [user, setUser] = useState<User>()
     const [userInfo, setUserInfo] = useState([])
     const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
     let userInf:any | undefined = []
@@ -19,15 +18,12 @@ export default function Settings(){
     useEffect(() => {
         const getSessionUserId = async () => {
             const user = await getSessionUser()
-            setUser(user)
             if(user !== undefined){
                 userInf = await getUserInfo(user.user_name)
                 setUserInfo(userInf)
-                console.log(userInfo)
             }
         }
         getSessionUserId()
-
     }, [])
 
 
