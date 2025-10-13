@@ -11,6 +11,7 @@ import AcceptButton from '@/app/components/PrimaryButton';
 import StarButton from '@/app/components/StarButton';
 import DenyButton from '@/app/components/DangerButton';
 import CustomModal from '@/app/components/CustomModal';
+import PrimaryButton from '@/app/components/PrimaryButton';
 
 type SearchParamProps = Record<string, string> | null | undefined;
 
@@ -51,7 +52,7 @@ export default async function list({ params, searchParams }: { params: { listId:
 
                     <div className="flex items-center md:text-xl md:absolute md:right-0">
                         {/* Edit list  */}
-                        <Link href={`./${list_id}/edit`} className='md:mb-0 p-1 pl-2 pr-2  mr-4'><AcceptButton text='EDIT LIST' size=''/></Link>
+                        <Link href={`./${list_id}/edit`} className='md:mb-0 p-1 pl-2 pr-2  mr-4'><PrimaryButton text='EDIT LIST'/></Link>
 
                         {/* Delete list button*/}
                         <Link href="?show=true"><DenyButton text={'DELETE LIST'}></DenyButton></Link>
