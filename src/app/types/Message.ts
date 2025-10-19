@@ -1,6 +1,6 @@
 type Message = {
-  userId: string | undefined;
-  userName: string | undefined;
+  senderId: string | undefined;
+  senderName: string | undefined;
   text: string;
-  timestamp: Date;
+  created_at: number;
 }

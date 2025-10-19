@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Socket, io } from "socket.io-client";
 import getSessionUser from "../../actions/getSessionUser";
 import getChatRoomById from "@/app/actions/getChatRoomById";
+import insertChatMessage from "@/app/actions/insertChatMessage";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:4000"
@@ -26,23 +27,24 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       const user: User = await getSessionUser()
       setUser(user)
 
-      let chatRoom: any = []
-      chatRoom = await getChatRoomById(roomId)
+      let messageRows: Message[] = await getChatRoomById(roomId) as Message[]
+      setMessages(messageRows)
+
       console.log('Room id: ' + roomId)
-      socket.emit("joinRoom", chatRoom[0].room_id);
+      socket.emit("joinRoom", roomId);
     }
     getSessionUserId()
 
 
     // Receive message from the WS server
-    socket.on("basicEmit", (id, data) => {
+    socket.on("basicEmit", (id, messageData) => {
       const message: Message = {
-        userId: data.userId?.toString(),
-        userName: data.userName?.toString(),
-        text: data.text.toString(),
-        timestamp: new Date(),
+        senderId: messageData.senderId?.toString(),
+        senderName: messageData.senderName?.toString(),
+        text: messageData.text.toString(),
+        created_at: Date.now(),
       };
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) => [...prev, message])
       console.log(messages)
     });
 
@@ -55,13 +57,16 @@ export default function Chat({ params }: { params: { roomId: string } }) {
   // Send a message to te WS server
   function handleSubmit() {
     if (input.trim() !== "") {
-      socket.emit("message", {
+      socket.emit("messageData", {
         roomId: roomId,
-        userId: user?.user_id,
-        userName: user?.user_name,
+        senderId: user?.user_id,
+        senderName: user?.user_name,
         text: input,
-        timestamp: Date.now(),
+        created_at: Date.now(),
       });
+
+      // Insert the message in the database
+      insertChatMessage(roomId, user?.user_id, user?.user_name, input)
       setInput("");
     }
   }
@@ -80,11 +85,11 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         </div>
       </aside>
       <div className="w-3/4 h-[40rem]">
-        <div className="w-full h-full flex flex-col mb-4 p-8 border border-gray-600 text-black bg-gray-800/50 rounded-lg">
+        <div className="w-full h-full flex flex-col overflow-scroll no-scrollbar mb-4 p-8 border border-gray-600 text-black bg-gray-800/50 rounded-lg">
           {messages.map((item: any, ident: number) => (
             <div className="w-full mb-6" key={ident}>
-              <div className={`bg-white w-64 rounded rounded-lg p-2 ${item.userId != user?.user_id && 'float-right'}`}>
-                <b className={`text-green-500 ${item.userId != user?.user_id && 'text-purple-500'}`}>{item.userName}</b>
+              <div className={`bg-white w-64 rounded rounded-lg p-2 ${item.senderId != user?.user_id && 'float-right'}`}>
+                <b className={`text-green-500 ${item.senderId != user?.user_id && 'text-purple-500'}`}>{item.senderName}</b>
                 <p>{item.text}</p>
               </div>
             </div>

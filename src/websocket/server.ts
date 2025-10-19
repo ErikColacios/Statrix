@@ -18,10 +18,7 @@ const io = new Server<
   },
 });
 
-
 io.on("connect", (socket:Socket) => {
-  //console.log(`✅ Cliente conectado: ${socket.id}`);
-
   socket.on('joinRoom', async (roomId: string) => {
     console.log('Joined room: ' + roomId)
     await socket.join(roomId);
@@ -32,9 +29,8 @@ io.on("connect", (socket:Socket) => {
   });
 
   
-  socket.on('message', (data:{roomId: string; userId:string | undefined, userName:string | undefined, text: string; timestamp: number}) => {
-    console.log(data)
-    io.to(data.roomId).emit("basicEmit", 1, data, Buffer.from([3]));
+  socket.on('messageData', (messageData:{roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}) => {
+    io.to(messageData.roomId).emit("basicEmit", 1, messageData, Buffer.from([3]));
   });
 
 
