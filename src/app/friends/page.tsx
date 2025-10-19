@@ -8,9 +8,12 @@ import AddNewFriendModal from '../components/AddNewFriendModal'
 import getSessionUser from '../actions/getSessionUser'
 import updateUserFriendship from '../actions/updateUserFriendship'
 import PrimaryButton from '../components/PrimaryButton'
+import getCreateChat from '../actions/getCreateChat'
+import { useRouter } from 'next/navigation'
 
-export default function friends() {
+export default function Friends() {
 
+    const router = useRouter()
     const [user, setUser] = useState<User>()
     const [usersFound, setUsersFound] = useState([])
     const [userSearchMode, setUserSearchMode] = useState<FriendshipStatus>(FriendshipStatus.ACCEPTED)
@@ -29,6 +32,15 @@ export default function friends() {
             } catch (error) {
                 console.log(error)
             }
+    }
+
+
+    async function openChat(user2_id:string) {
+        let chat: any = []
+        chat = await getCreateChat(user2_id)
+        if(chat.length > 0){
+            router.push(`/chat/${chat[0].room_id}`)
+        }
     }
 
     useEffect(() => {
@@ -97,7 +109,8 @@ export default function friends() {
                                     : ''}
 
                                 {userSearchMode === FriendshipStatus.ACCEPTED ?
-                                    <button className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>
+                                    <button className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
+                                    onClick={()=> openChat(item.user_id)}>
                                         Chat
                                     </button>
                                     : ''}

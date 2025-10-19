@@ -1,40 +1,41 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Socket, io } from "socket.io-client";
-import getSessionUser from "../actions/getSessionUser";
+import getSessionUser from "../../actions/getSessionUser";
+import getChatRoomById from "@/app/actions/getChatRoomById";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:4000"
 );
 
+export default function Chat({ params }: { params: { roomId: string } }) {
 
-export default function chat() {
+  const [roomId, setRoomId] = useState<string>(params.roomId);
+  const [roomInfo, setRoomInfo] = useState([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [user, setUser] = useState<User>()
 
   useEffect(() => {
+
     socket.on("connect", () => {
       console.log("🔌 Conectado al servidor con ID:", socket.id);
     });
 
     const getSessionUserId = async () => {
-        const user:User = await getSessionUser()
-        setUser(user)
+      const user: User = await getSessionUser()
+      setUser(user)
 
-        // WE CREATE A ROOM FROM ERIK TO MAR
-        // erik: 6137a0ab-f373-44db-8325-d82243180e83
-        // mar: 4a41a8a5-f5e7-4a3e-99ed-46385ba54932
-        const room_id = `room_${user?.user_id}_4a41a8a5-f5e7-4a3e-99ed-46385ba54932`
-        console.log(room_id)
-        socket.emit("joinRoom", room_id);
+      let chatRoom: any = []
+      chatRoom = await getChatRoomById(roomId)
+      console.log('Room id: ' + roomId)
+      socket.emit("joinRoom", chatRoom[0].room_id);
     }
     getSessionUserId()
 
 
+    // Receive message from the WS server
     socket.on("basicEmit", (id, data) => {
-      //console.log(id);
-      console.log(data);
       const message: Message = {
         userId: data.userId?.toString(),
         userName: data.userName?.toString(),
@@ -45,16 +46,17 @@ export default function chat() {
       console.log(messages)
     });
 
-    // Limpiar el listener al desmontar
+    
     return () => {
       socket.off("basicEmit");
     };
   }, []);
 
+  // Send a message to te WS server
   function handleSubmit() {
     if (input.trim() !== "") {
       socket.emit("message", {
-        roomId: `room_${user?.user_id}_4a41a8a5-f5e7-4a3e-99ed-46385ba54932`,
+        roomId: roomId,
         userId: user?.user_id,
         userName: user?.user_name,
         text: input,
@@ -69,30 +71,28 @@ export default function chat() {
       <aside className="w-1/4 flex flex-col text-white bg-zinc-900 p-4 border border-gray-600 rounded-lg">
         <h2 className="text-3xl font-bold mb-8">Chat Rooms</h2>
         <div className="p-2 mb-2 hover:bg-zinc-700 rounded">
-            Edwin
-            <p className="text-sm text-gray-300">Last online: 27-09-2025</p>
+          Edwin
+          <p className="text-sm text-gray-300">Last online: 27-09-2025</p>
         </div>
         <div className="p-2 mb-2 hover:bg-zinc-700 rounded">
-            Mar
-            <p className="text-sm text-gray-300">Last online: 30-09-2025</p>
+          Mar
+          <p className="text-sm text-gray-300">Last online: 30-09-2025</p>
         </div>
       </aside>
       <div className="w-3/4 h-[40rem]">
         <div className="w-full h-full flex flex-col mb-4 p-8 border border-gray-600 text-black bg-gray-800/50 rounded-lg">
-        <p>{user?.user_id}</p>
           {messages.map((item: any, ident: number) => (
-            <div
-              key={ident}
-              className="bg-white w-64 rounded rounded-lg p-2 mb-6"
-            >
-              <b className="text-green-500">{item.userName}</b>
-              <p>{item.text}</p>
+            <div className="w-full mb-6" key={ident}>
+              <div className={`bg-white w-64 rounded rounded-lg p-2 ${item.userId != user?.user_id && 'float-right'}`}>
+                <b className={`text-green-500 ${item.userId != user?.user_id && 'text-purple-500'}`}>{item.userName}</b>
+                <p>{item.text}</p>
+              </div>
             </div>
           ))}
           {messages.length == 0 && (
             <div className="flex flex-col text-center justify-center w-full h-full text-gray-400">
-              <p>(－_－) zzZ</p>
-              <p>Nothing to check here by now</p>
+              <p>(๑'ᵕ'๑)⸝*</p>
+              <p>Be the first to start a conversation!</p>
             </div>
           )}
         </div>
