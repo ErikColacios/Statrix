@@ -12,9 +12,6 @@ export default async function insertChatMessage(
       console.error("Room id and sender id not found");
       return;
     }
-    console.log("hasta aqui llega")
-
-    console.log(process.env.POSTGRES_URL)
     
     await pool.query(
       `INSERT INTO chat_messages (room_id, sender_id, sender_name, text) VALUES ($1, $2, $3, $4);`,

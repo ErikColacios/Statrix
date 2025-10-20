@@ -2,9 +2,10 @@
 import { pool } from "@/util/postgres";
 import { getSession } from "./getSession";
 
-export default async function getCreateChat(user2_id: string | undefined) {
+export default async function getCreateChat(user2_id: string | undefined, user2_name:string) {
   const session = await getSession();
   const user_id: string | undefined = session.user_id;
+  const user_name: string | undefined = session.user_name;
 
   if (!user2_id) {
     throw new Error("The parameter user2_id is mandatory");
@@ -16,8 +17,8 @@ export default async function getCreateChat(user2_id: string | undefined) {
     // If there is no existing room, we create it
     if (rows.length == 0) {
       await pool.query(
-        `INSERT INTO chat_rooms (user1_id, user2_id) VALUES ($1, $2)`,
-        [user_id, user2_id]
+        `INSERT INTO chat_rooms (user1_id, user1_name, user2_id, user2_name) VALUES ($1, $2, $3, $4)`,
+        [user_id, user_name, user2_id, user2_name]
       );
 
       rows = await checkChatRoom(user_id, user2_id)

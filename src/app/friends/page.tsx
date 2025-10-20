@@ -35,9 +35,9 @@ export default function Friends() {
     }
 
 
-    async function openChat(user2_id:string) {
+    async function openChat(user2_id:string, user2_name:string) {
         let chat: any = []
-        chat = await getCreateChat(user2_id)
+        chat = await getCreateChat(user2_id, user2_name)
         if(chat.length > 0){
             router.push(`/chat/${chat[0].room_id}`)
         }
@@ -110,7 +110,7 @@ export default function Friends() {
 
                                 {userSearchMode === FriendshipStatus.ACCEPTED ?
                                     <button className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
-                                    onClick={()=> openChat(item.user_id)}>
+                                    onClick={()=> openChat(item.user_id, item.user_name)}>
                                         Chat
                                     </button>
                                     : ''}
