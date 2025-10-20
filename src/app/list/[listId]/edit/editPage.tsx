@@ -1,11 +1,10 @@
 'use client'
-import { useState } from 'react'
-import SearchGameBar from "@/app/components/SearchGameBar";
-import React, { useEffect } from "react"
-import { Videogame } from '@/app/types/Videogame';
-import updateList from '@/app/actions/updateList';
+import updateList from '@/actions/updateList';
+import CustomModal from '@/components/CustomModal';
+import SearchGameBar from '@/components/SearchGameBar';
+import { Videogame } from '@/types/Videogame';
 import { useRouter } from 'next/navigation';
-import CustomModal from '@/app/components/CustomModal';
+import { useEffect, useState } from 'react';
 
 export default function EditPage({ listId, getUserServerSide, getListContentServerSide }: any) {
 

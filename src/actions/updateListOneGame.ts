@@ -1,7 +1,7 @@
 "use server";
 import { pool } from "@/util/postgres";
 import { getSession } from "./getSession";
-import { Status } from "../enums/GameStatus";
+import { GameStatus } from "@/enums/GameStatus";
 
 export default async function updateListOneGame(
   list_id: string,
@@ -32,7 +32,7 @@ export default async function updateListOneGame(
                     user_id, game_id, score, hours_played, game_name, game_base_image, status
                 ) VALUES ($1, $2, 0, 0, $3, $4, $5)
                 ON CONFLICT (user_id, game_id) DO NOTHING`,
-      [user_id, game_id, game_name, game_base_image, Status.PLAYING]
+      [user_id, game_id, game_name, game_base_image, GameStatus.PLAYING]
     );
 
     await client.query("COMMIT");

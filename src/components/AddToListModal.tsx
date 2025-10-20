@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react";
 import { Dialog } from "radix-ui";
-import AcceptButton from "./PrimaryButton";
 import updateListOneGame from "../actions/updateListOneGame";
 import Link from "next/link";
 import PrimaryButton from "./PrimaryButton";

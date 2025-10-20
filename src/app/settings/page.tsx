@@ -1,12 +1,12 @@
 "use client"
-import React, { useEffect, useState } from "react";
-import getUserInfo from "../actions/getUserInfo";
-import { Dialog } from 'radix-ui'
-import ChooseAvatarBanner from "../components/ChooseAvatarBanner";
-import PrimaryButton from "../components/PrimaryButton";
-import updateUser from "../actions/updateUser";
+import getSessionUser from "@/actions/getSessionUser";
+import getUserInfo from "@/actions/getUserInfo";
+import updateUser from "@/actions/updateUser";
+import ChooseAvatarBanner from "@/components/ChooseAvatarBanner";
+import PrimaryButton from "@/components/PrimaryButton";
+import { Dialog } from 'radix-ui';
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import getSessionUser from "../actions/getSessionUser";
 
 export default function Settings(){
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import { getSession } from "../actions/getSession"
-import NoListCreated from "../components/NoListCreated"
-import NotLoggedVideogamelist from "../components/NotLoggedVideogamelist"
 import { IronSession } from "iron-session"
 import { SessionData } from "@/session_lib"
 import Link from "next/link"
 import { pool } from '@/util/postgres'
-import AcceptButton from '../components/PrimaryButton'
+import { getSession } from '@/actions/getSession'
+import NotLoggedVideogamelist from '@/components/NotLoggedVideogamelist'
+import PrimaryButton from '@/components/PrimaryButton'
+import NoListCreated from '@/components/NoListCreated'
 
 export default async function MyListsLayout({
     children, 
@@ -53,7 +53,7 @@ export default async function MyListsLayout({
         
         <div className="flex flex-col md:flex-row md:items-center text-xl md:text-3xl pb-8">
           <h2>{session.user_name} videogame lists ( {numberOfLists} )</h2>
-          <Link href={"newList"} className="md:ml-28"><AcceptButton text='ADD LIST' size=''/></Link>
+          <Link href={"newList"} className="md:ml-28"><PrimaryButton text='ADD LIST'/></Link>
         </div>
         {/* If the user has no lists, shows the component NoListCreated, if not it shows the children (mylists) */}
         {userHasNoLists ? <NoListCreated/> : children}

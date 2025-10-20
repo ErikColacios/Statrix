@@ -1,9 +1,9 @@
 "use client";
+import getChatRoomById from "@/actions/getChatRoomById";
+import getSessionUser from "@/actions/getSessionUser";
+import insertChatMessage from "@/actions/insertChatMessage";
 import React, { useState, useEffect } from "react";
 import { Socket, io } from "socket.io-client";
-import getSessionUser from "../../actions/getSessionUser";
-import getChatRoomById from "@/app/actions/getChatRoomById";
-import insertChatMessage from "@/app/actions/insertChatMessage";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:4000"

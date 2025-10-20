@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react"
 
-
 export default function LikeDislikeButtons() {
 
     const [liked, setLiked] = useState<string>("")

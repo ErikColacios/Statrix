@@ -1,13 +1,12 @@
 "use client"
-import React, { useRef } from 'react'
-import type { Videogame } from '../types/Videogame'
-import { insertList } from '../actions/insertList'
-import { useState, useEffect } from 'react'
+import { getCovers } from '@/actions/getCovers'
+import { insertList } from '@/actions/insertList'
+import CustomModal from '@/components/CustomModal'
+import { Videogame } from '@/types/Videogame'
 import { useRouter } from 'next/navigation'
-import { getCovers } from '../actions/getCovers'
-import SkeletonNewVideogameList from './skeleton'
+import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
-import CustomModal from '../components/CustomModal'
+import SkeletonNewVideogameList from './skeleton'
 
 export default function NewList() {
 

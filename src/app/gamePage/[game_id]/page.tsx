@@ -1,21 +1,20 @@
 "use server"
 import React from 'react'
-import getGameInfo from "@/app/actions/getGameInfo"
-import InputHoursPlayed from '@/app/components/InputHoursPlayed'
-import SelectScoreScroll from '@/app/components/SelectScoreRange'
-import getUserVideogame from '@/app/actions/getUserVideogame'
-import getGlobalUserVideogame from '@/app/actions/getGlobalUserVideogame'
-import { GameStatus } from '@/app/enums/GameStatus'
-import UpdateUserVideogameButton from '@/app/components/UpdateUserVideogameButton'
-import SliderImages from '@/app/components/SliderImages'
-import getGameReviews from '@/app/actions/getGameReviews'
-import AcceptButton from '@/app/components/PrimaryButton'
-import ReviewModal from '@/app/components/ReviewModal'
 import { Dialog } from "radix-ui";
-import ReviewSection from '@/app/components/ReviewSection'
-import { ReviewMode } from '@/app/enums/ReviewMode'
-import AddToListButton from '@/app/components/AddToListButton'
-import PrimaryButton from '@/app/components/PrimaryButton'
+import getGameInfo from '@/actions/getGameInfo';
+import getUserVideogame from '@/actions/getUserVideogame';
+import getGlobalUserVideogame from '@/actions/getGlobalUserVideogame';
+import getGameReviews from '@/actions/getGameReviews';
+import { ReviewMode } from '@/enums/ReviewMode';
+import ReviewModal from '@/components/ReviewModal';
+import { GameStatus } from '@/enums/GameStatus';
+import InputHoursPlayed from '@/components/InputHoursPlayed';
+import UpdateUserVideogameButton from '@/components/UpdateUserVideogameButton';
+import AddToListButton from '@/components/AddToListButton';
+import SelectScoreRange from '@/components/SelectScoreRange';
+import SliderImages from '@/components/SliderImages';
+import PrimaryButton from '@/components/PrimaryButton';
+import ReviewSection from '@/components/ReviewSection';
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: string } }) {
 
@@ -112,7 +111,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                                 <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
                                                 <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
                                             </select>
-                                            <SelectScoreScroll score={userVideogame[0].score} game_id={item.id} />
+                                            <SelectScoreRange score={userVideogame[0].score} game_id={item.id} />
                                             <div className='flex'>
                                                 <span className='mr-4'>Hours played </span>
                                                 <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={item.id} source='gamePage' />

@@ -1,10 +1,10 @@
 "use client"
 import React, { useState } from "react";
-import AcceptButton from "./PrimaryButton";
 import { Dialog } from "radix-ui";
 import LikeDislikeButtons from "./LikeDislikeButtons";
 import { insertReview } from "../actions/insertReview";
 import CustomModal from "./CustomModal";
+import PrimaryButton from "./PrimaryButton";
 
 type Props = {
     game_id: string,
@@ -63,7 +63,7 @@ export default function ReviewModal({ game_id, game_name, game_cover }: Props) {
                 </div>
             </div>
             <div className="absolute right-5 md:right-10 bottom-10" onClick={()=> handleInsertReview()}>
-                <AcceptButton text="Post review" size="small" />
+                <PrimaryButton text="Post review" />
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 "use server"
 import { pool } from "@/util/postgres";
 import { getSession } from "./getSession";
-import { ReviewMode } from '@/app/enums/ReviewMode'
+import { ReviewMode } from "@/enums/ReviewMode";
 
 export default async function getGameReviews(game_id:string, reviewMode:ReviewMode) {
     const session = await getSession()

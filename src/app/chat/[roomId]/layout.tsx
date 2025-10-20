@@ -1,4 +1,4 @@
-import { getSession } from '@/app/actions/getSession'
+import { getSession } from '@/actions/getSession'
 import { redirect } from 'next/navigation'
 import React from 'react'
 

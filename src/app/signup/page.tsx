@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
-import { logInUser } from '../actions/logInUser'
-import { signUp } from '../actions/signUpUser'
+import { signUp } from '@/actions/signUpUser'
 import { useFormState } from 'react-dom'
 
 export default function SignUp() {

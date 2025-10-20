@@ -1,15 +1,15 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { FriendshipStatus } from '../enums/FriendshipStatus'
-import getUsers from '../actions/getUsersFriendship'
 import { Dialog } from 'radix-ui'
-import AddNewFriendModal from '../components/AddNewFriendModal'
-import getSessionUser from '../actions/getSessionUser'
-import updateUserFriendship from '../actions/updateUserFriendship'
-import PrimaryButton from '../components/PrimaryButton'
-import getCreateChat from '../actions/getCreateChat'
 import { useRouter } from 'next/navigation'
+import { FriendshipStatus } from '@/enums/FriendshipStatus'
+import updateUserFriendship from '@/actions/updateUserFriendship'
+import getCreateChat from '@/actions/getCreateChat'
+import getSessionUser from '@/actions/getSessionUser'
+import PrimaryButton from '@/components/PrimaryButton'
+import AddNewFriendModal from '@/components/AddNewFriendModal'
+import getUsersFriendship from '@/actions/getUsersFriendship'
 
 export default function Friends() {
 
@@ -21,7 +21,7 @@ export default function Friends() {
     async function loadUsers(userSearchMode: FriendshipStatus) {
         let users: any = []
         setUserSearchMode(userSearchMode)
-        users = await getUsers(userSearchMode)
+        users = await getUsersFriendship(userSearchMode)
         setUsersFound(users)
     }
 

@@ -1,8 +1,8 @@
 import React from 'react'
-import { getSession } from '../actions/getSession'
 import { redirect } from 'next/navigation'
+import { getSession } from '@/actions/getSession'
 
-export default async function settingsLayout({ children }: { children: React.ReactNode }) {
+export default async function SettingsLayout({ children }: { children: React.ReactNode }) {
 
   const session = await getSession()
   if (!session.isLoggedIn) {

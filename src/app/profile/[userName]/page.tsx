@@ -1,11 +1,10 @@
-import React from "react";
-import { getSession } from "../../actions/getSession";
-import { redirect } from "next/navigation";
-import getUserInfo from "../../actions/getUserInfo";
-import getUserGameStats from "../../actions/getUserGameStats";
-import { getUserTotalHoursPlayed } from "../../actions/getUserTotalHoursPlayed";
+import { getSession } from "@/actions/getSession";
+import getUserGameStats from "@/actions/getUserGameStats";
+import getUserInfo from "@/actions/getUserInfo";
+import { getUserTotalHoursPlayed } from "@/actions/getUserTotalHoursPlayed";
+import { getUserTotalReviews } from "@/actions/getUserTotalReviews";
 import Link from "next/link";
-import { getUserTotalReviews } from "@/app/actions/getUserTotalReviews";
+import { redirect } from "next/navigation";
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 

@@ -1,8 +1,8 @@
 import React from 'react'
-import { getSession } from "../actions/getSession"
-import { getListsUser } from "../actions/getListsUser"
-import { List } from "../types/List"
 import Link from "next/link"
+import { getSession } from '@/actions/getSession'
+import { getListsUser } from '@/actions/getListsUser'
+import { List } from '@/types/List'
 
 export default async function MyLists(){
     const session = await getSession()

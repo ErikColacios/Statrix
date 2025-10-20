@@ -1,4 +1,4 @@
-import LoadingAnimation from "@/app/components/LoadingAnimation"
+import LoadingAnimation from "@/components/LoadingAnimation"
 import React from "react"
 
 export default function Loading() {

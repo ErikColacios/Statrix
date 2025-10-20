@@ -1,8 +1,8 @@
-import { getSession } from "../actions/getSession"
+import { getSession } from "@/actions/getSession";
 import { redirect } from "next/navigation"
 import React from "react";
 
-export default async function VideogameslistLayout({
+export default async function NewListLayout({
     children, 
   }: {
     children: React.ReactNode

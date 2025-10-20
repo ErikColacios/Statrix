@@ -1,8 +1,8 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { logInUser } from '../actions/logInUser'
+import React from 'react'
 import { useFormState } from 'react-dom'
 import Link from 'next/link'
+import { logInUser } from '@/actions/logInUser'
 
 export default function LogIn() {
 

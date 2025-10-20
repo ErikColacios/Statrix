@@ -1,9 +1,9 @@
-import React from "react";
-import Link from "next/link";
+import React from "react"
+import Link from "next/link"
 import localFont from 'next/font/local'
-import PrimaryButton from "./components/PrimaryButton";
+import PrimaryButton from "@/components/PrimaryButton"
 
-const infiniteBeyondFont = localFont({ src: 'fonts/InfiniteBeyondItalic-rgPlO.ttf' })
+const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
 
 
 export default async function Home() {

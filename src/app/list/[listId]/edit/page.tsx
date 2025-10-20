@@ -1,9 +1,8 @@
-import React from "react";
-import { getSession } from "@/app/actions/getSession";
-import EditPage from "./editPage";
-import { getListInfo } from "@/app/actions/getListInfo";
+import { getListContent } from "@/actions/getListContent";
+import { getListInfo } from "@/actions/getListInfo";
+import { getSession } from "@/actions/getSession";
 import Link from "next/link";
-import { getListContent } from "@/app/actions/getListContent";
+import EditPage from "./editPage";
 
 export default async function editList({ params }: { params: { listId: string } }) {
 
