@@ -133,7 +133,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
             </div>
           ))}
 
-          <div className="flex flex-col p-4">
+          <div className="w-full h-full flex flex-col p-4">
             {messages.map((message: any, messageIdent: number) => (
               // Message
               <div className="w-full mb-6" key={messageIdent}>
