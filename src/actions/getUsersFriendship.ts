@@ -29,7 +29,13 @@ export default async function getUsersFriendship(userSearchMode: FriendshipStatu
         WHERE uf.requester_id = $1 AND uf.status = $2`;
     const sentRequests = await pool.query(query2, [user_id, userSearchMode]);
     
-    const receivedAndSentRequests = [...receivedRequests.rows, ...sentRequests.rows];
+    // This object divides friend requests by RECEVIED, SENT and ALL together
+    const receivedAndSentRequests = {
+      received: receivedRequests.rows,
+      sent: sentRequests.rows,
+      all: [...receivedRequests.rows, ...sentRequests.rows]
+    }
+
     return receivedAndSentRequests;
 
   } catch (error) {

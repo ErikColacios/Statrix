@@ -18,11 +18,11 @@ export default function Friends() {
     const [usersFound, setUsersFound] = useState([])
     const [userSearchMode, setUserSearchMode] = useState<FriendshipStatus>(FriendshipStatus.ACCEPTED)
 
-    async function loadUsers(userSearchMode: FriendshipStatus) {
-        let users: any = []
+    async function loadFriendships(userSearchMode: FriendshipStatus) {
+        let friendships: any = []
         setUserSearchMode(userSearchMode)
-        users = await getUsersFriendship(userSearchMode)
-        setUsersFound(users)
+        friendships = await getUsersFriendship(userSearchMode)
+        setUsersFound(friendships.all)
     }
 
     async function acceptFriendRequest(requester_id: string) {
@@ -35,16 +35,16 @@ export default function Friends() {
     }
 
 
-    async function openChat(user2_id:string, user2_name:string) {
+    async function openChat(user2_id: string, user2_name: string) {
         let chat: any = []
         chat = await getCreateChat(user2_id, user2_name)
-        if(chat.length > 0){
+        if (chat.length > 0) {
             router.push(`/chat/${chat[0].room_id}`)
         }
     }
 
     useEffect(() => {
-        loadUsers(userSearchMode)
+        loadFriendships(userSearchMode)
         const getSessionUserId = async () => {
             const user = await getSessionUser()
             setUser(user)
@@ -69,18 +69,18 @@ export default function Friends() {
                     <h2 className='text-2xl'>Friends</h2>
                     <Dialog.Trigger asChild className='ml-auto'>
                         <div>
-                            <PrimaryButton text="Add a friend"/>
+                            <PrimaryButton text="Add a friend" />
                         </div>
                     </Dialog.Trigger>
                 </div>
                 <div className='relative flex flex-col'>
                     <div className="flex text-base">
                         <button className={`pl-4 pt-1 pr-4 pb-1 hover:bg-gray-700 ${userSearchMode === FriendshipStatus.ACCEPTED ? 'bg-gray-600' : 'bg-transparent'}`}
-                            onClick={() => loadUsers(FriendshipStatus.ACCEPTED)}>Accepted</button>
+                            onClick={() => loadFriendships(FriendshipStatus.ACCEPTED)}>Accepted</button>
                         <button className={`pl-4 pt-1 pr-4 pb-1 hover:bg-gray-700 ${userSearchMode === FriendshipStatus.PENDING ? 'bg-gray-600' : 'bg-transparent'}`}
-                            onClick={() => loadUsers(FriendshipStatus.PENDING)}>Pending</button>
+                            onClick={() => loadFriendships(FriendshipStatus.PENDING)}>Pending</button>
                         <button className={`pl-4 pt-1 pr-4 pb-1 hover:bg-gray-700 ${userSearchMode === FriendshipStatus.BLOCKED ? 'bg-gray-600' : 'bg-transparent'}`}
-                            onClick={() => loadUsers(FriendshipStatus.BLOCKED)}>Blocked</button>
+                            onClick={() => loadFriendships(FriendshipStatus.BLOCKED)}>Blocked</button>
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@ export default function Friends() {
                         <div key={index} className='relative grid grid-cols-5 items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
                             <div className='flex items-center'>
                                 <div className="w-10 h-10 rounded rounded-full overflow-hidden">
-                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover"/>
+                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
                                 </div>
                                 {/* User name */}
                                 <Link href={`/profile/${item.user_name}`} className='ml-4 text-lg hover:text-green-400'>{item.user_name}</Link>
@@ -110,7 +110,7 @@ export default function Friends() {
 
                                 {userSearchMode === FriendshipStatus.ACCEPTED ?
                                     <button className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
-                                    onClick={()=> openChat(item.user_id, item.user_name)}>
+                                        onClick={() => openChat(item.user_id, item.user_name)}>
                                         Chat
                                     </button>
                                     : ''}

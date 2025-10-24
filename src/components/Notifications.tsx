@@ -1,9 +1,9 @@
 "use client"
-import React, { useEffect, useState, useRef } from "react";
-import { FriendshipStatus } from "../enums/FriendshipStatus";
-import getUsersFriendship from "../actions/getUsersFriendship";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import getUsersFriendship from "../actions/getUsersFriendship";
 import updateUserFriendship from "../actions/updateUserFriendship";
+import { FriendshipStatus } from "../enums/FriendshipStatus";
 
 type Props = {
     userId: any
@@ -21,11 +21,11 @@ export default function Notifications({ userId, notificationCount }: Props) {
         }
     };
 
-    async function loadUsers() {
-        let users: any = []
+    async function loadFriendships() {
+        let receivedAndSentRequests: any = []
         // Get pending friend requests
-        users = await getUsersFriendship(FriendshipStatus.PENDING)
-        setNotifications(users)
+        receivedAndSentRequests = await getUsersFriendship(FriendshipStatus.PENDING)
+        setNotifications(receivedAndSentRequests.received)
     }
 
     async function acceptFriendRequest(requester_id: string) {
@@ -40,7 +40,7 @@ export default function Notifications({ userId, notificationCount }: Props) {
     useEffect(() => {
         if (dropdown) {
             document.addEventListener("mousedown", handleClickOutside);
-            loadUsers()
+            loadFriendships()
         }
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -69,12 +69,12 @@ export default function Notifications({ userId, notificationCount }: Props) {
                                 <p>New friend request!</p>
                                 <Link href={`/profile/${item.user_name}`} className='font-bold hover:text-green-400'>{item.user_name}</Link>
                             </div>
-                        <button onClick={()=> acceptFriendRequest(item.requester_id)} 
+                            <button onClick={() => acceptFriendRequest(item.requester_id)}
                                 className='m-auto w-16 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
                         </div>
                     ))}
 
-                    {notifications.length === 0 && 
+                    {notifications.length === 0 &&
                         <div className='flex flex-col items-center justify-center text-center mb-4 h-64 text-gray-400 rounded-lg'>
                             <p>(－_－) zzZ</p>
                             <p>Nothing to check here by now</p>

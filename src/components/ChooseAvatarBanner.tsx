@@ -11,16 +11,6 @@ interface ChooseAvatarBannerProps {
   current_banner_id: number;
 }
 
-interface Avatar {
-  avatar_id: number;
-  avatar_name: string;
-}
-
-interface Banner {
-  banner_id: number;
-  banner_name: string;
-}
-
 export default function ChooseAvatarBanner({ chooseMode, current_avatar_id, current_banner_id }: ChooseAvatarBannerProps) {
 
   // Avatars
