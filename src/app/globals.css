@@ -8,17 +8,16 @@
 }
 
 @layer utilities {
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-   /* Hide scrollbar for IE, Edge and Firefox */
-    .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }
-
 
 /* HIDE ARROWS INPUT TYPE NUMBER--- */
 /* Chrome, Safari, Edge, Opera */
@@ -29,55 +28,57 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
-} 
+}
 
-
-
- /* HTML: <div class="loader"></div> */
+/* HTML: <div class="loader"></div> */
 .loader {
-    width: 60px;
-    aspect-ratio: 4;
-    --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#ffffff00);
-    background: 
-      var(--_g) 0%   50%,
-      var(--_g) 50%  50%,
-      var(--_g) 100% 50%;
-    background-size: calc(100%/3) 100%;
-    animation: l7 1s infinite linear;
+  width: 60px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(circle closest-side, #ffffff 90%, #ffffff00);
+  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 100%;
+  animation: l7 1s infinite linear;
+}
+@keyframes l7 {
+  33% {
+    background-size: calc(100% / 3) 0%, calc(100% / 3) 100%, calc(100% / 3) 100%;
   }
-  @keyframes l7 {
-      33%{background-size:calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
-      50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
-      66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
+  50% {
+    background-size: calc(100% / 3) 100%, calc(100% / 3) 0%, calc(100% / 3) 100%;
   }
+  66% {
+    background-size: calc(100% / 3) 100%, calc(100% / 3) 100%, calc(100% / 3) 0%;
+  }
+}
 
 .loader-small {
   width: 30px;
   aspect-ratio: 4;
-  --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#ffffff00);
-  background: 
-    var(--_g) 0%   50%,
-    var(--_g) 50%  50%,
-    var(--_g) 100% 50%;
-  background-size: calc(100%/3) 100%;
+  --_g: no-repeat radial-gradient(circle closest-side, #ffffff 90%, #ffffff00);
+  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 100%;
   animation: l7 1s infinite linear;
 }
 @keyframes l7 {
-    33%{background-size:calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
-    50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
-    66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
+  33% {
+    background-size: calc(100% / 3) 0%, calc(100% / 3) 100%, calc(100% / 3) 100%;
   }
-
-
-.greenShadow{
-    box-shadow: -17px 17px 0px -5px rgb(1, 219, 12);
+  50% {
+    background-size: calc(100% / 3) 100%, calc(100% / 3) 0%, calc(100% / 3) 100%;
   }
+  66% {
+    background-size: calc(100% / 3) 100%, calc(100% / 3) 100%, calc(100% / 3) 0%;
+  }
+}
 
+.greenShadow {
+  box-shadow: -17px 17px 0px -5px rgb(1, 219, 12);
+}
 
 .rangeSlider {
-  -webkit-appearance: none;  /* Override default CSS styles */
+  -webkit-appearance: none; /* Override default CSS styles */
   appearance: none;
   border-radius: 5px;
   width: 100%; /* Full-width */
@@ -85,10 +86,9 @@ input[type=number] {
   background: #505050; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-  transition: opacity .2s;
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
 }
-
 
 .rangeSlider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
@@ -100,7 +100,7 @@ input[type=number] {
   cursor: pointer; /* Cursor on hover */
 }
 
-.rangeSlider::-moz-range-thumb{
+.rangeSlider::-moz-range-thumb {
   width: 25px; /* Set a specific slider handle width */
   height: 25px; /* Slider handle height */
   background: #04aa36; /* Green background */
@@ -110,9 +110,6 @@ input[type=number] {
 .rangeSlider:hover {
   opacity: 1;
 }
-
-
-
 
 /* Tooltip container */
 .tooltip {
@@ -165,7 +162,7 @@ input[type=number] {
 
 /* Fade in animation to open the dialogs */
 @keyframes dialog-content-show {
-  from{
+  from {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.95);
   }
@@ -177,7 +174,7 @@ input[type=number] {
 
 /* Fade in animation to open the dialogs */
 @keyframes dialog-content-hide {
-  from{
+  from {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }

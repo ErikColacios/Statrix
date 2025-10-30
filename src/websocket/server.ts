@@ -28,7 +28,11 @@ io.on("connect", (socket:Socket) => {
     await socket.leave(roomId);
   });
 
-  
+  // Typing
+  socket.on('typing', (messageData:{roomId: string; senderId:string | undefined, senderName:string | undefined}) => {
+    io.to(messageData.roomId).emit("typing", messageData, Buffer.from([3]));
+  });
+
   socket.on('messageData', (messageData:{roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}) => {
     io.to(messageData.roomId).emit("basicEmit", 1, messageData, Buffer.from([3]));
   });

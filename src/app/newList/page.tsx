@@ -6,7 +6,7 @@ import { Videogame } from '@/types/Videogame'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
-import SkeletonNewVideogameList from './skeleton'
+import SkeletonNewList from './skeleton'
 
 export default function NewList() {
 
@@ -183,7 +183,7 @@ export default function NewList() {
 
         <div className='flex pt-4'>
           {/* --- VIDEOGAMES SHOWN ---- */}
-          {isLoading ? <SkeletonNewVideogameList /> :
+          {isLoading ? <SkeletonNewList /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
               {videogameItems.map((videogame, index: number) => (
                 <div key={index} className={`${gameList.includes(videogame) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} onClick={() => handleSetGameList(videogame)}>

@@ -21,11 +21,12 @@ export default function Chat({ params }: { params: { roomId: string } }) {
   const [input, setInput] = useState<string>("");
   const [sessionUser, setSessionUser] = useState<User>()
   const [friendUser, setFriendUser] = useState([])
+  const [typingUser, setTypingUser] = useState<string | undefined>('')
 
   useEffect(() => {
 
     socket.on("connect", () => {
-      console.log("🔌 Conectado al servidor con ID:", socket.id);
+      console.log("🔌 Connected to the server with ID:", socket.id);
     });
 
     const getSessionUserId = async () => {
@@ -58,7 +59,26 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       // We scroll to the bottom of the chat
       scrollToBottom()
     }
-    getSessionUserId()
+
+
+    // Receiving when the other user is typing
+    socket.on("typing", (messageData) => {
+      const typingData = {
+        roomId: roomId,
+        senderId: messageData.senderId?.toString(),
+        senderName: messageData.senderName?.toString(),
+      };
+      
+      setTypingUser(typingData.senderName)
+      document.getElementById('typing')?.classList.remove('hidden')
+      scrollToBottom()
+
+      // We hide the typing message after 5 seconds
+      setTimeout(() => {
+          document.getElementById('typing')?.classList.add('hidden')
+      }, 5000);
+    });
+
 
 
     // Receive message from the WS server
@@ -70,12 +90,14 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         created_at: Date.now(),
       };
       setMessages((prev) => [...prev, message])
-      console.log(messages)
+      setTypingUser('')
     });
 
+    getSessionUserId()
 
     return () => {
       socket.off("basicEmit");
+      
     };
   }, []);
 
@@ -88,8 +110,21 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     scrollToBottom();
   }, [messages]);
 
+
+  function handleTyping(input:string) {
+    setInput(input)
+    
+    if(input !== '')
+      socket.emit("typing", {
+        roomId: roomId,
+        senderId: sessionUser?.user_id,
+        senderName: sessionUser?.user_name,
+      });
+  }
+
+  
   // Send a message to te WS server
-  function handleSubmit(e:FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (input.trim() !== "") {
       socket.emit("messageData", {
@@ -107,10 +142,11 @@ export default function Chat({ params }: { params: { roomId: string } }) {
   }
 
   return (
-    <div className="flex w-full h-full">
-      <div className="w-2/4 h-[40rem] text-white">
-        <div className="w-full h-full flex flex-col mb-4 border border-gray-600 rounded-lg">
+    <div className="flex h-full w-full md:w-1/2">
+      <div className="w-full h-[40rem] text-white">
+        <div className="w-full h-full flex flex-col mb-4 border border-gray-600 rounded-e-2xl overflow-hidden">
 
+          {/* Friend info */}
           {friendUser.map((friend: any, friendIdent: number) => (
             <div className="w-full bg-zinc-900 text-xl p-4" key={friendIdent}>
               <div className="flex items-center">
@@ -122,19 +158,26 @@ export default function Chat({ params }: { params: { roomId: string } }) {
             </div>
           ))}
 
+{         /* Messages */}
           <div className="w-full h-full flex flex-col overflow-scroll no-scrollbar p-4">
             {messages.map((message: any, messageIdent: number) => (
               // Message
-              <div className="w-full mb-6" key={messageIdent}>
-                <div className={`border bg-zinc-800 w-64 rounded p-2 ${message.senderId != sessionUser?.user_id
+              <div className="w-full" key={messageIdent}>
+                <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
                   ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
                   : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
                   <b>{message.senderName}</b>
                   <p>{message.text}</p>
                 </div>
-                <div ref={messagesEndRef} />
               </div>
             ))}
+
+            {/* Typing */}
+            {typingUser !== sessionUser?.user_name && typingUser !== '' && <p className="animate-pulse p-1 w-full hidden text-gray-300" id="typing">{typingUser} is typing...</p>}
+            
+            {/* This div indicates the end of the chat */}
+            <div ref={messagesEndRef} />
+
             {messages.length == 0 && (
               <div className="flex flex-col text-center justify-center w-full h-full text-gray-400">
                 <p>(๑'ᵕ'๑)⸝*</p>
@@ -144,17 +187,23 @@ export default function Chat({ params }: { params: { roomId: string } }) {
           </div>
         </div>
 
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <input
-            type="text"
-            name="message"
-            id="message"
-            className="p-3 outline-none w-full bg-zinc-800 mr-6"
-            placeholder="Type a message"
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-          />
-        </form>
+        <div className="w-full"> 
+          <form className="relative flex" onSubmit={(e) => handleSubmit(e)}>
+            <input
+              type="text"
+              name="message"
+              id="message"
+              className="w-full p-3 outline-none bg-zinc-800 rounded-xl"
+              placeholder="Type a message"
+              onChange={(e) => handleTyping(e.target.value)}
+              value={input}
+            />
+            <button className="absolute right-0 h-full px-4 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300" type="submit">
+              <svg fill="#ffffff" width="23px" height="23px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>send</title> <path d="M0 16l12 4 4 12 16-32zM14.016 18.016l12-12-10.016 17.984z"></path> </g></svg>
+            </button>
+          </form>
+        </div>
+
       </div>
     </div>
   );
