@@ -6,14 +6,14 @@ import PrimaryButton from "@/components/PrimaryButton"
 const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
 
 
-export default async function Home() {
+export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white">
       {/* Hero Section */}
       <section className="px-8 py-52 text-center max-w-4xl mx-auto">
         <p className="text-gray-400 ml-4">Alpha version</p>
-        <p className={`${infiniteBeyondFont.className} tracking-wider pl-1 text-green-400 text-4xl`}>STATRIX</p>
+        <h1 className={`${infiniteBeyondFont.className} tracking-wider pl-1 text-green-400 text-4xl`}>STATRIX</h1>
         <p className="mt-6 text-lg text-gray-300">
           Build your gaming profile, discover new titles, rate and review
           games, and connect with friends in a vibrant community of players.
