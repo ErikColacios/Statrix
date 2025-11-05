@@ -1,0 +1,28 @@
+4afb87cf9f31c69836d6b732a2a824c0
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _jsxruntime = require("react/jsx-runtime");
+const _react = require("@testing-library/react");
+const _DangerButton = /*#__PURE__*/ _interop_require_default(require("../DangerButton"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+describe("DangerButton", ()=>{
+    it("should render the button with the provided text", ()=>{
+        // Arrange
+        const buttonText = "Danger button";
+        // Act
+        (0, _react.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_DangerButton.default, {
+            text: buttonText
+        }));
+        const buttonElement = _react.screen.getByText(buttonText);
+        // Assert
+        expect(buttonElement).toBeInTheDocument();
+    });
+});
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkM6XFxFcmlrXFxzdFxcU3RhdHJpeFxcc3JjXFxjb21wb25lbnRzXFxfX3Rlc3RzX19cXERhbmdlckJ1dHRvbi50ZXN0LnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyByZW5kZXIsIHNjcmVlbiB9IGZyb20gXCJAdGVzdGluZy1saWJyYXJ5L3JlYWN0XCI7XHJcbmltcG9ydCBEYW5nZXJCdXR0b24gZnJvbSBcIi4uL0RhbmdlckJ1dHRvblwiO1xyXG5cclxuZGVzY3JpYmUoJ0RhbmdlckJ1dHRvbicsICgpPT57XHJcblxyXG4gICAgaXQoJ3Nob3VsZCByZW5kZXIgdGhlIGJ1dHRvbiB3aXRoIHRoZSBwcm92aWRlZCB0ZXh0JywgKCkgPT4ge1xyXG4gICAgICAgIC8vIEFycmFuZ2VcclxuICAgICAgICBjb25zdCBidXR0b25UZXh0ID0gJ0RhbmdlciBidXR0b24nXHJcblxyXG4gICAgICAgIC8vIEFjdFxyXG4gICAgICAgIHJlbmRlcig8RGFuZ2VyQnV0dG9uIHRleHQ9e2J1dHRvblRleHR9Lz4pXHJcbiAgICAgICAgY29uc3QgYnV0dG9uRWxlbWVudCA9IHNjcmVlbi5nZXRCeVRleHQoYnV0dG9uVGV4dClcclxuXHJcbiAgICAgICAgLy8gQXNzZXJ0XHJcbiAgICAgICAgZXhwZWN0KGJ1dHRvbkVsZW1lbnQpLnRvQmVJblRoZURvY3VtZW50KClcclxuICAgIH0pO1xyXG59KSJdLCJuYW1lcyI6WyJkZXNjcmliZSIsIml0IiwiYnV0dG9uVGV4dCIsInJlbmRlciIsIkRhbmdlckJ1dHRvbiIsInRleHQiLCJidXR0b25FbGVtZW50Iiwic2NyZWVuIiwiZ2V0QnlUZXh0IiwiZXhwZWN0IiwidG9CZUluVGhlRG9jdW1lbnQiXSwibWFwcGluZ3MiOiI7Ozs7O3VCQUErQjtxRUFDTjs7Ozs7O0FBRXpCQSxTQUFTLGdCQUFnQjtJQUVyQkMsR0FBRyxtREFBbUQ7UUFDbEQsVUFBVTtRQUNWLE1BQU1DLGFBQWE7UUFFbkIsTUFBTTtRQUNOQyxJQUFBQSxhQUFNLGdCQUFDLHFCQUFDQyxxQkFBWTtZQUFDQyxNQUFNSDs7UUFDM0IsTUFBTUksZ0JBQWdCQyxhQUFNLENBQUNDLFNBQVMsQ0FBQ047UUFFdkMsU0FBUztRQUNUTyxPQUFPSCxlQUFlSSxpQkFBaUI7SUFDM0M7QUFDSiJ9

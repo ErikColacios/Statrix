@@ -1,4 +1,3 @@
-// jest.config.mjs
 import nextJest from 'next/jest.js'
 
 const createJestConfig = nextJest({
@@ -13,13 +12,15 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|scss|sass|less)$': 'identity-obj-proxy',
   },
-  // 👇 Agrega esto
+
   transformIgnorePatterns: [
-    'node_modules/(?!(uncrypto|iron-session|next|@next|react|@react|@testing-library)/)',
+    'node_modules/(?!uncrypto|iron-session)',
   ],
+
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  verbose: true,
+  testMatch: ['**/?(*.)+(test).[jt]s?(x)'],
+  verbose: false,
 }
 
 export default createJestConfig(customJestConfig)

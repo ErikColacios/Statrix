@@ -4,7 +4,7 @@ import Settings from './page'
 // Mock de react-dom/useFormState
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
-  useFormState: () => [null, jest.fn()],
+  useFormState: () => [null, async () => {}],
 }))
 
 // ✅ Mock de las acciones del servidor
@@ -54,6 +54,7 @@ describe('Settings Page', () => {
 
     // Comprueba algunos campos visibles
     expect(screen.getByDisplayValue('test@example.com')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('TestUser')).toBeInTheDocument()
     expect(screen.getByText('Save changes')).toBeInTheDocument()
   })
 })
