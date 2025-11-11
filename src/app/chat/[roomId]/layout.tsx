@@ -22,7 +22,7 @@ export default async function ChatLayout({ children }: { children: React.ReactNo
             <aside className="hidden sm:flex sm:w-2/5 md:w-1/5 flex-col bg-zinc-900 p-2 md:p-4 border border-gray-600 rounded-s-2xl">
                 <h2 className="text-2xl font-bold pl-2 mb-8">Recent</h2>
                 {existingFriendChatRoom.map((item: any, ident: number) => (
-                    <div className="p-2 mb-2 hover:bg-zinc-700 rounded" key={ident}>
+                    <div className="p-2 mb-2 bg-zinc-800 hover:bg-zinc-700 rounded" key={ident}>
                         <Link href={`/chat/${item.room_id}`} className="flex items-center">
                             <div className="w-8 h-8 rounded rounded-full overflow-hidden">
                                 <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />

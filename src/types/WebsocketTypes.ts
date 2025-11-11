@@ -1,7 +1,7 @@
 interface ServerToClientEvents {
   noArg: () => void;
-  typing: (b: {roomId: string; senderId:string | undefined, senderName:string | undefined;}, c: Buffer) => void;
-  basicEmit: (a: number, b: {roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}, c: Buffer) => void;
+  typing: (b: {messageId:number, roomId: string; senderId:string | undefined, senderName:string | undefined;}, c: Buffer) => void;
+  basicEmit: (a: number, b: {messageId:number, roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}, c: Buffer) => void;
   withAck: (d: string, callback: (e: number) => void) => void;
 }
 

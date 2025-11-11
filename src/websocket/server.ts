@@ -29,16 +29,16 @@ io.on("connect", (socket:Socket) => {
   });
 
   // Typing
-  socket.on('typing', (messageData:{roomId: string; senderId:string | undefined, senderName:string | undefined}) => {
+  socket.on('typing', (messageData:{messageId:number, roomId: string; senderId:string | undefined, senderName:string | undefined}) => {
     io.to(messageData.roomId).emit("typing", messageData, Buffer.from([3]));
   });
 
-  socket.on('messageData', (messageData:{roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}) => {
+  socket.on('messageData', (messageData:{messageId:number, roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}) => {
     io.to(messageData.roomId).emit("basicEmit", 1, messageData, Buffer.from([3]));
   });
 
 
-  socket.on('disconnect', () => console.log(`❌ Cliente desconectado: ${socket.id}`));
+  socket.on('disconnect', () => console.log(`❌ Client disconnected: ${socket.id}`));
 });
 
 

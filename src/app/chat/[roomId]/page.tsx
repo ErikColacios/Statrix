@@ -1,11 +1,11 @@
-"use client";
+"use client"
 import getChatMessages from "@/actions/getChatMessages";
 import getChatRoomById from "@/actions/getChatRoomById";
 import getSessionUser from "@/actions/getSessionUser";
 import getUserInfo from "@/actions/getUserInfo";
 import insertChatMessage from "@/actions/insertChatMessage";
 import Link from "next/link";
-import React, { useState, useEffect, FormEvent, useRef } from "react";
+import React, { useState, useEffect, FormEvent, useRef, useCallback } from "react";
 import { Socket, io } from "socket.io-client";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
@@ -15,15 +15,58 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
 export default function Chat({ params }: { params: { roomId: string } }) {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesTopRef = useRef<HTMLDivElement | null>(null);
   const [roomId, setRoomId] = useState<string>(params.roomId);
   const [roomInfo, setRoomInfo] = useState([]);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [messagesOffset, setMessagesOffset] = useState<number>(0)
   const [input, setInput] = useState<string>("");
   const [sessionUser, setSessionUser] = useState<User>()
   const [friendUser, setFriendUser] = useState([])
   const [typingUser, setTypingUser] = useState<string | undefined>('')
 
-  useEffect(() => {
+
+  const [hasMoreMessages, setHasMoreMessages] = useState<boolean>(true)
+  const observer = useRef<IntersectionObserver | null>(null)
+
+
+
+  const lastMessageRef = useCallback((node: any) => {
+    if (observer.current) observer.current.disconnect()
+
+    observer.current = new IntersectionObserver(async entries => {
+      console.log(messages.length )
+      if (entries[0].isIntersecting && hasMoreMessages && messages.length >= 25) {
+
+        console.log('Visible')
+
+        setMessagesOffset(messagesOffset + 25)
+
+        
+        const messageRowsFromOffset: Message[] = await getChatMessages(roomId, messagesOffset) as Message[]
+        
+        if(messageRowsFromOffset.length === 0){
+          setHasMoreMessages(false)
+        }
+
+        let mergedMessages = []
+        mergedMessages = [...messages, ...messageRowsFromOffset]
+
+        //console.log(mergedMessages)
+
+        setMessages(mergedMessages)
+
+        //messagesTopRef.current?.scrollTo(node)
+      }
+    })
+    if (node) {
+      observer.current.observe(node)
+    }
+
+  }, [messages]);
+
+
+  useEffect(() => { 
 
     socket.on("connect", () => {
       console.log("🔌 Connected to the server with ID:", socket.id);
@@ -36,9 +79,8 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       const chatRoomInfo = await getChatRoomById(roomId)
       setRoomInfo(chatRoomInfo)
 
-      const messageRows: Message[] = await getChatMessages(roomId) as Message[]
+      const messageRows: Message[] = await getChatMessages(roomId, messagesOffset) as Message[]
       setMessages(messageRows)
-
 
       const room = chatRoomInfo?.[0];
       if (!room) return;
@@ -60,7 +102,6 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       scrollToBottom()
     }
 
-
     // Receiving when the other user is typing
     socket.on("typing", (messageData) => {
       const typingData = {
@@ -68,15 +109,15 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         senderId: messageData.senderId?.toString(),
         senderName: messageData.senderName?.toString(),
       };
-      
+
       setTypingUser(typingData.senderName)
       document.getElementById('typing')?.classList.remove('hidden')
       scrollToBottom()
 
       // We hide the typing message after 5 seconds
-      setTimeout(() => {
-          document.getElementById('typing')?.classList.add('hidden')
-      }, 5000);
+      // setTimeout(() => {
+      //     document.getElementById('typing')?.classList.add('hidden')
+      // }, 5000);
     });
 
 
@@ -84,37 +125,70 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     // Receive message from the WS server
     socket.on("basicEmit", (id, messageData) => {
       const message: Message = {
+        messageId: messageData.messageId,
         senderId: messageData.senderId?.toString(),
         senderName: messageData.senderName?.toString(),
         text: messageData.text.toString(),
         created_at: Date.now(),
       };
-      setMessages((prev) => [...prev, message])
+      setMessages((prev) => [message, ...prev])
+      setHasMoreMessages(true)
       setTypingUser('')
     });
 
     getSessionUserId()
 
+
     return () => {
       socket.off("basicEmit");
-      
     };
+
   }, []);
 
+  
+  // Everytime there is a new message, auto scroll to the bottom of the chat
+  useEffect(() => {
+    if (messagesOffset === 0) {
+      scrollToBottom();
+    }
+  }, [messages]);
 
-  const scrollToBottom = () => {
+  // Detects the scroll position (Y) of the chat container. 
+  async function handleScrollChat() {
+
+    if (messagesTopRef.current?.scrollTop == 0) {
+      // console.log('TOP!!')
+
+      // setMessagesOffset(messagesOffset + 25)
+
+      // let mergedMessages = []
+      // const messageRowsFromOffset: Message[] = await getChatMessages(roomId, messagesOffset + 25) as Message[]
+
+      // const prevMessages = messages
+      // mergedMessages = [...messageRowsFromOffset, ...prevMessages]
+
+      // setMessages(mergedMessages)
+
+      //messagesTopRef.current?.scrollTo(0, newScrollPosition)
+
+      //messagesTopRef.current?.scrollTo(0, scroll)
+    }
+  }
+
+
+
+
+
+  function scrollToBottom() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
-
-  function handleTyping(input:string) {
+  // Triggers when the user starts typing a message. It emmits a 'typing' event
+  function handleTyping(input: string) {
     setInput(input)
-    
-    if(input !== '')
+
+    if (input !== '')
       socket.emit("typing", {
         roomId: roomId,
         senderId: sessionUser?.user_id,
@@ -122,7 +196,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       });
   }
 
-  
+
   // Send a message to te WS server
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -141,6 +215,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     }
   }
 
+
   return (
     <div className="flex h-full w-full md:w-1/2">
       <div className="w-full h-[40rem] text-white">
@@ -158,25 +233,45 @@ export default function Chat({ params }: { params: { roomId: string } }) {
             </div>
           ))}
 
-{         /* Messages */}
-          <div className="w-full h-full flex flex-col overflow-scroll no-scrollbar p-4">
-            {messages.map((message: any, messageIdent: number) => (
-              // Message
-              <div className="w-full" key={messageIdent}>
-                <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
-                  ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
-                  : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
-                  <b>{message.senderName}</b>
-                  <p>{message.text}</p>
-                </div>
-              </div>
-            ))}
+          {/* Messages */}
+          <div className="w-full h-full flex flex-col flex-col-reverse overflow-scroll no-scrollbar p-4" ref={messagesTopRef} onScroll={handleScrollChat}>
+
+            {/* This div indicates the end of the chat */}
+            <div ref={messagesEndRef} />
 
             {/* Typing */}
             {typingUser !== sessionUser?.user_name && typingUser !== '' && <p className="animate-pulse p-1 w-full hidden text-gray-300" id="typing">{typingUser} is typing...</p>}
-            
-            {/* This div indicates the end of the chat */}
-            <div ref={messagesEndRef} />
+
+
+            {messages.map((message: any, messageIdent: number) => {
+              // Message
+              if (messages.length === messageIdent + 1) {
+                return (
+                  <div className="w-full" key={messageIdent} ref={lastMessageRef}>
+                    <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
+                      ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
+                      : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
+                      <b className="mr-4">{message.messageId}</b>
+                      <b>{message.senderName}</b>
+                      <p>{message.text}</p>
+                    </div>
+                  </div>
+                )
+              }
+              else {
+                return (
+                  <div className="w-full" key={messageIdent}>
+                    <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
+                      ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
+                      : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
+                      <b className="mr-4">{message.messageId}</b>
+                      <b>{message.senderName}</b>
+                      <p>{message.text}</p>
+                    </div>
+                  </div>
+                )
+              }
+            })}
 
             {messages.length == 0 && (
               <div className="flex flex-col text-center justify-center w-full h-full text-gray-400">
@@ -187,7 +282,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
           </div>
         </div>
 
-        <div className="w-full"> 
+        <div className="w-full">
           <form className="relative flex" onSubmit={(e) => handleSubmit(e)}>
             <input
               type="text"

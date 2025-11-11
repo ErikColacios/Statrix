@@ -1,27 +1,36 @@
-import { getSession } from "@/actions/getSession"
-import { getIronSession } from "iron-session"
+import { getSession } from "@/actions/getSession";
+import { getIronSession } from "iron-session";
 
+jest.mock("iron-session", () => ({
+  getIronSession: jest.fn(),
+}));
 
-jest.mock('iron-session', () => ({
-    getIronSession: jest.fn()
-}))
+jest.mock("next/headers", () => ({
+  cookies: jest.fn(() => ({
+    get: jest.fn(),
+    set: jest.fn(),
+  })),
+}));
 
-jest.mock('next/headers', () => ({
-    cookies: jest.fn()
-}))
+describe("getSession", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-describe('getSession', ()=> {
-    it('should simulate the session creation with the isLoggedIn state as true', async()=>{
+  it("should return a valid session object when getIronSession resolves successfully", async () => {
+    const mockSession = {
+      user_name: "UserTest",
+      isLoggedIn: true,
+    };
 
-        const mockSession = {
-            isLoggedIn: true
-        };
+    (getIronSession as jest.Mock).mockResolvedValue(mockSession);
 
-        (getIronSession as jest.Mock).mockResolvedValue(mockSession)
+    const result = await getSession();
 
-        const result = await getSession()
+    expect(result).not.toBeNull()
+    expect(result?.isLoggedIn).toBeTruthy();
+    expect(result?.user_name).toBe("UserTest");
+    expect(getIronSession).toHaveBeenCalled();
+  });
 
-        expect(result.isLoggedIn).toBeTruthy()
-        expect(getIronSession).toHaveBeenCalled()
-    })
-})
+});
