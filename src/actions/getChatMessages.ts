@@ -15,13 +15,6 @@ export default async function getChatMessages(room_id: string, messages_offset:n
 
     if (chatRoomRows.length > 0) {
       // If the room exists, we return the message history
-      // let query = `SELECT sub.* FROM 
-      //               (SELECT * FROM chat_messages
-      //               WHERE room_id = $1
-      //               ORDER BY message_id DESC
-      //               LIMIT 25 OFFSET $2) sub
-      //             ORDER BY message_id ASC`;
-
       let query = `SELECT * FROM chat_messages
               WHERE room_id = $1
               ORDER BY message_id DESC
@@ -35,7 +28,7 @@ export default async function getChatMessages(room_id: string, messages_offset:n
           senderId: item.sender_id,
           senderName: item.sender_name,
           text: item.text,
-          created_at: item.created_at,
+          created_at: item.created_at.toLocaleDateString() + ' ' + item.created_at.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
         };
 
         messages.push(message);

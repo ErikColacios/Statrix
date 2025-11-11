@@ -33,7 +33,7 @@ io.on("connect", (socket:Socket) => {
     io.to(messageData.roomId).emit("typing", messageData, Buffer.from([3]));
   });
 
-  socket.on('messageData', (messageData:{messageId:number, roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: number}) => {
+  socket.on('messageData', (messageData:{messageId:number, roomId: string; senderId:string | undefined, senderName:string | undefined, text: string; created_at: Date, avatar_image_id:string }) => {
     io.to(messageData.roomId).emit("basicEmit", 1, messageData, Buffer.from([3]));
   });
 

@@ -3,5 +3,5 @@ type Message = {
   senderId: string | undefined;
   senderName: string | undefined;
   text: string;
-  created_at: number;
+  created_at: string;
 }

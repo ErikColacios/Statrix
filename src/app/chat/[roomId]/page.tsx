@@ -15,22 +15,21 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
 
 export default function Chat({ params }: { params: { roomId: string } }) {
 
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const messagesTopRef = useRef<HTMLDivElement | null>(null);
   const [roomId, setRoomId] = useState<string>(params.roomId);
   const [roomInfo, setRoomInfo] = useState([]);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [messagesOffset, setMessagesOffset] = useState<number>(0)
   const [input, setInput] = useState<string>("");
   const [sessionUser, setSessionUser] = useState<User>()
   const [friendUser, setFriendUser] = useState([])
   const [typingUser, setTypingUser] = useState<string | undefined>('')
 
-
   const [hasMoreMessages, setHasMoreMessages] = useState<boolean>(true)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesTopRef = useRef<HTMLDivElement | null>(null);
   const observer = useRef<IntersectionObserver | null>(null)
   const isLoading = useRef(false);
   const offsetRef = useRef(0);
+  const scrollBottomButton = useRef<HTMLButtonElement | null>(null)
 
 
   const lastMessageRef = useCallback((node: any) => {
@@ -41,14 +40,11 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       if (firstEntry.isIntersecting && hasMoreMessages && !isLoading.current) {
         
         isLoading.current = true;
-        
         console.log('Visible')
 
         const newOffset = offsetRef.current + 25;
-        console.log(newOffset)
 
         const messageRowsFromOffset: Message[] = await getChatMessages(roomId, newOffset) as Message[]
-        console.log(messageRowsFromOffset)
 
         if(messageRowsFromOffset.length === 0){
           setHasMoreMessages(false)
@@ -78,7 +74,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       const chatRoomInfo = await getChatRoomById(roomId)
       setRoomInfo(chatRoomInfo)
 
-      const messageRows: Message[] = await getChatMessages(roomId, messagesOffset) as Message[]
+      const messageRows: Message[] = await getChatMessages(roomId, 0) as Message[]
       setMessages(messageRows)
 
       const room = chatRoomInfo?.[0];
@@ -94,10 +90,10 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         setFriendUser(otherUser)
       }
 
-      // We join to the room with the roomId
+      // Join to the room with the roomId
       socket.emit("joinRoom", roomId);
 
-      // We scroll to the bottom of the chat
+      // Scroll to the bottom of the chat
       scrollToBottom()
     }
 
@@ -128,8 +124,9 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         senderId: messageData.senderId?.toString(),
         senderName: messageData.senderName?.toString(),
         text: messageData.text.toString(),
-        created_at: Date.now(),
+        created_at: messageData.created_at.toString()
       };
+      console.log(message)
       setMessages((prev) => [message, ...prev])
       setHasMoreMessages(true)
       setTypingUser('')
@@ -144,40 +141,23 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
   }, []);
 
-  
-  // Everytime there is a new message, auto scroll to the bottom of the chat
-  useEffect(() => {
-    if (messagesOffset === 0) {
-      //scrollToBottom();
-    }
-  }, [messages]);
 
-  // Detects the scroll position (Y) of the chat container. 
+  // Detects the scroll position (Y) of the chat container and hides or shows the Scroll Bottom button.
   async function handleScrollChat() {
 
-    if (messagesTopRef.current?.scrollTop == 0) {
-      // console.log('TOP!!')
+    if (messagesTopRef.current?.scroll) {
+      if(scrollBottomButton.current?.classList.contains('hidden')){
+        scrollBottomButton.current?.classList.remove('hidden')
+      }
 
-      // setMessagesOffset(messagesOffset + 25)
-
-      // let mergedMessages = []
-      // const messageRowsFromOffset: Message[] = await getChatMessages(roomId, messagesOffset + 25) as Message[]
-
-      // const prevMessages = messages
-      // mergedMessages = [...messageRowsFromOffset, ...prevMessages]
-
-      // setMessages(mergedMessages)
-
-      //messagesTopRef.current?.scrollTo(0, newScrollPosition)
-
-      //messagesTopRef.current?.scrollTo(0, scroll)
+      if(messagesTopRef.current?.scrollTop === 0){
+        scrollBottomButton.current?.classList.add('hidden')
+      }
     }
   }
 
 
-
-
-
+  // Auto scrolls to the bottom of the chat
   function scrollToBottom() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -205,9 +185,10 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         senderId: sessionUser?.user_id,
         senderName: sessionUser?.user_name,
         text: input,
-        created_at: Date.now(),
+        created_at: new Date().toLocaleDateString(),
       });
-
+      
+      console.log(new Date().toLocaleDateString())
       // Insert the message in the database
       insertChatMessage(roomId, sessionUser?.user_id, sessionUser?.user_name, input)
       setInput("");
@@ -217,12 +198,12 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
   return (
     <div className="flex h-full w-full md:w-1/2">
-      <div className="w-full h-[40rem] text-white">
-        <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-e-2xl overflow-hidden">
+      <div className="w-full h-[45rem] text-white">
+        <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-2xl sm:rounded-none sm:rounded-e-2xl overflow-hidden">
 
           {/* Friend info */}
           {friendUser.map((friend: any, friendIdent: number) => (
-            <div className="w-full bg-zinc-900 text-xl p-4" key={friendIdent}>
+            <div className="w-full bg-zinc-900 border-b border-gray-600 text-xl p-4" key={friendIdent}>
               <Link href={`/profile/${friend.user_name}`}>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded rounded-full overflow-hidden">
@@ -235,7 +216,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
           ))}
 
           {/* Messages */}
-          <div className="w-full h-full flex flex-col flex-col-reverse overflow-scroll no-scrollbar p-4" ref={messagesTopRef} onScroll={handleScrollChat}>
+          <div className="w-full h-full flex flex-col flex-col-reverse overflow-scroll no-scrollbar bg-zinc-900 p-4" ref={messagesTopRef} onScroll={handleScrollChat}>
 
             {/* This div indicates the end of the chat */}
             <div ref={messagesEndRef} />
@@ -248,8 +229,13 @@ export default function Chat({ params }: { params: { roomId: string } }) {
                     <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
                       ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
                       : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
-                      <b className="mr-4">{message.messageId}</b>
-                      <b>{message.senderName}</b>
+                      {/* <b className="mr-4">{message.messageId}</b> */}
+                      <div className="flex items-center">
+                        <b>{message.senderName}</b>
+                        {/* <p className="text-xs text-gray-400 ml-4">{message?.created_at.toLocaleDateString()+' ' + message?.created_at.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}</p> */}
+                        <p className="text-xs text-gray-400 ml-4">{message.created_at.toString()}</p>
+
+                      </div>
                       <p>{message.text}</p>
                     </div>
                   </div>
@@ -265,9 +251,9 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
           </div>
 
-          <div className="absolute bottom-3 right-3 rounded-full bg-zinc-700/80 hover:bg-zinc-600/80 border border-gray-600 cursor-pointer" onClick={scrollToBottom}>
+          <button ref={scrollBottomButton} className="hidden absolute bottom-3 right-3 rounded-full bg-zinc-700/80 hover:bg-zinc-600/80 border border-gray-600" onClick={scrollToBottom}>
             <svg width="42px" height="42px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.0006 10.9409L9.53062 8.46979L8.46973 9.53021L12.0006 13.0626L15.5315 9.53021L14.4706 8.46979L12.0006 10.9409Z" fill="#b0b0b0"></path> <path fillRule="evenodd" clipRule="evenodd" d="M12.0006 14.9409L9.53062 12.4698L8.46973 13.5302L12.0006 17.0626L15.5315 13.5302L14.4706 12.4698L12.0006 14.9409Z" fill="#b0b0b0"></path> </g></svg>
-          </div>
+          </button>
         </div>
 
         <div className="w-full">
