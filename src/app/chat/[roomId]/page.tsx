@@ -4,6 +4,7 @@ import getChatRoomById from "@/actions/getChatRoomById";
 import getSessionUser from "@/actions/getSessionUser";
 import getUserInfo from "@/actions/getUserInfo";
 import insertChatMessage from "@/actions/insertChatMessage";
+import LoadingAnimation from "@/components/LoadingAnimation";
 import Link from "next/link";
 import React, { useState, useEffect, FormEvent, useRef, useCallback } from "react";
 import { Socket, io } from "socket.io-client";
@@ -28,45 +29,43 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
   const [hasMoreMessages, setHasMoreMessages] = useState<boolean>(true)
   const observer = useRef<IntersectionObserver | null>(null)
-
+  const isLoading = useRef(false);
+  const offsetRef = useRef(0);
 
 
   const lastMessageRef = useCallback((node: any) => {
     if (observer.current) observer.current.disconnect()
-
     observer.current = new IntersectionObserver(async entries => {
-      console.log(messages.length )
-      if (entries[0].isIntersecting && hasMoreMessages && messages.length >= 25) {
+      const firstEntry = entries[0];
 
+      if (firstEntry.isIntersecting && hasMoreMessages && !isLoading.current) {
+        
+        isLoading.current = true;
+        
         console.log('Visible')
 
-        setMessagesOffset(messagesOffset + 25)
+        const newOffset = offsetRef.current + 25;
+        console.log(newOffset)
 
-        
-        const messageRowsFromOffset: Message[] = await getChatMessages(roomId, messagesOffset) as Message[]
-        
+        const messageRowsFromOffset: Message[] = await getChatMessages(roomId, newOffset) as Message[]
+        console.log(messageRowsFromOffset)
+
         if(messageRowsFromOffset.length === 0){
           setHasMoreMessages(false)
+        } else {
+          offsetRef.current = newOffset;
+          setMessages(prev => [...prev, ...messageRowsFromOffset]);
         }
 
-        let mergedMessages = []
-        mergedMessages = [...messages, ...messageRowsFromOffset]
-
-        //console.log(mergedMessages)
-
-        setMessages(mergedMessages)
-
-        //messagesTopRef.current?.scrollTo(node)
+        setTimeout(() => (isLoading.current = false), 500);
       }
     })
-    if (node) {
-      observer.current.observe(node)
-    }
+    if (node) observer.current.observe(node)
 
-  }, [messages]);
+  }, [messages, hasMoreMessages]);
 
 
-  useEffect(() => { 
+  useEffect(() => {
 
     socket.on("connect", () => {
       console.log("🔌 Connected to the server with ID:", socket.id);
@@ -149,7 +148,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
   // Everytime there is a new message, auto scroll to the bottom of the chat
   useEffect(() => {
     if (messagesOffset === 0) {
-      scrollToBottom();
+      //scrollToBottom();
     }
   }, [messages]);
 
@@ -219,17 +218,19 @@ export default function Chat({ params }: { params: { roomId: string } }) {
   return (
     <div className="flex h-full w-full md:w-1/2">
       <div className="w-full h-[40rem] text-white">
-        <div className="w-full h-full flex flex-col mb-4 border border-gray-600 rounded-e-2xl overflow-hidden">
+        <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-e-2xl overflow-hidden">
 
           {/* Friend info */}
           {friendUser.map((friend: any, friendIdent: number) => (
             <div className="w-full bg-zinc-900 text-xl p-4" key={friendIdent}>
+              <Link href={`/profile/${friend.user_name}`}>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded rounded-full overflow-hidden">
                   <img src={`/avatarImages/${friend.avatar_image}`} className="h-full w-full object-cover" />
                 </div>
-                <Link href={`/profile/${friend.user_name}`} className="text-white ml-4 hover:text-green-500">{friend.user_name}</Link>
+                <p className="text-white ml-4 hover:text-green-500">{friend.user_name}</p>
               </div>
+              </Link>
             </div>
           ))}
 
@@ -242,12 +243,8 @@ export default function Chat({ params }: { params: { roomId: string } }) {
             {/* Typing */}
             {typingUser !== sessionUser?.user_name && typingUser !== '' && <p className="animate-pulse p-1 w-full hidden text-gray-300" id="typing">{typingUser} is typing...</p>}
 
-
-            {messages.map((message: any, messageIdent: number) => {
-              // Message
-              if (messages.length === messageIdent + 1) {
-                return (
-                  <div className="w-full" key={messageIdent} ref={lastMessageRef}>
+            {messages.map((message: any, messageIdent: number) => (
+                  <div className="w-full" key={messageIdent} ref={messageIdent === messages.length - 1 ? lastMessageRef : null}>
                     <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
                       ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
                       : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
@@ -256,22 +253,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
                       <p>{message.text}</p>
                     </div>
                   </div>
-                )
-              }
-              else {
-                return (
-                  <div className="w-full" key={messageIdent}>
-                    <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
-                      ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
-                      : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
-                      <b className="mr-4">{message.messageId}</b>
-                      <b>{message.senderName}</b>
-                      <p>{message.text}</p>
-                    </div>
-                  </div>
-                )
-              }
-            })}
+            ))}
 
             {messages.length == 0 && (
               <div className="flex flex-col text-center justify-center w-full h-full text-gray-400">
@@ -279,6 +261,12 @@ export default function Chat({ params }: { params: { roomId: string } }) {
                 <p>Be the first to start a conversation!</p>
               </div>
             )}
+            {isLoading && hasMoreMessages && <LoadingAnimation/>}
+
+          </div>
+
+          <div className="absolute bottom-3 right-3 rounded-full bg-zinc-700/80 hover:bg-zinc-600/80 border border-gray-600 cursor-pointer" onClick={scrollToBottom}>
+            <svg width="42px" height="42px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.0006 10.9409L9.53062 8.46979L8.46973 9.53021L12.0006 13.0626L15.5315 9.53021L14.4706 8.46979L12.0006 10.9409Z" fill="#b0b0b0"></path> <path fillRule="evenodd" clipRule="evenodd" d="M12.0006 14.9409L9.53062 12.4698L8.46973 13.5302L12.0006 17.0626L15.5315 13.5302L14.4706 12.4698L12.0006 14.9409Z" fill="#b0b0b0"></path> </g></svg>
           </div>
         </div>
 
