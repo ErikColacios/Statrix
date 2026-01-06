@@ -11,6 +11,7 @@ type TopGame = {
 type UserGameStats = {
   topGames: TopGame[];
   gamesPlayed: number;
+  favGames: TopGame[];
 };
 
 export default async function getUserGameStats(user_name: string | undefined): Promise<UserGameStats> {
@@ -40,12 +41,27 @@ export default async function getUserGameStats(user_name: string | undefined): P
        LIMIT 5`,
       [user_name]
     );
-
     const topGames: TopGame[] = topGamesResult.rows;
+
+
+    // Get top 5 favourite games
+    const favGamesResult = await pool.query(
+      `SELECT uv.game_id, uv.game_name, uv.score, uv.hours_played, uv.game_base_image
+       FROM user_videogame uv
+       INNER JOIN users usr ON usr.user_id = uv.user_id
+       WHERE usr.user_name = $1
+       AND uv.favourite = true
+       ORDER BY uv.score DESC, uv.hours_played DESC
+       LIMIT 5`,
+      [user_name]
+    );
+
+    const favGames: TopGame[] = favGamesResult.rows;
 
     return {
       topGames,
       gamesPlayed,
+      favGames
     };
   } catch (error) {
     console.error("Error fetching user statistics:", error);

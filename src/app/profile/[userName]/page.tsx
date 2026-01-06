@@ -3,6 +3,8 @@ import getUserGameStats from "@/actions/getUserGameStats";
 import getUserInfo from "@/actions/getUserInfo";
 import { getUserTotalHoursPlayed } from "@/actions/getUserTotalHoursPlayed";
 import { getUserTotalReviews } from "@/actions/getUserTotalReviews";
+import PrimaryButton from "@/components/PrimaryButton";
+import SliderGameStats from "@/components/SliderGameStats";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -47,8 +49,11 @@ export default async function Profile({ params }: { params: { userName: string }
                 <div className="p-6 pt-16">
                     <div className="flex items-center relative">
                         <p className="text-4xl font-bold">{item.user_name}</p>
-                        {/* Edit profile */}
-                        {canEdit ? <Link href={"/settings"} className="bg-black border border-[#00FF11] pl-6 pr-6  sm:pl-10 p-2 sm:pr-10 absolute right-0 hover:bg-[#00FF11] hover:text-black">EDIT PROFILE</Link> : ''}
+                        {/* Edit profile */}     
+                        {/* {canEdit ? <Link href={"/settings"} className="absolute right-0 text-sm p-5 sm:px-8 rounded border border-green-500 hover:bg-green-500 hover:text-black">EDIT PROFILE</Link> : ''} */}
+
+                        {canEdit ? <Link href={"/settings"} className="ml-auto"><PrimaryButton text="EDIT PROFILE"/></Link> : ''}
+
                     </div>
                     <div className="mt-4" >
                         {/* User biography */}
@@ -96,7 +101,7 @@ export default async function Profile({ params }: { params: { userName: string }
                      </div>
                  </div>
                 
-                 <p className="text-xl mt-12">Top played games</p>
+                 {/* <p className="text-lg mt-8">Top played games</p>
                  <div className="flex mt-4">
                      {userGameStats.topGames.map((item:any, index:number)=>(
                          <Link key={index} href={`/gamePage/${item.game_id}`} className='group relative mr-4 flex justify-center items-center rounded-lg overflow-hidden cursor-pointer w-16 h-21 sm:w-24 sm:h-32 md:w-32 md:h-48 2xl:w-48 2xl:h-64 transition hover:scale-110'>
@@ -106,7 +111,9 @@ export default async function Profile({ params }: { params: { userName: string }
                              </div>
                          </Link>
                          ))}
-                 </div>
+                 </div> */}
+
+                 <SliderGameStats userGameStats={userGameStats}/>
              </div>
         </section>
     )
