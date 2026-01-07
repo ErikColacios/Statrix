@@ -46,7 +46,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                     <div className='bg-black/60 w-full h-full absolute backdrop-blur-md'></div>
                     <div className='pt-8 w-full h-full flex flex-col items-center justify-center blur-none'>
                         {/* GAME BOX */}
-                        <div className='w-full md:w-3/4 2xl:w-1/2 h-full bg-black/80 mt-8 rounded overflow-hidden'>
+                        <div className='w-full md:w-3/4 2xl:w-1/2 h-full bg-black/80 mt-8 rounded'>
                             <div className='relative'>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full h-80 md:h-96' />
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="bottom-[-60px] absolute w-36 md:w-48 ml-4 rounded" />
@@ -102,29 +102,29 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
                                 {/* USER VIDEOGAME panel */}
                                 <aside className='md:w-1/3 p-4'>
-                                {userVideogame[0] ?
-                                    <div className="flex flex-col w-full p-4 blur-none">
-                                        <div className='flex flex-col space-y-4 text-base'>
-                                            <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
-                                                <option value={GameStatus.PLAYING}>{GameStatus.PLAYING}</option>
-                                                <option value={GameStatus.COMPLETED}>{GameStatus.COMPLETED}</option>
-                                                <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
-                                                <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
-                                            </select>
-                                            <SelectScoreRange score={userVideogame[0].score} game_id={item.id} />
-                                            <div className='flex'>
-                                                <span className='mr-4'>Hours played </span>
-                                                <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={item.id} source='gamePage' />
+                                    {userVideogame[0] ?
+                                        <div className="flex flex-col w-full p-4 blur-none">
+                                            <div className='flex flex-col space-y-4 text-base'>
+                                                <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
+                                                    <option value={GameStatus.PLAYING}>{GameStatus.PLAYING}</option>
+                                                    <option value={GameStatus.COMPLETED}>{GameStatus.COMPLETED}</option>
+                                                    <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
+                                                    <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
+                                                </select>
+                                                <SelectScoreRange score={userVideogame[0].score} game_id={item.id} />
+                                                <div className='flex'>
+                                                    <span className='mr-4'>Hours played </span>
+                                                    <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={item.id} source='gamePage' />
+                                                </div>
                                             </div>
+                                            <UpdateUserVideogameButton gameId={params.game_id} />
                                         </div>
-                                        <UpdateUserVideogameButton gameId={params.game_id} />
-                                    </div>
-                                :
-                                <div className='flex flex-col h-full justify-center items-center'>
-                                    <p className='text-gray-300 mb-2'>This game is in any of your lists</p>
-                                    <AddToListButton game_id={item.id} game_name={item.name} game_cover={item.cover.image_id}/>
-                                </div>
-                                }
+                                        :
+                                        <div className='flex flex-col h-full justify-center items-center'>
+                                            <p className='text-gray-300 mb-2'>This game is in any of your lists</p>
+                                            <AddToListButton game_id={item.id} game_name={item.name} game_cover={item.cover.image_id} />
+                                        </div>
+                                    }
 
                                 </aside>
                             </div>
@@ -133,8 +133,10 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
                             <section className='mt-14 relative'>
                                 <Dialog.Trigger asChild className='absolute right-1 md:right-5 z-30'>
-                                    <PrimaryButton text={'Add review'}/>
+                                    <PrimaryButton text={'Add review'} />
                                 </Dialog.Trigger>
+
+                                {/* Review list component */}
                                 <ReviewSection gameReviews={gameReviews} game_id={params.game_id} />
                             </section>
                         </div>

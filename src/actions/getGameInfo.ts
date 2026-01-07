@@ -19,7 +19,6 @@ export default function getGameInfo(gameId: string) {
       return response.json();
     })
     .then((response) => {
-      console.log(response);
       return response;
     });
   return res;

@@ -16,6 +16,6 @@ export default function UpdateUserVideogameButton({gameId}:Props){
     }
 
     return (
-        <button className="p-2 pl-4 pr-4 mt-4 bg-green-500 hover:bg-green-600" onClick={saveUserVideogame}>Save</button>
+        <button className="text-white px-6 py-2 mt-4 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300" onClick={saveUserVideogame}>Save</button>
     )
 }

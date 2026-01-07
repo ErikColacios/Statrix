@@ -58,7 +58,7 @@ export default function ReviewModal({ game_id, game_name, game_cover }: Props) {
             <div className="flex flex-col md:flex-row items-center md:items-start md:pt-12">
                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game_cover}.png`} alt="Videogame cover" className="w-36 lg:w-48 rounded" />
                 <div className="flex flex-col w-full md:ml-8">
-                    <textarea id="reviewBody" className="w-full h-32 md:h-64 mt-4 bg-black border border-gray-500 focus:outline-none resize-none focus:border-green-500 p-2" maxLength={1000} placeholder="Your review"></textarea>
+                    <textarea id="reviewBody" className="w-full h-32 md:h-64 mt-4 bg-black border border-gray-500 focus:outline-none resize-none focus:border-green-500 p-2"  placeholder="Your review"></textarea>
                     <LikeDislikeButtons />
                 </div>
             </div>
