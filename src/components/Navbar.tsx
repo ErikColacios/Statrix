@@ -36,7 +36,7 @@ export default async function Navbar() {
                 <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
                 <div className="flex items-center space-x-6 absolute right-0">
                     {session.isLoggedIn && 
-                        <p className="text-sm text-gray-500 mr-14">{session.user_id}</p> }
+                        <p className="hidden text-sm sm:flex text-gray-500 mr-14">{session.user_id}</p> }
 
                     {session.isLoggedIn &&
                         <Notifications userId={user_info[0].user_id} notificationCount={notificationCount}/>}

@@ -41,10 +41,10 @@ export default async function Profile({ params }: { params: { userName: string }
 
 
     return (
-        <section className="flex flex-col lg:flex-row space-y-12 lg:space-x-12 w-full h-screen pt-24 p-4 md:p-12 text-white bg-gradient-to-b from-black via-gray-900 to-black">
+        <section className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-12 w-full md:px-8 pt-16 text-white bg-gradient-to-b from-black via-gray-900 to-black">
             {userInfo.map((item: any, index: number) => (
 
-                <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 md:mt-12 greenShadow" key={index}>
+                <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 greenShadow" key={index}>
                     {/* DIV PROFILE IMAGE */}
                     <div className="relative h-70 z-10">
                         <img src={"/bannerImages/" + item.banner_image} />
@@ -70,8 +70,8 @@ export default async function Profile({ params }: { params: { userName: string }
                                     <p>Joined</p>
                                     <p>Email</p>
                                     <p>Location</p>
+                                    <p>Webpage</p>
                                     <p>Friends</p>
-                                    {/* <p>Webpage</p> */}
                                     {/* <p>Steam Account</p> */}
                                     {/* <p>Twitch Account</p> */}
                                     {/* <p>X Account</p> */}
@@ -80,12 +80,11 @@ export default async function Profile({ params }: { params: { userName: string }
                                     <p className="">{item.user_creationdate.toISOString().split('T')[0]}</p>
                                     <p className="">{item.user_email}</p>
                                     <p className="">{item.user_location}</p>
+                                    <p><a className="underline" href={"https://"+item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a></p>
                                     <p className="">{item.friends}</p>
-                                    {/* <p><a className="underline" href={"https://"+item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a></p> */}
                                     {/* <p><a className="underline" href={"https://"+item.user_steam} target="_blank" rel="noopener noreferrer">{item.user_steam}</a></p> */}
                                     {/* <p><a className="underline" href={"https://"+item.user_twitch} target="_blank" rel="noopener noreferrer">{item.user_twitch}</a></p> */}
                                     {/* <p><a className="underline" href={"https://"+item.user_x} target="_blank" rel="noopener noreferrer">{item.user_x}</a></p> */}
-
                                 </div>
                             </div>
                         </div>
@@ -93,31 +92,30 @@ export default async function Profile({ params }: { params: { userName: string }
                 </div>
             ))}
 
-            <div className="flex flex-col lg:w-2/3 xl:w-2/3 p-4 md:p-10 shadow-lg bg-zinc-900/80 greenShadow">
+            <div className="flex flex-col lg:w-2/3 p-1 md:p-8 bg-zinc-900/80 greenShadow">
                 <div className="flex space-x-8">
                     <div className="flex flex-col items-center text-center w-32">
-                        <p className="text-6xl font-bold">{userGameStats.gamesPlayed}</p>
-                        <p className="text-green-400">Games played</p>
+                        <p className="text-5xl md:text-6xl font-bold">{userGameStats.gamesPlayed}</p>
+                        <p className="text-sm text-green-400">Games played</p>
                     </div>
                     <div className="flex flex-col items-center text-center w-32">
-                        <p className="text-6xl font-bold">{userTotalHoursPlayed}</p>
-                        <p className="text-green-400">Hours played</p>
+                        <p className="text-5xl md:text-6xl font-bold">{userTotalHoursPlayed}</p>
+                        <p className="text-sm text-green-400">Hours played</p>
                     </div>
                     <div className="flex flex-col items-center text-center w-32">
-                        <p className="text-6xl font-bold">{userTotalReviews}</p>
-                        <p className="text-green-400">Games reviewed</p>
+                        <p className="text-5xl md:text-6xl font-bold">{userTotalReviews}</p>
+                        <p className="text-sm text-green-400">Games reviewed</p>
                     </div>
                 </div>
 
                 <SliderGameStats userGameStats={userGameStats} />
 
-                <div className='flex flex-col rounded-2xl bg-gradient-to-b from-black via-gray-900 to-black px-10 py-4 mt-8'>
+                <div className='flex flex-col text-sm md:text-base rounded-2xl bg-gradient-to-b from-black via-gray-900 to-black px-2 md:px-10 py-4 mt-8'>
                     <p className='text-green-400 mb-2'>Latest review</p>
-
                     {userReviews.map((r: any, index: number) => (
                         <div key={index} className='flex'>
                             <img src={r.game_base_image} className="w-20 h-24" alt="Game reviewed" />
-                            <div className="flex flex-col pl-4 h-36">
+                            <div className="flex flex-col pl-4 h-56 md:h-44">
                                 <div className="flex items-center text-gray-400">
                                     {r.recommended ?
                                         <svg className="pr-2" width="25px" height="15px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>like [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -760.000000)" fill="#15cc67ff"><g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M203,620 L207.200006,620 L207.200006,608 L203,608 L203,620 Z M223.924431,611.355 L222.100579,617.89 C221.799228,619.131 220.638976,620 219.302324,620 L209.300009,620 L209.300009,608.021 L211.104962,601.825 C211.274012,600.775 212.223214,600 213.339366,600 C214.587817,600 215.600019,600.964 215.600019,602.153 L215.600019,608 L221.126177,608 C222.97313,608 224.340232,609.641 223.924431,611.355 L223.924431,611.355 Z" id="like-[#ffffff]"> </path> </g> </g> </g> </g></svg>
@@ -132,7 +130,6 @@ export default async function Profile({ params }: { params: { userName: string }
                                     <p className="mt-2">{r.body}</p>
                                 </div>
                             </div>
-
                         </div>
                     ))}
                 </div>
