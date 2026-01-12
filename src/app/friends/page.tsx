@@ -87,7 +87,7 @@ export default function Friends() {
                 <div className='mt-5 overflow-scroll no-scrollbar'>
                     {/* Users found */}
                     {usersFound.map((item: any, index: number) => (
-                        <div key={index} className='relative grid grid-cols-5 items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                        <div key={index} className='relative grid grid-cols-5 items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
                             <div className='flex items-center'>
                                 <div className="w-10 h-10 rounded rounded-full overflow-hidden">
                                     <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />

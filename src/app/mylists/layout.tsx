@@ -9,54 +9,55 @@ import PrimaryButton from '@/components/PrimaryButton'
 import NoListCreated from '@/components/NoListCreated'
 
 export default async function MyListsLayout({
-    children, 
-  }: {
-    children: React.ReactNode
-  }) {
+  children,
+}: {
+  children: React.ReactNode
+}) {
 
-    /**
-     * Gets the number of lists that this User has
-     * @param session 
-     * @returns numberOfLists
-     */
-    async function getUserListsNumber(session:IronSession<SessionData>) {
-    let numberOfLists:number = 0;
-      try{
-        const res = await pool.query(`SELECT user_id, user_name, user_lists
+  /**
+   * Gets the number of lists that this User has
+   * @param session 
+   * @returns numberOfLists
+   */
+  async function getUserListsNumber(session: IronSession<SessionData>) {
+    let numberOfLists: number = 0;
+    try {
+      const res = await pool.query(`SELECT user_id, user_name, user_lists
             FROM users 
             WHERE user_id='${session.user_id}'`);
-        numberOfLists = res.rows[0].user_lists
-        }catch(error){
-          console.log(error)
-        }
+      numberOfLists = res.rows[0].user_lists
+    } catch (error) {
+      console.log(error)
+    }
 
-      return numberOfLists;
+    return numberOfLists;
   }
-  
-    const session = await getSession()
-    let numberOfLists = await getUserListsNumber(session)
-    let userHasNoLists:boolean = false;
 
-    if (!session.isLoggedIn){
-        return(
-          <div className='flex h-screen items-center'>
-            <NotLoggedVideogamelist/>
-          </div>
-        )
-    }
-    else if(numberOfLists <= 0){
-      userHasNoLists = true;
-    }
+  const session = await getSession()
+  let numberOfLists = await getUserListsNumber(session)
+  let userHasNoLists: boolean = false;
 
+  if (!session.isLoggedIn) {
     return (
-      <section className="w-full h-screen text-white p-4 pt-20 md:p-16 md:pt-32 bg-gradient-to-b from-black via-gray-900 to-black">
-        
-        <div className="flex flex-col md:flex-row md:items-center text-xl md:text-3xl pb-8">
-          <h2>{session.user_name} videogame lists ( {numberOfLists} )</h2>
-          <Link href={"newList"} className="md:ml-28"><PrimaryButton text='ADD LIST'/></Link>
-        </div>
-        {/* If the user has no lists, shows the component NoListCreated, if not it shows the children (mylists) */}
-        {userHasNoLists ? <NoListCreated/> : children}
-      </section>
+      <div className='flex h-screen items-center'>
+        <NotLoggedVideogamelist />
+      </div>
     )
   }
+  else if (numberOfLists <= 0) {
+    userHasNoLists = true;
+  }
+
+  return (
+    <section className="flex justify-center text-white bg-gradient-to-b from-black via-gray-900 to-black">
+      <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
+        <div className="flex items-center text-lg md:text-3xl border-b-2 border-gray-500 pb-3 mb-8">
+          <h2 className='text-2xl'>My game lists ( {numberOfLists} )</h2>
+          <Link href={"newList"} className="ml-auto"><PrimaryButton text='Add list' /></Link>
+        </div>
+        {/* If the user has no lists, shows the component NoListCreated, if not it shows the children (mylists) */}
+        {userHasNoLists ? <NoListCreated /> : children}
+      </div>
+    </section>
+  )
+}

@@ -41,10 +41,10 @@ export default async function Profile({ params }: { params: { userName: string }
 
 
     return (
-        <section className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-12 w-full md:px-8 pt-16 text-white bg-gradient-to-b from-black via-gray-900 to-black">
+        <section className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-12 md:px-8 pt-16 text-white bg-gradient-to-b from-black via-gray-900 to-black">
             {userInfo.map((item: any, index: number) => (
 
-                <div className="flex flex-col lg:w-1/3 xl:w-1/3 shadow-lg bg-zinc-900/80 greenShadow" key={index}>
+                <div className="h-1/2 flex flex-col lg:w-1/3 xl:w-1/3 bg-zinc-900/80 greenShadow" key={index}>
                     {/* DIV PROFILE IMAGE */}
                     <div className="relative h-70 z-10">
                         <img src={"/bannerImages/" + item.banner_image} />
