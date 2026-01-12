@@ -36,7 +36,7 @@ export async function getListsUser(): Promise<List[]> {
             
             const coversRes = await pool.query(
                 `SELECT game_base_image,
-                    (SELECT COUNT(*) FROM list_games WHERE list_id = $1) as totalGames
+                    (SELECT COUNT(*) FROM list_games WHERE list_id = $1) as total_games
                 FROM list_games
                 WHERE list_id= $1
                 LIMIT 5`,

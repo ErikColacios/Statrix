@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Link from "next/link";
 import Image from "next/image";
 import { getSession } from '@/actions/getSession';
@@ -28,7 +27,6 @@ export default async function List({ params, searchParams }: { params: { listId:
         listInfo = await getListInfo(list_id, user_id)
         listContent = await getListContent(list_id, user_id)
     }
-
 
     return (
 
