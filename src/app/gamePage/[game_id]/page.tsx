@@ -31,7 +31,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
     return (
         gameInfo.map((item: any, index: number) => (
-            <section style={{ backgroundImage: `url(${image})` }} className="relative w-full h-full text-white text-sm bg-center bg-cover pb-12" key={index}>
+            <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black h-screen text-white text-sm pb-12" key={index}>
                 <Dialog.Root>
                     <Dialog.Portal>
                         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -43,17 +43,17 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                         </Dialog.Content>
                     </Dialog.Portal>
 
-                    <div className='bg-black/60 w-full h-full absolute backdrop-blur-md'></div>
-                    <div className='pt-8 w-full h-full flex flex-col items-center justify-center blur-none'>
+                    {/* <div className='bg-black/60 w-full h-full absolute backdrop-blur-md'></div> */}
+                    <div className='pt-8 w-full flex flex-col items-center justify-center blur-none'>
                         {/* GAME BOX */}
-                        <div className='w-full md:w-3/4 2xl:w-1/2 h-full bg-black/80 mt-8 rounded'>
+                        <div className='w-full md:w-3/4 2xl:w-1/2 bg-black/80 mt-8 rounded'>
                             <div className='relative'>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full h-80 md:h-96' />
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="bottom-[-60px] absolute w-36 md:w-48 ml-4 rounded" />
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' />
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" />
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>
-                                    <div className='w-full flex items-center justify-end space-x-8 pt-6 pr-4'>
+                                    <div className='absolute right-10 flex items-center space-x-8 pt-6'>
                                         {/* Played by x users */}
                                         <div className='tooltip'>
                                             <svg width="18px" height="18px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>game_controller [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-380.000000, -4679.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M342,4527 L326,4527 L326,4537 L330,4537 L330,4535 L338,4535 L338,4537 L342,4537 L342,4527 Z M344,4525 L344,4527 L344,4537 L344,4539 L336,4539 L336,4537 L332,4537 L332,4539 L324,4539 L324,4537 L324,4527 L324,4525 L326,4525 L333,4525 L333,4523 L333,4521 L338,4521 L338,4519 L340,4519 L340,4521 L340,4523 L335,4523 L335,4525 L342,4525 L344,4525 Z M336,4529 L336,4531 L336,4533 L340,4533 L340,4531 L340,4529 L336,4529 Z M328,4529 L332,4529 L332,4531 L332,4533 L328,4533 L328,4531 L328,4529 Z" id="game_controller-[#ffffff]"> </path> </g> </g> </g> </g></svg>
@@ -73,7 +73,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             <span className="tooltiptext">Starred by {globalStats[2]} users</span>
                                         </div>
                                     </div>
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-8">{item.name}</h2>
+                                    <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-20">{item.name}</h2>
                                     <div className="grid grid-cols-2 gap-x-8 lg:w-3/4">
                                         <div>
                                             <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
@@ -131,8 +131,8 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             {/* Slider of images */}
                             <SliderImages screenshots={item.screenshots} />
 
-                            <section className='mt-14 relative'>
-                                <Dialog.Trigger asChild className='absolute right-1 md:right-5 z-30'>
+                            <section className='mt-14 pt-4 relative'>
+                                <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
                                     <PrimaryButton text={'Add review'} />
                                 </Dialog.Trigger>
 

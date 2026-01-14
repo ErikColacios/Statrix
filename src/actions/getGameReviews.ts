@@ -25,7 +25,8 @@ export default async function getGameReviews(game_id:string, reviewMode:ReviewMo
             INNER JOIN banner_images bani ON bani.banner_image_id = usr.user_banner_id
             WHERE rev.videogame_id = $2
             GROUP BY rev.user_id, rev.videogame_id, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date, avi.avatar_image
-            ${reviewMode === ReviewMode.POPULAR ? "ORDER BY likes DESC": "ORDER BY review_date DESC"}`;
+            ${reviewMode === ReviewMode.POPULAR ? "ORDER BY likes DESC": "ORDER BY review_date DESC"}
+             LIMIT 10`;
 
         const { rows } = await pool.query(query, [user_id, game_id]);
         return rows;

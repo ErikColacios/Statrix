@@ -34,7 +34,7 @@ export default function ReviewSection({ gameReviews, game_id }: Props) {
 
 
     return (
-        <div className='pt-14 sm:pt-5'>
+        <div className='pt-6 sm:pt-14 md:pt-5'>
             <div className='relative flex flex-col'>
                 <div className="flex text-base">
                     <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
@@ -43,7 +43,8 @@ export default function ReviewSection({ gameReviews, game_id }: Props) {
             </div>
             <div className='bg-zinc-900 p-4'>
                 {reviews?.map((r: any, index: number) => (
-                    <div className={`flex flex-col overflow-scroll no-scrollbar space-y-2 h-42 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border ${r.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
+                    <div className={`flex flex-col overflow-scroll no-scrollbar space-y-2 h-42 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border 
+                            ${r.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
                         <div className='flex items-center text-white'>
                             {r.recommended ?
                                 <svg className="pr-2" width="25px" height="15px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>like [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -760.000000)" fill="#15cc67ff"><g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M203,620 L207.200006,620 L207.200006,608 L203,608 L203,620 Z M223.924431,611.355 L222.100579,617.89 C221.799228,619.131 220.638976,620 219.302324,620 L209.300009,620 L209.300009,608.021 L211.104962,601.825 C211.274012,600.775 212.223214,600 213.339366,600 C214.587817,600 215.600019,600.964 215.600019,602.153 L215.600019,608 L221.126177,608 C222.97313,608 224.340232,609.641 223.924431,611.355 L223.924431,611.355 Z" id="like-[#ffffff]"> </path> </g> </g> </g> </g></svg>
