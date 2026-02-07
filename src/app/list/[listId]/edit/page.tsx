@@ -1,3 +1,4 @@
+import React from "react";
 import { getListContent } from "@/actions/getListContent";
 import { getListInfo } from "@/actions/getListInfo";
 import { getSession } from "@/actions/getSession";

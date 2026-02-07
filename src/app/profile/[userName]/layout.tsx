@@ -10,7 +10,7 @@ export default async function ListLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <section className='bg-black h-screen'>
+    <section className='bg-black text-white pt-14 md:pt-20'>
       {children}
     </section>
   )

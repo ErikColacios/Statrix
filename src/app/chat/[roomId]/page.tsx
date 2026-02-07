@@ -58,7 +58,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     })
     if (node) observer.current.observe(node)
 
-  }, [messages, hasMoreMessages]);
+  }, [/*messages,*/ hasMoreMessages, roomId]);
 
 
   useEffect(() => {
@@ -139,7 +139,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       socket.off("basicEmit");
     };
 
-  }, []);
+  });
 
 
   // Detects the scroll position (Y) of the chat container and hides or shows the Scroll Bottom button.
@@ -207,7 +207,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
               <Link href={`/profile/${friend.user_name}`}>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded rounded-full overflow-hidden">
-                  <img src={`/avatarImages/${friend.avatar_image}`} className="h-full w-full object-cover" />
+                  <img src={`/avatarImages/${friend.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
                 </div>
                 <p className="text-white ml-4 hover:text-green-500">{friend.user_name}</p>
               </div>
@@ -243,7 +243,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
             {messages.length == 0 && (
               <div className="flex flex-col text-center justify-center w-full h-full text-gray-400">
-                <p>(๑'ᵕ'๑)⸝*</p>
+                {/* <p>(๑'ᵕ'๑)⸝*</p> */}
                 <p>Be the first to start a conversation!</p>
               </div>
             )}

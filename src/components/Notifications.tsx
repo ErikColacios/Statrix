@@ -1,4 +1,5 @@
 "use client"
+import React from "react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import getUsersFriendship from "../actions/getUsersFriendship";
@@ -58,12 +59,13 @@ export default function Notifications({ userId, notificationCount }: Props) {
             </button>
 
             {dropdown &&
-                <div className="absolute overflow-scroll no-scrollbar flex flex-col space-y-2 bg-zinc-900 text-sm w-80 h-80 text-gray-200 border border-zinc-600 rounded rounded-lg top-16 md:top-10 left-5 sm:left-20 z-30 p-2">
+                <div className="absolute overflow-scroll no-scrollbar flex flex-col space-y-2 p-2 bg-zinc-900 
+                text-sm w-80 h-80 text-gray-200 border border-zinc-600 rounded rounded-lg top-12 md:top-10 right-0 sm:left-20 z-30">
                     <p className="text-base ml-2">Notifications</p>
                     {notifications.map((item: any, index: number) => (
                         <div key={index} className='flex p-2 mb-4 h-18 border border-gray-600 bg-zinc-800 rounded-lg'>
                             <div className="w-10 h-10 rounded rounded-full overflow-hidden">
-                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
+                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
                             </div>
                             <div className="ml-3 flex flex-col">
                                 <p>New friend request!</p>

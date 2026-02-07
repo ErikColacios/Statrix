@@ -54,7 +54,7 @@ export default function Friends() {
 
 
     return (
-        <div className='w-full lg:w-3/4'>
+        <div className='w-full sm:w-5/6 2xl:w-3/5 px-4'>
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -87,17 +87,17 @@ export default function Friends() {
                 <div className='mt-5 overflow-scroll no-scrollbar'>
                     {/* Users found */}
                     {usersFound.map((item: any, index: number) => (
-                        <div key={index} className='relative grid grid-cols-5 items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
-                            <div className='flex items-center'>
+                        <div key={index} className='relative flex items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
+                            <Link href={`/profile/${item.user_name}`} className='flex items-center'>
                                 <div className="w-10 h-10 rounded rounded-full overflow-hidden">
                                     <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
                                 </div>
                                 {/* User name */}
-                                <Link href={`/profile/${item.user_name}`} className='ml-4 text-lg hover:text-green-400'>{item.user_name}</Link>
-                            </div>
+                                <p className='ml-4 text-lg hover:text-green-400'>{item.user_name}</p>
+                            </Link>
 
                             <div className='flex items-center text-base text-gray-400'>
-                                <p className='text-sm'>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
+                                {/* <p className='text-sm'>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p> */}
                             </div>
 
                             {/* Friend row buttons */}
@@ -109,9 +109,9 @@ export default function Friends() {
                                     : ''}
 
                                 {userSearchMode === FriendshipStatus.ACCEPTED ?
-                                    <button className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
+                                    <button className='text-sm p-1 rounded border border-green-500 hover:bg-green-500'
                                         onClick={() => openChat(item.user_id, item.user_name)}>
-                                        Chat
+                                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 8H16M8 12H13M7 16V21L12 16H20V4H4V16H7Z" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
                                     </button>
                                     : ''}
                             </div>

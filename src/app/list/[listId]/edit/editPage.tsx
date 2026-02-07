@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import updateList from '@/actions/updateList';
 import CustomModal from '@/components/CustomModal';
 import SearchGameBar from '@/components/SearchGameBar';
@@ -31,9 +32,9 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
         setOldGamesList(oldGamesList.filter(item => item.game_id !== game_id))
     }
 
-    let listContent: any | undefined = []
-
     useEffect(() => {
+        let listContent: any | undefined = []
+
         const fetchListGames = async () => {
             try {
                 const user = await getUserServerSide()
@@ -44,7 +45,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
             }
         }
         fetchListGames()
-    }, [])
+    })
 
     async function saveChanges() {
         const list_name_input = document.getElementById("listName") as HTMLInputElement
@@ -72,7 +73,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
             {showModal && alert}
             {/* Save changes button */}
             <button className="absolute flex items-center rounded top-0 md:top-5 right-0 p-2 md:p-3 text-md md:text-2xl bg-green-500 hover:bg-green-600" onClick={saveChanges}>
-                <img src="/staticImages/icon_confirmation.png" width={25} />
+                <img src="/staticImages/icon_confirmation.png" width={25} alt='Icon confirmation'/>
                 <p className='hidden md:block md:ml-2'>Save changes</p>
             </button>
 
@@ -87,7 +88,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
                     <div className="overflow-scroll no-scrollbar border border-gray-500 mt-1">
                         {oldGamesList.map((item: any, index: number) => (
                             <div key={index} className="relative flex items-center bg-gray-900 mb-2">
-                                <img src={item.game_base_image} className="w-8 md:w-12 mr-4" width={80} height={60} alt={'Game cover'} />
+                                <img src={item.game_base_image} className="w-8 md:w-12 mr-4" width={80} height={60} alt={'Game cover'}/>
                                 <p>{item.game_name}</p>
                                 <button className='ml-4 flex items-center' onClick={() => removeGamesInList(item.game_id)}><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0 mr-4' /></button>
                             </div>
@@ -101,7 +102,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
                     <div id="gamesAdded" className="flex flex-col  text-sm">
                         {newGamesAdded.map((item, index) => (
                             <div key={index} className='relative flex items-center bg-gray-700 w-full p-1 mb-1 hover:bg-lime-300 hover:text-green-800' ><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 mr-4' alt='Videogame cover' /><p>{item.name}</p>
-                                <button className='flex items-center w-5 absolute right-0 mr-4' ><img src="/staticImages/icon_remove.png" id='btnRemoveGame' onClick={() => removeAddedGame(item.id)} /></button>
+                                <button className='flex items-center w-5 absolute right-0 mr-4' ><img src="/staticImages/icon_remove.png" id='btnRemoveGame' onClick={() => removeAddedGame(item.id)} alt='Remove icon'/></button>
                             </div>
                         ))}
                     </div>

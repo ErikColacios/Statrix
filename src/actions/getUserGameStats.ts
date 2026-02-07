@@ -1,3 +1,4 @@
+import { GameStatus } from "@/enums/GameStatus";
 import { pool } from "@/util/postgres";
 
 type TopGame = {
@@ -9,6 +10,7 @@ type TopGame = {
 };
 
 type UserGameStats = {
+  gamesCompleted:number,
   topGames: TopGame[];
   gamesPlayed: number;
   favGames: TopGame[];
@@ -21,6 +23,17 @@ export default async function getUserGameStats(user_name: string | undefined): P
   }
 
   try {
+
+        // Get total of games played
+    const gamesCompletedResult = await pool.query(
+      `SELECT COUNT(*)::int
+       FROM user_videogame uv
+       INNER JOIN users usr ON usr.user_id = uv.user_id
+       WHERE usr.user_name = $1 AND uv.status = $2`,
+      [user_name, GameStatus.COMPLETED]
+    );
+    const gamesCompleted: number = gamesCompletedResult.rows[0].count;
+
     // Get total of games played
     const gamesPlayedResult = await pool.query(
       `SELECT COUNT(*)::int
@@ -31,27 +44,27 @@ export default async function getUserGameStats(user_name: string | undefined): P
     );
     const gamesPlayed: number = gamesPlayedResult.rows[0].count;
 
-    // Get top 5 games with highest rate and playtime
+    // Get top 5 games with highest playtime
     const topGamesResult = await pool.query(
       `SELECT uv.game_id, uv.game_name, uv.score, uv.hours_played, uv.game_base_image
        FROM user_videogame uv
        INNER JOIN users usr ON usr.user_id = uv.user_id
        WHERE usr.user_name = $1
-       ORDER BY uv.score DESC, uv.hours_played DESC
+       ORDER BY uv.hours_played DESC
        LIMIT 5`,
       [user_name]
     );
     const topGames: TopGame[] = topGamesResult.rows;
 
 
-    // Get top 5 favourite games
+    // Get top 5 favourite games (most playtime, and favourite)
     const favGamesResult = await pool.query(
       `SELECT uv.game_id, uv.game_name, uv.score, uv.hours_played, uv.game_base_image
        FROM user_videogame uv
        INNER JOIN users usr ON usr.user_id = uv.user_id
        WHERE usr.user_name = $1
        AND uv.favourite = true
-       ORDER BY uv.score DESC, uv.hours_played DESC
+       ORDER BY uv.hours_played DESC
        LIMIT 5`,
       [user_name]
     );
@@ -59,6 +72,7 @@ export default async function getUserGameStats(user_name: string | undefined): P
     const favGames: TopGame[] = favGamesResult.rows;
 
     return {
+      gamesCompleted,
       topGames,
       gamesPlayed,
       favGames

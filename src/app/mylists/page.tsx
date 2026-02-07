@@ -16,7 +16,8 @@ export default async function MyLists() {
                             <img key={i} src={cover.game_base_image} className='absolute w-36 h-48 rounded-tr-xl border border-gray-600'
                                 style={{
                                     left: `${i * 20}%`, zIndex: list.covers.length * 10 - (i * 10),
-                                }} />
+                                }} 
+                                alt='Cover image'/>
                         ))}
                     </div>
 

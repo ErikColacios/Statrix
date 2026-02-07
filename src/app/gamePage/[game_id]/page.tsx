@@ -48,8 +48,8 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                         {/* GAME BOX */}
                         <div className='w-full md:w-3/4 2xl:w-1/2 bg-black/80 mt-8 rounded'>
                             <div className='relative'>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' />
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" />
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>

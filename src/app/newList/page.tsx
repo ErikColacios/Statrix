@@ -1,4 +1,5 @@
 "use client"
+import React from "react";
 import { getCovers } from '@/actions/getCovers'
 import { insertList } from '@/actions/insertList'
 import CustomModal from '@/components/CustomModal'

@@ -64,9 +64,9 @@ export default function AddNewFriendModal({ }: Props) {
             <p className="text-gray-300">Search a friend typing the user name here</p>
             {/* Search user */}
             <div className="flex">
-                <form className='flex w-1/3 text-sm border' action={searchUser}>
-                    <input type="text" name="searchUser" id="searchUser" className='w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='User name' />
-                    <button className='p-1 rounded ml-2 transition hover:bg-gray-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
+                <form className='flex text-sm border' action={searchUser}>
+                    <input type="text" name="searchUser" id="searchUser" className='w-full sm:w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='User name' />
+                    <button className='p-1 rounded ml-2 transition hover:bg-gray-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search button" className='w-5' width={20} height={20} /></button>
                 </form>
                 <div className="loader-small ml-3 hidden" id="loader"></div>
             </div>
@@ -76,7 +76,7 @@ export default function AddNewFriendModal({ }: Props) {
                 {usersFound.map((item: any, index: number) => (
                     <div key={index} className='relative flex items-center mb-4 p-2 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
                         <div className="w-12 h-12 rounded rounded-full overflow-hidden">
-                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
+                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
                         </div>
                         <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
                         <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
