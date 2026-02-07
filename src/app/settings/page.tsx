@@ -1,4 +1,5 @@
 "use client"
+import React from "react";
 import getSessionUser from "@/actions/getSessionUser";
 import getUserInfo from "@/actions/getUserInfo";
 import updateUser from "@/actions/updateUser";
@@ -12,10 +13,11 @@ export default function Settings(){
 
     const [userInfo, setUserInfo] = useState([])
     const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
-    let userInf:any | undefined = []
     const [chooseMode, setChooseMode] = useState<"avatar" | "banner">("avatar")
 
     useEffect(() => {
+        let userInf:any | undefined = []
+
         const getSessionUserId = async () => {
             const user = await getSessionUser()
             if(user !== undefined){
@@ -47,7 +49,7 @@ export default function Settings(){
                         {/* BANNER */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("banner")}>
                             <div className="w-full">
-                                <img src={"/bannerImages/"+item.banner_image} className="w-full h-42 md:h-56 outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" />
+                                <img src={"/bannerImages/"+item.banner_image} className="w-full h-42 md:h-56 outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" alt="Banner image"/>
                             </div>
                         </Dialog.Trigger>
         
@@ -55,7 +57,7 @@ export default function Settings(){
                         {/* AVATAR */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("avatar")}>
                             <div className="ml-2 absolute top-10 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
-                                <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" />
+                                <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image"/>
                             </div>
                         </Dialog.Trigger>
                         

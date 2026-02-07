@@ -14,12 +14,10 @@ interface ChooseAvatarBannerProps {
 export default function ChooseAvatarBanner({ chooseMode, current_avatar_id, current_banner_id }: ChooseAvatarBannerProps) {
 
   // Avatars
-  let avatarImgs: any = []
   const [avatarImages, setAvatarImages] = useState([])
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar>({ avatar_id: current_avatar_id, avatar_name: "" })
 
   // Banners
-  let bannerImgs: any = []
   const [bannerImages, setBannerImages] = useState([])
   const [selectedBanner, setSelectedBanner] = useState<Banner>({ banner_id: current_banner_id, banner_name: "" })
 
@@ -28,12 +26,14 @@ export default function ChooseAvatarBanner({ chooseMode, current_avatar_id, curr
   useEffect(() => {
 
     async function getAvatarImgs() {
+      let avatarImgs: any = []
       avatarImgs = await getAvatarImages()
       setAvatarImages(avatarImgs)
       setSelectedAvatar({ avatar_id: current_avatar_id, avatar_name: avatarImgs[current_avatar_id - 1].avatar_image_name })
     }
 
     async function getBannerImgs() {
+      let bannerImgs: any = []
       bannerImgs = await getBannerImages()
       setBannerImages(bannerImgs)
       setSelectedBanner({ banner_id: current_banner_id, banner_name: bannerImgs[current_banner_id - 1].banner_image_name })
@@ -118,7 +118,7 @@ export default function ChooseAvatarBanner({ chooseMode, current_avatar_id, curr
             {avatarImages.map((item: any, ident: number) => (
               <div key={ident} className="flex flex-col items-center text-sm">
                 <div className="w-24 h-24 sm:w-32 sm:h-32 xl:w-48 xl:h-48 rounded-full overflow-hidden hover:outline hover:outline-green-600" id={"avatar" + item.avatar_image_id} onClick={() => handleSelectAvatar(item.avatar_image_id, item.avatar_image_name)}>
-                  <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" />
+                  <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
                 </div>
                 <p className="mt-2">{item.avatar_image_name}</p>
               </div>
