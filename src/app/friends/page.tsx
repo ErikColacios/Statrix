@@ -10,6 +10,8 @@ import getSessionUser from '@/actions/getSessionUser'
 import PrimaryButton from '@/components/PrimaryButton'
 import AddNewFriendModal from '@/components/AddNewFriendModal'
 import getUsersFriendship from '@/actions/getUsersFriendship'
+import CustomModal from '@/components/CustomModal'
+import SkeletonFriends from './skeleton'
 
 export default function Friends() {
 
@@ -17,12 +19,15 @@ export default function Friends() {
     const [user, setUser] = useState<User>()
     const [usersFound, setUsersFound] = useState([])
     const [userSearchMode, setUserSearchMode] = useState<FriendshipStatus>(FriendshipStatus.ACCEPTED)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [showModal, setShowModal] = useState<boolean>(false)
 
     async function loadFriendships(userSearchMode: FriendshipStatus) {
         let friendships: any = []
         setUserSearchMode(userSearchMode)
         friendships = await getUsersFriendship(userSearchMode)
         setUsersFound(friendships.all)
+        setIsLoading(false)
     }
 
     async function acceptFriendRequest(requester_id: string) {
@@ -42,6 +47,7 @@ export default function Friends() {
             router.push(`/chat/${chat[0].room_id}`)
         }
     }
+
 
     useEffect(() => {
         loadFriendships(userSearchMode)
@@ -83,53 +89,59 @@ export default function Friends() {
                             onClick={() => loadFriendships(FriendshipStatus.BLOCKED)}>Blocked</button>
                     </div>
                 </div>
+                {isLoading ? <SkeletonFriends /> :
+                    <div className='mt-5 overflow-scroll no-scrollbar'>
+                        {/* Users found */}
+                        {usersFound.map((item: any, index: number) => (
+                            <div key={index} className='relative flex items-center p-2 mb-4 h-16 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
+                                <Link href={`/profile/${item.user_name}`} className='flex items-center'>
+                                    <div className="w-10 h-10 rounded rounded-full overflow-hidden">
+                                        <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
+                                    </div>
+                                    {/* User name */}
+                                    <p className='ml-4 text-lg hover:text-green-400'>{item.user_name}</p>
+                                </Link>
 
-                <div className='mt-5 overflow-scroll no-scrollbar'>
-                    {/* Users found */}
-                    {usersFound.map((item: any, index: number) => (
-                        <div key={index} className='relative flex items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
-                            <Link href={`/profile/${item.user_name}`} className='flex items-center'>
-                                <div className="w-10 h-10 rounded rounded-full overflow-hidden">
-                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
+                                <div className='flex items-center text-base text-gray-400'>
+                                    {/* <p className='text-sm'>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p> */}
                                 </div>
-                                {/* User name */}
-                                <p className='ml-4 text-lg hover:text-green-400'>{item.user_name}</p>
-                            </Link>
 
-                            <div className='flex items-center text-base text-gray-400'>
-                                {/* <p className='text-sm'>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p> */}
+                                {/* Friend row buttons */}
+                                <div className='absolute right-5'>
+                                    {userSearchMode === FriendshipStatus.PENDING ? user?.user_id === item.requester_id ?
+                                        <p>Pending</p> :
+                                        <button onClick={() => acceptFriendRequest(item.requester_id)}
+                                            className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
+                                        : ''}
+
+                                    {userSearchMode === FriendshipStatus.ACCEPTED ?
+                                        <>
+                                            <button className='text-sm p-1 rounded rounded-full border border-green-500 hover:bg-green-500'
+                                                onClick={() => openChat(item.user_id, item.user_name)}>
+                                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#ffffff" strokeWidth="1.5"></path> <path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
+                                            </button>
+                                            <button className='ml-2 text-sm p-1 rounded rounded-full border border-red-500 hover:bg-red-500'
+                                                onClick={() => setShowModal(true)}>
+                                                <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
+                                            </button>
+                                            {showModal && 
+                                                <CustomModal title='Warning' text="Are you sure that you want to delete this friend?" 
+                                                    type='question' 
+                                                    action={{ actionName: "deleteUserFriendship", parameters: { item } }} closeModal={() => setShowModal(false)}/>
+                                            }
+                                            
+                                        </>
+                                        : ''}
+                                </div>
                             </div>
-
-                            {/* Friend row buttons */}
-                            <div className='absolute right-5'>
-                                {userSearchMode === FriendshipStatus.PENDING ? user?.user_id === item.requester_id ?
-                                    <p>Pending</p> :
-                                    <button onClick={() => acceptFriendRequest(item.requester_id)}
-                                        className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
-                                    : ''}
-
-                                {userSearchMode === FriendshipStatus.ACCEPTED ?
-                                    <>
-                                        <button className='text-sm p-1 rounded rounded-full border border-green-500 hover:bg-green-500'
-                                            onClick={() => openChat(item.user_id, item.user_name)}>
-                                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#ffffff" strokeWidth="1.5"></path> <path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
-                                        </button>
-                                        <button className='ml-2 text-sm p-1 rounded rounded-full border border-red-500 hover:bg-red-500'
-                                            onClick={() => openChat(item.user_id, item.user_name)}>
-                                            <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
-                                        </button>
-                                    </>
-                                    : ''}
-                            </div>
-
-                        </div>
-                    ))}
-                    {usersFound.length === 0 &&
-                        <div className='flex flex-col items-center justify-center text-center mb-4 h-64 text-gray-400 border border-gray-600 bg-gray-800/50 rounded-lg'>
-                            <p>(－_－) zzZ</p>
-                            <p>Nothing to check here by now</p>
-                        </div>}
-                </div>
+                        ))}
+                        {usersFound.length === 0 &&
+                            <div className='flex flex-col items-center justify-center text-center mb-4 h-64 text-gray-400 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                                <p>(－_－) zzZ</p>
+                                <p>Nothing to check here by now</p>
+                            </div>}
+                    </div>
+                }
             </Dialog.Root>
         </div>
     )

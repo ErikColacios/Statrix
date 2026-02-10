@@ -67,7 +67,7 @@ export default function NewList() {
           setModalTrigger(t => t + 1)
           gameFound = true;
           setShowModal(true)
-          setAlert(<CustomModal key={modalTrigger} title='hola' text='The game is already in the list' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+          setAlert(<CustomModal key={modalTrigger} title='hola' text='The game is already in the list' type='alert' action={{ actionName: "displayAlert", parameters: { showModal }}} closeModal={() => setShowModal(false)}/>)
           break;
         }
       }
@@ -95,13 +95,13 @@ export default function NewList() {
   function createList() {
     if (listName === "") {
       setShowModal(true)
-      setAlert(<CustomModal key={modalTrigger} title='hola' text='Introduce a list name' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+      setAlert(<CustomModal key={modalTrigger} title='hola' text='Introduce a list name' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)}/>)
       setModalTrigger(t => t + 1)
 
     }
     else if (countGames === 0) {
       setShowModal(true)
-      setAlert(<CustomModal key={modalTrigger} title='hola' text='You must add a videogame first' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+      setAlert(<CustomModal key={modalTrigger} title='hola' text='You must add a videogame first' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)}/>)
       setModalTrigger(t => t + 1)
     }
     else {

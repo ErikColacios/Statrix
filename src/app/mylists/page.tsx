@@ -24,7 +24,7 @@ export default async function MyLists() {
                     <div className='flex items-center p-6'>
                         <div className='flex flex-col'>
                             <p className="text-2xl text-gray-200">{list.list_name}</p>
-                            <p className="text-sm text-gray-400 text-gray-200 pt-1">Games: {list.covers[0].total_games}</p>
+                            <p className="text-sm text-gray-400 pt-1">Games: {list.covers[0].total_games}</p>
                         </div>
                         <p className="ml-auto text-sm text-gray-400">Created: {list.list_creationdate.toISOString().split('T')[0]}</p>
                     </div>
