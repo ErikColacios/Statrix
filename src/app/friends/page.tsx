@@ -90,7 +90,7 @@ export default function Friends() {
                         <div key={index} className='relative flex items-center p-2 mb-4 h-18 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
                             <Link href={`/profile/${item.user_name}`} className='flex items-center'>
                                 <div className="w-10 h-10 rounded rounded-full overflow-hidden">
-                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image'/>
+                                    <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
                                 </div>
                                 {/* User name */}
                                 <p className='ml-4 text-lg hover:text-green-400'>{item.user_name}</p>
@@ -109,10 +109,16 @@ export default function Friends() {
                                     : ''}
 
                                 {userSearchMode === FriendshipStatus.ACCEPTED ?
-                                    <button className='text-sm p-1 rounded border border-green-500 hover:bg-green-500'
-                                        onClick={() => openChat(item.user_id, item.user_name)}>
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 8H16M8 12H13M7 16V21L12 16H20V4H4V16H7Z" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
-                                    </button>
+                                    <>
+                                        <button className='text-sm p-1 rounded rounded-full border border-green-500 hover:bg-green-500'
+                                            onClick={() => openChat(item.user_id, item.user_name)}>
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#ffffff" strokeWidth="1.5"></path> <path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
+                                        </button>
+                                        <button className='ml-2 text-sm p-1 rounded rounded-full border border-red-500 hover:bg-red-500'
+                                            onClick={() => openChat(item.user_id, item.user_name)}>
+                                            <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
+                                        </button>
+                                    </>
                                     : ''}
                             </div>
 
