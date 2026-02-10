@@ -42,19 +42,6 @@ export default function AddNewFriendModal({ }: Props) {
             }
     }
 
-    // const handleAddFriend = async () => {
-    //     // We simulate that the user presses ESC to close the modal
-    //     const escEvent = new KeyboardEvent('keydown', {
-    //         key: 'Escape',
-    //         code: 'Escape',
-    //         keyCode: 27,
-    //         which: 27,
-    //         bubbles: true
-    //     });
-
-    //     document.dispatchEvent(escEvent);
-    // }
-
     return (
         <div className="flex w-full h-[75vh] md:h-[65vh] flex-col border border-gray-500 space-y-8 pl-4 pr-4 md:pl-10 md:pr-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
             <Dialog.Close className="mt-8 absolute right-10 p-2 rounded transition hover:bg-gray-800" >
@@ -76,27 +63,28 @@ export default function AddNewFriendModal({ }: Props) {
                 {usersFound.map((item: any, index: number) => (
                     <div key={index} className='relative flex items-center mb-4 p-2 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
                         <div className="w-12 h-12 rounded rounded-full overflow-hidden">
-                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
+                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
                         </div>
                         <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
                         <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
                             <p>{item.user_location}</p>
-                            <p>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p>
+                            {/* <p>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p> */}
                             <p>{item.status}</p>
                         </div>
 
                         {/* ADD FRIEND BUTTON */}
                         {item.status === 'Pending' ?
                             <button className='w-28 absolute right-5 text-sm p-1 rounded border border-gray-400 bg-gray-800 hover:bg-green-500 hover:text-black'
-                                onClick={() => removeFriendRequest(item.user_id)}>Remove request</button>
+                                onClick={() => removeFriendRequest(item.user_id)}>Remove</button>
                             :
-                            <button className='w-28 absolute right-5 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
-                                onClick={() => sendFriendRequest(item.user_id, item.user_name)}>Add friend</button>
+                            <button className='absolute right-5 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
+                                onClick={() => sendFriendRequest(item.user_id, item.user_name)}>
+                                <svg width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="5.4399999999999995" stroke="#ffffff" fill="none"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><circle cx="29.22" cy="16.28" r="11.14"></circle><path d="M41.32,35.69c-2.69-1.95-8.34-3.25-12.1-3.25h0A22.55,22.55,0,0,0,6.67,55h29.9"></path><circle cx="45.38" cy="46.92" r="11.94"></circle><line x1="45.98" y1="39.8" x2="45.98" y2="53.8"></line><line x1="38.98" y1="46.8" x2="52.98" y2="46.8"></line></g></svg>                                </button>
                         }
                     </div>
                 ))}
                 {usersFound.length === 0 &&
-                    <div className='flex items-center justify-center mb-4 h-80 text-gray-400 border border-gray-600 bg-gray-800/50 rounded-lg'>
+                    <div className='flex items-center justify-center bg-gray-800/50 text-gray-400 border border-gray-600 rounded-lg mb-4 h-80 p-4'>
                         Here you will see the users found in the database
                     </div>}
             </div>

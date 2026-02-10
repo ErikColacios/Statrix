@@ -40,7 +40,7 @@ export default async function Profile({ params }: { params: { userName: string }
         <>
             {userInfo.map((item: any, index: number) => (
                 <section className="h-full flex flex-col items-center md:items-start justify-center space-y-4 lg:space-y-0 lg:space-x-4 lg:flex-row px-2 py-2" key={index}>
-                    <div className="h-full md:h-[30rem] flex flex-col lg:w-2/3 xl:w-[40rem] border border-gray-600 bg-zinc-900 rounded-lg" key={index}>
+                    <div className="h-full flex flex-col md:h-[30rem] lg:w-2/3 xl:w-[40rem] border border-gray-600 bg-zinc-900 rounded-lg" key={index}>
                         {/* Profile - widget */}
                         <div className="relative h-70 z-10">
                             <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg"/>
@@ -83,7 +83,7 @@ export default async function Profile({ params }: { params: { userName: string }
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col space-y-4 md:h-[30rem] lg:w-2/3 xl:w-[35rem]">
+                    <div className="flex flex-col space-y-4 md:h-[30rem] w-full lg:w-2/3 xl:w-[35rem]">
                         <div className="flex space-x-4 h-1/3">
                             {/* Completed games - widget*/}
                             <div className="w-full border border-gray-600 bg-zinc-900 rounded-lg p-4">
@@ -93,13 +93,13 @@ export default async function Profile({ params }: { params: { userName: string }
                             {/* Most played game - widget*/}
                             <div className="w-full border border-gray-600 bg-zinc-900 rounded-lg p-4">
                                 <p className="text-green-600">Most played game</p>
-                                <p className="text-3xl font-bold mt-1">{userGameStats.topGames[0].game_name}</p>
+                                <p className="text-xl sm:text-3xl font-bold mt-1">{userGameStats.topGames[0] ? userGameStats.topGames[0].game_name : "No played games yet..."}</p>
                             </div>
                         </div>
                         {/* Last review - widget*/}
-                        <div className="flex space-x-4 h-1/3">
+                        <div className="flex space-x-4 border border-gray-600 bg-zinc-900 rounded-lg h-1/3">
                             {userReviews.map((r: any, index: number) => (
-                                <div className="relative flex items-center rounded-lg border border-gray-600 bg-zinc-900 bg-cover bg-center backdrop-blur-md p-4"
+                                <div className="relative flex items-center bg-cover bg-center p-4"
                                     style={{ backgroundImage: `url(${r.game_base_image})` }}
                                     key={index}>
                                     <div className="absolute inset-0 bg-black/60 rounded-lg"/>
@@ -110,6 +110,11 @@ export default async function Profile({ params }: { params: { userName: string }
                                     </div>
                                 </div>
                             ))}
+                            {userReviews==0 && 
+                            <div className="flex flex-col p-4">
+                                <p className="text-green-600">Last review</p>
+                                <p>No reviews yet...</p>
+                            </div>}
                         </div>
                         <div className="flex space-x-4 h-1/3">
                             {/* Games playing - widget*/}
