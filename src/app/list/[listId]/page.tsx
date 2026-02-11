@@ -52,8 +52,10 @@ export default async function List({ params, searchParams }: { params: { listId:
                         <Link href={`./${list_id}/edit`} className='md:mb-0 p-1 pl-2 pr-2  mr-4'><PrimaryButton text='EDIT LIST' /></Link>
 
                         {/* Delete list button*/}
-                        <Link href="?show=true"><DangerButton text={'DELETE LIST'}></DangerButton></Link>
-                        {showModal && <CustomModal title='Warning' text="Are you sure that you want to delete this list?" type='question' action={{ actionName: "deleteList", parameters: { list_id } }} />}
+                        <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-lg">Delete</button>
+
+                        {/* {showModal && 
+                            <CustomModal title='Warning' text="Are you sure that you want to delete this list?" type='question' action={{ actionName: "deleteList", parameters: { list_id } }} closeModal={() => setShowModal(false)}/>} */}
                     </div>
                 </div>
             ))}

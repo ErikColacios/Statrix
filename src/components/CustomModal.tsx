@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { deleteList } from "../actions/deleteList";
 import { deleteUserFriendship } from "@/actions/deleteUserFriendship";
+import PrimaryButton from "./PrimaryButton";
 
 type Props = {
     title: string,
@@ -51,13 +52,13 @@ export default function CustomModal({ title, text, type, action, closeModal }: P
             )
         case "question":
             return (
-                <dialog className="rounded rounded-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm" ref={dialogRef} onClick={()=> closeModal()}>
+                <dialog className="rounded rounded-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm" ref={dialogRef} >
                     <div className="flex flex-col justify-center items-center text-center rounded rounded-2xl w-96 h-80 border border-gray-600 bg-zinc-900 text-white p-8">
                         <p className="text-3xl font-black mb-4">{title}</p>
                         <p>{text}</p>
                         <div className="flex space-x-8 mt-12">
-                            <button onClick={handleAction} className="w-32 border border-green-400 p-3 text-center transition hover:bg-green-400 hover:text-black">Yes</button>
-                            <button onClick={()=> closeModal()} className="w-32 border border-red-400  p-3 text-center transition hover:bg-red-400 hover:text-black">Cancel</button>
+                            <button onClick={handleAction}><PrimaryButton text="Yes"/></button>
+                            <button onClick={()=> closeModal()} className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-lg">Cancel</button>
                         </div>
                     </div>
                 </dialog>

@@ -125,7 +125,7 @@ export default function Friends() {
                                                 <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
                                             </button>
                                             {showModal && 
-                                                <CustomModal title='Warning' text="Are you sure that you want to delete this friend?" 
+                                                <CustomModal title='Warning' text={`Are you sure you want to remove ${item.user_name} from your friends list?`} 
                                                     type='question' 
                                                     action={{ actionName: "deleteUserFriendship", parameters: { item } }} closeModal={() => setShowModal(false)}/>
                                             }
