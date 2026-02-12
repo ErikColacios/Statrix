@@ -25,12 +25,12 @@ export default function ReviewModal({ game_id, game_name, game_cover }: Props) {
         if (reviewBody === "") {
             setModalTrigger(t => t + 1)
             setShowModal(true)
-            setAlert(<CustomModal key={modalTrigger} title='Alert' text="Type a review first" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+            setAlert(<CustomModal key={modalTrigger} title='Alert' text="Type a review first" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
         }
         else if (recommended === "") {
             setModalTrigger(t => t + 1)
             setShowModal(true)
-            setAlert(<CustomModal key={modalTrigger} title='Alert' text="Set your recommendation first" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+            setAlert(<CustomModal key={modalTrigger} title='Alert' text="Set your recommendation first" type='alert' action={{ actionName: "displayAlert", parameters: { showModal }}} closeModal={()=>setShowModal(false)} />)
         }
         else {
             await insertReview(game_id, game_name, reviewBody, recommended);
