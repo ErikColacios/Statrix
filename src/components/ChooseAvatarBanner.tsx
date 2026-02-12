@@ -147,7 +147,7 @@ export default function ChooseAvatarBanner({ chooseMode, current_avatar_id, curr
             {bannerImages.map((item: any, ident: number) => (
               <div key={ident} className="flex flex-col items-center text-sm">
                 <div className="w-full h-26 sm:w-92 sm:h-32   hover:outline hover:outline-green-600" id={"banner" + item.banner_image_id} onClick={() => handleSelectBanner(item.banner_image_id, item.banner_image_name)}>
-                  <img src={`/bannerImages/${item.banner_image}`} className="h-full w-full object-cover" />
+                  <img src={`/bannerImages/${item.banner_image}`} className="h-full w-full object-cover" alt="Banner image"/>
                 </div>
                 <p className="mt-2">{item.banner_image_name}</p>
               </div>
