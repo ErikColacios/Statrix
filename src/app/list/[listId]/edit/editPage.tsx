@@ -53,13 +53,13 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
         if (list_name === "") {
             setModalTrigger(t => t + 1)
             setShowModal(true)
-            setAlert(<CustomModal key={modalTrigger} title='hola' text="The list name can't be empty!" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+            setAlert(<CustomModal key={modalTrigger} title='hola' text="The list name can't be empty!" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
         }
 
         else if (oldGamesList.length == 0 && newGamesAdded.length == 0) {
             setModalTrigger(t => t + 1)
             setShowModal(true)
-            setAlert(<CustomModal key={modalTrigger} title='hola' text="You must select at least 1 game" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} />)
+            setAlert(<CustomModal key={modalTrigger} title='hola' text="You must select at least 1 game" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
         }
 
         else {
