@@ -16,7 +16,9 @@ export async function getListContent(list_id:string, user_id:string) {
             INNER JOIN list_games lg ON lg.list_id = li.list_id
             INNER JOIN user_videogame uv ON uv.user_id = li.user_id AND uv.game_id = lg.game_id
             WHERE li.list_id = $1
-            AND li.user_id = $2`, [list_id, user_id]);
+            AND li.user_id = $2
+            ORDER BY uv.score DESC, uv.hours_played DESC`,
+            [list_id, user_id]);
         return res.rows
     }catch(error){
         console.log(error)

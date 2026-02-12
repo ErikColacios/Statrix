@@ -1,10 +1,9 @@
 import React from "react"
 import LoadingAnimation from "@/components/LoadingAnimation"
 
-export default function Loading() {
+export default function LoadingLists() {
     return (
-        <div className="flex flex-col items-center justify-center w-full text-white text-2xl h-96 space-y-8">
-            <p>Loading lists</p>
+        <div className="flex flex-col items-center justify-center w-full h-96">
             <LoadingAnimation/>
         </div>
     )

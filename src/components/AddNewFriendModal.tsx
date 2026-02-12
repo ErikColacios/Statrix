@@ -7,10 +7,9 @@ import { insertUserFriendship } from "../actions/insertUserFriendship";
 import { deleteUserFriendship } from "../actions/deleteUserFriendship";
 
 type Props = {
-
 };
 
-export default function AddNewFriendModal({ }: Props) {
+export default function AddNewFriendModal({}: Props) {
 
     const [usersFound, setUsersFound] = useState([])
 

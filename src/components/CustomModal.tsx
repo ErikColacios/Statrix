@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { deleteList } from "../actions/deleteList";
 import { deleteUserFriendship } from "@/actions/deleteUserFriendship";
-import PrimaryButton from "./PrimaryButton";
 
 type Props = {
     title: string,

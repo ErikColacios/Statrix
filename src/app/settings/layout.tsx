@@ -10,7 +10,7 @@ export default async function SettingsLayout({ children }: { children: React.Rea
   }
 
   return (
-    <section className='bg-black h-screen'>
+    <section className='h-screen'>
       {children}
     </section>
   )
