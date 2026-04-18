@@ -58,7 +58,7 @@ export default async function List({ params, searchParams }: { params: { listId:
                                 <div className={`w-8 h-8 overflow-hidden rounded rounded-full`}>
                                     <img src={`/avatarImages/${user_info[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
                                 </div>
-                                <div className='flex space-x-6'>
+                                <div className='flex space-x-5 text-sm sm:text-base'>
                                     <Link href={`/profile/${user_name}`} className='text-white hover:text-green-500 ml-2'>{user_name}</Link>
                                     {/* Creation date */}
                                     <p>Created {item.list_creationdate.toISOString().split('T')[0]}</p>

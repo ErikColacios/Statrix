@@ -2,8 +2,10 @@
 import React from 'react'
 import { signUp } from '@/actions/signUpUser'
 import { useFormState } from 'react-dom'
+import GoogleSignInButton from '@/components/GoogleSignInButton'
 
 export default function SignUp() {
+
     const [state, formAction] = useFormState<any, FormData>(signUp, undefined)
 
     return (
@@ -26,6 +28,7 @@ export default function SignUp() {
                     {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
 
                     <button className="mt-2 text-white bg-gradient-to-r from-orange-300 to-yellow-400 p-2 hover:from-orange-400 hover:to-yellow-500 ">Sign up</button>
+                    <GoogleSignInButton/>
                 </form>
             </div>
         </section>

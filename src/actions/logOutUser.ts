@@ -1,9 +1,5 @@
-"use server"
-import { redirect } from "next/navigation";
-import { getSession } from "./getSession";
+import { signOut } from "next-auth/react";
 
 export async function logOut(){
-    const session = await getSession();
-    session.destroy()
-    redirect("/")
+    await signOut({ callbackUrl: "/" })
 }

@@ -52,7 +52,7 @@ export default async function MyListsLayout({
     <section className="flex justify-center text-white bg-gradient-to-b from-black via-gray-900 to-black">
       <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
         <div className="flex items-center text-lg md:text-3xl border-b-2 border-gray-500 pb-3 mb-8">
-          <h2 className='text-2xl'>My game lists</h2>
+          <h2 className='text-2xl'>My lists</h2>
           <p className='text-gray-400 text-base ml-8 mt-1'>{numberOfLists} list/s</p>
           <Link href={"newList"} className="ml-auto"><PrimaryButton text='Add list' /></Link>
         </div>

@@ -31,19 +31,18 @@ export async function signUp(prevState:{ error: undefined | string} , formData: 
 
         await pool.query(
             `INSERT INTO users (
-                user_id, user_name, user_email, user_password,
-                user_lists, user_bio, user_location
+                user_id, user_name, user_email, user_password,user_lists, user_bio, user_location
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
             [user_id, user_name, user_email, hashedPassword, user_lists, user_bio, user_location]
         );
 
         // We destroy the current session just in case, and then we create the new session
-        session.destroy()
-        session.user_id = user_id
-        session.user_name = user_name
-        session.isLoggedIn = true
-        await session.save()
+        // session.destroy()
+        // session.user_id = user_id
+        // session.user_name = user_name
+        // session.isLoggedIn = true
+        // await session.save()
     redirectPath = "/"
     } catch (error){
         console.log(error)
