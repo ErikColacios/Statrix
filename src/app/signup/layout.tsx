@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
     title: 'Sign Up | Statrix',
-    description: 'Create a new account to start tracking your gaming stats',
+    description: 'Create a new account to start tracking your gaming stats'
 }
 
 export default async function SignUpLayout({ children }: Readonly<{ children: React.ReactNode }>) {

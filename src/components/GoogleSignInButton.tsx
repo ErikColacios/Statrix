@@ -4,7 +4,7 @@ import { signIn, useSession } from "next-auth/react";
 
 export default function GoogleSignInButton() {
     
-    const { data:session } = useSession()
+    const { data: session } = useSession()
 
     function handleGoogleSignIn() {
         signIn('google', { callbackUrl: '/' });
