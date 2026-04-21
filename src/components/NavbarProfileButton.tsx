@@ -40,7 +40,7 @@ export default function NavbarProfileButton({ userName, avatarImage }: any) {
                     <div className="sm:left-0 w-12 h-12 border border-gray-600 rounded rounded-full overflow-hidden">
                         <img src={`/avatarImages/${avatarImage}`} className="h-full w-full object-cover" alt="Avatar image" />
                     </div>
-                    <b className="ml-2">{userName}</b>
+                    <b className="ml-2">{userName.slice(0,10)}</b>
                 </div>
 
                 <Link href={`/profile/${userName}`} className="flex items-center hover:text-green-400">

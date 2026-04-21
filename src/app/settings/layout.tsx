@@ -1,11 +1,12 @@
 import React from 'react'
 import { redirect } from 'next/navigation'
-import { getSession } from '@/actions/getSession'
+import getSessionUser from '@/actions/getSessionUser'
 
 export default async function SettingsLayout({ children }: { children: React.ReactNode }) {
 
-  const session = await getSession()
-  if (!session.isLoggedIn) {
+  const session:any = await getSessionUser()
+  
+  if (!session) {
     redirect("/")
   }
 

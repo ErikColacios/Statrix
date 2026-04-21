@@ -1,27 +1,27 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
+import getSessionUser from "./getSessionUser";
 
 export default async function getCreateChat(user2_id: string | undefined, user2_name:string) {
-  const session = await getSession();
-  const user_id: string | undefined = session.user_id;
-  const user_name: string | undefined = session.user_name;
+  const session: any = await getSessionUser();
+  const userId: string = session.user.id as string;
+  const userName: string = session.user_name as string;
 
   if (!user2_id) {
     throw new Error("The parameter user2_id is mandatory");
   }
 
   try {
-    let rows = await checkChatRoom(user_id, user2_id)
+    let rows = await checkChatRoom(userId, user2_id)
 
     // If there is no existing room, we create it
     if (rows.length == 0) {
       await pool.query(
         `INSERT INTO chat_rooms (user1_id, user1_name, user2_id, user2_name) VALUES ($1, $2, $3, $4)`,
-        [user_id, user_name, user2_id, user2_name]
+        [userId, userName, user2_id, user2_name]
       );
 
-      rows = await checkChatRoom(user_id, user2_id)
+      rows = await checkChatRoom(userId, user2_id)
     }
     return rows;
 
@@ -33,14 +33,13 @@ export default async function getCreateChat(user2_id: string | undefined, user2_
 
 /**
  * Checks if there is an existing room between the session user and user2
- * @param user_id 
- * @param user2_id 
+ * @param userId 
+ * @param userId2 
  * @returns rows
  */
-async function checkChatRoom(user_id: string | undefined, user2_id: string){
-    const query =
-      "SELECT * FROM chat_rooms WHERE (user1_id = $1 AND user2_id = $2) OR (user1_id = $2 AND user2_id = $1)";
-    const { rows } = await pool.query(query, [user_id, user2_id]);
+async function checkChatRoom(userId: string | undefined, userId2: string){
+    const query = "SELECT * FROM chat_rooms WHERE (user1_id = $1 AND user2_id = $2) OR (user1_id = $2 AND user2_id = $1)";
+    const { rows } = await pool.query(query, [userId, userId2]);
     return rows;
 }
 

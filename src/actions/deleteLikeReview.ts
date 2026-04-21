@@ -1,10 +1,10 @@
 "use server";
-import { getSession } from "./getSession";
 import { pool } from "@/util/postgres";
+import getSessionUser from "./getSessionUser";
 
 export default async function deleteLikeReview(review_id: string) {
   try {
-    const session = await getSession();
+    const session = await getSessionUser();
     const user_id = session.user_id;
 
     await pool.query(

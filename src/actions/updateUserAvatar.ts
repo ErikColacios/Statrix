@@ -1,17 +1,17 @@
 "use server";
 import { pool } from '@/util/postgres';
-import { getSession } from './getSession';
+import getSessionUser from './getSessionUser';
 
 export default async function updateUserAvatar(avatar_id: number, avatar_name: string) {
-    const session = await getSession();
-    const user_id = session.user_id;
+    const session = await getSessionUser()
+    const userId = session.user.id as string
 
     try {
         await pool.query(
             `UPDATE users
              SET user_avatar_id = $1, user_avatar = $2
              WHERE user_id = $3`,
-            [avatar_id, avatar_name, user_id]
+            [avatar_id, avatar_name, userId]
         );
 
         return "User avatar updated successfully!";

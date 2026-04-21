@@ -1,4 +1,4 @@
-import { getSession } from '@/actions/getSession'
+import { getSession } from '@/actions/getSessionUser'
 import getUserChatRooms from '@/actions/getUserChatRooms'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'

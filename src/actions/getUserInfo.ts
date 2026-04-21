@@ -1,9 +1,9 @@
 "use server"
 import { pool } from "@/util/postgres";
 
-export default async function getUserInfo(user_name: string | undefined) {
-    if (!user_name) {
-        throw new Error("The parameter user_name is mandatory");
+export default async function getUserInfo(userName: string | undefined) {
+    if (!userName) {
+        throw new Error("The parameter userName is mandatory");
     }
 
     try {
@@ -16,7 +16,8 @@ export default async function getUserInfo(user_name: string | undefined) {
             WHERE usr.user_name = $1
         `;
 
-        const { rows } = await pool.query(query, [user_name]);
+        const { rows } = await pool.query(query, [userName]);
+        console.log(rows)
 
         return rows;
     } catch (error) {

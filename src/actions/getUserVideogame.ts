@@ -1,6 +1,6 @@
 "use server"
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
+import { getSession } from "./getSessionUser";
 
 export default async function getUserVideogame(game_id: string) {
     const session = await getSession()

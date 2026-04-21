@@ -1,5 +1,5 @@
 "use server";
-import { getSession } from "./getSession";
+import { getSession } from "./getSessionUser";
 import { pool } from "@/util/postgres";
 
 export default async function insertLikeReview (review_id: string) {

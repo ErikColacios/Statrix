@@ -1,6 +1,6 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
+import { getSession } from "./getSessionUser";
 import getUserInfo from "./getUserInfo";
 
 /**

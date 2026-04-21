@@ -39,7 +39,6 @@ export default function Friends() {
             }
     }
 
-
     async function openChat(user2_id: string, user2_name: string) {
         let chat: any = []
         chat = await getCreateChat(user2_id, user2_name)
@@ -47,7 +46,6 @@ export default function Friends() {
             router.push(`/chat/${chat[0].room_id}`)
         }
     }
-
 
     useEffect(() => {
         loadFriendships(userSearchMode)
@@ -57,7 +55,6 @@ export default function Friends() {
         }
         getSessionUserId()
     }, [])
-
 
     return (
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4'>

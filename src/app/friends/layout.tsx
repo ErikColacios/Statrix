@@ -1,12 +1,12 @@
-import { getSession } from '@/actions/getSession'
+import getSessionUser from '@/actions/getSessionUser'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
 export default async function friendsLayout({ children }: { children: React.ReactNode }) {
 
-    const session = await getSession()
+    const session:any = await getSessionUser()
 
-    if (!session.isLoggedIn) {
+    if (!session) {
         return (
             redirect("/")
         )

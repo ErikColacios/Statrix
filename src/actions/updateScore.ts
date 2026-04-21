@@ -1,12 +1,12 @@
 "use server"
 import { pool } from '@/util/postgres';
-import { getSession } from './getSession';
+import getSessionUser from './getSessionUser';
 
-export default async function updateScore(game_id:string, newScore:string){
-    const session = await getSession()
-    const user_id = session.user_id
+export default async function updateScore(gameId:string, newScore:string){
+    const session:any = await getSessionUser()
+    const userId:string = session.user.id as string
 
-    if (!user_id) {
+    if (!userId) {
         console.warn("No user session found.");
         return { success: false, message: "No user session found." };
     }
@@ -19,7 +19,7 @@ export default async function updateScore(game_id:string, newScore:string){
     try{
         await pool.query(
         `UPDATE user_videogame SET score = $1 WHERE user_id = $2 AND game_id = $3`,
-        [parsedScore, user_id, game_id]
+        [parsedScore, userId, gameId]
         );
         return { success: true, message: "Score updated." };
     }catch(error){

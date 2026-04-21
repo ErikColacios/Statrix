@@ -4,16 +4,18 @@ import { useFormState } from 'react-dom'
 import Link from 'next/link'
 import GoogleLogInButton from '@/components/GoogleSignInButton'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function LogIn() {
 
+    const router = useRouter()
     const [state, formAction] = useFormState<any, FormData>(handleSubmit, undefined)
 
     async function handleSubmit(prevState: any, formData: FormData) {
         const userNameLogIn = formData.get("usernameLogIn") as string;
         const passwordLogIn = formData.get("passwordLogIn") as string;
 
-        if (passwordLogIn ==="" || userNameLogIn === "") {
+        if (passwordLogIn === "" || userNameLogIn === "") {
             return { error: "There are missing fields" };
         }
 
@@ -23,10 +25,15 @@ export default function LogIn() {
             userNameLogIn,
             passwordLogIn,
             redirect: false
-        });
+        })
 
-        if(response?.error == 'CredentialsSignin') {
-            return {error: "Invalid user or password"}
+        if (response?.error == 'CredentialsSignin') {
+            return { error: "Invalid user or password" }
+        }
+        
+        if (response?.ok) {
+            router.push("/")
+            router.refresh()
         }
     }
 

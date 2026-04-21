@@ -1,13 +1,13 @@
 "use server"
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
+import getSessionUser from "./getSessionUser";
 import { ReviewMode } from "@/enums/ReviewMode";
 
 export default async function getGameReviews(game_id:string, reviewMode:ReviewMode) {
-    const session = await getSession()
-    const user_id: string | undefined = session.user_id
+    const session = await getSessionUser()
+    const userId: string | undefined = session.user.id as string
     
-    if (!user_id) {
+    if (!userId) {
         throw new Error("The parameter user_id is mandatory");
     }
     else if (!game_id) {
@@ -28,7 +28,7 @@ export default async function getGameReviews(game_id:string, reviewMode:ReviewMo
             ${reviewMode === ReviewMode.POPULAR ? "ORDER BY likes DESC": "ORDER BY review_date DESC"}
              LIMIT 10`;
 
-        const { rows } = await pool.query(query, [user_id, game_id]);
+        const { rows } = await pool.query(query, [userId, game_id]);
         return rows;
     } catch (error) {
         console.error("Error fetching review:", error);

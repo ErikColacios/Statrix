@@ -31,7 +31,7 @@ export default function NewList() {
   const [alert, setAlert] = useState(<></>)
 
   useEffect(() => {
-    const fetchVideogames = async () => {
+    const fetchGames = async () => {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
@@ -45,25 +45,25 @@ export default function NewList() {
         setIsLoading(false)
       }
     }
-    fetchVideogames()
+    fetchGames()
   }, [gameNameSearch, genre])
 
 
   /**
    * Controls if the game exists in the list, and if it don't, then adds it
-   * @param videogame 
+   * @param game 
    */
-  function handleSetGameList(videogame: Videogame) {
+  function handleSetGameList(game: Videogame) {
     let listLength: number = gameList.length;
     let gameFound = false;
 
     if (listLength === 0) {
-      setGameList([...gameList, videogame]),
+      setGameList([...gameList, game]),
         setCountGames(countGames + 1)
     } else {
 
       for (let i = 0; i < listLength; i++) {
-        if (gameList[i].name === videogame.name) {
+        if (gameList[i].name === game.name) {
           setModalTrigger(t => t + 1)
           gameFound = true;
           setShowModal(true)
@@ -72,7 +72,7 @@ export default function NewList() {
         }
       }
       if (!gameFound) {
-        setGameList([...gameList, videogame]),
+        setGameList([...gameList, game]),
           setCountGames(countGames + 1)
       }
     }
@@ -81,10 +81,10 @@ export default function NewList() {
 
   /**
    * Deletes a videogame from the list searching its videogame_id
-   * @param videogame_id 
+   * @param gameId 
    */
-  function unselectGameList(videogame_id: number) {
-    setGameList(gameList.filter(item => item.id !== videogame_id))
+  function unselectGameList(gameId: number) {
+    setGameList(gameList.filter(item => item.id !== gameId))
     setCountGames(countGames - 1)
   }
 
@@ -95,13 +95,13 @@ export default function NewList() {
   function createList() {
     if (listName === "") {
       setShowModal(true)
-      setAlert(<CustomModal key={modalTrigger} title='hola' text='Introduce a list name' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)}/>)
+      setAlert(<CustomModal key={modalTrigger} title='Hi' text='Introduce a list name' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)}/>)
       setModalTrigger(t => t + 1)
 
     }
     else if (countGames === 0) {
       setShowModal(true)
-      setAlert(<CustomModal key={modalTrigger} title='hola' text='You must add a videogame first' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)}/>)
+      setAlert(<CustomModal key={modalTrigger} title='Hi' text='You must add a game first' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)}/>)
       setModalTrigger(t => t + 1)
     }
     else {
@@ -183,7 +183,7 @@ export default function NewList() {
         </div>
 
         <div className='flex pt-4'>
-          {/* --- VIDEOGAMES SHOWN ---- */}
+          {/* Games shown */}
           {isLoading ? <SkeletonNewList /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
               {videogameItems.map((videogame, index: number) => (

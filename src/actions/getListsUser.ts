@@ -1,18 +1,17 @@
 "use server"
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
+import getSessionUser from "./getSessionUser";
 import { List } from "@/types/List";
-
 
 /**
  * Retrieves all lists created by the user associated with the session.
  * @returns List of user-created lists, ordered by creation date
  */
 export async function getListsUser(): Promise<List[]> {
-    const session = await getSession();
-    const user_id = session.user_id;
+    const session:any = await getSessionUser();
+    const userId = session.user.id as string
     
-    if (!user_id) {
+    if (!userId) {
         console.warn("No user session found.");
     }
 
@@ -24,7 +23,7 @@ export async function getListsUser(): Promise<List[]> {
              FROM list
              WHERE user_id = $1
              ORDER BY list_creationdate DESC`,
-            [user_id]
+            [userId]
         );
 
 
@@ -47,8 +46,8 @@ export async function getListsUser(): Promise<List[]> {
             lists.push(list)
 
         }
-        //console.log(lists[0].covers[0])
         return lists;
+        
     } catch (error) {
         console.error("Error fetching user lists:", error);
         return lists;

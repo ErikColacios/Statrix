@@ -7,7 +7,7 @@ import updateUserFriendship from "../actions/updateUserFriendship";
 import { FriendshipStatus } from "../enums/FriendshipStatus";
 
 type Props = {
-    userId: any
+    userId: string
     notificationCount: number
 }
 
@@ -29,10 +29,10 @@ export default function Notifications({ userId, notificationCount }: Props) {
         setNotifications(receivedAndSentRequests.received)
     }
 
-    async function acceptFriendRequest(requester_id: string) {
+    async function acceptFriendRequest(requesterId: string) {
         if (userId !== null)
             try {
-                await updateUserFriendship(requester_id, userId, FriendshipStatus.ACCEPTED)
+                await updateUserFriendship(requesterId, userId, FriendshipStatus.ACCEPTED)
             } catch (error) {
                 console.log(error)
             }

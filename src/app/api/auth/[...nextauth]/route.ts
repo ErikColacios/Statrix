@@ -1,19 +1,22 @@
-import NextAuth from "next-auth";
+import NextAuth, { Account, AuthOptions, Profile } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { logInUser } from "@/actions/logInUser";
 import { JWT } from "next-auth/jwt";
+import { logInUserGoogle } from "@/actions/logInUserGoogle";
 
 /**
  * This file controls the authentication process of the app, both for Google and for the credentials (username and password)
 */
-export const authOptions = {
+export const authOptions: AuthOptions = {
 
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    }),
+    },
+
+  ),
 
     CredentialsProvider({
       name: "Credentials",
@@ -56,12 +59,23 @@ export const authOptions = {
       if (session.user) {
         session.user.id = token.id
       }
+
       return session
-    }
+    },
+    async signIn({ user, account }:any) {
+      if (account?.provider === "google") {
+        let userResult = await logInUserGoogle(user.id, user.email)
+        if(userResult){
+          user.id = userResult.userId
+          user.name = userResult.userName
+        }
+      }
+      return true
+    },
+
   }
-  
 };
 
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

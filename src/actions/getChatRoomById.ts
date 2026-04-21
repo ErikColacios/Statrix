@@ -1,6 +1,6 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
+import getSessionUser from "./getSessionUser";
 
 /**
  * Checks if there is an existing room with this room_id and this session user
@@ -9,7 +9,7 @@ import { getSession } from "./getSession";
  */
 export default async function getChatRoomById(room_id: string) {
   try {
-    const session = await getSession();
+    const session = await getSessionUser();
     const user_id: string | undefined = session.user_id;
       
     let query = "SELECT * FROM chat_rooms WHERE room_id = $1 AND (user1_id = $2 OR user2_id = $2)";

@@ -1,12 +1,12 @@
 "use server";
 import { pool } from '@/util/postgres';
-import { getSession } from './getSession';
+import getSessionUser from './getSessionUser';
 
-export default async function updateHoursPlayed(game_id: string, newHoursPlayed: number) {
-  const session = await getSession();
-  const user_id = session?.user_id;
+export default async function updateHoursPlayed(gameId: string, newHoursPlayed: number) {
+  const session:any = await getSessionUser();
+  const userId:string = session.user.id as string;
 
-  if (!user_id) {
+  if (!userId) {
     console.warn("No user session found.");
     return { success: false, message: "No user session found." };
   }
@@ -18,7 +18,7 @@ export default async function updateHoursPlayed(game_id: string, newHoursPlayed:
   try {
     await pool.query(
       `UPDATE user_videogame SET hours_played = $1 WHERE user_id = $2 AND game_id = $3`,
-      [newHoursPlayed, user_id, game_id]
+      [newHoursPlayed, userId, gameId]
     );
 
     console.log(`Hours played updated to: ${newHoursPlayed}`);

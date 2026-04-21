@@ -1,30 +1,23 @@
 import React from 'react'
-import { IronSession } from "iron-session"
-import { SessionData } from "@/session_lib"
 import Link from "next/link"
 import { pool } from '@/util/postgres'
-import { getSession } from '@/actions/getSession'
+import getSessionUser from '@/actions/getSessionUser'
 import NotLoggedVideogamelist from '@/components/NotLoggedVideogamelist'
 import PrimaryButton from '@/components/PrimaryButton'
 import NoListCreated from '@/components/NoListCreated'
 
-export default async function MyListsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-
+export default async function MyListsLayout({children}: {children: React.ReactNode}) {
   /**
    * Gets the number of lists that this User has
    * @param session 
    * @returns numberOfLists
    */
-  async function getUserListsNumber(session: IronSession<SessionData>) {
+  async function getUserListsNumber(session:any) {
     let numberOfLists: number = 0;
     try {
       const res = await pool.query(`SELECT user_id, user_name, user_lists
             FROM users 
-            WHERE user_id='${session.user_id}'`);
+            WHERE user_id='${session.user.id}'`);
       numberOfLists = res.rows[0].user_lists
     } catch (error) {
       console.log(error)
@@ -33,11 +26,11 @@ export default async function MyListsLayout({
     return numberOfLists;
   }
 
-  const session = await getSession()
+  const session:any = await getSessionUser()
   let numberOfLists = await getUserListsNumber(session)
   let userHasNoLists: boolean = false;
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return (
       <div className='flex h-screen items-center'>
         <NotLoggedVideogamelist />

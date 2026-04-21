@@ -1,7 +1,7 @@
 import React from "react";
 import { getListContent } from "@/actions/getListContent";
 import { getListInfo } from "@/actions/getListInfo";
-import { getSession } from "@/actions/getSession";
+import { getSession } from "@/actions/getSessionUser";
 import Link from "next/link";
 import EditPage from "./editPage";
 

@@ -1,6 +1,5 @@
 "use client"
 import React from "react";
-import getSessionUser from "@/actions/getSessionUser";
 import getUserInfo from "@/actions/getUserInfo";
 import updateUser from "@/actions/updateUser";
 import ChooseAvatarBanner from "@/components/ChooseAvatarBanner";
@@ -8,6 +7,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { Dialog } from 'radix-ui';
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
+import getSessionUser from "@/actions/getSessionUser";
 
 export default function Settings(){
 
@@ -15,17 +15,15 @@ export default function Settings(){
     const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
     const [chooseMode, setChooseMode] = useState<"avatar" | "banner">("avatar")
 
+    
     useEffect(() => {
-        let userInf:any | undefined = []
-
-        const getSessionUserId = async () => {
-            const user = await getSessionUser()
-            if(user !== undefined){
-                userInf = await getUserInfo(user.user_name)
-                setUserInfo(userInf)
+        const getUserInfoSession = async () => {
+            const session = await getSessionUser()
+            if(session){
+                setUserInfo(await getUserInfo(session.user.name))
             }
         }
-        getSessionUserId()
+        getUserInfoSession()
     }, [])
 
 

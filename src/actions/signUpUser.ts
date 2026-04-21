@@ -3,11 +3,11 @@ import { redirect } from 'next/navigation';
 import { v4 as uuid } from "uuid";
 import { pool } from '@/util/postgres'
 import bcrypt from "bcryptjs";
-import { getSession } from './getSession';
+import getSessionUser from './getSessionUser';
 
 export async function signUp(prevState:{ error: undefined | string} , formData: FormData) {
     
-    const session = await getSession()
+    const session:any = await getSessionUser()
     
     // First generates a random uuid for the new user
     const user_id = uuid();

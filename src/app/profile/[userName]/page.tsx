@@ -1,17 +1,17 @@
 import React from "react";
-import { getSession } from "@/actions/getSession";
 import getUserGameReviews from "@/actions/getUserGameReviews";
 import getUserGameStats from "@/actions/getUserGameStats";
 import getUserInfo from "@/actions/getUserInfo";
 import { getUserTotalHoursPlayed } from "@/actions/getUserTotalHoursPlayed";
 import { getUserTotalReviews } from "@/actions/getUserTotalReviews";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import getSessionUser from "@/actions/getSessionUser";
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 
-    const session = await getSession()
-    const user_id: string | undefined = session.user_id
+    const session: any = await getSessionUser()
+    const userId: string = session.user.id as string
+
     let userInfo: any | undefined = []
     let userGameStats: any | undefined = []
     let userTotalHoursPlayed: number | undefined
@@ -19,12 +19,8 @@ export default async function Profile({ params }: { params: { userName: string }
     let userReviews: any | undefined = []
     let canEdit: Boolean = false
 
-    // Protect route in case someone types the route wihtout logging in
-    if (!session.isLoggedIn) {
-        redirect("/")
-    }
 
-    if (user_id !== undefined) {
+    if (userId !== undefined) {
         if (params.userName == session.user_name) {
             canEdit = true;
         }

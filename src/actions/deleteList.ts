@@ -1,10 +1,10 @@
 "use server";
 import { pool } from "@/util/postgres";
 import { redirect } from "next/navigation";
-import { getSession } from "./getSession";
+import getSessionUser from "./getSessionUser";
 
 export async function deleteList(list_id: string) {
-  const session = await getSession();
+  const session = await getSessionUser();
   const user_id = session.user_id;
   let redirectPath: string | null = null;
 

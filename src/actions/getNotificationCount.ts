@@ -1,11 +1,11 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSession";
 import { FriendshipStatus } from "../enums/FriendshipStatus";
+import getSessionUser from "./getSessionUser";
 
 export default async function getNotificationCount() {
-  const session = await getSession();
-  const user_id = session.user_id;
+  const session:any = await getSessionUser();
+  const userId:string = session.user.id;
 
   try {
     // Get the number of PENDING requests that this user has received
@@ -14,7 +14,7 @@ export default async function getNotificationCount() {
         INNER JOIN user_friendships uf ON uf.requester_id = usr.user_id
         WHERE uf.addressee_id = $1 AND uf.status = $2`;
 
-    const count = await pool.query(query1, [user_id, FriendshipStatus.PENDING]);
+    const count = await pool.query(query1, [userId, FriendshipStatus.PENDING]);
     return count.rows[0].count;
 
   } catch (error) {

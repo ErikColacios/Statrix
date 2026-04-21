@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from "next/link";
-import { getSession } from '@/actions/getSession';
+import getSessionUser from '@/actions/getSessionUser';
 import { getListInfo } from '@/actions/getListInfo';
 import { getListContent } from '@/actions/getListContent';
 import CustomModal from '@/components/CustomModal';
@@ -13,7 +13,6 @@ import DeleteListModal from '@/components/DeleteListModal';
 
 type SearchParamProps = Record<string, string> | null | undefined;
 
-
 export default async function List({ params, searchParams }: { params: { listId: string }, searchParams: SearchParamProps }) {
     let user_info: any | undefined = []
     let list_id = params.listId;
@@ -21,14 +20,14 @@ export default async function List({ params, searchParams }: { params: { listId:
     let list_content: any | undefined = []
     const showModal = searchParams?.show;
 
-    const session = await getSession()
-    const user_id: string | undefined = session.user_id
-    const user_name: string | undefined = session.user_name
+    const session: any = await getSessionUser()
+    const userId: string = session.user.id
+    const userName: string = session.user.name
 
-    if (user_id !== undefined) {
-        user_info = await getUserInfo(user_name)
-        list_info = await getListInfo(list_id, user_id)
-        list_content = await getListContent(list_id, user_id)
+    if (userId !== undefined) {
+        user_info = await getUserInfo(userName)
+        list_info = await getListInfo(list_id, userId)
+        list_content = await getListContent(list_id, userId)
     }
 
     return (
@@ -59,7 +58,7 @@ export default async function List({ params, searchParams }: { params: { listId:
                                     <img src={`/avatarImages/${user_info[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
                                 </div>
                                 <div className='flex space-x-5 text-sm sm:text-base'>
-                                    <Link href={`/profile/${user_name}`} className='text-white hover:text-green-500 ml-2'>{user_name}</Link>
+                                    <Link href={`/profile/${userName}`} className='text-white hover:text-green-500 ml-2'>{userName}</Link>
                                     {/* Creation date */}
                                     <p>Created {item.list_creationdate.toISOString().split('T')[0]}</p>
                                     <p>{list_content.length} games</p>
@@ -99,29 +98,9 @@ export default async function List({ params, searchParams }: { params: { listId:
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     ))}
                 </div>
-
-                {/* <div className="flex flex-col">
-                {listContent.map((item: any, index: number) => (
-                    <div className="relative flex items-center mb-5 border border-gray-500 rounded text-sm md:text-lg bg-zinc-900" key={index}>
-                        <Image src={item.game_base_image} className="w-12 md:w-18" width={80} height={60} alt={'Videogame cover'} />
-                        <Link href={`/gamePage/${item.game_id}`} className="ml-4 xl:ml-24  hover:text-lime-300 hover:underline">{item.game_name}</Link>
-                        <div className='flex absolute right-0 md:mr-12'>
-                            <StarButton favourite={item.favourite} game_id={item.game_id} />
-                            <SelectScore score={item.score} game_id={item.game_id} />
-                            <div className='flex items-center mr-1'>
-                                <div className='flex flex-col items-end sm:flex-row sm:items-center'>
-                                    <label className='text-gray-300 text-sm mr-1'>Hours</label>
-                                    <InputHoursPlayed hours_played={item.hours_played} game_id={item.game_id} source='listPage' />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div> */}
             </Dialog.Root>
         </>
     )
