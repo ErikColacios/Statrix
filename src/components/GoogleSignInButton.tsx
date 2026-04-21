@@ -1,5 +1,5 @@
 "use client";
-import { logInUserGoogle } from "@/actions/logInUserGoogle";
+import React from "react";
 import { signIn, useSession } from "next-auth/react";
 
 export default function GoogleSignInButton() {
