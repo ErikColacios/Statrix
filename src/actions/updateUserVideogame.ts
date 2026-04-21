@@ -1,25 +1,20 @@
 "use server"
 import { pool } from '@/util/postgres';
-import { getSession } from './getSessionUser';
+import getSessionUser from './getSessionUser';
 
 export default async function updateUserVideogame(game_id:string, newStatus:string, newScore:number, newHoursPlayed:number){
-    const session = await getSession()
-    const user_id = session.user_id
+    const session:any = await getSessionUser()
+    const userId:string = session.user.id as string;
 
-    if (!user_id) {
+    if (!userId) {
         console.warn("No user session found.");
         return { success: false, message: "No user session found." };
     }
 
-    //const parsedScore = parseFloat(newScore);
-    // if (isNaN(parsedScore) || parsedScore < 0 || parsedScore > 10) {
-    //     return { success: false, message: "Invalid score. Must be a number between 0 and 10." };
-    // }
-
     try{
         await pool.query(
         `UPDATE user_videogame SET status = $1, score = $2, hours_played= $3 WHERE user_id = $4 AND game_id = $5`,
-        [newStatus, newScore, newHoursPlayed, user_id, game_id]
+        [newStatus, newScore, newHoursPlayed, userId, game_id]
         );
         return { success: true, message: "Score updated." };
     }catch(error){

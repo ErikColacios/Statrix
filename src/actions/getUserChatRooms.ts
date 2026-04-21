@@ -1,6 +1,6 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { getSession } from "./getSessionUser";
+import getSessionUser from "./getSessionUser";
 import getUserInfo from "./getUserInfo";
 
 /**
@@ -9,18 +9,18 @@ import getUserInfo from "./getUserInfo";
  */
 export default async function getUserChatRooms() {
   try {
-    const session = await getSession();
-    const user_id: string | undefined = session.user_id;
+    const session:any = await getSessionUser();
+    const userId: string = session.user.id as string;
 
     let query = "SELECT * FROM chat_rooms WHERE (user1_id = $1 OR user2_id = $1) ORDER BY room_id DESC";
-    const { rows } = await pool.query(query, [user_id]);
+    const { rows } = await pool.query(query, [userId]);
 
     let existingFriendChatRooms = []
     
     for (let i = 0; i < rows.length; i++) {
         let otherUser: any | undefined = [];
 
-        if (String(user_id) === String(rows[i].user1_id)) {
+        if (String(userId) === String(rows[i].user1_id)) {
             otherUser = await getUserInfo(rows[i].user2_name);
         } else {
             otherUser = await getUserInfo(rows[i].user1_name);

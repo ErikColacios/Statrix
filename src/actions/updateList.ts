@@ -1,7 +1,7 @@
 "use server";
 import { pool } from "@/util/postgres";
 import { Videogame } from "../types/Videogame";
-import { getSession } from "./getSessionUser";
+import getSessionUser from "./getSessionUser";
 import { GameStatus } from "../enums/GameStatus";
 
 export default async function updateList(
@@ -10,9 +10,9 @@ export default async function updateList(
   oldGamesList: Videogame[],
   newGamesAdded: Videogame[]
 ) {
-  const session = await getSession();
-  const user_id = session.user_id;
-  const user_name = session.user_name;
+  const session:any = await getSessionUser();
+  const userId:string = session.user.id as string;
+  const userName:string = session.user.name as string;
 
   const client = await pool.connect();
 
@@ -27,7 +27,7 @@ export default async function updateList(
             FROM list lst
             WHERE lg.list_id = lst.list_id AND lst.user_id = $1 AND lst.list_id = $2
         )`,
-      [user_id, list_id]
+      [userId, list_id]
     );
 
     // Insert previously existing games (oldGamesList)
@@ -65,7 +65,7 @@ export default async function updateList(
                     user_id, game_id, score, hours_played, game_name, game_base_image, status
                 ) VALUES ($1, $2, $3, $4, $5, $6, $7)
                 ON CONFLICT (user_id, game_id) DO NOTHING`,
-        [user_id, game.id, 0, 0, game.name, game_base_image, GameStatus.PLAYING]
+        [userId, game.id, 0, 0, game.name, game_base_image, GameStatus.PLAYING]
       );
     }
 

@@ -1,15 +1,15 @@
 "use server";
-import { getSession } from "./getSessionUser";
+import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";
 
 export default async function insertLikeReview (review_id: string) {
     try {
-      const session = await getSession();
-      const user_id = session.user_id;
+      const session:any = await getSessionUser();
+      const userId:string = session.user.id as string;
 
       await pool.query(
         `INSERT INTO public.review_likes (review_id, user_id) VALUES ($1, $2);`,
-        [review_id, user_id]
+        [review_id, userId]
       );
 
     } catch (error) {

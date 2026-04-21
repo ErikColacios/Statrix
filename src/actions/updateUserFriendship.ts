@@ -4,8 +4,8 @@ import getSessionUser from './getSessionUser';
 import { FriendshipStatus } from '../enums/FriendshipStatus';
 
 export default async function updateUserFriendship(requester_id:string | undefined, addressee_id: string | undefined, status: FriendshipStatus) {
-    const session = await getSessionUser();
-    const userId = session.user.id as string;
+    const session:any = await getSessionUser();
+    const userId:string = session.user.id as string;
 
     try {
         await pool.query(
