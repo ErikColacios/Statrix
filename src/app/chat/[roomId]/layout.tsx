@@ -1,4 +1,4 @@
-import { getSession } from '@/actions/getSessionUser'
+import getSessionUser from '@/actions/getSessionUser'
 import getUserChatRooms from '@/actions/getUserChatRooms'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -6,7 +6,7 @@ import React from 'react'
 
 export default async function ChatLayout({ children }: { children: React.ReactNode }) {
 
-    const session = await getSession()
+    const session:any = await getSessionUser()
 
     if (!session.isLoggedIn) {
         return (

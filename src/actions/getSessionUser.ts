@@ -1,9 +1,9 @@
 "use server"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import { SessionData, defaultSession, sessionOptions } from "@/session_lib"
-import { getIronSession } from "iron-session"
+import { authOptions } from "@/util/auth"
 import { getServerSession } from "next-auth"
-import { cookies } from "next/headers"
+//import { SessionData, defaultSession, sessionOptions } from "@/session_lib"
+//import { getIronSession } from "iron-session"
+//import { cookies } from "next/headers"
 
 export default async function getSessionUser() {
     const session: any = await getServerSession(authOptions)

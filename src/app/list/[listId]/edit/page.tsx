@@ -1,7 +1,7 @@
 import React from "react";
 import { getListContent } from "@/actions/getListContent";
 import { getListInfo } from "@/actions/getListInfo";
-import { getSession } from "@/actions/getSessionUser";
+import getSessionUser from "@/actions/getSessionUser";
 import Link from "next/link";
 import EditPage from "./editPage";
 
@@ -10,12 +10,12 @@ export default async function editList({ params }: { params: { listId: string } 
     let listId: string = params.listId;
     let listInfo: any | undefined = []
 
-    const session = await getSession()
-    let user_id: string | undefined = session.user_id
+    const session:any = await getSessionUser()
+    let userId: string | undefined = session.user.id
 
     // Select de toda la informacion de la lista del USUARIO 
-    if (user_id !== undefined) {
-        listInfo = await getListInfo(listId, user_id)
+    if (userId !== undefined) {
+        listInfo = await getListInfo(listId, userId)
     }
 
     /**
@@ -24,8 +24,8 @@ export default async function editList({ params }: { params: { listId: string } 
      */
     async function getUserServerSide() {
         "use server"
-        let user_id: string | undefined = session.user_id
-        return user_id;
+        let userId: string | undefined = session.user.id
+        return userId;
     }
 
     /**
