@@ -3,7 +3,9 @@ import { pool } from '@/util/postgres';
 import { v4 as uuid } from "uuid";
 
 export async function logInUserGoogle(userGoogleId:string, userEmail:string) {
-    
+
+    let isNewUser = false;
+
     const res = await pool.query(
         `SELECT user_id, user_name, user_password FROM users WHERE user_email = $1`,
         [userEmail]
@@ -11,6 +13,7 @@ export async function logInUserGoogle(userGoogleId:string, userEmail:string) {
 
     if (res.rows.length !== 1) {
         // If the user doesn't exist, we create a new user with the email as the username and a random password
+        isNewUser = true;
         const userId = uuid();
         const userName:string = 'User'+userGoogleId;
         const userBio:string = "Welcome to my profile!"
@@ -24,13 +27,12 @@ export async function logInUserGoogle(userGoogleId:string, userEmail:string) {
         [userId, userName, userEmail, userBio, userLocation, userGoogleId]
         );
 
-        return {userId, userName }
+        return { userId, userName, isNewUser }
 
-    }else {
+    } else {
         // If it already exists, we just return the user data (id and name)
         const userIdLogged = res.rows[0].user_id
         const userNameLogged = res.rows[0].user_name
-        return {userId: userIdLogged, userName: userNameLogged}
+        return {userId: userIdLogged, userName: userNameLogged, isNewUser: isNewUser}
     }
 }
-

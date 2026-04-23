@@ -7,14 +7,14 @@ export default async function updateUser(prevState: any, formData: FormData) {
     const userId:string = session.user.id;
 
     // Extract user data from form
-    const userName:string = formData.get("user_name") as string;
-    const userBio:string = formData.get("user_bio") as string;
-    const userEmail:string = formData.get("user_email") as string;
-    const userLocation:string = formData.get("user_location") as string;
-    const userWebpage:string = formData.get("user_webpage") as string;
-    const userSteam:string = formData.get("user_steam") as string;
-    const userTwitch:string = formData.get("user_twitch") as string;
-    const userX:string = formData.get("user_x") as string;
+    const userName:string = formData.get("userName") as string;
+    const userBio:string = formData.get("userBio") as string;
+    const userEmail:string = formData.get("userEmail") as string;
+    const userLocation:string = formData.get("userLocation") as string;
+    const userWebpage:string = formData.get("userWebpage") as string;
+    const userSteam:string = formData.get("userSteam") as string;
+    const userTwitch:string = formData.get("userTwitch") as string;
+    const userX:string = formData.get("userX") as string;
 
     try {
         // Use parameterized query to prevent SQL injection

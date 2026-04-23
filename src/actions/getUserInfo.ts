@@ -17,7 +17,6 @@ export default async function getUserInfo(userName: string | undefined) {
         `;
 
         const { rows } = await pool.query(query, [userName]);
-        console.log(rows)
 
         return rows;
     } catch (error) {

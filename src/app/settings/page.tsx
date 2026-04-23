@@ -62,35 +62,35 @@ export default function Settings(){
                             <div className="w-full px-4 pt-16 sm:pt-8">
                                 <div>
                                     <p className="text-sm text-gray-400">Username</p>
-                                    <input type="text" name="user_name" maxLength={20} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
+                                    <input type="text" name="userName" maxLength={20} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Bio</p>
-                                    <textarea rows={7} name="user_bio" className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} maxLength={250} />
+                                    <textarea rows={7} name="userBio" className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} maxLength={250} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Email</p>
-                                    <input type="email" name="user_email" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
+                                    <input type="email" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Location</p>
-                                    <input type="text" name="user_location" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
+                                    <input type="text" name="userLocation" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Webpage</p>
-                                    <input type="text" name="user_webpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} />
+                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Steam Profile</p>
-                                    <input type="text" name="user_steam" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_steam} />
+                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_steam} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Twitch Profile</p>
-                                    <input type="text" name="user_twitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} />
+                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">X Profile</p>
-                                    <input type="text" name="user_x" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_x} />
+                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_x} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>

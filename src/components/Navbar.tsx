@@ -30,7 +30,10 @@ export default async function Navbar() {
                     <Link href="/"><p className={`text-sm md:text-xl tracking-wider ${infiniteBeyondFont.className}`}>STATRIX</p></Link>
                 </div>
                 <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
-                <div className="flex items-center space-x-6 absolute right-0">
+                <div className="flex items-center space-x-6 pr-2 absolute right-0">
+                    
+                    <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/newUser"}>New user</Link>
+
                     {userInfo.length > 0 &&
                         <p className="hidden text-sm sm:flex text-gray-500 mr-14">{userInfo[0].user_id}</p>}
 
@@ -42,7 +45,7 @@ export default async function Navbar() {
 
                     {/* Log In button */}
                     {userInfo.length == 0 &&
-                        <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 w-32 rounded rounded-lg pt-1 pb-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
+                        <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 w-32 rounded rounded-lg py-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
 
                     {/* Profile button */}
                     {userInfo.length > 0 &&

@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { logInUser } from "@/actions/logInUser";
 import { JWT } from "next-auth/jwt";
 import { logInUserGoogle } from "@/actions/logInUserGoogle";
+import { redirect } from "next/navigation";
 
 /**
  * This file controls the authentication process of the app, both for Google and for the credentials (username and password)
@@ -65,9 +66,14 @@ export const authOptions: AuthOptions = {
     async signIn({ user, account }:any) {
       if (account?.provider === "google") {
         let userResult = await logInUserGoogle(user.id, user.email)
-        if(userResult){
+        if (userResult){
           user.id = userResult.userId
           user.name = userResult.userName
+
+          if(userResult.isNewUser) {
+            console.log("Redirect")
+            return "/newUser"
+          }
         }
       }
       return true
