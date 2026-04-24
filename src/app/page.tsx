@@ -2,15 +2,24 @@ import React from "react"
 import Link from "next/link"
 import localFont from 'next/font/local'
 import PrimaryButton from "@/components/PrimaryButton"
+import getSessionUser from "@/actions/getSessionUser"
+import { redirect } from "next/navigation"
 
 const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
 
-export default function Home() {
+export default async function Home() {
+
+    const session: any = await getSessionUser()
+    
+    if(session?.user.isNewUser){
+        redirect("/newUser")
+    }
+
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden relative">
       {/* Background Animation */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.15),transparent_70%)] animate-pulse"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(193, 218, 202, 0.15),transparent_70%)] animate-pulse"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[radial-gradient(circle,rgba(34,197,94,0.1),transparent_70%)] blur-3xl"></div>
       </div>
 
@@ -18,9 +27,9 @@ export default function Home() {
       <section className="relative z-10 h-screen w-full px-8 flex items-center justify-center text-center">
         <div className="max-w-3xl mx-auto">
           <p className="text-green-400 text-sm uppercase tracking-widest mb-4">Alpha version</p>
-          <h1 className="text-6xl sm:text-8xl font-black uppercase tracking-tighter mb-6 animate-fade-in leading-none" style={{backgroundImage: 'linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #86efac 100%)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent', textShadow: '0 0 30px rgba(34, 197, 94, 0.5), 0 0 60px rgba(34, 197, 94, 0.3)', WebkitTextStroke: '1px rgba(34, 197, 94, 0.3)'}}>
+          {/* <h1 className="text-6xl sm:text-8xl font-black uppercase tracking-tighter mb-6 animate-fade-in leading-none" style={{backgroundImage: 'linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #86efac 100%)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent', textShadow: '0 0 30px rgba(34, 197, 94, 0.5), 0 0 60px rgba(34, 197, 94, 0.3)', WebkitTextStroke: '1px rgba(34, 197, 94, 0.3)'}}>
             Your Gaming Home
-          </h1>
+          </h1> */}
           <p className="text-gray-400 mt-6 text-xl animate-fade-in delay-200 leading-relaxed">
             Track your gaming journey, discover thousands of titles, share reviews, and connect with gamers worldwide.
           </p>

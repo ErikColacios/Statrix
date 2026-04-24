@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { logOut } from "@/actions/logOutUser";
+import { useSession } from "next-auth/react";
 
 export default function NavbarProfileButton({ userName, avatarImage }: any) {
     const [dropdown, setDropdown] = useState(false)
@@ -12,6 +13,14 @@ export default function NavbarProfileButton({ userName, avatarImage }: any) {
             setDropdown(false);
         }
     };
+
+    //const { data: session } = useSession()
+    
+    // useEffect(() => {
+    // if (session?.user?.isNewUser) {
+    //     router.push("/newUser")
+    // }
+    // }, [session])
 
     useEffect(() => {
         if (dropdown) {

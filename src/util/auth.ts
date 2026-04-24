@@ -1,10 +1,9 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { logInUser } from "@/actions/logInUser";
 import { JWT } from "next-auth/jwt";
 import { logInUserGoogle } from "@/actions/logInUserGoogle";
-import { redirect } from "next/navigation";
 
 /**
  * This file controls the authentication process of the app, both for Google and for the credentials (username and password)
@@ -52,13 +51,15 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }:{ token:JWT, user:any }) {
       if (user?.id) {
         token.id = user.id
+        token.isNewUser = user.isNewUser
       }
       return token
     },
     // And here we add the id field from the token to the session, so we can access it in the client side with useSession
     async session({ session, token }:{ session:any, token:JWT }) {
       if (session.user) {
-        session.user.id = token.id
+        session.user.id = token.id,
+        session.user.isNewUser = token.isNewUser
       }
 
       return session
@@ -69,10 +70,10 @@ export const authOptions: AuthOptions = {
         if (userResult){
           user.id = userResult.userId
           user.name = userResult.userName
+          user.isNewUser = false
 
           if(userResult.isNewUser) {
-            console.log("Redirect")
-            return "/newUser"
+            user.isNewUser = true
           }
         }
       }

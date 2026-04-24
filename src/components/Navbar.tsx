@@ -6,12 +6,15 @@ import getUserInfo from "../actions/getUserInfo";
 import Notifications from "./Notifications";
 import getNotificationCount from "../actions/getNotificationCount";
 import getSessionUser from "@/actions/getSessionUser";
+import { redirect } from "next/navigation";
 
 const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
 
 export default async function Navbar() {
 
     const session: any = await getSessionUser()
+
+    console.log("Sesion")
     console.log(session)
 
     let userInfo: any = []

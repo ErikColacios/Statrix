@@ -9,7 +9,6 @@ export default async function updateUserName(formData: FormData, userId:string) 
       `UPDATE users SET user_name = $1 WHERE user_id = $2`,
       [userNameLogIn, userId],
     );
-
     console.log("User name updated successfully.");
     
     return { response: "User name updated successfully!" };
