@@ -1,6 +1,6 @@
+import React from "react";
 import getSessionUser from "@/actions/getSessionUser";
 import { redirect } from "next/navigation"
-import React from "react";
 
 export default async function NewUserLayout({
     children, 
@@ -9,7 +9,6 @@ export default async function NewUserLayout({
   }) {
 
     const session:any = await getSessionUser()
-
     if (!session?.user.isNewUser){
         redirect("signup")
     }

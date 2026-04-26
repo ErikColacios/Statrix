@@ -9,7 +9,7 @@ export default async function getUserInfo(userName: string | undefined) {
     try {
         const query = `
             SELECT *, 
-                (SELECT COUNT(*) FROM user_friendships WHERE (requester_name = $1 OR addressee_name = $1) AND status = 'Accepted') as friends
+                (SELECT COUNT(1) FROM user_friendships WHERE (requester_name = $1 OR addressee_name = $1) AND status = 'Accepted') as friends
             FROM users usr
             INNER JOIN avatar_images avi ON avi.avatar_image_id = usr.user_avatar_id
             INNER JOIN banner_images bani ON bani.banner_image_id = usr.user_banner_id

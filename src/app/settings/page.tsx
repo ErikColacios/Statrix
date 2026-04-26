@@ -8,14 +8,14 @@ import { Dialog } from 'radix-ui';
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import getSessionUser from "@/actions/getSessionUser";
+import { signIn } from "next-auth/react";
 
 export default function Settings(){
 
-    const [userInfo, setUserInfo] = useState([])
-    const [state, formAction] = useFormState<any, FormData>(updateUser, undefined)
+    const [userInfo, setUserInfo] = useState<any[]>([])
+    const [state, formAction] = useFormState<any, FormData>(handleUpdateUser, undefined)
     const [chooseMode, setChooseMode] = useState<"avatar" | "banner">("avatar")
 
-    
     useEffect(() => {
         const getUserInfoSession = async () => {
             const session = await getSessionUser()
@@ -26,6 +26,20 @@ export default function Settings(){
         getUserInfoSession()
     }, [])
 
+    function handleUpdateUser(prevState: any, formData: FormData) {
+        
+        // In case this is a Google user
+        if(userInfo[0].user_google_id) {
+            console.log(userInfo[0].user_google_id)
+            console.log("Ese googleee")
+
+            formData.append("userEmail", userInfo[0].user_email)
+            updateUser(prevState, formData)
+            signIn('google');
+        } else {
+            updateUser(prevState, formData)
+        }
+    }
 
     return (
         userInfo.map((item:any, ident:number) => (
@@ -42,7 +56,7 @@ export default function Settings(){
                 </Dialog.Content>
             </Dialog.Portal>
             <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80">
-                <form className="w-full relative rounded  outline-gray-700" action={formAction}>
+                <form className="w-full relative rounded outline-gray-700" action={formAction}>
 
                         {/* BANNER */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("banner")}>
@@ -62,15 +76,15 @@ export default function Settings(){
                             <div className="w-full px-4 pt-16 sm:pt-8">
                                 <div>
                                     <p className="text-sm text-gray-400">Username</p>
-                                    <input type="text" name="userName" maxLength={20} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
+                                    <input type="text" name="userName" maxLength={16} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Bio</p>
-                                    <textarea rows={7} name="userBio" className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} maxLength={250} />
+                                    <textarea rows={7} name="userBio" maxLength={250} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Email</p>
-                                    <input type="email" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
+                                    <input type="userEmail" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm text-gray-400">Location</p>

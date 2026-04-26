@@ -32,6 +32,7 @@ export default async function updateUser(prevState: any, formData: FormData) {
             [userName, userBio, userEmail, userLocation, userWebpage, userSteam, userTwitch, userX, userId]
         );
 
+        
         console.log("User settings updated successfully.");
         return "User settings updated successfully!";
     } catch (error) {

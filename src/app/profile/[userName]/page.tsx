@@ -6,6 +6,7 @@ import { getUserTotalHoursPlayed } from "@/actions/getUserTotalHoursPlayed";
 import { getUserTotalReviews } from "@/actions/getUserTotalReviews";
 import Link from "next/link";
 import getSessionUser from "@/actions/getSessionUser";
+import { redirect } from "next/navigation";
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 
@@ -21,10 +22,11 @@ export default async function Profile({ params }: { params: { userName: string }
 
 
     if (userId !== undefined) {
-        if (params.userName == session.user_name) {
-            canEdit = true;
-        }
         userInfo = await getUserInfo(params.userName)
+
+        if (userInfo.length == 0) {redirect("/")}
+        if (params.userName == session.user_name) canEdit = true;
+
         userGameStats = await getUserGameStats(params.userName)
         userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
         userTotalReviews = await getUserTotalReviews(params.userName)
