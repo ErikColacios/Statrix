@@ -10,7 +10,7 @@ import { useFormState } from "react-dom";
 import getSessionUser from "@/actions/getSessionUser";
 import { signIn } from "next-auth/react";
 
-export default function Settings(){
+export default function Settings() {
 
     const [userInfo, setUserInfo] = useState<any[]>([])
     const [state, formAction] = useFormState<any, FormData>(handleUpdateUser, undefined)
@@ -19,6 +19,7 @@ export default function Settings(){
     useEffect(() => {
         const getUserInfoSession = async () => {
             const session = await getSessionUser()
+            console.log(session)
             if(session){
                 setUserInfo(await getUserInfo(session.user.name))
             }
@@ -26,18 +27,25 @@ export default function Settings(){
         getUserInfoSession()
     }, [])
 
-    function handleUpdateUser(prevState: any, formData: FormData) {
-        
+    async function handleUpdateUser(prevState: any, formData: FormData) {
         // In case this is a Google user
         if(userInfo[0].user_google_id) {
             console.log(userInfo[0].user_google_id)
             console.log("Ese googleee")
 
-            formData.append("userEmail", userInfo[0].user_email)
+            formData.set("userEmail", userInfo[0].user_email)
             updateUser(prevState, formData)
             signIn('google');
         } else {
+            // Its NOT a Google user
             updateUser(prevState, formData)
+            const response = await signIn("credentials", {
+                userNameLogIn: formData.get("userName"),
+                trigger: "updateUser",
+                redirect: false
+            })
+            console.log("Response")
+            console.log(response)
         }
     }
 

@@ -13,8 +13,7 @@ export default async function getUserInfo(userName: string | undefined) {
             FROM users usr
             INNER JOIN avatar_images avi ON avi.avatar_image_id = usr.user_avatar_id
             INNER JOIN banner_images bani ON bani.banner_image_id = usr.user_banner_id
-            WHERE usr.user_name = $1
-        `;
+            WHERE usr.user_name = $1`;
 
         const { rows } = await pool.query(query, [userName]);
 

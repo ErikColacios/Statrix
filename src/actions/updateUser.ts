@@ -15,6 +15,7 @@ export default async function updateUser(prevState: any, formData: FormData) {
     const userSteam:string = formData.get("userSteam") as string;
     const userTwitch:string = formData.get("userTwitch") as string;
     const userX:string = formData.get("userX") as string;
+    console.log(userEmail)
 
     try {
         // Use parameterized query to prevent SQL injection

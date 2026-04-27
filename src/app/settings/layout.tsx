@@ -7,7 +7,7 @@ export default async function SettingsLayout({ children }: { children: React.Rea
   const session:any = await getSessionUser()
   
   if (!session) {
-    redirect("/")
+    redirect("/login")
   }
 
   return (

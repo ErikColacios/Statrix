@@ -7,8 +7,8 @@ export async function logInUserGoogle(userGoogleId:string, userEmail:string) {
     let isNewUser = false;
 
     const res = await pool.query(
-        `SELECT user_id, user_name, user_password FROM users WHERE user_email = $1`,
-        [userEmail]
+        `SELECT user_id, user_name, user_password FROM users WHERE user_email = $1 AND user_google_id = $2`,
+        [userEmail, userGoogleId]
     )
 
     if (res.rows.length !== 1) {

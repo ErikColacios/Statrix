@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { logInUser } from "@/actions/logInUser";
 import { JWT } from "next-auth/jwt";
 import { logInUserGoogle } from "@/actions/logInUserGoogle";
+import getUserInfo from "@/actions/getUserInfo";
 
 /**
  * This file controls the authentication process of the app, both for Google and for the credentials (username and password)
@@ -23,28 +24,40 @@ export const authOptions: AuthOptions = {
       credentials: {
         userNameLogIn: { label: "User name", type: "text" },
         passwordLogIn: { label: "Password", type: "password" },
+        trigger: { label: "Type of the trigger", type: "text" }
       },
 
       async authorize(credentials, req) {
         // We check that the credentials are not undefined
         let userLoggingIn:any = null
+        let user = { id: "", name: "" }
 
         if (credentials?.userNameLogIn !== undefined && credentials?.passwordLogIn !== undefined) {
           // Here we check if the user exists in the database
           userLoggingIn = await logInUser(credentials.userNameLogIn, credentials.passwordLogIn);
+          user = { id: userLoggingIn?.userIdLogged, name: userLoggingIn?.userNameLogged }
           
           if(userLoggingIn?.error) {
             // When returning null, next-auth will return an error
             return null;
           }
         }
+        else if (credentials?.trigger === "updateUser") {
+          console.log("CREDENTIALS - updateUser")
+          userLoggingIn = await getUserInfo(credentials.userNameLogIn);
+
+          if(userLoggingIn?.error) {
+            // When returning null, next-auth will return an error
+            return null;
+          }
+          user = { id: userLoggingIn[0].user_id, name: userLoggingIn[0].user_name }
+        }
 
         // If the user is successfully logged in, we create the session with the user data (userId and userName)
         console.log(userLoggingIn)
-        const user = { id: userLoggingIn?.userIdLogged, name: userLoggingIn?.userNameLogged }
         return user;
-      },
-    }),
+      }
+    })
   ],
   callbacks: {
     // Here we add the id field to the JWT token
