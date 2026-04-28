@@ -34,19 +34,26 @@ export default function Settings() {
             console.log("Ese googleee")
 
             formData.set("userEmail", userInfo[0].user_email)
-            updateUser(prevState, formData)
-            signIn('google');
+            const response = await updateUser(prevState, formData)
+            if(response?.error) {
+                return { error: response?.error }
+            }
+
+            await signIn('google');
         } else {
             // Its NOT a Google user
-            updateUser(prevState, formData)
-            const response = await signIn("credentials", {
+            const response = await updateUser(prevState, formData)
+            if(response?.error) {
+                return { error: response?.error }
+            }
+
+            await signIn("credentials", {
                 userNameLogIn: formData.get("userName"),
                 trigger: "updateUser",
                 redirect: false
             })
-            console.log("Response")
-            console.log(response)
         }
+        return { success: "Settings updated succesfully!" }
     }
 
     return (
@@ -81,50 +88,53 @@ export default function Settings() {
                             </div>
                         </Dialog.Trigger>
                         
-                            <div className="w-full px-4 pt-16 sm:pt-8">
+                            <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
                                 <div>
                                     <p className="text-sm text-gray-400">Username</p>
                                     <input type="text" name="userName" maxLength={16} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">Bio</p>
                                     <textarea rows={7} name="userBio" maxLength={250} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">Email</p>
                                     <input type="userEmail" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">Location</p>
                                     <input type="text" name="userLocation" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">Webpage</p>
                                     <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">Steam Profile</p>
                                     <input type="text" name="userSteam" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_steam} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">Twitch Profile</p>
                                     <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-sm text-gray-400">X Profile</p>
                                     <input type="text" name="userX" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_x} />
                                 </div>
-                                <div className="mt-4">
+                                <div>
                                     <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>
+                                </div>
+                                <div>
+                                    <button className="rounded text-gray-400 border border-gray-400 px-2 py-1 hover:bg-gray-500">Delete account</button>
                                 </div>
         
                                 <div className="py-6 flex flex-col items-center">
                                     <PrimaryButton text="Save changes"/>
-                                    <div className="h-8">
+                                    <div className="text-sm h-8">
                                         {/* Error message */}
-                                        {state?.error && <p className='text-red-500'>{state.error}</p>}
+                                        {state?.error && <p className='text-red-500 mt-2'>{state.error}</p>}
                                         {/* Success message */}
-                                        {state && <p className='text-sm mt-4 lg:text-base text-green-500'>{state}</p>}
+                                        {state?.success && <p className='text-green-500 mt-2'>{state.success}</p>}
                                     </div>
                                 </div>
                             </div>

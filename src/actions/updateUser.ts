@@ -15,12 +15,11 @@ export default async function updateUser(prevState: any, formData: FormData) {
     const userSteam:string = formData.get("userSteam") as string;
     const userTwitch:string = formData.get("userTwitch") as string;
     const userX:string = formData.get("userX") as string;
-    console.log(userEmail)
 
     try {
         // Use parameterized query to prevent SQL injection
         await pool.query(
-            `UPDATE users
+            `UPDATE userswsws
              SET user_name = $1,
                  user_bio = $2,
                  user_email = $3,
@@ -33,11 +32,8 @@ export default async function updateUser(prevState: any, formData: FormData) {
             [userName, userBio, userEmail, userLocation, userWebpage, userSteam, userTwitch, userX, userId]
         );
 
-        
-        console.log("User settings updated successfully.");
-        return "User settings updated successfully!";
     } catch (error) {
-        console.error("Error updating user settings:", error);
-        return "Error updating user settings.";
+        console.error(error)
+        return { error: "Error updating user settings"};
     }
 }

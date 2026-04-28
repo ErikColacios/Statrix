@@ -1,11 +1,10 @@
 "use client"
-import React, { useEffect } from "react"
-import { redirect } from "next/navigation";
+import React from "react"
 import updateUserName from "@/actions/updateUserName";
 import { signIn, useSession } from "next-auth/react";
 import { useFormState } from "react-dom";
 
-export default function newUser() {
+export default function NewUser() {
 
     const [state, formAction] = useFormState<any, FormData>(handleUpdateUserName, undefined)
     
