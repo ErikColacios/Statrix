@@ -1,4 +1,4 @@
 type User = {
-  user_id: string | undefined;
-  user_name: string | undefined;
+  userId: string | undefined;
+  userName: string | undefined;
 }

@@ -33,7 +33,7 @@ export default function Friends() {
     async function acceptFriendRequest(requester_id: string) {
         if (requester_id !== null && user !== null)
             try {
-                await updateUserFriendship(requester_id, user?.user_id, FriendshipStatus.ACCEPTED)
+                await updateUserFriendship(requester_id, user?.userId, FriendshipStatus.ACCEPTED)
             } catch (error) {
                 console.log(error)
             }
@@ -50,8 +50,9 @@ export default function Friends() {
     useEffect(() => {
         loadFriendships(userSearchMode)
         const getSessionUserId = async () => {
-            const user = await getSessionUser()
-            setUser(user)
+            const session = await getSessionUser()
+            console.log(session.user)
+            setUser({userId: session.user.id, userName: session.user.name})
         }
         getSessionUserId()
     }, [])
@@ -105,7 +106,7 @@ export default function Friends() {
 
                                 {/* Friend row buttons */}
                                 <div className='absolute right-5'>
-                                    {userSearchMode === FriendshipStatus.PENDING ? user?.user_id === item.requester_id ?
+                                    {userSearchMode === FriendshipStatus.PENDING ? user?.userId === item.requester_id ?
                                         <p>Pending</p> :
                                         <button onClick={() => acceptFriendRequest(item.requester_id)}
                                             className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>

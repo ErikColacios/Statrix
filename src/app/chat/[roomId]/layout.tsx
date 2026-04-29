@@ -8,7 +8,7 @@ export default async function ChatLayout({ children }: { children: React.ReactNo
 
     const session:any = await getSessionUser()
 
-    if (!session.isLoggedIn) {
+    if (!session) {
         return (
             redirect("/")
         )

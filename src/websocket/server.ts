@@ -42,7 +42,6 @@ io.on("connect", (socket:Socket) => {
 });
 
 
-
 server.listen(PORT, () => {
   console.log("Chat server running on port 4000");
 });

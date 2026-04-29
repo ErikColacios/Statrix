@@ -5,7 +5,7 @@ import getSessionUser from "./getSessionUser";
 export default async function getCreateChat(user2_id: string | undefined, user2_name:string) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
-  const userName: string = session.user_name as string;
+  const userName: string = session.user.name as string;
 
   if (!user2_id) {
     throw new Error("The parameter user2_id is mandatory");

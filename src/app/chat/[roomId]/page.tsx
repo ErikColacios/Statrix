@@ -23,7 +23,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
   const [friendUser, setFriendUser] = useState([])
   const [typingUser, setTypingUser] = useState<string | undefined>('')
 
-  const [hasMoreMessages, setHasMoreMessages] = useState<boolean>(true)
+  const [hasMoreMessages, setHasMoreMessages] = useState<boolean>(false)
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const messagesTopRef = useRef<HTMLDivElement | null>(null);
   const observer = useRef<IntersectionObserver | null>(null)
@@ -68,8 +68,8 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     });
 
     const getSessionUserId = async () => {
-      const user: User = await getSessionUser()
-      setSessionUser(user)
+      const session = await getSessionUser()
+      setSessionUser({userId: session.user.id, userName: session.user.name})
 
       const chatRoomInfo = await getChatRoomById(roomId)
       setRoomInfo(chatRoomInfo)
@@ -82,7 +82,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
       let otherUser: any | undefined = []
 
-      if (String(user?.user_id) === String(room.user1_id)) {
+      if (String(session?.user.id) === String(room.user1_id)) {
         otherUser = await getUserInfo(chatRoomInfo[0].user2_name)
         setFriendUser(otherUser)
       } else {
@@ -128,7 +128,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       };
       console.log(message)
       setMessages((prev) => [message, ...prev])
-      setHasMoreMessages(true)
+      //setHasMoreMessages(true)
       setTypingUser('')
     });
 
@@ -138,8 +138,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     return () => {
       socket.off("basicEmit");
     };
-
-  });
+  },[]);
 
 
   // Detects the scroll position (Y) of the chat container and hides or shows the Scroll Bottom button.
@@ -170,8 +169,8 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     if (input !== '')
       socket.emit("typing", {
         roomId: roomId,
-        senderId: sessionUser?.user_id,
-        senderName: sessionUser?.user_name,
+        senderId: sessionUser?.userId,
+        senderName: sessionUser?.userName,
       });
   }
 
@@ -182,15 +181,15 @@ export default function Chat({ params }: { params: { roomId: string } }) {
     if (input.trim() !== "") {
       socket.emit("messageData", {
         roomId: roomId,
-        senderId: sessionUser?.user_id,
-        senderName: sessionUser?.user_name,
+        senderId: sessionUser?.userId,
+        senderName: sessionUser?.userName,
         text: input,
         created_at: new Date().toLocaleDateString(),
       });
       
       console.log(new Date().toLocaleDateString())
       // Insert the message in the database
-      insertChatMessage(roomId, sessionUser?.user_id, sessionUser?.user_name, input)
+      insertChatMessage(roomId, sessionUser?.userId, sessionUser?.userName, input)
       setInput("");
     }
   }
@@ -222,11 +221,11 @@ export default function Chat({ params }: { params: { roomId: string } }) {
             <div ref={messagesEndRef} />
 
             {/* Typing */}
-            {typingUser !== sessionUser?.user_name && typingUser !== '' && <p className="animate-pulse p-1 w-full hidden text-gray-300" id="typing">{typingUser} is typing...</p>}
+            {typingUser !== sessionUser?.userName && typingUser !== '' && <p className="animate-pulse p-1 w-full hidden text-gray-300" id="typing">{typingUser} is typing...</p>}
 
             {messages.map((message: any, messageIdent: number) => (
                   <div className="w-full" key={messageIdent} ref={messageIdent === messages.length - 1 ? lastMessageRef : null}>
-                    <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.user_id
+                    <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.userId
                       ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
                       : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
                       {/* <b className="mr-4">{message.messageId}</b> */}
