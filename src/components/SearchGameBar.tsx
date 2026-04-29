@@ -69,12 +69,12 @@ export default function SearchGameBar({ addNewGame }: any) {
         <div className="mb-4">
             <div className="flex items-center">
                 <div className="w-full">
-                    <label htmlFor="gameSearchBar" className="text-base">Search games</label>
+                    <label htmlFor="gameSearchBar" className="text-sm text-gray-400">Search games</label>
                     <div className="flex relative">
                         <div className="flex flex-col w-full">
                             <div className="flex relative items-center">
                                 {/* SEARCH GAME BAR */}
-                                <input className="w-full block bg-gray-600 p-2 rounded-e focus:outline-none mb-1" type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3" onChange={() => handleSetGameNameSearch()} />
+                                <input className="w-full block bg-gray-600 p-2 rounded focus:outline-none mb-1" type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3" onChange={() => handleSetGameNameSearch()} />
                                 <div className="loader-small absolute right-0 mr-3 hidden" id="loader"></div>
                             </div>
                             <div className="z-10 w-full text-sm max-h-80 overflow-scroll no-scrollbar" id="gameListSearch" ref={ref}>

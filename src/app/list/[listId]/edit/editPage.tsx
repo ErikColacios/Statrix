@@ -45,7 +45,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
             }
         }
         fetchListGames()
-    })
+    },[])
 
     async function saveChanges() {
         const list_name_input = document.getElementById("listName") as HTMLInputElement
@@ -69,45 +69,47 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
     }
 
     return (
-        <>
+        <div className='h-[35rem]'>
             {showModal && alert}
             {/* Save changes button */}
-            <button className="absolute flex items-center rounded top-0 md:top-5 right-0 p-2 md:p-3 text-md md:text-2xl bg-green-500 hover:bg-green-600" onClick={saveChanges}>
-                <img src="/staticImages/icon_confirmation.png" width={25} alt='Icon confirmation'/>
-                <p className='hidden md:block md:ml-2'>Save changes</p>
+            <button className="absolute top-0 right-0 w-36 px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300" 
+                onClick={saveChanges}>
+                Save changes
             </button>
-
-            <div className="flex flex-col md:flex-row justify-center w-full text-white h-full">
+            <div className="flex flex-col md:flex-row w-full h-full text-base mt-4">
                 {/* Edit - List content */}
-                <div className="md:w-2/4 h-[30rem] md:h-[35rem] md:pr-4 flex flex-col text-xl ">
+                <div className="flex flex-col">
                     {/* Search game */}
                     <SearchGameBar addNewGame={addNewGame} />
-                    <p>Games on the list</p>
+                    <p className="text-sm text-gray-400">Games on the list</p>
 
                     {/* Old games added */}
-                    <div className="overflow-scroll no-scrollbar border border-gray-500 mt-1">
+                    <div className="grid grid-cols-6 gap-4 overflow-hidden rounded-2xl mt-1 pt-2">
                         {oldGamesList.map((item: any, index: number) => (
-                            <div key={index} className="relative flex items-center bg-gray-900 mb-2">
-                                <img src={item.game_base_image} className="w-8 md:w-12 mr-4" width={80} height={60} alt={'Game cover'}/>
-                                <p>{item.game_name}</p>
-                                <button className='ml-4 flex items-center' onClick={() => removeGamesInList(item.game_id)}><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0 mr-4' /></button>
+                            <div key={index} className="group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer transition hover:scale-110">
+                                <img src={item.game_base_image} className="w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50" alt={'Game cover'}/>
+                                <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
+                                    <p>{item.game_name}</p>
+                                </div>
+                                {/* <button className='ml-4 flex items-center' onClick={() => removeGamesInList(item.game_id)}><img src="/staticImages/icon_remove.png" alt="Remove icon" width={80} height={80} className='w-5 absolute right-0 mr-4' /></button> */}
                             </div>
+
                         ))}
                     </div>
                 </div>
 
                 {/* New games added */}
-                <div className="p-4 border border-gray-500 flex flex-col md:w-2/4">
+                {/* <div className="bg-zinc-900 p-4 border border-gray-500 rounded-lg flex flex-col md:w-2/4 mt-4 sm:mt-0">
                     <p>Games added</p>
-                    <div id="gamesAdded" className="flex flex-col  text-sm">
+                    <div id="gamesAdded" className="flex flex-col">
                         {newGamesAdded.map((item, index) => (
                             <div key={index} className='relative flex items-center bg-gray-700 w-full p-1 mb-1 hover:bg-lime-300 hover:text-green-800' ><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 mr-4' alt='Videogame cover' /><p>{item.name}</p>
                                 <button className='flex items-center w-5 absolute right-0 mr-4' ><img src="/staticImages/icon_remove.png" id='btnRemoveGame' onClick={() => removeAddedGame(item.id)} alt='Remove icon'/></button>
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
             </div>
-        </>
+        </div>
     )
 }

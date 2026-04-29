@@ -12,9 +12,13 @@ export default function NewUser() {
     
     async function handleUpdateUserName(prevState: any, formData: FormData) {
         const userName = formData.get("usernameLogIn") as string;
-        console.log(session)
+        
         if (userName === "")
             return { error: "User name cannot be empty" }
+
+        if(userName.includes(" ")){
+            return { error: "User name cannot contain white spaces" }
+        }
 
         const userId:string = session.data.user.id;
 

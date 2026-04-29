@@ -51,7 +51,6 @@ export default function Friends() {
         loadFriendships(userSearchMode)
         const getSessionUserId = async () => {
             const session = await getSessionUser()
-            console.log(session.user)
             setUser({userId: session.user.id, userName: session.user.name})
         }
         getSessionUserId()
