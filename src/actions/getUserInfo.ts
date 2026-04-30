@@ -17,7 +17,6 @@ export default async function getUserInfo(userName: string | undefined) {
             WHERE usr.user_name = $1`;
 
         const { rows } = await pool.query(query, [userName]);
-        console.log(rows)
         return rows;
     } catch (error) {
         console.error("Error fetching user info:", error);

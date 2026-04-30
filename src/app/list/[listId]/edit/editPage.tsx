@@ -21,7 +21,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
     const [alert, setAlert] = useState(<></>)
 
     function addNewGame(game: Videogame) {
-        setNewGameAdded([...newGamesAdded, game])
+        setOldGamesList([...oldGamesList, game])
     }
 
     async function removeAddedGame(game_id: number) {
@@ -84,9 +84,9 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
                     <p className="text-sm text-gray-400">Games on the list</p>
 
                     {/* Old games added */}
-                    <div className="grid grid-cols-6 gap-4 overflow-hidden rounded-2xl mt-1 pt-2">
+                    <div className="grid grid-cols-6 gap-4 overflow-hidden rounded-2xl my-2">
                         {oldGamesList.map((item: any, index: number) => (
-                            <div key={index} className="group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer transition hover:scale-110">
+                            <div key={index} className="group w-36 relative text-sm flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer transition hover:scale-110">
                                 <img src={item.game_base_image} className="w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50" alt={'Game cover'}/>
                                 <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                                     <p>{item.game_name}</p>

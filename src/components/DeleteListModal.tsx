@@ -18,7 +18,7 @@ export default function DeleteListModal({list_id}:Props) {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center text-center h-[45vh] border border-gray-600 space-y-4 px-4 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+        <div className="flex flex-col items-center justify-center text-center h-[45vh] border border-gray-600 space-y-4 px-4 md:px-10 blur-none text-white rounded-2xl bg-zinc-900/20 backdrop-blur-lg">
             <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded transition hover:bg-gray-800" >
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>

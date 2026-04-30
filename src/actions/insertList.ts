@@ -30,9 +30,9 @@ export async function insertList(list_name: string, gameList: Videogame[]) {
       const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`;
 
       await client.query(
-        `INSERT INTO list_games (list_id, game_id, game_name, game_base_image)
-                VALUES ($1, $2, $3, $4)`,
-        [listId, gameId, gameName, gameBaseImage]
+        `INSERT INTO list_games (list_id, game_id, game_name, game_base_image, user_id)
+                VALUES ($1, $2, $3, $4, $5)`,
+        [listId, gameId, gameName, gameBaseImage, userId]
       );
       await client.query(
         `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, game_name, game_base_image, status)

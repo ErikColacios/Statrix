@@ -78,12 +78,12 @@ export default async function List({ params, searchParams }: { params: { listId:
                         </div>
                     </div>
                 ))}
-                <div className="flex flex-col space-y-4 mt-2">
+                <div className="grid lg:grid-cols-2 gap-4 mt-2">
                     {/* List content */}
                     {list_content.map((item: any, index: number) => (
                         <div className="relative flex items-center border border-gray-500 rounded rounded-lg overflow-hidden text-sm md:text-lg bg-zinc-900" key={index}>
-                            <img src={item.game_base_image} className="w-28 sm:w-40 border-r border-gray-500" alt={'Videogame cover'} />
-                            <div className='flex flex-col ml-2 sm:ml-10'>
+                            <img src={item.game_base_image} className="w-20 sm:w-28 border-r border-gray-500" alt={'Videogame cover'} />
+                            <div className='flex flex-col ml-3 sm:ml-10'>
                                 <div className='flex'>
                                     <Link href={`/gamePage/${item.game_id}`} className="text-lg sm:text-xl mr-4 hover:text-green-500 hover:underline">{item.game_name}</Link>
                                     <StarButton favourite={item.favourite} game_id={item.game_id} />

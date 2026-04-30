@@ -2,7 +2,7 @@
 import React from "react";
 import getUserInfo from "@/actions/getUserInfo";
 import updateUser from "@/actions/updateUser";
-import ChooseAvatarBanner from "@/components/ChooseAvatarBanner";
+import SettingsModals from "@/components/SettingsModals";
 import PrimaryButton from "@/components/PrimaryButton";
 import { Dialog } from 'radix-ui';
 import { useEffect, useState } from "react";
@@ -14,12 +14,11 @@ export default function Settings() {
 
     const [userInfo, setUserInfo] = useState<any[]>([])
     const [state, formAction] = useFormState<any, FormData>(handleUpdateUser, undefined)
-    const [chooseMode, setChooseMode] = useState<"avatar" | "banner">("avatar")
+    const [chooseMode, setChooseMode] = useState<"avatar" | "banner" | "deleteUser">("avatar")
 
     useEffect(() => {
         const getUserInfoSession = async () => {
             const session = await getSessionUser()
-            console.log(session)
             if(session){
                 setUserInfo(await getUserInfo(session.user.name))
             }
@@ -30,8 +29,6 @@ export default function Settings() {
     async function handleUpdateUser(prevState: any, formData: FormData) {
         // In case this is a Google user
         if(userInfo[0].user_google_id) {
-            console.log(userInfo[0].user_google_id)
-            console.log("Ese googleee")
 
             formData.set("userEmail", userInfo[0].user_email)
             const response = await updateUser(prevState, formData)
@@ -67,7 +64,7 @@ export default function Settings() {
                         data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                     <Dialog.Title className="DialogTitle"></Dialog.Title>
                     <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        <ChooseAvatarBanner chooseMode={chooseMode} current_avatar_id={item.avatar_image_id} current_banner_id={item.banner_image_id} />
+                        <SettingsModals chooseMode={chooseMode} currentAvatarId={item.avatar_image_id} currentBannerId={item.banner_image_id} />
                 </Dialog.Content>
             </Dialog.Portal>
             <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80">
@@ -125,7 +122,9 @@ export default function Settings() {
                                     <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>
                                 </div>
                                 <div>
-                                    <button className="rounded text-gray-400 border border-gray-400 px-2 py-1 hover:bg-gray-500">Delete account</button>
+                                    <Dialog.Trigger onClick={() => setChooseMode("deleteUser")}>
+                                        <span className="rounded text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Delete account</span>
+                                    </Dialog.Trigger>
                                 </div>
         
                                 <div className="py-6 flex flex-col items-center">

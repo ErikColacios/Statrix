@@ -3,9 +3,9 @@ import { pool } from "@/util/postgres";
 import { redirect } from "next/navigation";
 import getSessionUser from "./getSessionUser";
 
-export async function deleteList(listId: string) {
-  const session = await getSessionUser();
-  const userId = session.user.id;
+export async function deleteUser() {
+  const session:any = await getSessionUser();
+  const userId:string = session.user.id;
   let redirectPath: string | null = null;
 
   if (!userId) {
@@ -21,7 +21,7 @@ export async function deleteList(listId: string) {
     // Delete the user list
     const deleteListRes = await client.query(
       `DELETE FROM list WHERE list_id = $1 AND user_id = $2 RETURNING *`,
-      [listId, userId]
+      [list_id, user_id]
     );
 
     if (deleteListRes.rowCount === 0) {
@@ -30,8 +30,8 @@ export async function deleteList(listId: string) {
 
     // Delete the list games
     const deleteListGamesRes = await client.query(
-      `DELETE FROM list_games WHERE list_id = $1  AND user_id = $2 RETURNING *`,
-      [listId, userId]
+      `DELETE FROM list_games WHERE list_id = $1 RETURNING *`,
+      [list_id]
     );
 
     if (deleteListGamesRes.rowCount === 0) {
@@ -41,12 +41,12 @@ export async function deleteList(listId: string) {
     // Update the number of lists of this user
     await client.query(
       `UPDATE users SET user_lists = user_lists - 1 WHERE user_id = $1`,
-      [userId]
+      [user_id]
     );
 
     // If everything went right, we commit the transaction
     await client.query("COMMIT");
-    console.log(`List ${listId} deleted successfully.`);
+    console.log(`List ${list_id} deleted successfully.`);
     redirectPath = "/mylists";
   } catch (error) {
     // If an error happened, we rollack the transaction

@@ -79,7 +79,8 @@ export default function SearchGameBar({ addNewGame }: any) {
                             </div>
                             <div className="z-10 w-full text-sm max-h-80 overflow-scroll no-scrollbar" id="gameListSearch" ref={ref}>
                                 {videogameItems.map((item: any, index: number) => (
-                                    <div className="flex items-center bg-green-500 w-full p-1 mb-1 cursor-pointer hover:bg-lime-300 hover:text-green-800" key={index} onClick={() => addNewGame(item)}>
+                                    <div className="flex items-center bg-green-500 w-full p-1 mb-1 cursor-pointer hover:bg-lime-300 hover:text-green-800" key={index} 
+                                    onClick={() => addNewGame(item)}>
                                         <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 md:w-8 mr-4' width={80} height={60} alt='Videogame cover' />
                                         <p>{item.name}</p>
                                     </div>
