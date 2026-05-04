@@ -102,10 +102,10 @@ export default function SettingsModals({ chooseMode, currentAvatarId, currentBan
     }
   }
 
-  async function deleteAccount() {
+  async function handleDeleteAccount() {
     try {
       let deleteAccountInput: HTMLInputElement = document.getElementById('deleteAccountInput') as HTMLInputElement
-      
+
       const response = await deleteUser(deleteAccountInput.value as string)
       if(response?.error) {
           setErrorMessage(response?.error)
@@ -193,7 +193,7 @@ export default function SettingsModals({ chooseMode, currentAvatarId, currentBan
             <input type="text" id="deleteAccountInput" name="deleteAccountInput" maxLength={20} className="md:w-1/4 p-1 text-center bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" />
 
             <div className="flex space-x-8 mt-12">
-                <button onClick={() => deleteAccount()} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3">Delete</button>
+                <button onClick={() => handleDeleteAccount()} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3">Delete</button>
                 <Dialog.Close className="text-md sm:text-lg text-white px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                     Cancel
                 </Dialog.Close>

@@ -4,7 +4,6 @@ import getSessionUser from "./getSessionUser";
 
 export async function deleteUser(deleteAccountInput:string) {
   try {
-    console.log(deleteAccountInput)
     if(deleteAccountInput !== "DELETE ACCOUNT") {
       return { error: "Wrong input"};
     }
