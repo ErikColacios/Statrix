@@ -24,12 +24,9 @@ export default async function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 h-screen w-full px-8 flex items-center justify-center text-center">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative z-10 h-screen w-full px-8 flex flex-col items-center justify-center text-center">
+          <img src="/logos/st2_white.png" alt="Statrix logo" className="w-96"/>
           <p className="text-green-400 text-sm uppercase tracking-widest mb-4">Alpha version</p>
-          {/* <h1 className="text-6xl sm:text-8xl font-black uppercase tracking-tighter mb-6 animate-fade-in leading-none" style={{backgroundImage: 'linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #86efac 100%)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent', textShadow: '0 0 30px rgba(34, 197, 94, 0.5), 0 0 60px rgba(34, 197, 94, 0.3)', WebkitTextStroke: '1px rgba(34, 197, 94, 0.3)'}}>
-            Your Gaming Home
-          </h1> */}
           <p className="text-gray-400 mt-6 text-xl animate-fade-in delay-200 leading-relaxed">
             Track your gaming journey, discover thousands of titles, share reviews, and connect with gamers worldwide.
           </p>
@@ -41,7 +38,6 @@ export default async function Home() {
               Browse Games
             </button>
           </div>
-        </div>
       </section>
 
 
