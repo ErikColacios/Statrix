@@ -34,11 +34,13 @@ export default async function Navbar() {
                     {userInfo.length > 0 &&
                         <p className="hidden text-sm sm:flex text-gray-500 mr-14">{userInfo[0].user_id}</p>}
 
-                    {userInfo.length > 0 &&
-                        <Notifications userId={userInfo[0].user_id} notificationCount={notificationCount} />}
+                    <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/browseGames"}>Games</Link>
 
                     {userInfo.length > 0 &&
                         <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/friends"}>Friends</Link>}
+                    
+                    {userInfo.length > 0 &&
+                        <Notifications userId={userInfo[0].user_id} notificationCount={notificationCount} />}
 
                     {/* Log In button */}
                     {userInfo.length == 0 &&

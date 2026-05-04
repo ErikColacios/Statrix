@@ -5,6 +5,7 @@ import { Videogame } from '@/types/Videogame'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
+import SkeletonBrowseGames from "../browseGames/skeleton";
 
 export default function BrowseGames() {
 
@@ -15,7 +16,6 @@ export default function BrowseGames() {
   const [genre, setGenre] = useState(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
-
 
   // Custom alert
   const [alert, setAlert] = useState(<></>)
@@ -59,7 +59,7 @@ export default function BrowseGames() {
 
 
   return (
-    <section className='flex pt-4'>
+    <section className='flex w-full h-screen bg-black text-white pt-16 pb-16'>
       {alert}
       {/* Sidebar */}
       <aside className='hidden sm:flex h-screen flex-col w-36 items-center pt-4 text-sm '>
@@ -93,9 +93,10 @@ export default function BrowseGames() {
 
         <div className='flex pt-4'>
           {/* Games shown */}
+          {isLoading ? <SkeletonBrowseGames /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
               {videogameItems.map((videogame, index: number) => (
-                <div key={index} className={`${gameList.includes(videogame) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`}>
+                <div key={index} className={`${gameList.includes(videogame) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
                   <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${videogame.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover' />
                   <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>
                     <p className='text-sm md:text-lg'>{videogame.name}</p>
@@ -106,7 +107,7 @@ export default function BrowseGames() {
                   </div>
                 </div>
               ))}
-            </div>
+            </div>}
         </div>
       </div>
     </section>
