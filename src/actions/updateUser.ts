@@ -19,7 +19,7 @@ export default async function updateUser(prevState: any, formData: FormData) {
     try {
         // Use parameterized query to prevent SQL injection
         await pool.query(
-            `UPDATE userswsws
+            `UPDATE users
              SET user_name = $1,
                  user_bio = $2,
                  user_email = $3,
