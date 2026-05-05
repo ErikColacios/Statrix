@@ -4,7 +4,7 @@ import updateFavourite from '../actions/updateFavourite';
 
 type Props  = {
     favourite: boolean,
-    game_id: string
+    game_id: string | undefined
 }
 
 export default function StarButton({ favourite, game_id }:Props){
@@ -13,9 +13,11 @@ export default function StarButton({ favourite, game_id }:Props){
 
     function handleStar (){
         const newStarred:boolean = !starred;
-        updateFavourite(game_id, newStarred).then(res => {
-            setStarred(newStarred)
-        })
+
+        if(game_id)
+            updateFavourite(game_id, newStarred).then(res => {
+                setStarred(newStarred)
+            })
     }
 
     return (

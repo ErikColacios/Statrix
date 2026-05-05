@@ -3,7 +3,7 @@ import React from 'react';
 import updateUserVideogame from '../actions/updateUserVideogame';
 
 type Props = {
-    gameId: string;
+    gameId: string | undefined;
 };
 
 export default function UpdateUserVideogameButton({gameId}:Props){
@@ -12,7 +12,9 @@ export default function UpdateUserVideogameButton({gameId}:Props){
         const newStatus: string = (document.getElementById("status") as HTMLSelectElement).value;
         const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber;
         const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber;
-        await updateUserVideogame(gameId, newStatus, newScore, newHoursPlayed);
+
+        if(gameId)
+            await updateUserVideogame(gameId, newStatus, newScore, newHoursPlayed);
     }
 
     return (
