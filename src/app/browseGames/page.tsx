@@ -95,13 +95,11 @@ export default function BrowseGames() {
 
 
       <div className="flex flex-col w-full px-4 pb-24 md:px-8">
-        <div className='relative w-full flex flex-col md:flex-row md:items-center mb-8'>
           {/* Search bar */}
-          <form className='flex items-center border border-gray-400' action={formAction}>
-            <input type="text" name="searchGame" id="searchGame" className='w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='Hollow Knight' />
-            <button className='p-1 rounded ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
+          <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400' action={formAction}>
+            <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-none pl-2' placeholder='Hollow Knight' />
+            <button className='rounded p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
           </form>
-        </div>
 
         {/* Games shown */}
         {isLoading ? <SkeletonBrowseGames /> :
