@@ -34,9 +34,9 @@ export default async function Home() {
             <Link href="/signup">
               <PrimaryButton text="Start now" />
             </Link>
-            <button className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg font-medium">
+            <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg font-medium">
               Browse Games
-            </button>
+            </Link>
           </div>
       </section>
 
