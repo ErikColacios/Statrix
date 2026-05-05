@@ -1,14 +1,14 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { Videogame } from "../types/Game";
+import { Game } from "../types/Game";
 import getSessionUser from "./getSessionUser";
 import { GameStatus } from "../enums/GameStatus";
 
 export default async function updateList(
   list_id: number,
   list_name: string,
-  oldGamesList: Videogame[],
-  newGamesAdded: Videogame[]
+  oldGamesList: Game[],
+  newGamesAdded: Game[]
 ) {
   const session:any = await getSessionUser();
   const userId:string = session.user.id as string;
@@ -37,7 +37,7 @@ export default async function updateList(
          VALUES ($1, $2, $3, $4)`,
         [
           list_id,
-          game.game_id,
+          game.gameId,
           game.game_name,
           game.game_base_image,
         ]

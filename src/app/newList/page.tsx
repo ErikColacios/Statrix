@@ -35,7 +35,7 @@ export default function NewList() {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers = await getCovers(gameNameSearch, genre, 50)
+        const covers = await getCovers(gameNameSearch, genre, 0, 50)
         if (covers) {
           setVideogameItems(covers)
           setIsLoading(false)

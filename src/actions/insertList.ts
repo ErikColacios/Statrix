@@ -1,11 +1,11 @@
 "use server";
-import type { Videogame } from "../types/Game";
+import type { Game } from "../types/Game";
 import { v4 as uuid } from "uuid";
 import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";
 import { GameStatus } from "../enums/GameStatus";
 
-export async function insertList(list_name: string, gameList: Videogame[]) {
+export async function insertList(list_name: string, gameList: Game[]) {
   const client = await pool.connect();
   try {
     const session:any = await getSessionUser();

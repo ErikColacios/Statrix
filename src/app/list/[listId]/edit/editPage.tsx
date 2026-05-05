@@ -3,15 +3,15 @@ import React from 'react';
 import updateList from '@/actions/updateList';
 import CustomModal from '@/components/CustomModal';
 import SearchGameBar from '@/components/SearchGameBar';
-import { Videogame } from '@/types/Game';
+import { Game } from '@/types/Game';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function EditPage({ listId, getUserServerSide, getListContentServerSide }: any) {
 
     const router = useRouter()
-    let [oldGamesList, setOldGamesList] = useState<Videogame[]>([])
-    let [newGamesAdded, setNewGameAdded] = useState<Videogame[]>([])
+    let [oldGamesList, setOldGamesList] = useState<Game[]>([])
+    let [newGamesAdded, setNewGameAdded] = useState<Game[]>([])
 
     // States for the modals and alerts
     const [showModal, setShowModal] = useState(false)
@@ -20,7 +20,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
     // Custom alert
     const [alert, setAlert] = useState(<></>)
 
-    function addNewGame(game: Videogame) {
+    function addNewGame(game: Game) {
         setOldGamesList([...oldGamesList, game])
     }
 
@@ -29,7 +29,7 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
     }
 
     async function removeGamesInList(game_id: number) {
-        setOldGamesList(oldGamesList.filter(item => item.game_id !== game_id))
+        setOldGamesList(oldGamesList.filter(item => item.gameId !== game_id))
     }
 
     useEffect(() => {
@@ -53,13 +53,13 @@ export default function EditPage({ listId, getUserServerSide, getListContentServ
         if (list_name === "") {
             setModalTrigger(t => t + 1)
             setShowModal(true)
-            setAlert(<CustomModal key={modalTrigger} title='hola' text="The list name can't be empty!" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
+            setAlert(<CustomModal key={modalTrigger} title='Modal' text="The list name can't be empty!" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
         }
 
         else if (oldGamesList.length == 0 && newGamesAdded.length == 0) {
             setModalTrigger(t => t + 1)
             setShowModal(true)
-            setAlert(<CustomModal key={modalTrigger} title='hola' text="You must select at least 1 game" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
+            setAlert(<CustomModal key={modalTrigger} title='Modal' text="You must select at least 1 game" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
         }
 
         else {
