@@ -1,11 +1,11 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react"
 import { getCovers } from "../actions/getCovers"
-import { Videogame } from "../types/Game"
+import { Game } from "../types/Game"
 
 export default function SearchGameBar({ addNewGame }: any) {
 
-    let [videogameItems, setVideogameItems] = useState<Videogame[]>([])
+    let [videogameItems, setVideogameItems] = useState<Game[]>([])
     const [gameSearch, setGameSearch] = useState("")
 
     function handleSetGameNameSearch() {
@@ -36,7 +36,7 @@ export default function SearchGameBar({ addNewGame }: any) {
         let loader: HTMLDivElement = document.getElementById("loader") as HTMLDivElement
 
         try {
-            const covers = await getCovers(gameSearch, 0, 20)
+            const covers = await getCovers(gameSearch, 0, 0, 20)
             if (covers) {
                 setVideogameItems(covers)
                 loader.style.display = "none"

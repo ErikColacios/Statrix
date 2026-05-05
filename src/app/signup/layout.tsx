@@ -1,7 +1,5 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
     title: 'Sign Up | Statrix',
