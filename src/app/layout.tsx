@@ -7,7 +7,7 @@ import Provider from "@/util/provider";
 export const metadata: Metadata = {
   title: "Statrix",
   description: "Showcase your gaming identity",
-  icons: "/staticImages/statrix_favicon.png"
+  icons: "/logos/st_favicon.png"
 };
 
 export default async function RootLayout({

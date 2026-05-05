@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react"
 import { getCovers } from "../actions/getCovers"
-import { Videogame } from "../types/Videogame"
+import { Videogame } from "../types/Game"
 
 export default function SearchGameBar({ addNewGame }: any) {
 

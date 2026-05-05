@@ -1,6 +1,6 @@
 "use server";
 import { pool } from "@/util/postgres";
-import { Videogame } from "../types/Videogame";
+import { Videogame } from "../types/Game";
 import getSessionUser from "./getSessionUser";
 import { GameStatus } from "../enums/GameStatus";
 

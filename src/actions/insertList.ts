@@ -1,5 +1,5 @@
 "use server";
-import type { Videogame } from "../types/Videogame";
+import type { Videogame } from "../types/Game";
 import { v4 as uuid } from "uuid";
 import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";

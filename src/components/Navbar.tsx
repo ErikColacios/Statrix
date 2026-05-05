@@ -9,7 +9,6 @@ import getSessionUser from "@/actions/getSessionUser";
 export default async function Navbar() {
 
     const session: any = await getSessionUser()
-    console.log(session)
 
     let userInfo: any = []
     let notificationCount: number = 0

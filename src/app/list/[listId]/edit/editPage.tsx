@@ -3,7 +3,7 @@ import React from 'react';
 import updateList from '@/actions/updateList';
 import CustomModal from '@/components/CustomModal';
 import SearchGameBar from '@/components/SearchGameBar';
-import { Videogame } from '@/types/Videogame';
+import { Videogame } from '@/types/Game';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

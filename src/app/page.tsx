@@ -5,7 +5,7 @@ import PrimaryButton from "@/components/PrimaryButton"
 import getSessionUser from "@/actions/getSessionUser"
 import { redirect } from "next/navigation"
 
-const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
+//const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
 
 export default async function Home() {
 

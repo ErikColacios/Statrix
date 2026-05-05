@@ -3,7 +3,7 @@ import React from "react";
 import { getCovers } from '@/actions/getCovers'
 import { insertList } from '@/actions/insertList'
 import CustomModal from '@/components/CustomModal'
-import { Videogame } from '@/types/Videogame'
+import { Game } from '@/types/Game'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
@@ -12,8 +12,8 @@ import SkeletonNewList from './skeleton'
 export default function NewList() {
 
   const router = useRouter()
-  let [videogameItems, setVideogameItems] = useState<Videogame[]>([])
-  const [gameList, setGameList] = useState<Videogame[]>([])
+  let [videogameItems, setVideogameItems] = useState<Game[]>([])
+  const [gameList, setGameList] = useState<Game[]>([])
   const [listName, setListName] = useState<string>("")
   const [countGames, setCountGames] = useState(0)
   const [gameNameSearch, setGameNameSearch] = useState("")
@@ -53,7 +53,7 @@ export default function NewList() {
    * Controls if the game exists in the list, and if it don't, then adds it
    * @param game 
    */
-  function handleSetGameList(game: Videogame) {
+  function handleSetGameList(game: Game) {
     let listLength: number = gameList.length;
     let gameFound = false;
 
