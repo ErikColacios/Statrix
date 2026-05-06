@@ -8,7 +8,7 @@ type GameGlobalStats = {
     globalFavourite:number
 }
 
-export default async function getGlobalUserVideogame(game_id: string) {
+export default async function getGlobalUserVideogame(game_id: number) {
 
     if (!game_id) {
         throw new Error("The parameter game_id is mandatory");

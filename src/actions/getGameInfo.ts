@@ -1,5 +1,5 @@
 
-export default function getGameInfo(gameId: string) {
+export default function getGameInfo(gameId: number) {
   const client_id = process.env.CLIENT_ID;
   const bearer = process.env.BEARER;
   const base_url = process.env.BASE_URL;

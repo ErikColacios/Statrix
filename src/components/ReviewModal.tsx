@@ -7,12 +7,12 @@ import CustomModal from "./CustomModal";
 import PrimaryButton from "./PrimaryButton";
 
 type Props = {
-    game_id: string,
-    game_name: string,
-    game_cover: string,
+    gameId: number,
+    gameName: string,
+    gameCover: number,
 };
 
-export default function ReviewModal({ game_id, game_name, game_cover }: Props) {
+export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
 
     // Custom alert
     const [modalTrigger, setModalTrigger] = useState(0)
@@ -33,7 +33,7 @@ export default function ReviewModal({ game_id, game_name, game_cover }: Props) {
             setAlert(<CustomModal key={modalTrigger} title='Alert' text="Set your recommendation first" type='alert' action={{ actionName: "displayAlert", parameters: { showModal }}} closeModal={()=>setShowModal(false)} />)
         }
         else {
-            await insertReview(game_id, game_name, reviewBody, recommended);
+            await insertReview(gameId, gameName, reviewBody, recommended);
 
             // We simulate that the user presses ESC to close the modal
             const escEvent = new KeyboardEvent('keydown', {
@@ -54,9 +54,9 @@ export default function ReviewModal({ game_id, game_name, game_cover }: Props) {
             <Dialog.Close className="mt-8 absolute right-10 p-2 rounded transition hover:bg-gray-800" >
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
-            <h2 className="text-3xl">{game_name}</h2>
+            <h2 className="text-3xl">{gameName}</h2>
             <div className="flex flex-col md:flex-row items-center md:items-start md:pt-12">
-                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game_cover}.png`} alt="Videogame cover" className="w-36 lg:w-48 rounded" />
+                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameCover}.png`} alt="Videogame cover" className="w-36 lg:w-48 rounded" />
                 <div className="flex flex-col w-full md:ml-8">
                     <textarea id="reviewBody" className="w-full h-32 md:h-64 mt-4 bg-black border border-gray-500 focus:outline-none resize-none focus:border-green-500 p-2"  placeholder="Your review"></textarea>
                     <LikeDislikeButtons />

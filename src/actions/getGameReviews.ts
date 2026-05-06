@@ -3,14 +3,14 @@ import { pool } from "@/util/postgres";
 import getSessionUser from "./getSessionUser";
 import { ReviewMode } from "@/enums/ReviewMode";
 
-export default async function getGameReviews(game_id:string, reviewMode:ReviewMode) {
+export default async function getGameReviews(gameId:number, reviewMode:ReviewMode) {
     const session = await getSessionUser()
     const userId: string | undefined = session.user.id as string
     
     if (!userId) {
         throw new Error("The parameter user_id is mandatory");
     }
-    else if (!game_id) {
+    else if (!gameId) {
         throw new Error("The parameter game_id is mandatory");
     }
 
@@ -28,7 +28,7 @@ export default async function getGameReviews(game_id:string, reviewMode:ReviewMo
             ${reviewMode === ReviewMode.POPULAR ? "ORDER BY likes DESC": "ORDER BY review_date DESC"}
              LIMIT 10`;
 
-        const { rows } = await pool.query(query, [userId, game_id]);
+        const { rows } = await pool.query(query, [userId, gameId]);
         return rows;
     } catch (error) {
         console.error("Error fetching review:", error);

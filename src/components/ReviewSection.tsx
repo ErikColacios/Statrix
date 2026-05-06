@@ -8,16 +8,16 @@ import insertLikeReview from "../actions/insertLikeReview"
 
 type Props = {
     gameReviews: any[]
-    game_id: string
+    gameId: number
 }
 
-export default function ReviewSection({ gameReviews, game_id }: Props) {
+export default function ReviewSection({ gameReviews, gameId }: Props) {
 
     const [reviews, setReviews] = useState<any[]>(gameReviews)
     const [reviewModeSelected, setReviewModeSelected] = useState<ReviewMode>(ReviewMode.POPULAR)
 
     async function loadReviews(reviewMode: ReviewMode) {
-        let gameReviewsNew: any[] = await getGameReviews(game_id, reviewMode)
+        let gameReviewsNew: any[] = await getGameReviews(gameId, reviewMode)
         setReviews(gameReviewsNew)
         setReviewModeSelected(reviewMode)
     }

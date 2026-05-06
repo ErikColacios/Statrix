@@ -15,8 +15,9 @@ import SelectScoreRange from '@/components/SelectScoreRange';
 import SliderImages from '@/components/SliderImages';
 import PrimaryButton from '@/components/PrimaryButton';
 import ReviewSection from '@/components/ReviewSection';
+import { Game } from '@/types/Game';
 
-export default async function gamePage({ params }: { params: { list_id: string, game_id: string } }) {
+export default async function gamePage({ params }: { params: { list_id: string, game_id: number } }) {
 
     let gameInfo: any[] = await getGameInfo(params.game_id)
     let userVideogame: any[] = await getUserVideogame(params.game_id)
@@ -24,13 +25,13 @@ export default async function gamePage({ params }: { params: { list_id: string, 
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
 
     let image: string = "";
-    gameInfo.map((item: any) => {
-        image = `https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`;
+    gameInfo.map((game: Game) => {
+        image = `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`;
     }
     )
 
     return (
-        gameInfo.map((item: any, index: number) => (
+        gameInfo.map((game: any, index: number) => (
             <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black h-screen text-white text-sm pb-12" key={index}>
                 <Dialog.Root>
                     <Dialog.Portal>
@@ -39,21 +40,20 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                             <Dialog.Title className="DialogTitle"></Dialog.Title>
                             <Dialog.Description className="DialogDescription"></Dialog.Description>
-                            <ReviewModal game_id={item.id} game_name={item.name} game_cover={item.cover.image_id} />
+                            <ReviewModal gameId={game.id} gameName={game.name} gameCover={game.cover.image_id} />
                         </Dialog.Content>
                     </Dialog.Portal>
 
-                    {/* <div className='bg-black/60 w-full h-full absolute backdrop-blur-md'></div> */}
-                    <div className='pt-8 w-full flex flex-col items-center justify-center blur-none'>
+                    <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
                         {/* GAME BOX */}
                         <div className='w-full md:w-3/4 2xl:w-1/2 bg-black/80 mt-8 rounded'>
                             <div className='relative'>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>
-                                    <div className='absolute right-10 flex items-center space-x-8 pt-6'>
+                                    <div className='absolute right-10 flex games-center space-x-8 pt-6'>
                                         {/* Played by x users */}
                                         <div className='tooltip'>
                                             <svg width="18px" height="18px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>game_controller [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-380.000000, -4679.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M342,4527 L326,4527 L326,4537 L330,4537 L330,4535 L338,4535 L338,4537 L342,4537 L342,4527 Z M344,4525 L344,4527 L344,4537 L344,4539 L336,4539 L336,4537 L332,4537 L332,4539 L324,4539 L324,4537 L324,4527 L324,4525 L326,4525 L333,4525 L333,4523 L333,4521 L338,4521 L338,4519 L340,4519 L340,4521 L340,4523 L335,4523 L335,4525 L342,4525 L344,4525 Z M336,4529 L336,4531 L336,4533 L340,4533 L340,4531 L340,4529 L336,4529 Z M328,4529 L332,4529 L332,4531 L332,4533 L328,4533 L328,4531 L328,4529 Z" id="game_controller-[#ffffff]"> </path> </g> </g> </g> </g></svg>
@@ -73,31 +73,31 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             <span className="tooltiptext">Starred by {globalStats[2]} users</span>
                                         </div>
                                     </div>
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-20">{item.name}</h2>
+                                    <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-20">{game.name}</h2>
                                     <div className="grid grid-cols-2 gap-x-8 lg:w-3/4">
                                         <div>
-                                            <span className="text-green-400 mr-2">Release date: </span> <span>{item.release_dates[0] ? item.release_dates[0].human : "Uknown"}</span>
+                                            <span className="text-green-400 mr-2">Release date: </span> <span>{game.release_dates[0] ? game.release_dates[0].human : "Uknown"}</span>
                                         </div>
                                         <div>
-                                            <span className="text-green-400 mr-2">General rating: </span><span>{item.rating ? Math.trunc(item.rating) : "-"}</span>
+                                            <span className="text-green-400 mr-2">General rating: </span><span>{game.rating ? Math.trunc(game.rating) : "-"}</span>
                                         </div>
                                     </div>
                                     <div className='text-sm mt-2'>
                                         <span className="text-green-400 mr-2">Genres: </span>
-                                        {item.genres?.map((g: any, index: number) => (
+                                        {game.genres?.map((g: any, index: number) => (
                                             <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200' key={index}>{g.name}</span>
                                         ))}
                                     </div>
 
                                     <div className='text-sm mt-2'>
                                         <span className="text-green-400 mr-2">Developers: </span>
-                                        {item.involved_companies?.map((c: any, index: number) => (
+                                        {game.involved_companies?.map((c: any, index: number) => (
                                             <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200' key={index}>{c.company.name}</span>
                                         ))}
                                     </div>
 
                                     {/* Summary */}
-                                    <p className='mt-6'>{item.summary}</p>
+                                    <p className='mt-6'>{game.summary}</p>
                                 </div>
 
                                 {/* USER VIDEOGAME panel */}
@@ -111,25 +111,24 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                                     <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
                                                     <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
                                                 </select>
-                                                <SelectScoreRange score={userVideogame[0].score} game_id={item.id} />
+                                                <SelectScoreRange score={userVideogame[0].score} game_id={game.id} />
                                                 <div className='flex'>
                                                     <span className='mr-4'>Hours played </span>
-                                                    <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={item.id} source='gamePage' />
+                                                    <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={game.id} source='gamePage' />
                                                 </div>
                                             </div>
-                                            <UpdateUserVideogameButton gameId={params.game_id} />
+                                            <UpdateUserVideogameButton game={game} />
                                         </div>
                                         :
-                                        <div className='flex flex-col h-full justify-center items-center'>
+                                        <div className='flex flex-col h-full justify-center games-center'>
                                             <p className='text-gray-300 mb-2'>This game is in any of your lists</p>
-                                            <AddToListButton game_id={item.id} game_name={item.name} game_cover={item.cover.image_id} />
+                                            <AddToListButton game_id={game.id} game_name={game.name} game_cover={game.cover.image_id} />
                                         </div>
                                     }
-
                                 </aside>
                             </div>
                             {/* Slider of images */}
-                            <SliderImages screenshots={item.screenshots} />
+                            <SliderImages screenshots={game.screenshots} />
 
                             <section className='mt-14 pt-4 relative'>
                                 <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
@@ -137,7 +136,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                 </Dialog.Trigger>
 
                                 {/* Review list component */}
-                                <ReviewSection gameReviews={gameReviews} game_id={params.game_id} />
+                                <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
                             </section>
                         </div>
                     </div>

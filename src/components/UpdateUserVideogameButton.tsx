@@ -1,20 +1,21 @@
 "use client"
 import React from 'react';
 import updateUserVideogame from '../actions/updateUserVideogame';
+import { Game } from '@/types/Game';
 
 type Props = {
-    gameId: string | undefined;
+    game: Game;
 };
 
-export default function UpdateUserVideogameButton({gameId}:Props){
+export default function UpdateUserVideogameButton({game}:Props){
 
     async function saveUserVideogame() {
         const newStatus: string = (document.getElementById("status") as HTMLSelectElement).value;
         const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber;
         const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber;
-
-        if(gameId)
-            await updateUserVideogame(gameId, newStatus, newScore, newHoursPlayed);
+        
+        if(game.id)
+            await updateUserVideogame(game.id, newStatus, newScore, newHoursPlayed, game.name, game.game_base_image);
     }
 
     return (

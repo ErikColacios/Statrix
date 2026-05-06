@@ -2,7 +2,7 @@
 import { pool } from "@/util/postgres";
 import getSessionUser from "./getSessionUser";
 
-export default async function getUserVideogame(gameId: string) {
+export default async function getUserVideogame(gameId: number) {
     const session:any = await getSessionUser();
     const userId: string = session.user.id as string;
 
@@ -16,6 +16,7 @@ export default async function getUserVideogame(gameId: string) {
     try {
         const query = `SELECT * FROM public.user_videogame WHERE user_id = $1 AND game_id = $2`;
         const { rows } = await pool.query(query, [userId, gameId]);
+        console.log(rows)
 
         return rows;
     } catch (error) {
