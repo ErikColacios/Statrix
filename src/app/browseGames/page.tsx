@@ -20,7 +20,7 @@ export default function BrowseGames() {
   const [genre, setGenre] = useState(0)
 
   const [responseOffset, setResponseOffset] = useState<number>(0)
-  const [responseLimit, setResponseLimit] = useState<number>(1)
+  const [responseLimit, setResponseLimit] = useState<number>(64)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)

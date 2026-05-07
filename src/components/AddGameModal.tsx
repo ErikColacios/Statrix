@@ -105,8 +105,10 @@ export default function AddGameModal({ game }: Props) {
                     </div>
 
                     {/* <UpdateUserVideogameButton game={game} /> */}
-                    <button className="text-white px-6 py-2 mt-4 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
-                       onClick={handleSaveUserGame} >Save</button>
+                    <Dialog.Close className="text-white px-6 py-2 mt-4 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                    onClick={handleSaveUserGame} >
+                        Save
+                    </Dialog.Close>
                 </div>
             </div>
         </div>
