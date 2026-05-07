@@ -3,7 +3,7 @@ import { pool } from "@/util/postgres";
 import getSessionUser from "./getSessionUser";
 import getUserVideogame from "./getUserVideogame";
 
-export default async function updateUserVideogame(gameId: number, newStatus: string, newScore: number, newHoursPlayed: number, gameName:string, gameBaseImage:string) {
+export default async function updateUserVideogame(gameId: number, newStatus: string | undefined, newScore: number, newHoursPlayed: number, gameName:string, gameBaseImage:string) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
 

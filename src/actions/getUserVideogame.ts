@@ -12,6 +12,8 @@ export default async function getUserVideogame(gameId: number) {
     else if (!gameId) {
         throw new Error("The parameter gameId is mandatory");
     }
+    console.log(gameId)
+    console.log(userId)
 
     try {
         const query = `SELECT * FROM public.user_videogame WHERE user_id = $1 AND game_id = $2`;
