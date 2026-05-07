@@ -16,11 +16,6 @@ export default function AddGameModal({ game }: Props) {
     const [userGameInfo, setUserGameInfo] = useState<any>([])
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
 
-    const playingButtonRef = useRef<HTMLButtonElement | null>(null);
-    const completedButtonRef = useRef<HTMLButtonElement | null>(null);
-    const onholdButtonRef = useRef<HTMLButtonElement | null>(null);
-    const droppedButtonRef = useRef<HTMLButtonElement | null>(null);
-    
     useEffect(() => {
         const fetchUserGame = async() => {
             setUserGameInfo(await getUserVideogame(game.id))
@@ -30,18 +25,18 @@ export default function AddGameModal({ game }: Props) {
 
     useEffect(() => {
         setSelectedStatus(userGameInfo[0]?.status)
-        if (selectedStatus === GameStatus.PLAYING) {
-            playingButtonRef.current?.focus();
-        }
-        else if (selectedStatus === GameStatus.COMPLETED) {
-            completedButtonRef.current?.focus();
-        }
-        else if (selectedStatus === GameStatus.ON_HOLD) {
-            onholdButtonRef.current?.focus();
-        }
-        else if (selectedStatus === GameStatus.DROPPED) {
-            droppedButtonRef.current?.focus();
-        }
+        // if (selectedStatus === GameStatus.PLAYING) {
+        //     playingButtonRef.current?.focus();
+        // }
+        // else if (selectedStatus === GameStatus.COMPLETED) {
+        //     completedButtonRef.current?.focus();
+        // }
+        // else if (selectedStatus === GameStatus.ON_HOLD) {
+        //     onholdButtonRef.current?.focus();
+        // }
+        // else if (selectedStatus === GameStatus.DROPPED) {
+        //     droppedButtonRef.current?.focus();
+        // }
     }, [userGameInfo])
     
 
@@ -89,17 +84,31 @@ export default function AddGameModal({ game }: Props) {
                             <label className="text-gray-400 mt-2">Status</label>
                             <div className="flex space-x-2">
                                 <button
-                                ref={playingButtonRef}
-                                    onClick={()=> setSelectedStatus(GameStatus.PLAYING)} className="focus:bg-gradient-to-r from-teal-500 to-blue-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">{GameStatus.PLAYING}</button>
+                                    onClick={()=> setSelectedStatus(GameStatus.PLAYING)} 
+                                    className={selectedStatus===GameStatus.PLAYING
+                                        ? "bg-gradient-to-r from-teal-500 to-blue-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                        : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                    }>{GameStatus.PLAYING}</button>
+
                                 <button
-                                ref={completedButtonRef}
-                                    onClick={()=> setSelectedStatus(GameStatus.COMPLETED)} className="focus:bg-gradient-to-r from-green-500 to-lime-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">{GameStatus.COMPLETED}</button>
-                                <button 
-                                ref={onholdButtonRef}
-                                    onClick={()=> setSelectedStatus(GameStatus.ON_HOLD)} className="focus:bg-gradient-to-r from-indigo-600 to-blue-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">{GameStatus.ON_HOLD}</button>
-                                <button 
-                                ref={droppedButtonRef}
-                                    onClick={()=> setSelectedStatus(GameStatus.DROPPED)} className="focus:bg-gradient-to-r from-red-600 to-orange-700 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">{GameStatus.DROPPED}</button>
+                                    onClick={()=> setSelectedStatus(GameStatus.COMPLETED)} 
+                                    className={selectedStatus===GameStatus.COMPLETED
+                                        ? "bg-gradient-to-r from-green-500 to-lime-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                        : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                    }>{GameStatus.COMPLETED}</button>
+                                <button
+                                    onClick={()=> setSelectedStatus(GameStatus.ON_HOLD)} 
+                                    className={selectedStatus===GameStatus.ON_HOLD
+                                        ? "bg-gradient-to-r from-indigo-600 to-blue-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                        : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                    }>{GameStatus.ON_HOLD}</button>
+
+                                <button
+                                    onClick={()=> setSelectedStatus(GameStatus.DROPPED)} 
+                                    className={selectedStatus===GameStatus.DROPPED
+                                        ? "bg-gradient-to-r from-red-600 to-orange-700 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                        : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                    }>{GameStatus.DROPPED}</button>
                             </div>
                         </div>
                     </div>
