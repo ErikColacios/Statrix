@@ -3,7 +3,6 @@ import Link from "next/link";
 import getSessionUser from '@/actions/getSessionUser';
 import { getListInfo } from '@/actions/getListInfo';
 import { getListContent } from '@/actions/getListContent';
-import CustomModal from '@/components/CustomModal';
 import StarButton from '@/components/StarButton';
 import SelectScore from '@/components/SelectScore';
 import InputHoursPlayed from '@/components/InputHoursPlayed';
@@ -86,7 +85,7 @@ export default async function List({ params, searchParams }: { params: { listId:
                             <div className='flex flex-col ml-3 sm:ml-10'>
                                 <div className='flex'>
                                     <Link href={`/gamePage/${item.game_id}`} className="text-lg sm:text-xl mr-4 hover:text-green-500 hover:underline">{item.game_name}</Link>
-                                    <StarButton favourite={item.favourite} game_id={item.game_id} />
+                                    <StarButton favourite={item.favourite} gameId={item.game_id} />
                                 </div>
                                 <div className='flex mt-4'>
                                     <SelectScore score={item.score} game_id={item.game_id} />
