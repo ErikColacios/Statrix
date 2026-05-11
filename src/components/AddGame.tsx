@@ -41,7 +41,9 @@ export default function AddGame({ game }: Props) {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center bg-zinc-900 sm:items-start sm:flex-row sm:space-x-8 p-4 rounded-2xl border border-gray-600">
+        <div className="flex flex-col justify-center items-center bg-zinc-900 border border-zinc-600 md:items-start p-3 md:p-6 rounded-2xl">
+            <p className="text-base text-gray-200 mb-2">Your statistics</p>
+            <span className="w-full bg-zinc-600 h-px mb-2"></span>
             <div className="flex flex-col space-y-3">
                 <div className="flex space-x-4">
                     <div className="flex flex-col">
@@ -55,7 +57,6 @@ export default function AddGame({ game }: Props) {
                             defaultValue={userGameInfo[0]?.hours_played !='NaN' ? userGameInfo[0]?.hours_played : ""} />
                     </div>
                 </div>
-                <div className="flex">
                     <div className="flex flex-col">
                         <label className="text-gray-400 mt-2">Status</label>
                         <div className="grid grid-cols-2 gap-3">
@@ -87,7 +88,6 @@ export default function AddGame({ game }: Props) {
                                 }>{GameStatus.DROPPED}</button>
                         </div>
                     </div>
-                </div>
                 <div className="flex items-center space-x-4">
                     <label className="text-gray-400">Favourite</label>
                     <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id}/>

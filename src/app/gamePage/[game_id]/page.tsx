@@ -48,10 +48,10 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
                     <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
                         {/* GAME BOX */}
-                        <div className='w-full md:w-3/4 2xl:w-1/2 bg-black/80 mt-8 rounded'>
-                            <div className='relative hidden'>
+                        <div className='w-full 2xl:w-1/2 bg-black/80 mt-8 rounded'>
+                            <div className='relative'>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bg-black bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>
@@ -102,42 +102,13 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     <p className='mt-6'>{game.summary}</p>
                                 </div>
 
-                                {/* USER VIDEOGAME panel */}
-                                <aside className='md:w-1/3 p-4'>
-                                        <AddGame game={gameInfo[0]}/>
+                                {/* User Videogame panel */}
+                                <aside className='md:w-2/6 lg:w-1/3 p-4'>
+                                    <AddGame game={gameInfo[0]}/>
                                 </aside>
-                                {/* <aside className='md:w-1/3 p-4'>
-                                    {userVideogame[0] ?
-                                        <div className="flex flex-col w-full p-4 blur-none">
-                                            <div className='flex flex-col space-y-4 text-base'>
-                                                <div className='flex flex-col'>
-                                                    <label className='text-gray-400' htmlFor="status">Status</label>
-                                                    <select className='bg-gray-800 border border-gray-500 outline-none focus:border-green-500 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
-                                                        <option value={GameStatus.PLAYING}>{GameStatus.PLAYING}</option>
-                                                        <option value={GameStatus.COMPLETED}>{GameStatus.COMPLETED}</option>
-                                                        <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
-                                                        <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
-                                                    </select>
-                                                </div>
-                                                
-                                                <SelectScoreRange score={userVideogame[0].score} game_id={game.id} />
-                                                <div className='flex flex-col'>
-                                                    <p className='text-gray-400'>Hours played </p>
-                                                    <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={game.id} source='gamePage' />
-                                                </div>
-                                            </div>
-                                            <UpdateUserVideogameButton game={game} />
-                                        </div>
-                                        :
-                                        <div className='flex flex-col h-full justify-center games-center'>
-                                            <p className='text-gray-300 mb-2'>This game is in any of your lists</p>
-                                            <AddToListButton game_id={game.id} game_name={game.name} game_cover={game.cover.image_id} />
-                                        </div>
-                                    }
-                                </aside> */}
                             </div>
                             {/* Slider of images */}
-                            {/* <SliderImages screenshots={game.screenshots} /> */}
+                            <SliderImages screenshots={game.screenshots} />
 
                             <section className='mt-14 pt-4 relative'>
                                 <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
