@@ -55,7 +55,6 @@ export default function AddGameModal({ game }: Props) {
                 <div className="flex flex-col mt-8 sm:mt-0">
                     <div className="flex items-center space-x-4">
                         <p className="text-xl md:text-3xl">{game?.name}</p>
-                        {/* <p className="text-white">{starred.toString()}</p> */}
                         <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id}/>
                     </div>
 

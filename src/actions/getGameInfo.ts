@@ -13,13 +13,31 @@ export default function getGameInfo(gameId: number) {
       "Access-Control-Request-Headers": "Content-Type,API-Key",
       "Access-Control-Allow-Origin": `${base_url}`,
     },
-    body: `fields *, cover.image_id, release_dates.human, involved_companies.company.name, screenshots.image_id, genres.name; limit 100; where cover != null & cover.image_id !=null & involved_companies !=null & id=${gameId};`,
+    body: `fields id, name, summary, cover.image_id, release_dates.human, involved_companies.company.name, screenshots.image_id, genres.name; limit 100; where cover != null & cover.image_id !=null & involved_companies !=null & id=${gameId};`,
   })
     .then((response) => {
       return response.json();
     })
     .then((response) => {
+      //console.log(response)
       return response;
     });
   return res;
 }
+
+    // gameId: number 
+    // id: number,  // the same as videogame_id
+    // name: string,
+    // game_name: string,
+    // summary: string,
+    // cateogry: number,
+    // cover:{
+    //     image_id:number,
+    //     url:string
+    // },
+    // screenshots:{
+    //     image_id:number
+    // },
+    // game_base_image:string,
+    // score:number
+    // hours_played:number,

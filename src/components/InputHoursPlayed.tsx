@@ -34,7 +34,7 @@ export default function InputHoursPlayed({hours_played, game_id, source}:Props){
             )
         case "gamePage":
             return (
-                <input type="number" id={'hoursPlayed'} className='text-base w-20 rounded text-2xl pr-1 bg-black border border-gray-500 outline-none text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
+                <input type="number" id={'hoursPlayed'} className='text-base rounded text-2xl p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
             )
     }
 }

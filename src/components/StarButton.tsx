@@ -5,7 +5,7 @@ import updateFavourite from '../actions/updateFavourite';
 type Props  = {
     handleStarred: any,
     favourite: boolean,
-    gameId: string | undefined
+    gameId: number | undefined
 }
 
 export default function StarButton({ handleStarred, favourite, gameId }:Props){

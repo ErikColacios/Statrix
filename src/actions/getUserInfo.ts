@@ -5,7 +5,6 @@ export default async function getUserInfo(userName: string | undefined) {
     if (!userName) {
         throw new Error("The parameter userName is mandatory");
     }
-    console.log(userName)
 
     try {
         const query = `

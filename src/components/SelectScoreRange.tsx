@@ -29,7 +29,7 @@ export default function SelectScoreRange({ score, game_id}:Props){
     return (
         <div className='flex flex-col'>
             <div className='flex items-center mb-2'>
-                <span className=''>Score </span>
+                <span className='text-gray-400'>Score</span>
                 <span className='ml-4 font-bold'>{newScore}</span>
             </div>
             <input type="range" id="score" name="score" min="0" max="10" step="0.1" value={newScore} className='rangeSlider' onChange={handleChangeScore}/>

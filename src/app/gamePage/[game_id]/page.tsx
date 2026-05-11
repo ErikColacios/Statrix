@@ -16,10 +16,11 @@ import SliderImages from '@/components/SliderImages';
 import PrimaryButton from '@/components/PrimaryButton';
 import ReviewSection from '@/components/ReviewSection';
 import { Game } from '@/types/Game';
+import AddGame from '@/components/AddGame';
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: number } }) {
 
-    let gameInfo: any[] = await getGameInfo(params.game_id)
+    let gameInfo: Game[] = await getGameInfo(params.game_id)
     let userVideogame: any[] = await getUserVideogame(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
@@ -30,6 +31,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
     }
     )
 
+    console.log(gameInfo[0].id)
     return (
         gameInfo.map((game: any, index: number) => (
             <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black h-screen text-white text-sm pb-12" key={index}>
@@ -47,9 +49,9 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                     <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
                         {/* GAME BOX */}
                         <div className='w-full md:w-3/4 2xl:w-1/2 bg-black/80 mt-8 rounded'>
-                            <div className='relative'>
+                            <div className='relative hidden'>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bg-black bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>
@@ -102,18 +104,25 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
                                 {/* USER VIDEOGAME panel */}
                                 <aside className='md:w-1/3 p-4'>
+                                        <AddGame game={gameInfo[0]}/>
+                                </aside>
+                                {/* <aside className='md:w-1/3 p-4'>
                                     {userVideogame[0] ?
                                         <div className="flex flex-col w-full p-4 blur-none">
                                             <div className='flex flex-col space-y-4 text-base'>
-                                                <select className='bg-black border border-gray-500 outline-none focus:border-green-500 mt-2 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
-                                                    <option value={GameStatus.PLAYING}>{GameStatus.PLAYING}</option>
-                                                    <option value={GameStatus.COMPLETED}>{GameStatus.COMPLETED}</option>
-                                                    <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
-                                                    <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
-                                                </select>
+                                                <div className='flex flex-col'>
+                                                    <label className='text-gray-400' htmlFor="status">Status</label>
+                                                    <select className='bg-gray-800 border border-gray-500 outline-none focus:border-green-500 p-2 rounded' id='status' defaultValue={userVideogame[0].status}>
+                                                        <option value={GameStatus.PLAYING}>{GameStatus.PLAYING}</option>
+                                                        <option value={GameStatus.COMPLETED}>{GameStatus.COMPLETED}</option>
+                                                        <option value={GameStatus.ON_HOLD}>{GameStatus.ON_HOLD}</option>
+                                                        <option value={GameStatus.DROPPED}>{GameStatus.DROPPED}</option>
+                                                    </select>
+                                                </div>
+                                                
                                                 <SelectScoreRange score={userVideogame[0].score} game_id={game.id} />
-                                                <div className='flex'>
-                                                    <span className='mr-4'>Hours played </span>
+                                                <div className='flex flex-col'>
+                                                    <p className='text-gray-400'>Hours played </p>
                                                     <InputHoursPlayed hours_played={userVideogame[0].hours_played} game_id={game.id} source='gamePage' />
                                                 </div>
                                             </div>
@@ -125,10 +134,10 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             <AddToListButton game_id={game.id} game_name={game.name} game_cover={game.cover.image_id} />
                                         </div>
                                     }
-                                </aside>
+                                </aside> */}
                             </div>
                             {/* Slider of images */}
-                            <SliderImages screenshots={game.screenshots} />
+                            {/* <SliderImages screenshots={game.screenshots} /> */}
 
                             <section className='mt-14 pt-4 relative'>
                                 <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
