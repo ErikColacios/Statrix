@@ -49,9 +49,9 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                     <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
                         {/* GAME BOX */}
                         <div className='w-full 2xl:w-1/2 bg-black/80 mt-8 rounded'>
-                            <div className='relative'>
+                            <div className='relative hidden'>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bg-black bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>
@@ -108,7 +108,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                 </aside>
                             </div>
                             {/* Slider of images */}
-                            <SliderImages screenshots={game.screenshots} />
+                            {/* <SliderImages screenshots={game.screenshots} /> */}
 
                             <section className='mt-14 pt-4 relative'>
                                 <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>

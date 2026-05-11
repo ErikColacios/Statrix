@@ -5,9 +5,9 @@ import { pool } from "@/util/postgres";
  * @param user_name User name
  * @returns Total hours played as number
  */
-export async function getUserTotalHoursPlayed(user_name:string | undefined) {
-    if (!user_name) {
-        console.warn("Parameter user_name not found.");
+export async function getUserTotalHoursPlayed(userName:string | undefined) {
+    if (!userName) {
+        console.warn("Parameter userName not found.");
         return 0;
     }
 
@@ -17,7 +17,7 @@ export async function getUserTotalHoursPlayed(user_name:string | undefined) {
              FROM user_videogame uv
              INNER JOIN users usr ON usr.user_id = uv.user_id
              WHERE usr.user_name = $1`,
-            [user_name]
+            [userName]
         );
 
         const totalHoursPlayed: number = res.rows[0].sum_hours_played ?? 0;

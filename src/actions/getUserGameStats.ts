@@ -16,10 +16,10 @@ type UserGameStats = {
   favGames: TopGame[];
 };
 
-export default async function getUserGameStats(user_name: string | undefined): Promise<UserGameStats> {
+export default async function getUserGameStats(userName: string | undefined): Promise<UserGameStats> {
 
-  if (!user_name) {
-    throw new Error("The parameter user_name is mandatory");
+  if (!userName) {
+    throw new Error("The parameter userName is mandatory");
   }
 
   try {
@@ -30,7 +30,7 @@ export default async function getUserGameStats(user_name: string | undefined): P
        FROM user_videogame uv
        INNER JOIN users usr ON usr.user_id = uv.user_id
        WHERE usr.user_name = $1 AND uv.status = $2`,
-      [user_name, GameStatus.COMPLETED]
+      [userName, GameStatus.COMPLETED]
     );
     const gamesCompleted: number = gamesCompletedResult.rows[0].count;
 
@@ -40,7 +40,7 @@ export default async function getUserGameStats(user_name: string | undefined): P
        FROM user_videogame uv
        INNER JOIN users usr ON usr.user_id = uv.user_id
        WHERE usr.user_name = $1`,
-      [user_name]
+      [userName]
     );
     const gamesPlayed: number = gamesPlayedResult.rows[0].count;
 
@@ -52,7 +52,7 @@ export default async function getUserGameStats(user_name: string | undefined): P
        WHERE usr.user_name = $1
        ORDER BY uv.hours_played DESC
        LIMIT 5`,
-      [user_name]
+      [userName]
     );
     const topGames: TopGame[] = topGamesResult.rows;
 
@@ -66,7 +66,7 @@ export default async function getUserGameStats(user_name: string | undefined): P
        AND uv.favourite = true
        ORDER BY uv.hours_played DESC
        LIMIT 5`,
-      [user_name]
+      [userName]
     );
 
     const favGames: TopGame[] = favGamesResult.rows;

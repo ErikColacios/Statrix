@@ -13,10 +13,10 @@ import DeleteListModal from '@/components/DeleteListModal';
 type SearchParamProps = Record<string, string> | null | undefined;
 
 export default async function List({ params, searchParams }: { params: { listId: string }, searchParams: SearchParamProps }) {
-    let user_info: any | undefined = []
-    let list_id = params.listId;
-    let list_info: any | undefined = []
-    let list_content: any | undefined = []
+    let userInfo: any | undefined = []
+    let listId = params.listId;
+    let listInfo: any | undefined = []
+    let listContent: any | undefined = []
     const showModal = searchParams?.show;
 
     const session: any = await getSessionUser()
@@ -24,9 +24,9 @@ export default async function List({ params, searchParams }: { params: { listId:
     const userName: string = session.user.name
 
     if (userId !== undefined) {
-        user_info = await getUserInfo(userName)
-        list_info = await getListInfo(list_id, userId)
-        list_content = await getListContent(list_id, userId)
+        userInfo = await getUserInfo(userName)
+        listInfo = await getListInfo(listId, userId)
+        listContent = await getListContent(listId, userId)
     }
 
     return (
@@ -38,7 +38,7 @@ export default async function List({ params, searchParams }: { params: { listId:
                                     data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        <DeleteListModal list_id={list_id}/>
+                        <DeleteListModal list_id={listId}/>
                     </Dialog.Content>
                 </Dialog.Portal>
                 {/* MY LISTS */}
@@ -47,27 +47,28 @@ export default async function List({ params, searchParams }: { params: { listId:
                     MY LISTS
                 </Link>
 
-                {list_info.map((item: any, index: number) => (
+                {listInfo.map((item: any, index: number) => (
                     <div className='flex flex-col sm:flex-row' key={index}>
                         <div className='flex flex-col my-6'>
                             {/* List name */}
                             <p className="text-3xl md:text-4xl">{item.list_name}</p>
                             <div className='flex items-center text-base text-gray-400 mt-2'>
                                 <div className={`w-8 h-8 overflow-hidden rounded rounded-full`}>
-                                    <img src={`/avatarImages/${user_info[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
+                                    <img src={`/avatarImages/${userInfo[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
                                 </div>
                                 <div className='flex space-x-5 text-sm sm:text-base'>
                                     <Link href={`/profile/${userName}`} className='text-white hover:text-green-500 ml-2'>{userName}</Link>
                                     {/* Creation date */}
                                     <p>Created {item.list_creationdate.toISOString().split('T')[0]}</p>
-                                    <p>{list_content.length} games</p>
+                                    <p>{listContent.length} games</p>
                                 </div>
                             </div>
+                            <p className='text-gray-400 mt-4'>{item.list_description}</p>
                         </div>
 
                         <div className="flex items-center sm:ml-auto">
                             {/* Edit list  */}
-                            <Link href={`./${list_id}/edit`} className='text-base text-white px-3 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>Edit list</Link>
+                            <Link href={`./${listId}/edit`} className='text-base text-white px-3 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>Edit list</Link>
                             {/* Delete list button*/}
                             <Dialog.Trigger asChild className=''>
                                 <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-base ml-2">Delete</button>
@@ -79,13 +80,13 @@ export default async function List({ params, searchParams }: { params: { listId:
                 ))}
                 <div className="grid lg:grid-cols-2 gap-4 mt-2">
                     {/* List content */}
-                    {list_content.map((item: any, index: number) => (
+                    {listContent.map((item: any, index: number) => (
                         <div className="relative flex items-center border border-gray-500 rounded rounded-lg overflow-hidden text-sm md:text-lg bg-zinc-900" key={index}>
                             <img src={item.game_base_image} className="w-20 sm:w-28 border-r border-gray-500" alt={'Videogame cover'} />
                             <div className='flex flex-col ml-3 sm:ml-10'>
                                 <div className='flex'>
                                     <Link href={`/gamePage/${item.game_id}`} className="text-lg sm:text-xl mr-4 hover:text-green-500 hover:underline">{item.game_name}</Link>
-                                    <StarButton favourite={item.favourite} gameId={item.game_id} />
+                                    {/* <StarButton favourite={item.favourite} gameId={item.game_id} /> */}
                                 </div>
                                 <div className='flex mt-4'>
                                     <SelectScore score={item.score} game_id={item.game_id} />
