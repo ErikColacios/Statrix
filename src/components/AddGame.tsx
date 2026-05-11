@@ -37,7 +37,7 @@ export default function AddGame({ game }: Props) {
         const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber
         const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber
         if(game.id)
-            await updateUserVideogame(game.id, selectedStatus, newScore, newHoursPlayed, starred, game.name, game.game_base_image);
+            await updateUserVideogame(game.id, selectedStatus, newScore, newHoursPlayed, starred, game.name, game.game_image_id);
     }
 
     return (
@@ -48,12 +48,12 @@ export default function AddGame({ game }: Props) {
                 <div className="flex space-x-4">
                     <div className="flex flex-col">
                         <label className="text-gray-400">Score</label>
-                        <input id={'score'} max={10} type="number" className='w-24 rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' 
+                        <input id={'score'} max={10} type="number" className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' 
                         defaultValue={userGameInfo[0]?.score !='NaN' ? userGameInfo[0]?.score : ""} />
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-400">Hours played</label>
-                        <input type="number" id={'hoursPlayed'} className='w-24 rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0} 
+                        <input type="number" id={'hoursPlayed'} className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0} 
                             defaultValue={userGameInfo[0]?.hours_played !='NaN' ? userGameInfo[0]?.hours_played : ""} />
                     </div>
                 </div>

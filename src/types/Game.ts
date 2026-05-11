@@ -12,7 +12,9 @@ export type Game = {
     screenshots:{
         image_id:number
     },
+    game_image_id:string,
     game_base_image:string,
     score:number
     hours_played:number,
+    favourite:boolean
 }

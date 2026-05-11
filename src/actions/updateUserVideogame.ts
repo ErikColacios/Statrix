@@ -3,7 +3,7 @@ import { pool } from "@/util/postgres";
 import getSessionUser from "./getSessionUser";
 import getUserVideogame from "./getUserVideogame";
 
-export default async function updateUserVideogame(gameId: number, newStatus: string | undefined, newScore: number, newHoursPlayed: number, newStarred: boolean, gameName:string, gameBaseImage:string) {
+export default async function updateUserVideogame(gameId: number, newStatus: string | undefined, newScore: number, newHoursPlayed: number, newStarred: boolean, gameName:string, gameImageId:string) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
 
@@ -13,13 +13,14 @@ export default async function updateUserVideogame(gameId: number, newStatus: str
   }
   const rows = await getUserVideogame(gameId);
 
-  console.log(newStarred)
   try {
     if (rows.length == 0) {
       // If the user has no data with this game we add it
+      const gameBaseImage:string = `https://images.igdb.com/igdb/image/upload/t_720p/${gameImageId}.png`;
+
       await pool.query(
-        `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, game_name, game_base_image, status)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, game_name, game_image_id, game_base_image, status)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
         [
           userId,
           gameId,
@@ -27,6 +28,7 @@ export default async function updateUserVideogame(gameId: number, newStatus: str
           newScore,
           newHoursPlayed,
           gameName,
+          gameImageId,
           gameBaseImage,
           newStatus,
         ],
@@ -37,7 +39,7 @@ export default async function updateUserVideogame(gameId: number, newStatus: str
           WHERE user_id = $5 AND game_id = $6`,
         [newStatus, newScore, newHoursPlayed, newStarred, userId, gameId ]
       );
-      //return { success: true, message: "Score updated." };
+      return { success: true, message: "Game info updated." };
     }
   } catch (error) {
     console.error("Error updating score:", error);

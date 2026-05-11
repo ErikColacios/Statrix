@@ -1,24 +1,31 @@
+"use server"
 import { pool } from "@/util/postgres";
+import getSessionUser from "./getSessionUser";
 
-export async function getListContent(list_id:string, user_id:string) {
+export async function getListContent(listId:string) {
     try{
-        if (!list_id) {
+        const session:any = await getSessionUser();
+        const userId: string = session.user.id as string;
+
+        if (!listId) {
             console.warn("No list found.");
             return { success: false, message: "No list found." };
         }
 
-        if (!user_id) {
+        if (!userId) {
             console.warn("No user session found.");
             return { success: false, message: "No user session found." };
-    }
-        const res = await pool.query(`SELECT lg.game_id, lg.game_name, lg.game_base_image, uv.score AS score, uv.hours_played, uv.favourite
+        }
+    
+        const res = await pool.query(`SELECT lg.game_id, lg.game_name, lg.game_base_image, uv.score AS score, uv.hours_played, uv.favourite, uv.game_image_id
             FROM list li
             INNER JOIN list_games lg ON lg.list_id = li.list_id
             INNER JOIN user_videogame uv ON uv.user_id = li.user_id AND uv.game_id = lg.game_id
             WHERE li.list_id = $1
             AND li.user_id = $2
             ORDER BY uv.score DESC, uv.hours_played DESC`,
-            [list_id, user_id]);
+            [listId, userId]);
+            console.log(res.rows)
         return res.rows
     }catch(error){
         console.log(error)

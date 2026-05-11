@@ -1,104 +1,67 @@
-import React from 'react';
-import Link from "next/link";
-import getSessionUser from '@/actions/getSessionUser';
-import { getListInfo } from '@/actions/getListInfo';
+"use client"
+import React, { useState, useEffect } from 'react';
 import { getListContent } from '@/actions/getListContent';
-import StarButton from '@/components/StarButton';
-import SelectScore from '@/components/SelectScore';
-import InputHoursPlayed from '@/components/InputHoursPlayed';
-import getUserInfo from '@/actions/getUserInfo';
 import { Dialog } from "radix-ui";
-import DeleteListModal from '@/components/DeleteListModal';
+import AddGameModal from '@/components/AddGameModal';
+import { Game } from '@/types/Game';
+import StarButton from '@/components/StarButton';
 
-type SearchParamProps = Record<string, string> | null | undefined;
+export default function List({ params }: { params: { listId: string } }) {
 
-export default async function List({ params, searchParams }: { params: { listId: string }, searchParams: SearchParamProps }) {
-    let userInfo: any | undefined = []
     let listId = params.listId;
-    let listInfo: any | undefined = []
-    let listContent: any | undefined = []
-    const showModal = searchParams?.show;
+    const [listContent, setListContent] = useState<Game[]>([])
+    const [gameClicked, setGameClicked] = useState<Game>()
 
-    const session: any = await getSessionUser()
-    const userId: string = session.user.id
-    const userName: string = session.user.name
+    useEffect(() => {
+        const getListContentData = async () => {
+            const content = await getListContent(listId)
+            setListContent(content)
+        }
+        getListContentData()
+    }, [])
 
-    if (userId !== undefined) {
-        userInfo = await getUserInfo(userName)
-        listInfo = await getListInfo(listId, userId)
-        listContent = await getListContent(listId, userId)
-    }
 
     return (
         <>
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                    <Dialog.Content className={`fixed p-2 w-full sm:w-2/3 xl:w-1/3 2xl:w-1/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                    <Dialog.Content className={`fixed p-2 w-full md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
                                     data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        <DeleteListModal list_id={listId}/>
+                        <AddGameModal game={gameClicked} />
                     </Dialog.Content>
                 </Dialog.Portal>
-                {/* MY LISTS */}
-                <Link href="../mylists" className="group flex items-center text-green-500 text-xl hover:text-green-600 border border-green-600 w-40 rounded">
-                    <svg className="w-8 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" /></svg>
-                    MY LISTS
-                </Link>
 
-                {listInfo.map((item: any, index: number) => (
-                    <div className='flex flex-col sm:flex-row' key={index}>
-                        <div className='flex flex-col my-6'>
-                            {/* List name */}
-                            <p className="text-3xl md:text-4xl">{item.list_name}</p>
-                            <div className='flex items-center text-base text-gray-400 mt-2'>
-                                <div className={`w-8 h-8 overflow-hidden rounded rounded-full`}>
-                                    <img src={`/avatarImages/${userInfo[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
-                                </div>
-                                <div className='flex space-x-5 text-sm sm:text-base'>
-                                    <Link href={`/profile/${userName}`} className='text-white hover:text-green-500 ml-2'>{userName}</Link>
-                                    {/* Creation date */}
-                                    <p>Created {item.list_creationdate.toISOString().split('T')[0]}</p>
-                                    <p>{listContent.length} games</p>
-                                </div>
-                            </div>
-                            <p className='text-gray-400 mt-4'>{item.list_description}</p>
-                        </div>
-
-                        <div className="flex items-center sm:ml-auto">
-                            {/* Edit list  */}
-                            <Link href={`./${listId}/edit`} className='text-base text-white px-3 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>Edit list</Link>
-                            {/* Delete list button*/}
-                            <Dialog.Trigger asChild className=''>
-                                <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-base ml-2">Delete</button>
-                            </Dialog.Trigger>
-                            {/* {showModal &&  */}
-                            {/* <CustomModal title='Warning' text="Are you sure that you want to delete this list?" type='question' action={{ actionName: "deleteList", parameters: { list_id } }} closeModal={() => setShowModal(false)}/>} */}
-                        </div>
-                    </div>
-                ))}
                 <div className="grid lg:grid-cols-2 gap-4 mt-2">
                     {/* List content */}
-                    {listContent.map((item: any, index: number) => (
-                        <div className="relative flex items-center border border-gray-500 rounded rounded-lg overflow-hidden text-sm md:text-lg bg-zinc-900" key={index}>
-                            <img src={item.game_base_image} className="w-20 sm:w-28 border-r border-gray-500" alt={'Videogame cover'} />
+                    {listContent.map((game: Game, index: number) => (
+                        <Dialog.Trigger onClick={() => setGameClicked(game)} className="relative flex items-center rounded rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
+                            <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
                             <div className='flex flex-col ml-3 sm:ml-10'>
                                 <div className='flex'>
-                                    <Link href={`/gamePage/${item.game_id}`} className="text-lg sm:text-xl mr-4 hover:text-green-500 hover:underline">{item.game_name}</Link>
-                                    {/* <StarButton favourite={item.favourite} gameId={item.game_id} /> */}
-                                </div>
-                                <div className='flex mt-4'>
-                                    <SelectScore score={item.score} game_id={item.game_id} />
-                                    <div className='flex items-center'>
-                                        <div className='flex flex-col items-end sm:flex-row sm:items-center'>
-                                            <label className="text-sm text-gray-400 mr-2">Playtime</label>
-                                            <InputHoursPlayed hours_played={item.hours_played} game_id={item.game_id} source='listPage' />
+                                    <p className="text-lg sm:text-xl mr-4">{game.game_name}</p>
+                                    <div className='flex items-center sm:flex-row  mr-4 md:mr-12'>
+                                        <div>
+                                            <svg className={game.favourite ? "hidden" : ""} width="20px" height="28px" viewBox="0 0 33.00 33.00" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#fcfcfc" strokeWidth="0.132"><title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" strokeWidth="0.858" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
+                                            <svg className={game.favourite ? "" : "hidden"} width="20px" height="28px" viewBox="0 -0.5 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#000000" strokeWidth="0.132"></g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill="#ffffff"> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
+                                        </div>
+                                    </div>                                </div>
+                                <div className='flex space-x-4 text-sm mt-4'>
+                                    <div className='flex text-gray-400 items-center'>
+                                        <label className="mr-2">Score</label>
+                                        <p className='text-white'>{game.score}</p>
+                                    </div>
+                                    <div className='flex items-center text-sm'>
+                                        <div className='flex text-gray-400 items-center'>
+                                            <label className="mr-2">Playtime</label>
+                                            <p className='text-white'>{game.hours_played} h</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Dialog.Trigger>
                     ))}
                 </div>
             </Dialog.Root>

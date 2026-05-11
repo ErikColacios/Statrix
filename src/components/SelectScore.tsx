@@ -3,7 +3,7 @@ import React from 'react';
 import updateScore from '../actions/updateScore';
 
 type Props  = {
-    score:number, 
+    score: number, 
     game_id: string
 }
 
