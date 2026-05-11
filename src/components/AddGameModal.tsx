@@ -38,9 +38,11 @@ export default function AddGameModal({ game }: Props) {
     async function handleSaveUserGame(){
         const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber
         const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber
-        
-        if(game.id)
-            await updateUserVideogame(game.id, selectedStatus, newScore, newHoursPlayed, starred, game.name, game?.cover.image_id);
+        const gameId:number = game.id ? game.id : game.game_id
+        const imageId:string = game?.cover?.image_id ? game?.cover.image_id : game.game_image_id
+
+        if (gameId)
+            await updateUserVideogame(gameId, selectedStatus, newScore, newHoursPlayed, starred, game.name, imageId);
     }
     
     console.log(game)
