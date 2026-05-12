@@ -4,13 +4,14 @@ import { getListContent } from '@/actions/getListContent';
 import { Dialog } from "radix-ui";
 import AddGameModal from '@/components/AddGameModal';
 import { Game } from '@/types/Game';
-import Link from 'next/link';
+import SearchGameModal from '@/components/SearchGameModal';
 
 export default function List({ params }: { params: { listId: string } }) {
 
     let listId = params.listId;
     const [listContent, setListContent] = useState<Game[]>([])
     const [gameClicked, setGameClicked] = useState<Game>()
+    const [modalType, setModalType] = useState<string>("")
 
     useEffect(() => {
         const getListContentData = async () => {
@@ -30,14 +31,22 @@ export default function List({ params }: { params: { listId: string } }) {
                                     data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        <AddGameModal game={gameClicked} />
+                        {modalType === "editGame" && (
+                            <AddGameModal game={gameClicked} />
+                        )}
+                        {modalType === "addGame" && (
+                            <SearchGameModal listId={listId} />
+                        )}
                     </Dialog.Content>
                 </Dialog.Portal>
 
+                <Dialog.Trigger onClick={() => {setModalType("addGame")}} className="text-sm px-2 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                    + Add more games
+                </Dialog.Trigger>
                 <div className="grid lg:grid-cols-2 gap-4 mt-2">
                     {/* List content */}
                     {listContent.map((game: Game, index: number) => (
-                        <Dialog.Trigger onClick={() => setGameClicked(game)} className="relative flex items-center rounded rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
+                        <Dialog.Trigger onClick={() => {setGameClicked(game), setModalType("editGame")}} className="relative flex items-center rounded rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
                             <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
                             <div className='flex flex-col ml-3 sm:ml-10'>
                                 <div className='flex'>

@@ -1,13 +1,12 @@
 import React from 'react'
+import Link from 'next/link';
 import getSessionUser from '@/actions/getSessionUser'
 import { redirect } from 'next/navigation'
 import { getListInfo } from '@/actions/getListInfo';
 import getUserInfo from '@/actions/getUserInfo';
 import { Dialog } from 'radix-ui';
-import Link from 'next/link';
 import DeleteListModal from '@/components/DeleteListModal';
 import { getListContent } from '@/actions/getListContent';
-import PrimaryButton from '@/components/PrimaryButton';
 
 export default async function ListLayout({ children, params }: { children: React.ReactNode, params: { listId: string } }) {
 
@@ -71,12 +70,11 @@ export default async function ListLayout({ children, params }: { children: React
                 <p className='text-gray-400 mt-4'>{item.list_description}</p>
               </div>
 
-              <div className="flex items-center sm:ml-auto">
-                <button className="text-sm px-3 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                  Add more games
-                </button>
+              <div className="flex items-center text-sm sm:ml-auto">
+                <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-base ml-2">Edit list</button>
+
                 {/* Delete list button*/}
-                <Dialog.Trigger asChild className=''>
+                <Dialog.Trigger asChild>
                   <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-base ml-2">Delete</button>
                 </Dialog.Trigger>
               </div>

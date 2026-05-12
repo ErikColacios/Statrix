@@ -5,8 +5,8 @@ import getSessionUser from "./getSessionUser";
 import { GameStatus } from "../enums/GameStatus";
 
 export default async function updateList(
-  list_id: number,
-  list_name: string,
+  listId: string,
+  listName: string,
   oldGamesList: Game[],
   newGamesAdded: Game[]
 ) {
@@ -27,7 +27,7 @@ export default async function updateList(
             FROM list lst
             WHERE lg.list_id = lst.list_id AND lst.user_id = $1 AND lst.list_id = $2
         )`,
-      [userId, list_id]
+      [userId, listId]
     );
 
     // Insert previously existing games (oldGamesList)
@@ -36,7 +36,7 @@ export default async function updateList(
         `INSERT INTO list_games (list_id, game_id, game_name, game_base_image)
          VALUES ($1, $2, $3, $4)`,
         [
-          list_id,
+          listId,
           game.gameId,
           game.game_name,
           game.game_base_image,
@@ -53,7 +53,7 @@ export default async function updateList(
         `INSERT INTO list_games (list_id, game_id, game_name, game_base_image)
          VALUES ($1, $2, $3, $4)`,
         [
-          list_id,
+          listId,
           game.id,
           game.name,
           game_base_image,
@@ -70,7 +70,7 @@ export default async function updateList(
     }
 
     await client.query("COMMIT");
-    console.log(`List "${list_name}" updated successfully.`);
+    console.log(`List "${listName}" updated successfully.`);
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error updating list:", error);

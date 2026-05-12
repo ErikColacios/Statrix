@@ -1,0 +1,75 @@
+'use client'
+import React from 'react';
+import updateList from '@/actions/updateList';
+import SearchGameBar from '@/components/SearchGameBar';
+import { Game } from '@/types/Game';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Dialog } from 'radix-ui';
+
+export default function SearchGameModal({ listId }: { listId: string }) {
+
+    const router = useRouter()
+    let [gamesAdded, setGamesAdded] = useState<Game[]>([])
+
+    function addNewGame(game: Game) {
+        // setOldGamesList([...oldGamesList, game])
+    }
+
+    async function removeAddedGame(game_id: number) {
+        setGamesAdded(gamesAdded.filter(item => item.id !== game_id))
+    }
+
+    async function removeGamesInList(game_id: number) {
+        // setOldGamesList(oldGamesList.filter(item => item.gameId !== game_id))
+    }
+
+
+    async function saveChanges() {
+        const list_name_input = document.getElementById("listName") as HTMLInputElement
+        const list_name: string = list_name_input.value;
+        // if (list_name === "") {
+        //     setModalTrigger(t => t + 1)
+        //     setShowModal(true)
+        //     setAlert(<CustomModal key={modalTrigger} title='Modal' text="The list name can't be empty!" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
+        // }
+
+        // else if (oldGamesList.length == 0 && newGamesAdded.length == 0) {
+        //     setModalTrigger(t => t + 1)
+        //     setShowModal(true)
+        //     setAlert(<CustomModal key={modalTrigger} title='Modal' text="You must select at least 1 game" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
+        // }
+
+        // else {
+        //     updateList(listId, list_name, oldGamesList, newGamesAdded)
+        //     router.push("/list/" + listId)
+        // }
+    }
+
+    return (
+        <div className="w-full h-[45rem] flex-col border border-gray-600 px-4 py-12 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+            <Dialog.Close className="absolute right-10 top-10 p-2 rounded transition hover:bg-gray-800">
+                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+            </Dialog.Close>
+            
+            <div className="flex flex-col text-base mt-12">
+                <div className="flex flex-col">
+                    {/* Search game */}
+                    <SearchGameBar addNewGame={addNewGame} />
+
+                    {/* Games added */}
+                    {/* <div className="grid grid-cols-6 gap-4 overflow-hidden rounded-2xl my-2">
+                        {gamesAdded.map((item: any, index: number) => (
+                            <div key={index} className="group w-36 relative text-sm flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer transition hover:scale-110">
+                                <img src={item.game_base_image} className="w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50" alt={'Game cover'}/>
+                                <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
+                                    <p>{item.game_name}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div> */}
+                </div>
+            </div>
+        </div>
+    )
+}

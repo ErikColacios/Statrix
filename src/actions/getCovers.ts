@@ -63,7 +63,7 @@ const bearer = process.env.BEARER
         });
         //console.log(await gamesRes.json())
         const games = await gamesRes.json();
-
+        
         return games;
     }
 
@@ -78,12 +78,13 @@ const bearer = process.env.BEARER
             "Content-Type": "text/plain"
             },
             body: `
-            fields id, name, genres, cover.image_id, rating;
+            fields id, name, genres, cover.image_id, rating, release_dates.human;
             where cover != null & cover.image_id != null & rating != null ${condition};
             limit ${responseLimit};
             `
         });
         const games = await gamesRes.json();
+        // console.log(games)
         return games;
     }
 

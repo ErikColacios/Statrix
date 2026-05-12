@@ -5,7 +5,7 @@ import { Game } from "../types/Game"
 
 export default function SearchGameBar({ addNewGame }: any) {
 
-    let [videogameItems, setVideogameItems] = useState<Game[]>([])
+    let [gameItems, setGameItems] = useState<Game[]>([])
     const [gameSearch, setGameSearch] = useState("")
 
     function handleSetGameNameSearch() {
@@ -17,7 +17,7 @@ export default function SearchGameBar({ addNewGame }: any) {
         if (name === "") {
             gameListSearch.style.display = "none"
             loader.style.display = "none"
-            setVideogameItems([])
+            setGameItems([])
 
         } else {
             gameListSearch.style.display = "block"
@@ -38,7 +38,7 @@ export default function SearchGameBar({ addNewGame }: any) {
         try {
             const covers = await getCovers(gameSearch, 0, 0, 20)
             if (covers) {
-                setVideogameItems(covers)
+                setGameItems(covers)
                 loader.style.display = "none"
             }
         } catch (error) {
@@ -54,7 +54,6 @@ export default function SearchGameBar({ addNewGame }: any) {
         }
     }, [])
 
-
     const ref = useRef<any>(null);
 
     const handleClickOutside = (e: any) => {
@@ -66,28 +65,25 @@ export default function SearchGameBar({ addNewGame }: any) {
     }
 
     return (
-        <div className="mb-4">
-            <div className="flex items-center">
-                <div className="w-full">
-                    <label htmlFor="gameSearchBar" className="text-sm text-gray-400">Search games</label>
-                    <div className="flex relative">
-                        <div className="flex flex-col w-full">
-                            <div className="flex relative items-center">
-                                {/* SEARCH GAME BAR */}
-                                <input className="w-full block bg-gray-600 p-2 rounded focus:outline-none mb-1" type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3" onChange={() => handleSetGameNameSearch()} />
-                                <div className="loader-small absolute right-0 mr-3 hidden" id="loader"></div>
+        <div className="w-full">
+            <div className="flex relative">
+                <div className="flex flex-col w-full text-sm">
+                    <div className="flex relative items-center mb-8">
+                        <input className='w-full rounded-lg p-2 bg-gray-800 outline-none border border-gray-700 focus:border-green-600' type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3" onChange={() => handleSetGameNameSearch()} />
+                        <div className="loader-small absolute right-0 mr-3 hidden" id="loader"></div>
+                    </div>
+                    <div className="overflow-scroll no-scrollbar" id="gameListSearch" ref={ref}>
+                        {gameItems.map((item: any, index: number) => (
+                            <div className="flex items-center rounded-lg p-2 mb-1 cursor-pointer border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index} 
+                            onClick={() => addNewGame(item)}>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 md:w-12 mr-4' alt='Game cover' />
+                                <div className="flex flex-col">
+                                    <p>{item.name}</p>
+                                    <p className="">{item.release_dates ? item.release_dates[0].human : "Uknown"}</p>
+                                </div>
                             </div>
-                            <div className="z-10 w-full text-sm max-h-80 overflow-scroll no-scrollbar" id="gameListSearch" ref={ref}>
-                                {videogameItems.map((item: any, index: number) => (
-                                    <div className="flex items-center bg-green-500 w-full p-1 mb-1 cursor-pointer hover:bg-lime-300 hover:text-green-800" key={index} 
-                                    onClick={() => addNewGame(item)}>
-                                        <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 md:w-8 mr-4' width={80} height={60} alt='Videogame cover' />
-                                        <p>{item.name}</p>
-                                    </div>
-                                ))
-                                }
-                            </div>
-                        </div>
+                        ))
+                        }
                     </div>
                 </div>
             </div>
