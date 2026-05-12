@@ -13,15 +13,20 @@ export default function SearchGameModal({ listId }: { listId: string }) {
     let [gamesAdded, setGamesAdded] = useState<Game[]>([])
 
     function addNewGame(game: Game) {
-        // setOldGamesList([...oldGamesList, game])
+        for (let i = 0; i < gamesAdded.length; i++) {
+            if (gamesAdded[i].name === game.name) {
+                return;
+            }
+        }
+        setGamesAdded([...gamesAdded, game])
     }
 
-    async function removeAddedGame(game_id: number) {
-        setGamesAdded(gamesAdded.filter(item => item.id !== game_id))
+    async function removeAddedGame(gameId: number) {
+        setGamesAdded(gamesAdded.filter(item => item.id !== gameId))
     }
 
-    async function removeGamesInList(game_id: number) {
-        // setOldGamesList(oldGamesList.filter(item => item.gameId !== game_id))
+    async function removeGamesInList(gameId: number) {
+        // setOldGamesList(oldGamesList.filter(item => item.gameId !== gameId))
     }
 
 
@@ -51,23 +56,28 @@ export default function SearchGameModal({ listId }: { listId: string }) {
             <Dialog.Close className="absolute right-10 top-10 p-2 rounded transition hover:bg-gray-800">
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
-            
-            <div className="flex flex-col text-base mt-12">
+            <p className="text-3xl">Add more games</p>
+
+            <div className="flex flex-col text-sm mt-8">
                 <div className="flex flex-col">
                     {/* Search game */}
                     <SearchGameBar addNewGame={addNewGame} />
 
                     {/* Games added */}
-                    {/* <div className="grid grid-cols-6 gap-4 overflow-hidden rounded-2xl my-2">
-                        {gamesAdded.map((item: any, index: number) => (
-                            <div key={index} className="group w-36 relative text-sm flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer transition hover:scale-110">
-                                <img src={item.game_base_image} className="w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50" alt={'Game cover'}/>
+                    <p className='text-gray-500 mb-2'>Games added: {gamesAdded.length}</p>
+                    <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-4 py-2">
+                        {gamesAdded.map((game: any, index: number) => (
+                            <div key={index} className="group w-24 relative flex justify-center items-center rounded-2xl border border-gray-600 overflow-hidden cursor-pointer transition hover:scale-110">
+                                <img src={game.cover.image_id ? `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png` : ""} className="w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50" alt={'Game cover'} />
                                 <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
-                                    <p>{item.game_name}</p>
+                                    <p>{game.name}</p>
+                                    <button className="absolute right-0 bottom-0 p-2 rounded transition hover:bg-gray-800" onClick={(e) => removeAddedGame(game.id)}>
+                                        <svg width="8px" height="8px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+                                    </button>
                                 </div>
                             </div>
                         ))}
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>

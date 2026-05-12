@@ -68,18 +68,18 @@ export default function SearchGameBar({ addNewGame }: any) {
         <div className="w-full">
             <div className="flex relative">
                 <div className="flex flex-col w-full text-sm">
-                    <div className="flex relative items-center mb-8">
+                    <div className="flex relative items-center mb-4">
                         <input className='w-full rounded-lg p-2 bg-gray-800 outline-none border border-gray-700 focus:border-green-600' type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3" onChange={() => handleSetGameNameSearch()} />
                         <div className="loader-small absolute right-0 mr-3 hidden" id="loader"></div>
                     </div>
-                    <div className="overflow-scroll no-scrollbar" id="gameListSearch" ref={ref}>
+                    <div className="h-96 overflow-auto no-scrollbar" id="gameListSearch" ref={ref}>
                         {gameItems.map((item: any, index: number) => (
                             <div className="flex items-center rounded-lg p-2 mb-1 cursor-pointer border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index} 
                             onClick={() => addNewGame(item)}>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 md:w-12 mr-4' alt='Game cover' />
                                 <div className="flex flex-col">
                                     <p>{item.name}</p>
-                                    <p className="">{item.release_dates ? item.release_dates[0].human : "Uknown"}</p>
+                                    <p className="text-gray-400">{item.release_dates ? item.release_dates[0].human : "Uknown"}</p>
                                 </div>
                             </div>
                         ))
