@@ -25,7 +25,6 @@ export async function getListContent(listId:string) {
             AND li.user_id = $2
             ORDER BY uv.score DESC, uv.hours_played DESC`,
             [listId, userId]);
-            console.log(res.rows)
         return res.rows
     }catch(error){
         console.log(error)

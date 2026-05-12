@@ -94,10 +94,10 @@ export default function AddGame({ game }: Props) {
                 </div>
 
                 {/* <UpdateUserVideogameButton game={game} /> */}
-                <div className="px-6 py-2 text-center rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                <button className="px-6 py-2 text-center rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
                     onClick={handleSaveUserGame} >
                     Save game
-                </div>
+                </button>
             </div>
         </div>
     )

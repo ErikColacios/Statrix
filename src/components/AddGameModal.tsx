@@ -16,18 +16,25 @@ export default function AddGameModal({ game }: Props) {
     const [userGameInfo, setUserGameInfo] = useState<any>([])
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
+    const [hoursPlayed, setHoursPlayed] = useState<string>("")
+    const [score, setScore] = useState<string>("")
+
 
     useEffect(() => {
         const fetchUserGame = async() => {
-            console.log(game)
             setUserGameInfo(await getUserVideogame(game.id ? game.id : game.game_id))
         }
         fetchUserGame()
     }, [])
 
     useEffect(() => {
-        setSelectedStatus(userGameInfo[0]?.status)
-        setStarred(userGameInfo[0]?.favourite)
+        if(userGameInfo.length > 0){
+            setSelectedStatus(userGameInfo[0]?.status)
+            setStarred(userGameInfo[0]?.favourite)
+            setScore(userGameInfo[0]?.score)
+            setHoursPlayed(userGameInfo[0]?.hours_played)
+        }
+
     }, [userGameInfo])
     
     // Passed to StarButton
@@ -35,17 +42,38 @@ export default function AddGameModal({ game }: Props) {
         setStarred(!starred)
     }
 
+    function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const valueHoursPlayed = parseFloat(e.target.value);
+        if(valueHoursPlayed < 0) {
+            setHoursPlayed("0")
+        } else if(valueHoursPlayed > 100000) {
+            setHoursPlayed("")
+        }else {
+            setHoursPlayed(valueHoursPlayed.toString());
+        }
+    }
+
+    function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const valueScore = parseFloat(e.target.value);
+        if(valueScore > 10) {
+            setScore("10")
+        }else if(valueScore < 0) {
+            setScore("0")
+        } else {
+            setScore(valueScore.toString());
+        }
+        console.log(valueScore)
+    }
+
+
     async function handleSaveUserGame(){
-        const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber
-        const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber
-        const gameId:number = game.id ? game.id : game.game_id
-        const imageId:string = game?.cover?.image_id ? game?.cover.image_id : game.game_image_id
+        const gameId:number = game.id ? game.id : game.game_id;
+        const imageId:string = game?.cover?.image_id ? game?.cover.image_id : game.game_image_id;
 
         if (gameId)
-            await updateUserVideogame(gameId, selectedStatus, newScore, newHoursPlayed, starred, game.name, imageId);
+            await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), starred, game.name, imageId);
     }
     
-    console.log(game)
 
     return (
         <div className="w-full flex-col border border-gray-600 px-4 py-12 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
@@ -58,20 +86,20 @@ export default function AddGameModal({ game }: Props) {
                 </Link>
                 <div className="flex flex-col mt-8 sm:mt-0">
                     <div className="flex items-center space-x-4">
-                        <p className="text-xl md:text-3xl">{game?.name ? game?.name : game?.game_name}</p>
+                        <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className="text-xl md:text-3xl">{game?.name ? game?.name : game?.game_name}</Link>
                         <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id}/>
                     </div>
 
                     <div className="flex space-x-4 mt-6">
                         <div className="flex flex-col">
                             <label className="text-gray-400">Score</label>
-                            <input id={'score'} max={10} type="number" className='w-24 rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' 
-                            defaultValue={userGameInfo[0]?.score !='NaN' ? userGameInfo[0]?.score : ""} />
+                            <input id={'score'} onChange={handleScoreChange} type="number" className='w-24 rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' 
+                                value={score} />
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-400">Hours played</label>
-                            <input type="number" id={'hoursPlayed'} className='w-24 rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0} 
-                                defaultValue={userGameInfo[0]?.hours_played !='NaN' ? userGameInfo[0]?.hours_played : ""} />
+                            <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-24 rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0} 
+                                value={hoursPlayed} />
                         </div>
                     </div>
 

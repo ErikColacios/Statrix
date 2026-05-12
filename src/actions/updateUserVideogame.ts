@@ -11,6 +11,10 @@ export default async function updateUserVideogame(gameId: number, newStatus: str
     console.warn("No user session found.");
     return { success: false, message: "No user session found." };
   }
+
+  newScore = isNaN(newScore) ? 0 : newScore;
+  newHoursPlayed = isNaN(newHoursPlayed) ? 0 : newHoursPlayed;
+
   const rows = await getUserVideogame(gameId);
 
   try {
