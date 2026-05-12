@@ -31,8 +31,8 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
 
     async function saveChanges() {
-        const list_name_input = document.getElementById("listName") as HTMLInputElement
-        const list_name: string = list_name_input.value;
+        // const list_name_input = document.getElementById("listName") as HTMLInputElement
+        // const list_name: string = list_name_input.value;
         // if (list_name === "") {
         //     setModalTrigger(t => t + 1)
         //     setShowModal(true)
@@ -45,14 +45,12 @@ export default function SearchGameModal({ listId }: { listId: string }) {
         //     setAlert(<CustomModal key={modalTrigger} title='Modal' text="You must select at least 1 game" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={()=>setShowModal(false)} />)
         // }
 
-        // else {
-        //     updateList(listId, list_name, oldGamesList, newGamesAdded)
-        //     router.push("/list/" + listId)
-        // }
+        updateList(listId, gamesAdded)
+        router.push("/list/" + listId)
     }
 
     return (
-        <div className="w-full h-[45rem] flex-col border border-gray-600 px-4 py-12 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+        <div className="w-full h-[48rem] flex-col border border-gray-600 px-4 py-12 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
             <Dialog.Close className="absolute right-10 top-10 p-2 rounded transition hover:bg-gray-800">
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
@@ -64,7 +62,13 @@ export default function SearchGameModal({ listId }: { listId: string }) {
                     <SearchGameBar addNewGame={addNewGame} />
 
                     {/* Games added */}
-                    <p className='text-gray-500 mb-2'>Games added: {gamesAdded.length}</p>
+                    <div className='flex items-center mb-2'>
+                        <p className='text-gray-500'>Games added: {gamesAdded.length}</p>
+                        <Dialog.Close className="ml-auto px-4 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                            Save games
+                        </Dialog.Close>
+                    </div>
+
                     <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-4 py-2">
                         {gamesAdded.map((game: any, index: number) => (
                             <div key={index} className="group w-24 relative flex justify-center items-center rounded-2xl border border-gray-600 overflow-hidden cursor-pointer transition hover:scale-110">

@@ -6,8 +6,8 @@ import { GameStatus } from "../enums/GameStatus";
 
 export default async function updateList(
   listId: string,
-  listName: string,
-  oldGamesList: Game[],
+  //listName: string,
+  //oldGamesList: Game[],
   newGamesAdded: Game[]
 ) {
   const session:any = await getSessionUser();

@@ -43,7 +43,7 @@ export default function List({ params }: { params: { listId: string } }) {
                 <Dialog.Trigger onClick={() => {setModalType("addGame")}} className="text-sm px-2 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                     + Add more games
                 </Dialog.Trigger>
-                <div className="grid lg:grid-cols-2 gap-4 mt-2">
+                <div className="grid lg:grid-cols-2 gap-4 mt-3">
                     {/* List content */}
                     {listContent.map((game: Game, index: number) => (
                         <Dialog.Trigger onClick={() => {setGameClicked(game), setModalType("editGame")}} className="relative flex items-center rounded rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
