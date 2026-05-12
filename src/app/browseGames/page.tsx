@@ -36,7 +36,6 @@ export default function BrowseGames() {
           setIsLoading(false)
         }
       } catch (error) {
-        console.log(error)
         setIsLoading(false)
       }
     }
@@ -117,18 +116,12 @@ export default function BrowseGames() {
           {isLoading ? <SkeletonBrowseGames /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
               {gameItems.map((game, index: number) => (
-                <div key={index} className={`${gameList.includes(game) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
-                  <Dialog.Trigger onClick={()=> setGameClicked(game)} >
+                <Dialog.Trigger key={index} onClick={()=> setGameClicked(game)} className={`group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Game cover' />
-                    <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>
+                    <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                       <p>{game.name}</p>
                     </div>
-
-                    <div className={gameList.includes(game) ? 'absolute bottom-0 right-0' : 'hidden'}>
-                      <svg fill="#00ff4c" width="45px" height="45px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" stroke="#00ff4c"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M760 380.4l-61.6-61.6-263.2 263.1-109.6-109.5L264 534l171.2 171.2L760 380.4z"></path></g></svg>
-                    </div>
-                  </Dialog.Trigger>
-                </div>
+                </Dialog.Trigger>
               ))}
             </div>}
           {gameItems.length !== 0 &&

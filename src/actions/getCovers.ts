@@ -63,6 +63,7 @@ const bearer = process.env.BEARER
         });
         //console.log(await gamesRes.json())
         const games = await gamesRes.json();
+
         return games;
     }
 
