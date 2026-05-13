@@ -9,7 +9,6 @@ import { ReviewMode } from '@/enums/ReviewMode';
 import ReviewModal from '@/components/ReviewModal';
 import { GameStatus } from '@/enums/GameStatus';
 import InputHoursPlayed from '@/components/InputHoursPlayed';
-import UpdateUserVideogameButton from '@/components/UpdateUserVideogameButton';
 import AddToListButton from '@/components/AddToListButton';
 import SelectScoreRange from '@/components/SelectScoreRange';
 import SliderImages from '@/components/SliderImages';

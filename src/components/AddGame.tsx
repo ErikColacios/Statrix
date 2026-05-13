@@ -93,7 +93,6 @@ export default function AddGame({ game }: Props) {
                     <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id}/>
                 </div>
 
-                {/* <UpdateUserVideogameButton game={game} /> */}
                 <button className="px-6 py-2 text-center rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
                     onClick={handleSaveUserGame} >
                     Save game
