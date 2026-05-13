@@ -20,29 +20,29 @@ export default async function updateList(
     await client.query("BEGIN");
 
     // Delete the current list
-    await client.query(
-      `DELETE FROM list_games lg
-        WHERE EXISTS (
-            SELECT 1
-            FROM list lst
-            WHERE lg.list_id = lst.list_id AND lst.user_id = $1 AND lst.list_id = $2
-        )`,
-      [userId, listId]
-    );
+    // await client.query(
+    //   `DELETE FROM list_games lg
+    //     WHERE EXISTS (
+    //         SELECT 1
+    //         FROM list lst
+    //         WHERE lg.list_id = lst.list_id AND lst.user_id = $1 AND lst.list_id = $2
+    //     )`,
+    //   [userId, listId]
+    // );
 
     // Insert previously existing games (oldGamesList)
-    for (const game of oldGamesList) {
-      await client.query(
-        `INSERT INTO list_games (list_id, game_id, game_name, game_base_image)
-         VALUES ($1, $2, $3, $4)`,
-        [
-          listId,
-          game.gameId,
-          game.game_name,
-          game.game_base_image,
-        ]
-      );
-    }
+    // for (const game of oldGamesList) {
+    //   await client.query(
+    //     `INSERT INTO list_games (list_id, game_id, game_name, game_base_image)
+    //      VALUES ($1, $2, $3, $4)`,
+    //     [
+    //       listId,
+    //       game.gameId,
+    //       game.game_name,
+    //       game.game_base_image,
+    //     ]
+    //   );
+    // }
 
     // 3. Insert newly added games (newGamesAdded)
     for (const game of newGamesAdded) {
@@ -51,7 +51,8 @@ export default async function updateList(
       // Insert into 'list'
       await client.query(
         `INSERT INTO list_games (list_id, game_id, game_name, game_base_image)
-         VALUES ($1, $2, $3, $4)`,
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT (list_id, game_id) DO NOTHING`,
         [
           listId,
           game.id,
@@ -70,7 +71,7 @@ export default async function updateList(
     }
 
     await client.query("COMMIT");
-    console.log(`List "${listName}" updated successfully.`);
+    console.log(`List updated successfully.`);
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error updating list:", error);

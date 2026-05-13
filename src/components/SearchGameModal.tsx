@@ -4,7 +4,7 @@ import updateList from '@/actions/updateList';
 import SearchGameBar from '@/components/SearchGameBar';
 import { Game } from '@/types/Game';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Dialog } from 'radix-ui';
 
 export default function SearchGameModal({ listId }: { listId: string }) {
@@ -64,7 +64,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
                     {/* Games added */}
                     <div className='flex items-center mb-2'>
                         <p className='text-gray-500'>Games added: {gamesAdded.length}</p>
-                        <Dialog.Close className="ml-auto px-4 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                        <Dialog.Close onClick={() => saveChanges()} className="ml-auto px-4 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                             Save games
                         </Dialog.Close>
                     </div>
