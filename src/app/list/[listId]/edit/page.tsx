@@ -3,7 +3,6 @@ import { getListContent } from "@/actions/getListContent";
 import { getListInfo } from "@/actions/getListInfo";
 import getSessionUser from "@/actions/getSessionUser";
 import Link from "next/link";
-import EditPage from "./editPage";
 
 export default async function editList({ params }: { params: { listId: string } }) {
 
@@ -32,10 +31,10 @@ export default async function editList({ params }: { params: { listId: string } 
      * This server function will be used in the EDIT PAGE (wich is a use_client page)
      * @returns 
      */
-    async function getListContentServerSide(listId: string, userId: string) {
-        "use server"
-        return await getListContent(listId, userId);
-    }
+    // async function getListContentServerSide(listId: string, userId: string) {
+    //     "use server"
+    //     return await getListContent(listId, userId);
+    // }
 
     return (
         <div>
@@ -59,7 +58,7 @@ export default async function editList({ params }: { params: { listId: string } 
                     ))}
                 </div>
 
-                <EditPage listId={listId} getUserServerSide={getUserServerSide} getListContentServerSide={getListContentServerSide} />
+                {/* <EditPage listId={listId} getUserServerSide={getUserServerSide} getListContentServerSide={getListContentServerSide} /> */}
             </div>
         </div>
         
