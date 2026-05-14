@@ -4,7 +4,7 @@ import getSessionUser from "./getSessionUser";
 
 export default async function getUserVideogame(gameId: number) {
     const session:any = await getSessionUser();
-    const userId: string = session.user.id as string;
+    const userId: string = session?.user.id as string;
 
     if (!userId) {
         throw new Error("The parameter userId is mandatory");
