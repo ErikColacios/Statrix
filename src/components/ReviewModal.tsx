@@ -10,7 +10,7 @@ import Link from "next/link";
 type Props = {
     gameId: number,
     gameName: string,
-    gameCover: number,
+    gameCover: string,
 };
 
 export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
@@ -36,7 +36,7 @@ export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
             setAlert(<CustomModal key={modalTrigger} title='Alert' text="Set your recommendation first" type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)} />)
         }
         else {
-            await insertReview(gameId, gameName, reviewBody, recommended);
+            await insertReview(gameId, gameName, reviewBody, recommended, gameCover);
 
             // We simulate that the user presses ESC to close the modal
             const escEvent = new KeyboardEvent('keydown', {
@@ -59,7 +59,7 @@ export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
                 </Dialog.Close>
                 <h2 className="text-3xl">Create an account</h2>
                 <p>Enter or create an account to post game reviews and much more.</p>
-                <Link href="/login" className="w-full text-xl px-6 py-2 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Start now!</Link>
+                <Link href="/login" className="sm:w-72 text-xl px-6 py-2 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Start now!</Link>
             </div>
         )
     } else {
