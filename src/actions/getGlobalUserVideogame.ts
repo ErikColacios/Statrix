@@ -25,7 +25,6 @@ export default async function getGlobalUserVideogame(game_id: number) {
         const count3 = await pool.query(query3, [game_id, true]);
 
         const globalStats:GameGlobalStats[] = [count1.rows[0].count, count2.rows[0].count, count3.rows[0].count]
-
         return globalStats;
 
     } catch (error) {

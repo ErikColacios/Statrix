@@ -5,19 +5,16 @@ import { ReviewMode } from "@/enums/ReviewMode";
 
 export default async function getGameReviews(gameId:number, reviewMode:ReviewMode) {
     const session = await getSessionUser()
-    const userId: string | undefined = session.user.id as string
+    const userId: string | undefined = session?.user.id as string
     
-    if (!userId) {
-        throw new Error("The parameter user_id is mandatory");
-    }
-    else if (!gameId) {
-        throw new Error("The parameter game_id is mandatory");
+    if (!gameId) {
+        throw new Error("The parameter gameId is mandatory");
     }
 
     try {
         const query = `
-            SELECT rev.user_id, rev.videogame_id, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date, avi.avatar_image, COUNT(revlikes.review_id) AS likes,
-            MAX(CASE WHEN revlikes.user_id = $1 THEN 1 ELSE 0 END) AS liked_by_user
+            SELECT rev.user_id, rev.videogame_id, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date, avi.avatar_image, COUNT(revlikes.review_id) AS likes
+            ${userId ? ",MAX(CASE WHEN revlikes.user_id = $1 THEN 1 ELSE 0 END) AS liked_by_user" : ",$1"}
             FROM reviews rev
             LEFT OUTER JOIN review_likes revlikes ON rev.review_id = revlikes.review_id
             LEFT OUTER JOIN users usr ON usr.user_id = rev.user_id

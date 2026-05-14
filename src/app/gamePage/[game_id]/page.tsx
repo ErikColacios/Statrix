@@ -1,26 +1,20 @@
 "use server"
 import React from 'react'
 import { Dialog } from "radix-ui";
+import { Game } from '@/types/Game';
 import getGameInfo from '@/actions/getGameInfo';
-import getUserVideogame from '@/actions/getUserVideogame';
 import getGlobalUserVideogame from '@/actions/getGlobalUserVideogame';
 import getGameReviews from '@/actions/getGameReviews';
 import { ReviewMode } from '@/enums/ReviewMode';
 import ReviewModal from '@/components/ReviewModal';
-import { GameStatus } from '@/enums/GameStatus';
-import InputHoursPlayed from '@/components/InputHoursPlayed';
-import AddToListButton from '@/components/AddToListButton';
-import SelectScoreRange from '@/components/SelectScoreRange';
 import SliderImages from '@/components/SliderImages';
 import PrimaryButton from '@/components/PrimaryButton';
 import ReviewSection from '@/components/ReviewSection';
-import { Game } from '@/types/Game';
 import AddGame from '@/components/AddGame';
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: number } }) {
 
     let gameInfo: Game[] = await getGameInfo(params.game_id)
-    let userVideogame: any[] = await getUserVideogame(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
 
@@ -30,15 +24,14 @@ export default async function gamePage({ params }: { params: { list_id: string, 
     }
     )
 
-    console.log(gameInfo[0].id)
     return (
         gameInfo.map((game: any, index: number) => (
             <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black h-screen text-white text-sm pb-12" key={index}>
                 <Dialog.Root>
                     <Dialog.Portal>
                         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                        <Dialog.Content className={`fixed w-full p-2 md:w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
-                            data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
+                        <Dialog.Content className={`fixed flex justify-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl 
+                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                             <Dialog.Title className="DialogTitle"></Dialog.Title>
                             <Dialog.Description className="DialogDescription"></Dialog.Description>
                             <ReviewModal gameId={game.id} gameName={game.name} gameCover={game.cover.image_id} />
@@ -46,7 +39,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                     </Dialog.Portal>
 
                     <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
-                        {/* GAME BOX */}
+                        {/* Game box */}
                         <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded'>
                             <div className='relative'>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
@@ -97,16 +90,16 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                         ))}
                                     </div>
 
-                                    {/* Summary */}
                                     <p className='mt-6'>{game.summary}</p>
                                 </div>
 
-                                {/* User Videogame panel */}
+                                {/* User Videogame panel component */}
                                 <aside className='md:w-2/6 p-4'>
                                     <AddGame game={gameInfo[0]}/>
                                 </aside>
                             </div>
-                            {/* Slider of images */}
+
+                            {/* Slider of images component */}
                             <SliderImages screenshots={game.screenshots} />
 
                             <section className='mt-14 pt-4 relative'>
@@ -114,7 +107,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     <PrimaryButton text={'Add review'} />
                                 </Dialog.Trigger>
 
-                                {/* Review list component */}
+                                {/* Review list component*/}
                                 <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
                             </section>
                         </div>

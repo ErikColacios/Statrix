@@ -4,7 +4,7 @@ import { pool } from "@/util/postgres";
 
 export async function insertReview(
   gameId: number,
-  game_name: string,
+  gameName: string,
   reviewBody: string,
   recommended: string
 ) {
@@ -17,7 +17,7 @@ export async function insertReview(
       `INSERT INTO public.reviews (
           user_id, videogame_id, user_name, videogame_name, body, recommended)
           VALUES ($1, $2, $3, $4, $5, $6);`,
-      [userId, gameId, userName, game_name, reviewBody, recommended]
+      [userId, gameId, userName, gameName, reviewBody, recommended]
     );
   } catch (error) {
     console.error("Error inserting review:", error);

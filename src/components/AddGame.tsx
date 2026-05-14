@@ -5,6 +5,7 @@ import StarButton from "./StarButton";
 import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { Game } from "@/types/Game";
+import { useSession } from "next-auth/react";
 
 type Props = {
     game: Game
@@ -12,11 +13,14 @@ type Props = {
 
 export default function AddGame({ game }: Props) {
 
+    const session: any = useSession();
+    const userId: string = session?.data?.user?.id as string;
     const [userGameInfo, setUserGameInfo] = useState<any>([])
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
 
     useEffect(() => {
+        if (userId === undefined) return;
         const fetchUserGame = async() => {
             setUserGameInfo(await getUserVideogame(game.id))
         }
