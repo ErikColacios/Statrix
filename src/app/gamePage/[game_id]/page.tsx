@@ -11,9 +11,12 @@ import SliderImages from '@/components/SliderImages';
 import PrimaryButton from '@/components/PrimaryButton';
 import ReviewSection from '@/components/ReviewSection';
 import AddGame from '@/components/AddGame';
+import getSessionUser from '@/actions/getSessionUser';
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: number } }) {
 
+    const session = await getSessionUser()
+    const userId: string | undefined = session?.user.id as string
     let gameInfo: Game[] = await getGameInfo(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
@@ -94,9 +97,11 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                 </div>
 
                                 {/* User Videogame panel component */}
-                                <aside className='md:w-2/6 p-4'>
-                                    <AddGame game={gameInfo[0]}/>
-                                </aside>
+                                {userId &&
+                                    <aside className='md:w-2/6 p-4'>
+                                        <AddGame game={gameInfo[0]}/>
+                                    </aside>
+                                }
                             </div>
 
                             {/* Slider of images component */}
