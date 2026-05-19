@@ -29,7 +29,7 @@ export default function List({ params }: { params: { listId: string } }) {
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                    <Dialog.Content className={`fixed p-2 w-full md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                    <Dialog.Content onCloseAutoFocus={(e) => {e.preventDefault()}} className={`fixed p-2 w-full md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
                                     data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
@@ -49,16 +49,16 @@ export default function List({ params }: { params: { listId: string } }) {
                 </Dialog.Portal>
                 
                 <div className='w-full flex text-sm'>
-                    <div className='ml-auto'>
+                    <div className='flex  sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto'>
                         <Dialog.Trigger onClick={() => {setModalType("addGame")}} className="px-2 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                            + Add more games
+                            + Add games
                         </Dialog.Trigger>
 
-                        <Dialog.Trigger onClick={() => {setModalType("editListInfo")}} className="ml-4 px-2 py-1  rounded text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                        <Dialog.Trigger onClick={() => {setModalType("editListInfo")}} className="px-2 py-1  rounded text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
                             Edit list info
                         </Dialog.Trigger>
 
-                        <Dialog.Trigger onClick={() => {setModalType("deleteList")}} className="ml-4 px-2 py-1  rounded text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                        <Dialog.Trigger onClick={() => {setModalType("deleteList")}} className="px-2 py-1  rounded text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
                             Delete list
                         </Dialog.Trigger>
                     </div>

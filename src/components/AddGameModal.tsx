@@ -77,7 +77,6 @@ export default function AddGameModal({ game }: Props) {
 
         if (gameId) {
             await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), starred, game.name, imageId);
-            
         }
     }
 

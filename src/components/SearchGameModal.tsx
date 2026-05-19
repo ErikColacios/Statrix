@@ -34,7 +34,6 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
     async function saveChanges() {
         updateList(listId, gamesAdded)
-        revalidatePath(`/list/${listId}`);
     }
 
     return (
