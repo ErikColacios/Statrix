@@ -48,7 +48,7 @@ export default function List({ params }: { params: { listId: string } }) {
                     </Dialog.Content>
                 </Dialog.Portal>
                 
-                <div className='w-full flex text-sm'>
+                <div className='w-full flex text-sm mt-3 sm:mt-0'>
                     <div className='flex  sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto'>
                         <Dialog.Trigger onClick={() => {setModalType("addGame")}} className="px-2 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                             + Add games
