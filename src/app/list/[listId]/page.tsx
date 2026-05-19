@@ -1,10 +1,12 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { getListContent } from '@/actions/getListContent';
-import { Dialog } from "radix-ui";
-import AddGameModal from '@/components/AddGameModal';
 import { Game } from '@/types/Game';
+import { Dialog } from "radix-ui";
+import { getListContent } from '@/actions/getListContent';
+import AddGameModal from '@/components/AddGameModal';
 import SearchGameModal from '@/components/SearchGameModal';
+import EditListInfoModal from '@/components/EditListInfoModal';
+import DeleteListModal from '@/components/DeleteListModal';
 
 export default function List({ params }: { params: { listId: string } }) {
 
@@ -37,12 +39,33 @@ export default function List({ params }: { params: { listId: string } }) {
                         {modalType === "addGame" && (
                             <SearchGameModal listId={listId} />
                         )}
+                        {modalType === "editListInfo" && (
+                            <EditListInfoModal listId={listId} />
+                        )}
+                        {modalType === "deleteList" && (
+                            <DeleteListModal list_id={listId} />
+                        )}
                     </Dialog.Content>
                 </Dialog.Portal>
+                
+                <div className='w-full flex text-sm'>
+                    <div className='ml-auto'>
+                        <Dialog.Trigger onClick={() => {setModalType("addGame")}} className="px-2 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                            + Add more games
+                        </Dialog.Trigger>
 
-                <Dialog.Trigger onClick={() => {setModalType("addGame")}} className="text-sm px-2 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                    + Add more games
-                </Dialog.Trigger>
+                        <Dialog.Trigger onClick={() => {setModalType("editListInfo")}} className="ml-4 px-2 py-1  rounded text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            Edit list info
+                        </Dialog.Trigger>
+
+                        <Dialog.Trigger onClick={() => {setModalType("deleteList")}} className="ml-4 px-2 py-1  rounded text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            Delete list
+                        </Dialog.Trigger>
+                    </div>
+
+                </div>
+
+
                 <div className="grid lg:grid-cols-2 gap-4 mt-3">
                     {/* List content */}
                     {listContent.map((game: Game, index: number) => (

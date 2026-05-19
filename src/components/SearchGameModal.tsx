@@ -6,6 +6,8 @@ import { Game } from '@/types/Game';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Dialog } from 'radix-ui';
+import { revalidatePath } from "next/cache";
+
 
 export default function SearchGameModal({ listId }: { listId: string }) {
 
@@ -32,7 +34,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
     async function saveChanges() {
         updateList(listId, gamesAdded)
-        router.push("/list/" + listId)
+        revalidatePath(`/list/${listId}`);
     }
 
     return (

@@ -32,16 +32,6 @@ export default async function ListLayout({ children, params }: { children: React
   }
   return (
     <section className="flex justify-center text-white bg-gradient-to-b from-black via-gray-900 to-black">
-      <Dialog.Root>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-          <Dialog.Content className={`fixed p-2 w-full sm:w-2/3 xl:w-1/3 2xl:w-1/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
-                                    data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
-            <Dialog.Title className="DialogTitle"></Dialog.Title>
-            <Dialog.Description className="DialogDescription"></Dialog.Description>
-            <DeleteListModal list_id={listId} />
-          </Dialog.Content>
-        </Dialog.Portal>
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
 
           {/* MY LISTS */}
@@ -53,7 +43,7 @@ export default async function ListLayout({ children, params }: { children: React
 
           {listInfo.map((item: any, index: number) => (
             <div className='flex flex-col sm:flex-row' key={index}>
-              <div className='flex flex-col my-6'>
+              <div className='flex flex-col mt-8'>
                 {/* List name */}
                 <p className="text-3xl md:text-4xl">{item.list_name}</p>
                 <div className='flex items-center text-base text-gray-400 mt-2'>
@@ -69,20 +59,10 @@ export default async function ListLayout({ children, params }: { children: React
                 </div>
                 <p className='text-gray-400 mt-4'>{item.list_description}</p>
               </div>
-
-              <div className="flex items-center text-sm sm:ml-auto">
-                <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-base ml-2">Edit list</button>
-
-                {/* Delete list button*/}
-                <Dialog.Trigger asChild>
-                  <button className="border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3 text-base ml-2">Delete</button>
-                </Dialog.Trigger>
-              </div>
             </div>
           ))}
           {children}
         </div>
-      </Dialog.Root>
     </section>
   )
 }

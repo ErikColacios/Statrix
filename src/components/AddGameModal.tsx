@@ -7,6 +7,7 @@ import StarButton from "./StarButton";
 import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
     game: any
@@ -14,6 +15,7 @@ type Props = {
 
 export default function AddGameModal({ game }: Props) {
 
+    const router = useRouter()
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
     const [userGameInfo, setUserGameInfo] = useState<any>([])
@@ -66,7 +68,6 @@ export default function AddGameModal({ game }: Props) {
         } else {
             setScore(valueScore.toString());
         }
-        console.log(valueScore)
     }
 
 
@@ -74,8 +75,10 @@ export default function AddGameModal({ game }: Props) {
         const gameId: number = game.id ? game.id : game.game_id;
         const imageId: string = game?.cover?.image_id ? game?.cover.image_id : game.game_image_id;
 
-        if (gameId)
+        if (gameId) {
             await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), starred, game.name, imageId);
+            
+        }
     }
 
 

@@ -11,7 +11,7 @@ export async function getCovers(gameName:string, gameGenre:number, responseOffse
 let condition='';
 
 if (gameName){
-    condition = `& name~"${gameName}"*`;
+    condition = `& name~*"${gameName}"*`;
 }
 else if (gameGenre && gameGenre != 0) {
     condition = `& genres=${gameGenre}`;
