@@ -1,5 +1,6 @@
 export type Game = {
-    gameId: number 
+    gameId: number,
+    game_id:number,
     id: number,  // the same as videogame_id
     name: string,
     game_name: string,

@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 import { Dialog } from "radix-ui"
 
 type Props = {
-    list_id: string
+    listId: string
 };
 
-export default function DeleteListModal({list_id}:Props) {
+export default function DeleteListModal({listId}:Props) {
 
     const router = useRouter()
     
     const handleDeleteList = () => {
-        deleteList(list_id)
+        deleteList(listId)
         router.push('/mylists')
     }
 
