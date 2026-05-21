@@ -20,7 +20,6 @@ export default function AddGame({ game }: Props) {
     const [starred, setStarred] = useState<boolean>(false)
 
     useEffect(() => {
-        if (userId === undefined) return;
         const fetchUserGame = async() => {
             setUserGameInfo(await getUserVideogame(game.id))
         }
