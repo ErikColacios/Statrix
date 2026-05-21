@@ -32,11 +32,8 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
             if (formData.get("listName") === "") {
                 throw new Error('The list name cannot be empty')
             }
-            const listNameInput = document.getElementById("listName") as HTMLInputElement
-            const listDescriptionInput = document.getElementById("listDescription") as HTMLTextAreaElement
-
-            const listName = listNameInput.value
-            const listDescription = listDescriptionInput.value
+            const listName = formData.get("listName") as string
+            const listDescription = formData.get("listDescription") as string
 
             await updateListInfo(listId, listName, listDescription)
             router.refresh()
