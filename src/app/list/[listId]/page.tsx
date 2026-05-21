@@ -33,8 +33,6 @@ export default function List({ params }: { params: { listId: string } }) {
         deleteGameList(listId, gameId)
     }
 
-
-
     return (
         <>
             <Dialog.Root>
@@ -77,7 +75,6 @@ export default function List({ params }: { params: { listId: string } }) {
                         </Dialog.Trigger>
                     </div>
                 </div>
-
 
                 <div className="grid lg:grid-cols-2 gap-4 mt-3">
                     {/* List content */}

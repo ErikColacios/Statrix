@@ -4,8 +4,6 @@ import getSessionUser from '@/actions/getSessionUser'
 import { redirect } from 'next/navigation'
 import { getListInfo } from '@/actions/getListInfo';
 import getUserInfo from '@/actions/getUserInfo';
-import { Dialog } from 'radix-ui';
-import DeleteListModal from '@/components/DeleteListModal';
 import { getListContent } from '@/actions/getListContent';
 
 export default async function ListLayout({ children, params }: { children: React.ReactNode, params: { listId: string } }) {

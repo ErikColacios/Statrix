@@ -13,7 +13,7 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
     const [listInfo, setListInfo] = useState<any>([])
-
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchListInfo = async () => {
@@ -23,17 +23,37 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
 
         fetchListInfo()
     }, [])
-    
 
-    async function saveChanges() {
-        const listNameInput = document.getElementById("listName") as HTMLInputElement;
-        const listDescriptionInput = document.getElementById("listDescription") as HTMLTextAreaElement;
 
-        const listName = listNameInput.value;
-        const listDescription = listDescriptionInput.value;
+    async function saveChanges(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        try {
+            const formData = new FormData(e.currentTarget)
+            if (formData.get("listName") === "") {
+                throw new Error('The list name cannot be empty')
+            }
+            const listNameInput = document.getElementById("listName") as HTMLInputElement
+            const listDescriptionInput = document.getElementById("listDescription") as HTMLTextAreaElement
 
-        await updateListInfo(listId, listName, listDescription)
-        router.refresh()
+            const listName = listNameInput.value
+            const listDescription = listDescriptionInput.value
+
+            await updateListInfo(listId, listName, listDescription)
+            router.refresh()
+
+            // We simulate that the user presses ESC to close the modal
+            const escEvent = new KeyboardEvent('keydown', {
+                key: 'Escape',
+                code: 'Escape',
+                keyCode: 27,
+                which: 27,
+                bubbles: true
+            });
+
+            document.dispatchEvent(escEvent);
+        } catch (error: any) {
+            setError(error.message)
+        }
     }
 
     return (
@@ -43,22 +63,23 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
             </Dialog.Close>
             <p className="text-3xl">Edit list information</p>
 
-            <div className="flex flex-col text-sm mt-8">
+            <form className="flex flex-col text-sm mt-8" onSubmit={saveChanges}>
                 <div className="flex flex-col">
                     <p className="text-sm text-gray-400">List name</p>
-                    <input type="text" name="listName" id="listName" className='rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600' 
-                     defaultValue={listInfo.list_name} />
-                    
+                    <input type="text" name="listName" id="listName" className='rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600'
+                        defaultValue={listInfo.list_name} />
+
                     <p className="text-sm text-gray-400 mt-4">List description</p>
                     <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-700 resize-none"
-                     defaultValue={listInfo.list_description} />
+                        defaultValue={listInfo.list_description} />
                     <div className='flex items-center mt-4'>
-                        <Dialog.Close onClick={() => saveChanges()} className="ml-auto px-4 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                        {error && <div className="text-red-500">{error}</div>}
+                        <button type="submit" className="ml-auto px-4 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                             Save changes
-                        </Dialog.Close>
+                        </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }
