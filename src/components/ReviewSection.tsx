@@ -19,7 +19,8 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
     const [reviews, setReviews] = useState<any[]>(gameReviews)
     const [reviewModeSelected, setReviewModeSelected] = useState<ReviewMode>(ReviewMode.POPULAR)
 
-    const formatter = new Intl.DateTimeFormat();
+    console.log(gameReviews[0].review_date)
+    const formatter = new Intl.DateTimeFormat(undefined, {dateStyle: "medium"});
 
     async function loadReviews(reviewMode: ReviewMode) {
         let gameReviewsNew: any[] = await getGameReviews(gameId, reviewMode)
