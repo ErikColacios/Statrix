@@ -20,7 +20,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
     const [reviewModeSelected, setReviewModeSelected] = useState<ReviewMode>(ReviewMode.POPULAR)
 
     console.log(gameReviews[0].review_date)
-    const formatter = new Intl.DateTimeFormat(undefined, {dateStyle: "medium"});
+    const formatter = new Intl.DateTimeFormat(undefined, {dateStyle: "short"});
 
     async function loadReviews(reviewMode: ReviewMode) {
         let gameReviewsNew: any[] = await getGameReviews(gameId, reviewMode)
@@ -77,7 +77,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                                 </div>
                                 {review.user_name}
                             </Link>
-                            <span className="text-gray-300 ml-8">{formatter.format(review.review_date)}</span>
+                            <span className="text-gray-300 ml-8" suppressHydrationWarning >{formatter.format(review.review_date)}</span>
                             {/* Like button */}
                             {review.liked_by_user == 1 ?
                                 <div className="flex items-center ml-auto pr-2 text-xs">
