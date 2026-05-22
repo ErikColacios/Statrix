@@ -13,14 +13,6 @@ export default function NavbarProfileButton({ userName, avatarImage }: any) {
         }
     };
 
-    //const { data: session } = useSession()
-    
-    // useEffect(() => {
-    // if (session?.user?.isNewUser) {
-    //     router.push("/newUser")
-    // }
-    // }, [session])
-
     useEffect(() => {
         if (dropdown) {
             document.addEventListener("mousedown", handleClickOutside);

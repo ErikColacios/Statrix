@@ -13,8 +13,8 @@ type Props = {
 
 export default function Notifications({ userId, notificationCount }: Props) {
     const [dropdown, setDropdown] = useState(false)
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const [notifications, setNotifications] = useState([])
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     function handleClickOutside(e: MouseEvent) {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
@@ -27,7 +27,6 @@ export default function Notifications({ userId, notificationCount }: Props) {
         // Get pending friend requests
         receivedAndSentRequests = await getUsersFriendship(FriendshipStatus.PENDING)
         setNotifications(receivedAndSentRequests.received)
-        console.log(receivedAndSentRequests)
     }
 
     async function acceptFriendRequest(requesterId: string, index:number) {
