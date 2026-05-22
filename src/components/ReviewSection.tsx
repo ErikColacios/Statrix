@@ -19,6 +19,8 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
     const [reviews, setReviews] = useState<any[]>(gameReviews)
     const [reviewModeSelected, setReviewModeSelected] = useState<ReviewMode>(ReviewMode.POPULAR)
 
+    const formatter = new Intl.DateTimeFormat();
+
     async function loadReviews(reviewMode: ReviewMode) {
         let gameReviewsNew: any[] = await getGameReviews(gameId, reviewMode)
         setReviews(gameReviewsNew)
@@ -74,7 +76,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                                 </div>
                                 {review.user_name}
                             </Link>
-                            <span className="text-gray-300 ml-8">{review.review_date.toLocaleDateString()}</span>
+                            <span className="text-gray-300 ml-8">{formatter.format(review.review_date)}</span>
                             {/* Like button */}
                             {review.liked_by_user == 1 ?
                                 <div className="flex items-center ml-auto pr-2 text-xs">

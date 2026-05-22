@@ -24,7 +24,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
     let image: string = "";
     gameInfo.map((game: Game) => {
         image = `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`;
-    }
+        }
     )
 
     return (
