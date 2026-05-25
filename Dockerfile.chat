@@ -11,4 +11,4 @@ RUN ["npm", "run", "build"]
 
 EXPOSE 4000
 
-CMD npm run chat
+CMD ["npm", "run", "chat"]
