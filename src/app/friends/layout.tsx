@@ -6,7 +6,7 @@ export default async function friendsLayout({ children }: { children: React.Reac
 
     const session:any = await getSessionUser()
 
-    if (!session) {
+    if (!session.user) {
         return (
             redirect("/")
         )

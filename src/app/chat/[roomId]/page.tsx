@@ -126,9 +126,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         text: messageData.text.toString(),
         created_at: messageData.created_at.toString()
       };
-      console.log(message)
       setMessages((prev) => [message, ...prev])
-      //setHasMoreMessages(true)
       setTypingUser('')
     });
 
@@ -187,7 +185,6 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         created_at: new Date().toLocaleDateString(),
       });
       
-      console.log(new Date().toLocaleDateString())
       // Insert the message in the database
       insertChatMessage(roomId, sessionUser?.userId, sessionUser?.userName, input)
       setInput("");

@@ -1,0 +1,12 @@
+FROM node:22.11.0-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY chat .
+
+EXPOSE 4000
+
+CMD npm run chat
