@@ -194,7 +194,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
   return (
     <div className="flex h-full w-full md:w-1/2">
-      <div className="w-full h-[45rem] text-white">
+      <div className="w-full h-[35rem] sm:h-[45rem]">
         <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-2xl sm:rounded-none sm:rounded-e-2xl overflow-hidden">
 
           {/* Friend info */}
