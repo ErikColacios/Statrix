@@ -10,7 +10,7 @@ import React, { useState, useEffect, FormEvent, useRef, useCallback } from "reac
 import { Socket, io } from "socket.io-client";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  ":4000"
+  "http://192.168.1.200:4000"
 );
 
 export default function Chat({ params }: { params: { roomId: string } }) {
