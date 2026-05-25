@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx tsx watch server.ts",
     "build": "tsc",
-    "chat": "node dist/server.js"
+    "chat": "tsc && node dist/server.js"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
