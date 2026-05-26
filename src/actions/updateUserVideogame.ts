@@ -46,7 +46,6 @@ export default async function updateUserVideogame(gameId: number, newStatus: str
       return { success: true, message: "Game info updated." };
     }
   } catch (error) {
-    console.error("Error updating score:", error);
     return { success: false, message: "There was an error updating game info." };
   }
 }
