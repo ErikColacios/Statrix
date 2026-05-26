@@ -14,7 +14,6 @@ type Props = {
 export default function AddGame({ game }: Props) {
 
     const session: any = useSession();
-    const userId: string = session?.data?.user?.id as string;
     const [userGameInfo, setUserGameInfo] = useState<any>([])
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
@@ -31,8 +30,12 @@ export default function AddGame({ game }: Props) {
     }, [])
 
     useEffect(() => {
-        setSelectedStatus(userGameInfo[0]?.status)
-        setStarred(userGameInfo[0]?.favourite)
+        if (userGameInfo.length > 0) {
+            setSelectedStatus(userGameInfo[0]?.status)
+            setStarred(userGameInfo[0]?.favourite)
+            setScore(userGameInfo[0]?.score)
+            setHoursPlayed(userGameInfo[0]?.hours_played)
+        }
     }, [userGameInfo])
 
     // Passed to StarButton
@@ -40,36 +43,45 @@ export default function AddGame({ game }: Props) {
         setStarred(!starred)
     }
 
-    function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const valueHoursPlayed = parseFloat(e.target.value);
-        if (valueHoursPlayed < 0) {
-            setHoursPlayed("0")
-        } else if (valueHoursPlayed > 100000) {
-            setHoursPlayed("")
+
+    function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (e.target.value !== "") {
+            const valueScore = parseFloat(e.target.value);
+            if (valueScore > 10) {
+                setScore("10")
+            } else if (valueScore < 0) {
+                setScore("0")
+            } else {
+                setScore(valueScore.toString());
+            }
         } else {
-            setHoursPlayed(valueHoursPlayed.toString());
+            setScore("0")
         }
     }
 
-    function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const valueScore = parseFloat(e.target.value);
-        if (valueScore > 10) {
-            setScore("10")
-        } else if (valueScore < 0) {
-            setScore("0")
+    function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (e.target.value !== "") {
+            const valueHoursPlayed = parseFloat(e.target.value);
+            if (valueHoursPlayed < 0) {
+                setHoursPlayed("0")
+            } else if (valueHoursPlayed > 100000) {
+                setHoursPlayed("")
+            } else {
+                setHoursPlayed(valueHoursPlayed.toString());
+            }
         } else {
-            setScore(valueScore.toString());
+            setHoursPlayed("0")
         }
     }
 
     async function handleSaveUserGame() {
         const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber
         const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber
-        if (game.id){
+        if (game.id) {
             const res = await updateUserVideogame(game.id, selectedStatus, newScore, newHoursPlayed, starred, game.name, game.game_image_id);
-            if(res?.success) {
+            if (res?.success) {
                 setError(null)
-                setSuccess("Game info saved successfully.")
+                setSuccess(res?.message || "Game info updated successfully.")
             } else {
                 setError(res?.message || "There was an error saving the game info.")
                 setSuccess(null)
@@ -85,11 +97,13 @@ export default function AddGame({ game }: Props) {
                 <div className="flex space-x-4">
                     <div className="flex flex-col">
                         <label className="text-gray-400">Score</label>
-                        <input id={'score'} onChange={handleScoreChange} type="number" className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' defaultValue={userGameInfo[0]?.score !='NaN' ? userGameInfo[0]?.score : ""} />
+                        <input id={'score'} onChange={handleScoreChange} type="number" className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right'
+                            value={score} />
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-400">Hours played</label>
-                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0} defaultValue={userGameInfo[0]?.hours_played || ""} />
+                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0}
+                            value={hoursPlayed} />
                     </div>
                 </div>
                 <div className="flex flex-col">

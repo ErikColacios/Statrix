@@ -43,9 +43,9 @@ export default async function updateUserVideogame(gameId: number, newStatus: str
           WHERE user_id = $5 AND game_id = $6`,
         [newStatus, newScore, newHoursPlayed, newStarred, userId, gameId ]
       );
-      return { success: true, message: "Game info updated." };
+      return { success: true, message: "Game info updated successfully." };
     }
   } catch (error) {
-    return { success: false, message: "There was an error updating game info." };
+    return { success: false, message: "There was an error saving the game info." };
   }
 }

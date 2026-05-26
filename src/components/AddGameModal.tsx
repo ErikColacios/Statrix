@@ -48,25 +48,33 @@ export default function AddGameModal({ game }: Props) {
         setStarred(!starred)
     }
 
-    function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const valueHoursPlayed = parseFloat(e.target.value);
-        if (valueHoursPlayed < 0) {
-            setHoursPlayed("0")
-        } else if (valueHoursPlayed > 100000) {
-            setHoursPlayed("")
+    function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (e.target.value !== "") {
+            const valueScore = parseFloat(e.target.value);
+            if (valueScore > 10) {
+                setScore("10")
+            } else if (valueScore < 0) {
+                setScore("0")
+            } else {
+                setScore(valueScore.toString());
+            }
         } else {
-            setHoursPlayed(valueHoursPlayed.toString());
+            setScore("0")
         }
     }
 
-    function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const valueScore = parseFloat(e.target.value);
-        if (valueScore > 10) {
-            setScore("10")
-        } else if (valueScore < 0) {
-            setScore("0")
+    function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (e.target.value !== "") {
+            const valueHoursPlayed = parseFloat(e.target.value);
+            if (valueHoursPlayed < 0) {
+                setHoursPlayed("0")
+            } else if (valueHoursPlayed > 100000) {
+                setHoursPlayed("")
+            } else {
+                setHoursPlayed(valueHoursPlayed.toString());
+            }
         } else {
-            setScore(valueScore.toString());
+            setHoursPlayed("0")
         }
     }
 
