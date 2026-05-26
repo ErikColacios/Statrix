@@ -1,0 +1,30 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "3001:3000"
+
+  chat:
+    container_name: chat
+    build:
+      context: .
+      dockerfile: Dockerfile.chat
+    ports:
+      - "4000:4000"
+
+# volumes:
+#   db-data:
+#     driver: flocker
+#     driver_opts:
+#       size: "10GiB"
+
+# configs:
+#   httpd-config:
+#     external: true
+
+# secrets:
+#   server-certificate:
+#     external: true
