@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react"
 import { ReviewMode } from "../enums/ReviewMode"
 import insertLikeReview from "../actions/insertLikeReview"
 import deleteLikeReview from "../actions/deleteLikeReview"
+import { Dialog } from "radix-ui"
 
 type Props = {
     gameReviews: any[]
@@ -19,7 +20,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
     const [reviews, setReviews] = useState<any[]>(gameReviews)
     const [reviewModeSelected, setReviewModeSelected] = useState<ReviewMode>(ReviewMode.POPULAR)
 
-    const formatter = new Intl.DateTimeFormat(undefined, {dateStyle: "short"});
+    const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: "short" });
 
     async function loadReviews(reviewMode: ReviewMode) {
         let gameReviewsNew: any[] = await getGameReviews(gameId, reviewMode)
@@ -30,7 +31,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
     async function handleLikeReview(likeUnlike: string, review_id: any) {
 
         if (likeUnlike === "like") {
-            const likeCountElement = document.getElementById("likeCount"+review_id)
+            const likeCountElement = document.getElementById("likeCount" + review_id)
             if (likeCountElement) {
                 const currentLikeCount = parseInt(likeCountElement.textContent || "0")
                 likeCountElement.textContent = (currentLikeCount + 1).toString()
@@ -39,10 +40,10 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
             await insertLikeReview(review_id)
         }
         else if (likeUnlike === "unlike") {
-            const likeCountElement = document.getElementById("likeCount"+review_id)
+            const likeCountElement = document.getElementById("likeCount" + review_id)
             if (likeCountElement) {
                 const currentLikeCount = parseInt(likeCountElement.textContent || "0")
-                if(currentLikeCount > 0){
+                if (currentLikeCount > 0) {
                     likeCountElement.textContent = (currentLikeCount - 1).toString()
                 }
             }
@@ -54,10 +55,14 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
     return (
         <section className='pt-6 sm:pt-14 md:pt-5'>
             <div className='relative flex flex-col'>
-                <div className="flex text-base">
+                <div className="flex text-sm">
                     <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
                     <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.RECENT)}>Recent reviews</button>
+                    <Dialog.Trigger className='ml-auto mb-2 rounded px-2 py-1 bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>
+                        + Add review
+                    </Dialog.Trigger>
                 </div>
+
             </div>
             <div className='bg-zinc-900 p-4'>
                 {reviews?.map((review: any, index: number) => (
@@ -72,7 +77,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                             {/* User reviewer button */}
                             <Link href={`/profile/${review.user_name}`} className="flex items-center hover:text-green-400 ml-1 cursor-pointer">
                                 <div className="w-8 h-8 rounded rounded-full overflow-hidden mr-2">
-                                    <img src={`/avatarImages/${review.avatar_image}`} className="h-full w-full object-cover" alt="User avatar"/>
+                                    <img src={`/avatarImages/${review.avatar_image}`} className="h-full w-full object-cover" alt="User avatar" />
                                 </div>
                                 {review.user_name}
                             </Link>
@@ -81,7 +86,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                             {review.liked_by_user == 1 ?
                                 <div className="flex items-center ml-auto pr-2 text-xs">
                                     <svg width="20px" height="10px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>like [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -760.000000)" fill="#ffffffff"><g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M203,620 L207.200006,620 L207.200006,608 L203,608 L203,620 Z M223.924431,611.355 L222.100579,617.89 C221.799228,619.131 220.638976,620 219.302324,620 L209.300009,620 L209.300009,608.021 L211.104962,601.825 C211.274012,600.775 212.223214,600 213.339366,600 C214.587817,600 215.600019,600.964 215.600019,602.153 L215.600019,608 L221.126177,608 C222.97313,608 224.340232,609.641 223.924431,611.355 L223.924431,611.355 Z" id="like-[#ffffff]"> </path> </g> </g> </g> </g></svg>
-                                    <span id={"likeCount"+review.review_id}>{review.likes}</span>
+                                    <span id={"likeCount" + review.review_id}>{review.likes}</span>
                                     <button className="flex items-center transition bg-gray-800 hover:bg-gray-600 ml-1 p-1 rounded"
                                         onClick={() => handleLikeReview("unlike", review.review_id)}>
                                         Unlike
@@ -90,7 +95,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                                 :
                                 <div className="flex items-center ml-auto pr-2 text-xs">
                                     <svg width="20px" height="10px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>like [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -760.000000)" fill="#ffffffff"><g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M203,620 L207.200006,620 L207.200006,608 L203,608 L203,620 Z M223.924431,611.355 L222.100579,617.89 C221.799228,619.131 220.638976,620 219.302324,620 L209.300009,620 L209.300009,608.021 L211.104962,601.825 C211.274012,600.775 212.223214,600 213.339366,600 C214.587817,600 215.600019,600.964 215.600019,602.153 L215.600019,608 L221.126177,608 C222.97313,608 224.340232,609.641 223.924431,611.355 L223.924431,611.355 Z" id="like-[#ffffff]"> </path> </g> </g> </g> </g></svg>
-                                    <span id={"likeCount"+review.review_id}>{review.likes}</span>
+                                    <span id={"likeCount" + review.review_id}>{review.likes}</span>
 
                                     {userId && <button className="flex items-center transition bg-gray-800 hover:bg-gray-600 ml-1 p-1 rounded"
                                         onClick={() => handleLikeReview("like", review.review_id)}>

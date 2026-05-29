@@ -13,6 +13,9 @@ export type Game = {
     screenshots:{
         image_id:number
     },
+    artworks:{
+        image_id:string
+    },
     game_image_id:string,
     game_base_image:string,
     score:number

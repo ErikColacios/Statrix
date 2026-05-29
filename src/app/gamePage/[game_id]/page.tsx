@@ -8,7 +8,6 @@ import getGameReviews from '@/actions/getGameReviews';
 import { ReviewMode } from '@/enums/ReviewMode';
 import ReviewModal from '@/components/ReviewModal';
 import SliderImages from '@/components/SliderImages';
-import PrimaryButton from '@/components/PrimaryButton';
 import ReviewSection from '@/components/ReviewSection';
 import AddGame from '@/components/AddGame';
 import getSessionUser from '@/actions/getSessionUser';
@@ -20,12 +19,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
     let gameInfo: Game[] = await getGameInfo(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
-
-    let image: string = "";
-    gameInfo.map((game: Game) => {
-        image = `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`;
-        }
-    )
+    console.log(gameInfo)
 
     return (
         gameInfo.map((game: any, index: number) => (
@@ -45,7 +39,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                         {/* Game box */}
                         <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded'>
                             <div className='relative'>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.screenshots[0].image_id}.png`} className='w-full sm:h-80 md:h-full' alt='Screenshot'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.artworks[0].image_id}.jpg`} className='w-full sm:h-80 md:h-full' alt='Artwork'/>
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
@@ -108,9 +102,9 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             <SliderImages screenshots={game.screenshots} />
 
                             <section className='mt-14 pt-4 relative'>
-                                <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
+                                {/* <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
                                     <PrimaryButton text={'Add review'} />
-                                </Dialog.Trigger>
+                                </Dialog.Trigger> */}
 
                                 {/* Review list component*/}
                                 <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
