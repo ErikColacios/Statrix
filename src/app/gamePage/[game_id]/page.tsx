@@ -101,10 +101,8 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             {/* Slider of images component */}
                             <SliderImages screenshots={game.screenshots} />
 
-                            <section className='mt-14 pt-4 relative'>
-                                {/* Review list component*/}
-                                <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
-                            </section>
+                            {/* Review list component*/}
+                            <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
                         </div>
                     </div>
                 </Dialog.Root>
