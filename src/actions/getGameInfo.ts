@@ -14,12 +14,13 @@ export default function getGameInfo(gameId: number) {
       "Access-Control-Allow-Origin": `${base_url}`,
     },
     body: `fields id, name, summary, cover.image_id, release_dates.human, involved_companies.company.name, screenshots.image_id, genres.name, artworks.image_id;
-     limit 5; where cover != null & cover.image_id !=null & involved_companies !=null & artworks != null & id=${gameId};`,
+     limit 5; where cover != null & cover.image_id !=null & involved_companies !=null & id=${gameId};`,
   })
     .then((response) => {
       return response.json();
     })
     .then((response) => {
+      console.log(response)
       return response;
     });
   return res;

@@ -38,8 +38,8 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                     <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
                         {/* Game box */}
                         <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded'>
-                            <div className='relative'>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.artworks[0].image_id}.jpg`} className='w-full sm:h-80 md:h-full' alt='Artwork'/>
+                            <div className='relative h-96'>
+                                {game.artworks && <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.artworks[0].image_id}.jpg`} className='w-full h-full object-cover' alt='Artwork'/>}
                                 <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
@@ -102,10 +102,6 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             <SliderImages screenshots={game.screenshots} />
 
                             <section className='mt-14 pt-4 relative'>
-                                {/* <Dialog.Trigger asChild className='absolute right-1 md:right-5 top-0 z-30'>
-                                    <PrimaryButton text={'Add review'} />
-                                </Dialog.Trigger> */}
-
                                 {/* Review list component*/}
                                 <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
                             </section>
