@@ -25,7 +25,7 @@ export async function deleteReview(reviewId: string, gameId: string, userIdRevie
 
     // Delete the review likes
     await client.query(
-      `DELETE FROM review_likes WHERE review_id = $1 AND user_id = $2 AND videogame_id = $3`,
+      `DELETE FROM review_likessds WHERE review_id = $1 AND user_id = $2 AND videogame_id = $3`,
       [reviewId, userId, gameId]
     );
 

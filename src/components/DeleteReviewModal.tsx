@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { deleteReview } from "@/actions/deleteReview";
 
 
-export default function DeleteReviewModal({ review }: any) {
+export default function DeleteReviewModal({ review, reviews, setReviews }: any) {
 
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
@@ -14,7 +14,7 @@ export default function DeleteReviewModal({ review }: any) {
 
     const handleDeleteReview = () => {
         deleteReview(review.review_id, review.videogame_id, userId)
-        router.refresh()
+        setReviews(reviews.filter((r:any)=> r.review_id !== review.review_id))
     }
 
     return (

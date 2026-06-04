@@ -1,12 +1,10 @@
 "use server"
 import React from 'react'
-import { Dialog } from "radix-ui";
 import { Game } from '@/types/Game';
 import getGameInfo from '@/actions/getGameInfo';
 import getGlobalUserVideogame from '@/actions/getGlobalUserVideogame';
 import getGameReviews from '@/actions/getGameReviews';
 import { ReviewMode } from '@/enums/ReviewMode';
-import ReviewModal from '@/components/ReviewModal';
 import SliderImages from '@/components/SliderImages';
 import ReviewSection from '@/components/ReviewSection';
 import AddGame from '@/components/AddGame';
