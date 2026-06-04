@@ -2,14 +2,14 @@
 import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";
 
-export default async function insertLikeReview (review_id: string) {
+export default async function insertLikeReview (reviewId: string, gameId: number) {
     try {
       const session:any = await getSessionUser();
       const userId:string = session.user.id as string;
-
+      console.log("Inserting like for reviewId:", reviewId, "by userId:", userId, "for gameId:", gameId);
       await pool.query(
-        `INSERT INTO public.review_likes (review_id, user_id) VALUES ($1, $2);`,
-        [review_id, userId]
+        `INSERT INTO public.review_likes (review_id, user_id, videogame_id) VALUES ($1, $2, $3);`,
+        [reviewId, userId, gameId]
       );
 
     } catch (error) {

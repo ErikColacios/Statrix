@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import getGameReviews from "../actions/getGameReviews"
 import { useSession } from "next-auth/react"
@@ -7,23 +7,33 @@ import { ReviewMode } from "../enums/ReviewMode"
 import insertLikeReview from "../actions/insertLikeReview"
 import deleteLikeReview from "../actions/deleteLikeReview"
 import { Dialog } from "radix-ui"
+import ReviewModal from "./ReviewModal"
+import DeleteReviewModal from "./DeleteReviewModal"
 
 type Props = {
     gameReviews: any[]
-    gameId: number
+    gameId: number,
+    gameName: string,
+    coverImageId: string
 }
 
-export default function ReviewSection({ gameReviews, gameId }: Props) {
+export default function ReviewSection({ gameReviews, gameId, gameName, coverImageId }: Props) {
 
-    let reviewOptionsRef = useRef<HTMLDivElement | null>(null);
-    const [openReviewId, setOpenReviewId] = useState<string | null>(null);
-
+    // Session and user
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
+
+    
+    const [openReviewId, setOpenReviewId] = useState<string | null>(null);
+    const [modalType, setModalType] = useState<string>("")
+    const [reviewClicked, setReviewClicked] = useState([])
+
+    // Review items
     const [reviews, setReviews] = useState<any[]>(gameReviews)
     const [reviewModeSelected, setReviewModeSelected] = useState<ReviewMode>(ReviewMode.POPULAR)
 
     const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: "short" });
+
 
     async function loadReviews(reviewMode: ReviewMode) {
         let gameReviewsNew: any[] = await getGameReviews(gameId, reviewMode)
@@ -31,32 +41,32 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
         setReviewModeSelected(reviewMode)
     }
 
-    async function handleLikeReview(likeUnlike: string, review_id: any) {
-
+    async function handleLikeReview(likeUnlike: string, reviewId: any) {
+        console.log(gameId)
         if (likeUnlike === "like") {
-            const likeCountElement = document.getElementById("likeCount" + review_id)
-            const likeButtonElement = document.getElementById("likeButton" + review_id)
+            const likeCountElement = document.getElementById("likeCount" + reviewId)
+            const likeButtonElement = document.getElementById("likeButton" + reviewId)
             if (likeCountElement && likeButtonElement) {
                 const currentLikeCount = parseInt(likeCountElement.textContent || "0")
                 likeCountElement.textContent = (currentLikeCount + 1).toString()
                 likeButtonElement.textContent = "Unlike"
-                reviews.find((review) => review.review_id === review_id).liked_by_user = 1
+                reviews.find((review) => review.review_id === reviewId).liked_by_user = 1
             }
 
-            await insertLikeReview(review_id)
+            await insertLikeReview(reviewId, gameId)
         }
         else if (likeUnlike === "unlike") {
-            const likeCountElement = document.getElementById("likeCount" + review_id)
-            const likeButtonElement = document.getElementById("likeButton" + review_id)
+            const likeCountElement = document.getElementById("likeCount" + reviewId)
+            const likeButtonElement = document.getElementById("likeButton" + reviewId)
             if (likeCountElement && likeButtonElement) {
                 const currentLikeCount = parseInt(likeCountElement.textContent || "0")
                 if (currentLikeCount > 0) {
                     likeCountElement.textContent = (currentLikeCount - 1).toString()
                     likeButtonElement.textContent = "Like this!"
-                    reviews.find((review) => review.review_id === review_id).liked_by_user = 0
+                    reviews.find((review) => review.review_id === reviewId).liked_by_user = 0
                 }
             }
-            await deleteLikeReview(review_id)
+            await deleteLikeReview(reviewId, gameId)
         }
     }
 
@@ -66,7 +76,6 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
 
     function handleClickOutside(e: MouseEvent) {
         const target = e.target as Node
-
         const dropdown = document.querySelector(`[data-review-dropdown="${openReviewId}"]`)
         const button = document.querySelector(`[data-review-button="${openReviewId}"]`)
 
@@ -84,13 +93,30 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
         };
     }, [openReviewId])
 
-        return (
-            <section className='pt-6 sm:pt-14 md:pt-8'>
+    
+    return (
+        <section className='pt-6 sm:pt-14 md:pt-8'>
+            <Dialog.Root>
+                <Dialog.Portal>
+                    <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                    <Dialog.Content className={`fixed flex justify-center w-full md:w-[50rem] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl 
+                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
+                        <Dialog.Title className="DialogTitle"></Dialog.Title>
+                        <Dialog.Description className="DialogDescription"></Dialog.Description>
+                        {modalType === "addReview" && (
+                            <ReviewModal gameId={gameId} gameName={gameName} gameCover={coverImageId} />
+
+                        )}
+                        {modalType === "deleteReview" && (
+                            <DeleteReviewModal review={reviewClicked} />
+                        )}
+                    </Dialog.Content>
+                </Dialog.Portal>
                 <div className='relative flex flex-col'>
                     <div className="flex text-sm">
                         <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
                         <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.RECENT)}>Recent reviews</button>
-                        <Dialog.Trigger className='ml-auto mb-2 rounded px-2 py-1 bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>
+                        <Dialog.Trigger onClick={() => setModalType("addReview")} className='ml-auto mb-2 rounded px-2 py-1 bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>
                             + Add review
                         </Dialog.Trigger>
                     </div>
@@ -122,11 +148,12 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                                     {/* Review actions dropdown */}
                                     {openReviewId && openReviewId === review.review_id && (
                                         <div data-review-dropdown={review.review_id} id={"reviewActions" + review.review_id} className="top-0 right-10 absolute flex flex-col bg-gray-800 p-2 rounded">
-                                            <button className="text-left p-1 hover:bg-gray-600">Edit review</button>
-                                            <button className="text-left p-1 hover:bg-gray-600">Delete review</button>
+                                            {/* <button className="text-left p-1 hover:text-green-400">Edit review</button> */}
+                                            <Dialog.Trigger onClick={() => {setModalType("deleteReview"), setReviewClicked(review)}} className="text-left p-1 hover:text-green-400">Delete review</Dialog.Trigger>
                                         </div>
                                     )}
 
+                                    {/* Review actions button */}
                                     {review.user_id === userId ?
                                         <div data-review-button={review.review_id} onClick={() => handleReviewActions(review.review_id)} ><svg className="flex items-center cursor-pointer transition bg-gray-800 hover:bg-gray-600 ml-4 p-1 rounded" fill="#ffffff" width="22px" height="22px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M28.106 19.944h-0.85c-0.069-0.019-0.131-0.050-0.2-0.063-1.788-0.275-3.2-1.762-3.319-3.506-0.137-1.95 0.975-3.6 2.787-4.137 0.238-0.069 0.488-0.119 0.731-0.181h0.85c0.056 0.019 0.106 0.050 0.169 0.056 1.65 0.269 2.906 1.456 3.262 3.081 0.025 0.125 0.063 0.25 0.094 0.375v0.85c-0.019 0.056-0.050 0.113-0.056 0.169-0.262 1.625-1.419 2.863-3.025 3.238-0.156 0.038-0.3 0.081-0.444 0.119zM4.081 12.056l0.85 0c0.069 0.019 0.131 0.050 0.2 0.056 1.8 0.281 3.206 1.775 3.319 3.537 0.125 1.944-1 3.588-2.819 4.119-0.231 0.069-0.469 0.119-0.7 0.175h-0.85c-0.056-0.019-0.106-0.050-0.162-0.063-1.625-0.3-2.688-1.244-3.194-2.819-0.069-0.206-0.106-0.425-0.162-0.637v-0.85c0.019-0.056 0.050-0.113 0.056-0.169 0.269-1.631 1.419-2.863 3.025-3.238 0.15-0.037 0.294-0.075 0.437-0.113zM15.669 12.056h0.85c0.069 0.019 0.131 0.050 0.2 0.063 1.794 0.281 3.238 1.831 3.313 3.581 0.087 1.969-1.1 3.637-2.931 4.106-0.194 0.050-0.387 0.094-0.581 0.137h-0.85c-0.069-0.019-0.131-0.050-0.2-0.063-1.794-0.275-3.238-1.831-3.319-3.581-0.094-1.969 1.1-3.637 2.931-4.106 0.2-0.050 0.394-0.094 0.588-0.137z"></path> </g></svg></div>
                                         :
@@ -135,9 +162,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                                             }>
                                             {review.liked_by_user == 1 ? "Unlike" : "Like this!"}
                                         </button>}
-
                                 </div>
-
                             </div>
                             <span className='h-[1px] w-full bg-gray-600'></span>
                             <div className='h-full'>
@@ -152,6 +177,7 @@ export default function ReviewSection({ gameReviews, gameId }: Props) {
                         </div>
                     )}
                 </div>
-            </section>
-        )
+            </Dialog.Root>
+        </section>
+    )
 }

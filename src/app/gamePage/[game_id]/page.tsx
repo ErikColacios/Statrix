@@ -19,22 +19,10 @@ export default async function gamePage({ params }: { params: { list_id: string, 
     let gameInfo: Game[] = await getGameInfo(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
-    console.log(gameInfo)
 
     return (
         gameInfo.map((game: any, index: number) => (
             <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black h-screen text-white text-sm pb-12" key={index}>
-                <Dialog.Root>
-                    <Dialog.Portal>
-                        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                        <Dialog.Content className={`fixed flex justify-center w-full md:w-[50rem] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl 
-                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
-                            <Dialog.Title className="DialogTitle"></Dialog.Title>
-                            <Dialog.Description className="DialogDescription"></Dialog.Description>
-                            <ReviewModal gameId={game.id} gameName={game.name} gameCover={game.cover.image_id} />
-                        </Dialog.Content>
-                    </Dialog.Portal>
-
                     <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
                         {/* Game box */}
                         <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded'>
@@ -102,10 +90,9 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             {/* <SliderImages screenshots={game.screenshots} /> */}
 
                             {/* Review list component*/}
-                            <ReviewSection gameReviews={gameReviews} gameId={params.game_id} />
+                            <ReviewSection gameReviews={gameReviews} gameId={params.game_id} gameName={game.name} coverImageId={game.cover.image_id} />
                         </div>
                     </div>
-                </Dialog.Root>
             </section>
         )
         )
