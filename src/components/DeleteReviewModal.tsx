@@ -10,11 +10,27 @@ export default function DeleteReviewModal({ review, reviews, setReviews }: any) 
 
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
-    const router = useRouter()
+    const [error, setError] = useState<string | null>(null)
 
-    const handleDeleteReview = () => {
-        deleteReview(review.review_id, review.videogame_id, userId)
-        setReviews(reviews.filter((r:any)=> r.review_id !== review.review_id))
+    async function handleDeleteReview() {
+        try {
+            await deleteReview(review.review_id, review.videogame_id, userId)
+            setReviews(reviews.filter((r: any) => r.review_id !== review.review_id))
+
+            // We simulate that the user presses ESC to close the modal
+            const escEvent = new KeyboardEvent('keydown', {
+                key: 'Escape',
+                code: 'Escape',
+                keyCode: 27,
+                which: 27,
+                bubbles: true
+            });
+
+            document.dispatchEvent(escEvent);
+        } catch (error:any) {
+            console.log(error)
+            setError(error.message)
+        }
     }
 
     return (
@@ -51,11 +67,12 @@ export default function DeleteReviewModal({ review, reviews, setReviews }: any) 
                 </div>
             </div>
 
-            <div className="flex space-x-8 mt-10">
-                <Dialog.Close onClick={handleDeleteReview} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-5 py-2 md:px-6 md:py-3">Delete</Dialog.Close>
+            <div className="flex items-center space-x-8 mt-10">
+                <button onClick={handleDeleteReview} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-5 py-2 md:px-6 md:py-3">Delete</button>
                 <Dialog.Close className="text-md sm:text-lg text-white px-5 py-2 md:px-6 md:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                     Cancel
                 </Dialog.Close>
+                {error && <div className="text-red-500">{error}</div>}
             </div>
         </div>
     )
