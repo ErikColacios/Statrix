@@ -7,6 +7,11 @@ export default async function updateUserFriendship(requester_id:string | undefin
     const session:any = await getSessionUser();
     const userId:string = session.user.id as string;
 
+    if(requester_id === undefined)
+        requester_id = userId
+    if(addressee_id === undefined)
+        addressee_id = userId
+
     try {
         await pool.query(
             `UPDATE user_friendships

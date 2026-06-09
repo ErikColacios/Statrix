@@ -31,10 +31,10 @@ export default function Friends() {
         setIsLoading(false)
     }
 
-    async function acceptFriendRequest(requester_id: string) {
+    async function acceptRejectFriendRequest(requester_id: string, friendshipStatus: FriendshipStatus) {
         if (requester_id !== null && user !== null)
             try {
-                await updateUserFriendship(requester_id, user?.userId, FriendshipStatus.ACCEPTED)
+                await updateUserFriendship(requester_id, user?.userId, friendshipStatus)
                 setUsersFound(usersFound.filter((u: any) => u.user_id !== requester_id))
             } catch (error) {
                 console.log(error)
@@ -118,6 +118,7 @@ export default function Friends() {
                                 {/* Friend row buttons */}
                                 <div className='absolute right-5'>
                                     {userSearchMode === FriendshipStatus.PENDING ? user?.userId === item.requester_id ?
+                                        // If the user is the requester, we print only the cancel request button
                                         <div className='flex items-center space-x-6'>
                                             <p className='text-gray-300'>Pending</p>
                                             <button className='p-2 rounded rounded-full hover:bg-zinc-700'
@@ -125,8 +126,17 @@ export default function Friends() {
                                                 <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
                                             </button>
                                         </div> :
-                                        <button onClick={() => acceptFriendRequest(item.requester_id)}
-                                            className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
+                                        // If the user is the addressee, we print the accept and reject buttons
+                                        <div className='flex items-center space-x-6'>
+                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                                onClick={() => acceptRejectFriendRequest(item.requester_id, FriendshipStatus.ACCEPTED)}>
+                                                <svg width="20px" height="20px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5.5 12.5L10.167 17L19.5 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+                                            </button>
+                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                                onClick={() => acceptRejectFriendRequest(item.requester_id, FriendshipStatus.REJECTED)}>
+                                                <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
+                                            </button>
+                                        </div>
                                         : ""}
                                     {userSearchMode === FriendshipStatus.ACCEPTED ?
                                         <>
