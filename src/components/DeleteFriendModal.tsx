@@ -5,7 +5,7 @@ import { deleteUserFriendship } from "@/actions/deleteUserFriendship";
 
 export default function DeleteFriendModal({ friend, usersFound, setUsersFound }: any) {
 
-    async function removeFriendRequest() {
+    async function deleteFriend() {
         if (friend.user_id !== null)
             try {
                 await deleteUserFriendship(friend.user_id)
@@ -46,7 +46,7 @@ export default function DeleteFriendModal({ friend, usersFound, setUsersFound }:
             </div>
 
             <div className="flex space-x-8 mt-12">
-                <button onClick={removeFriendRequest} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3">Delete</button>
+                <button onClick={deleteFriend} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3">Delete</button>
                 <Dialog.Close className="text-md sm:text-lg text-white px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                     Cancel
                 </Dialog.Close>

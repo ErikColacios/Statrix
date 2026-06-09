@@ -35,6 +35,7 @@ export default function Friends() {
         if (requester_id !== null && user !== null)
             try {
                 await updateUserFriendship(requester_id, user?.userId, FriendshipStatus.ACCEPTED)
+                setUsersFound(usersFound.filter((u: any) => u.user_id !== requester_id))
             } catch (error) {
                 console.log(error)
             }
@@ -44,6 +45,7 @@ export default function Friends() {
         if (addressee_id !== null)
             try {
                 await deleteUserFriendship(addressee_id)
+                setUsersFound(usersFound.filter((u: any) => u.user_id !== addressee_id))
             } catch (error) {
                 console.log(error)
             }
