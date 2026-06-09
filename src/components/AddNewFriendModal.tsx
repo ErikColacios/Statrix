@@ -6,10 +6,7 @@ import Link from "next/link";
 import { insertUserFriendship } from "../actions/insertUserFriendship";
 import { deleteUserFriendship } from "../actions/deleteUserFriendship";
 
-type Props = {
-};
-
-export default function AddNewFriendModal({}: Props) {
+export default function AddNewFriendModal() {
 
     const [usersFound, setUsersFound] = useState([])
 
@@ -20,6 +17,7 @@ export default function AddNewFriendModal({}: Props) {
         if (searchedUser !== "") {
             users = await getUserSearched(searchedUser)
             setUsersFound(users)
+            console.log(users)
         }
     }
 
@@ -27,6 +25,11 @@ export default function AddNewFriendModal({}: Props) {
         if (addressee_id !== null && addressee_name !== null)
             try {
                 await insertUserFriendship(addressee_id, addressee_name)
+
+                const addFriendButton = document.getElementById("addFriendButton" + addressee_id) as HTMLButtonElement
+                const requestSentText = document.getElementById("requestSentText" + addressee_id) as HTMLParagraphElement
+                addFriendButton.classList.add("hidden")
+                requestSentText.classList.remove("hidden")
             } catch (error) {
                 console.log(error)
             }
@@ -71,14 +74,14 @@ export default function AddNewFriendModal({}: Props) {
                             <p>{item.status}</p>
                         </div>
 
-                        {/* ADD FRIEND BUTTON */}
-                        {item.status === 'Pending' ?
-                            <button className='w-28 absolute right-5 text-sm p-1 rounded border border-gray-400 bg-gray-800 hover:bg-green-500 hover:text-black'
-                                onClick={() => removeFriendRequest(item.user_id)}>Remove</button>
-                            :
-                            <button className='absolute right-5 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'
+                        {/* Add friend button */}
+                        {!item.status &&
+                        <div className="absolute right-5 flex items-center space-x-4">
+                            <p className='text-green-500 hidden' id={"requestSentText"+item.user_id}>Request sent!</p>
+                            <button id={'addFriendButton'+item.user_id} className='p-2 rounded rounded-full hover:bg-zinc-700'
                                 onClick={() => sendFriendRequest(item.user_id, item.user_name)}>
-                                <svg width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="5.4399999999999995" stroke="#ffffff" fill="none"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><circle cx="29.22" cy="16.28" r="11.14"></circle><path d="M41.32,35.69c-2.69-1.95-8.34-3.25-12.1-3.25h0A22.55,22.55,0,0,0,6.67,55h29.9"></path><circle cx="45.38" cy="46.92" r="11.94"></circle><line x1="45.98" y1="39.8" x2="45.98" y2="53.8"></line><line x1="38.98" y1="46.8" x2="52.98" y2="46.8"></line></g></svg>                                </button>
+                                <svg width="20px" height="20px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="5.4399999999999995" stroke="#ffffff" fill="none"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><circle cx="29.22" cy="16.28" r="11.14"></circle><path d="M41.32,35.69c-2.69-1.95-8.34-3.25-12.1-3.25h0A22.55,22.55,0,0,0,6.67,55h29.9"></path><circle cx="45.38" cy="46.92" r="11.94"></circle><line x1="45.98" y1="39.8" x2="45.98" y2="53.8"></line><line x1="38.98" y1="46.8" x2="52.98" y2="46.8"></line></g></svg></button>
+                            </div>
                         }
                     </div>
                 ))}

@@ -3,6 +3,7 @@ import React from 'react'
 import { signUp } from '@/actions/signUpUser'
 import { useFormState } from 'react-dom'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
+import Link from 'next/link'
 
 export default function SignUp() {
 
@@ -31,6 +32,7 @@ export default function SignUp() {
                         <button className="mt-2 rounded-lg bg-gradient-to-r from-green-400 to-lime-400 p-2 hover:from-green-500 hover:to-lime-600 transition duration-300">Sign up</button>
                     </form>
                     <GoogleSignInButton/>
+                    <Link href="/login" className="text-center text-sky-300 hover:text-sky-600 mt-4">Or log into your account</Link>
                 </div>
             </div>
         </section>

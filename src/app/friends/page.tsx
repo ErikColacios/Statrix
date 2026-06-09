@@ -12,6 +12,7 @@ import AddNewFriendModal from '@/components/AddNewFriendModal'
 import getUsersFriendship from '@/actions/getUsersFriendship'
 import CustomModal from '@/components/CustomModal'
 import SkeletonFriends from './skeleton'
+import { deleteUserFriendship } from '@/actions/deleteUserFriendship'
 
 export default function Friends() {
 
@@ -39,6 +40,15 @@ export default function Friends() {
             }
     }
 
+    async function removeFriendRequest(addressee_id: string) {
+        if (addressee_id !== null)
+            try {
+                await deleteUserFriendship(addressee_id)
+            } catch (error) {
+                console.log(error)
+            }
+    }
+
     async function openChat(user2_id: string, user2_name: string) {
         let chat: any = []
         chat = await getCreateChat(user2_id, user2_name)
@@ -51,7 +61,7 @@ export default function Friends() {
         loadFriendships(userSearchMode)
         const getSessionUserId = async () => {
             const session = await getSessionUser()
-            setUser({userId: session.user.id, userName: session.user.name})
+            setUser({ userId: session.user.id, userName: session.user.name })
         }
         getSessionUserId()
     }, [])
@@ -61,7 +71,7 @@ export default function Friends() {
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                    <Dialog.Content className={`fixed w-full p-2 md:w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                    <Dialog.Content className={`fixed w-full p-2 md:w-2/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
                             data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
@@ -106,17 +116,23 @@ export default function Friends() {
                                 {/* Friend row buttons */}
                                 <div className='absolute right-5'>
                                     {userSearchMode === FriendshipStatus.PENDING ? user?.userId === item.requester_id ?
-                                        <p>Pending</p> :
+                                        <div className='flex items-center space-x-6'>
+                                            <p className='text-gray-300'>Pending</p>
+                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                            onClick={() => removeFriendRequest(item.user_id)}>
+                                                <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
+                                            </button>
+                                        </div> :
                                         <button onClick={() => acceptFriendRequest(item.requester_id)}
                                             className='w-28 text-sm p-1 rounded border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
-                                        : ''}
+                                        : ""}
                                     {userSearchMode === FriendshipStatus.ACCEPTED ?
                                         <>
-                                            <button className='p-1 rounded rounded-full hover:bg-zinc-700'
+                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
                                                 onClick={() => openChat(item.user_id, item.user_name)}>
                                                 <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#ffffff" strokeWidth="1.5"></path> <path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
                                             </button>
-                                            <button className='ml-2 p-1 rounded rounded-full hover:bg-zinc-700'
+                                            <button className='ml-2 p-2 rounded rounded-full hover:bg-zinc-700'
                                                 onClick={() => setShowModal(true)}>
                                                 <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
                                             </button>
