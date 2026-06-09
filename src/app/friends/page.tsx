@@ -7,12 +7,11 @@ import { FriendshipStatus } from '@/enums/FriendshipStatus'
 import updateUserFriendship from '@/actions/updateUserFriendship'
 import getCreateChat from '@/actions/getCreateChat'
 import getSessionUser from '@/actions/getSessionUser'
-import PrimaryButton from '@/components/PrimaryButton'
 import AddNewFriendModal from '@/components/AddNewFriendModal'
 import getUsersFriendship from '@/actions/getUsersFriendship'
-import CustomModal from '@/components/CustomModal'
 import SkeletonFriends from './skeleton'
 import { deleteUserFriendship } from '@/actions/deleteUserFriendship'
+import DeleteFriendModal from '@/components/DeleteFriendModal'
 
 export default function Friends() {
 
@@ -21,7 +20,8 @@ export default function Friends() {
     const [usersFound, setUsersFound] = useState([])
     const [userSearchMode, setUserSearchMode] = useState<FriendshipStatus>(FriendshipStatus.ACCEPTED)
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [showModal, setShowModal] = useState<boolean>(false)
+    const [modalType, setModalType] = useState<string | null>(null)
+    const [friendClicked, setFriendClicked] = useState([])
 
     async function loadFriendships(userSearchMode: FriendshipStatus) {
         let friendships: any = []
@@ -75,15 +75,15 @@ export default function Friends() {
                             data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        <AddNewFriendModal />
+                        {modalType === 'addNewFriend' && <AddNewFriendModal />}
+                        {modalType === 'deleteFriend' && <DeleteFriendModal friend={friendClicked} usersFound={usersFound} setUsersFound={setUsersFound} />}
                     </Dialog.Content>
                 </Dialog.Portal>
                 <div className='w-full flex items-center border-b-2 border-gray-500 pb-3'>
                     <h2 className='text-2xl'>Friends</h2>
-                    <Dialog.Trigger asChild className='ml-auto'>
-                        <div>
-                            <PrimaryButton text="Add a friend" />
-                        </div>
+                    <Dialog.Trigger className='ml-auto rounded px-4 py-2 bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'
+                     onClick={() => setModalType("addNewFriend")}>
+                       + Add Friend
                     </Dialog.Trigger>
                 </div>
                 <div className='relative flex flex-col'>
@@ -132,15 +132,10 @@ export default function Friends() {
                                                 onClick={() => openChat(item.user_id, item.user_name)}>
                                                 <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#ffffff" strokeWidth="1.5"></path> <path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
                                             </button>
-                                            <button className='ml-2 p-2 rounded rounded-full hover:bg-zinc-700'
-                                                onClick={() => setShowModal(true)}>
+                                            <Dialog.Trigger className='ml-2 p-2 rounded rounded-full hover:bg-zinc-700'
+                                                onClick={() => {setModalType("deleteFriend"), setFriendClicked(item)}}>
                                                 <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
-                                            </button>
-                                            {showModal &&
-                                                <CustomModal title='Warning' text={`Are you sure you want to remove ${item.user_name} from your friends list?`}
-                                                    type='question'
-                                                    action={{ actionName: "deleteUserFriendship", parameters: { item } }} closeModal={() => setShowModal(false)} />
-                                            }
+                                            </Dialog.Trigger>
                                         </>
                                         : ''}
                                 </div>

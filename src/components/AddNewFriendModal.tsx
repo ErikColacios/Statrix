@@ -17,7 +17,6 @@ export default function AddNewFriendModal() {
         if (searchedUser !== "") {
             users = await getUserSearched(searchedUser)
             setUsersFound(users)
-            console.log(users)
         }
     }
 
@@ -54,7 +53,7 @@ export default function AddNewFriendModal() {
             {/* Search user */}
             <div className="flex">
                 <form className='flex text-sm border' action={searchUser}>
-                    <input type="text" name="searchUser" id="searchUser" className='w-full sm:w-32 lg:w-full bg-transparent outline-none pl-2' placeholder='User name' />
+                    <input type="text" name="searchUser" id="searchUser" className='w-full rounded pl-2 sm:w-32 lg:w-full bg-transparent outline-none' placeholder='User name' />
                     <button className='p-1 rounded ml-2 transition hover:bg-gray-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search button" className='w-5' width={20} height={20} /></button>
                 </form>
                 <div className="loader-small ml-3 hidden" id="loader"></div>
