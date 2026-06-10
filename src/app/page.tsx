@@ -32,16 +32,17 @@ export default async function Home() {
           <Link href="/signup">
             <PrimaryButton text="Start now" />
           </Link>
-          <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg font-medium">
+          <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
             Browse Games
           </Link>
         </div>
       </section>
 
+      {/* About Section */}
       <section className="w-full flex flex-col p-6 xl:p-20">
         <div className="flex flex-col lg:flex-row items-center lg:space-x-8 text-gray-400 mt-6 text-base md:text-xl">
           <div className="lg:w-1/2">
-            <h2 className="flex flex-col text-5xl sm:text-6xl font-bold text-white mb-6">
+            <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">
               More than a game tracker
             </h2>
             <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlogg in seconds. All your gaming history in one place.</p>
@@ -50,8 +51,46 @@ export default async function Home() {
           </div>
           <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
         </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="w-full flex flex-col items-center p-6 mt-12 xl:p-20">
+        <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">Current features</h2>
+        <p className="text-gray-400 mb-10">These are the core functionalities of Statrix</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          {/* Game tracking card */}
+          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
+            <img src="/staticImages/statrix_lists.jpg" alt="Statrix lists" className="w-full h-96 rounded-lg mb-4" />
+            <div className="px-6 pb-6">
+              <h3 className="text-2xl font-semibold mb-4">Game Tracking</h3>
+              <p>Create lists, rate games, and set your progress for each title.</p>
+            </div>
+          </div>
+
+          {/* Game discovery card */}
+          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
+            <img src="/staticImages/statrix_games.jpg" alt="Statrix lists" className="w-full h-96 rounded-lg mb-4" />
+            <div className="px-6 pb-6">
+              <h3 className="text-2xl font-semibold mb-4">Discover new stuff</h3>
+              <p>Navigate throught a bast database of games and get some inspiration.</p>
+            </div>
+          </div>
+
+          {/* Chat card */}
+          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
+            <img src="/staticImages/statrix_chat.jpg" alt="Statrix chat" className="w-full h-96 rounded-lg mb-4" />
+            <div className="px-6 pb-6">
+              <h3 className="text-2xl font-semibold mb-4">Connect with players</h3>
+              <p>Chat with friends and gather a new squad to play.</p>
+            </div>
+          </div>
 
 
+
+
+        </div>
       </section>
 
     </main>
