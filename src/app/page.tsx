@@ -5,46 +5,55 @@ import PrimaryButton from "@/components/PrimaryButton"
 import getSessionUser from "@/actions/getSessionUser"
 import { redirect } from "next/navigation"
 
-//const infiniteBeyondFont = localFont({ src: '../fonts/InfiniteBeyondItalic-rgPlO.ttf' })
-
 export default async function Home() {
 
-    const session: any = await getSessionUser()
-    
-    if(session?.user.isNewUser){
-        redirect("/newUser")
-    }
+  const session: any = await getSessionUser()
+
+  if (session?.user.isNewUser) {
+    redirect("/newUser")
+  }
 
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden relative">
-      {/* Background Animation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(193, 218, 202, 0.15),transparent_70%)] animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[radial-gradient(circle,rgba(34,197,94,0.1),transparent_70%)] blur-3xl"></div>
-      </div>
-
       {/* Hero Section */}
       <section className="relative z-10 h-screen w-full px-8 flex flex-col items-center justify-center text-center">
-          <img src="/logos/st2_white.png" alt="Statrix logo" className="w-96"/>
-          <p className="text-green-400 text-sm uppercase tracking-widest mb-4">Alpha version</p>
-          <p className="text-gray-400 mt-6 text-xl animate-fade-in delay-200 leading-relaxed">
-            Track your gaming journey, discover thousands of titles, share reviews, and connect with gamers worldwide.
-          </p>
-          <div className="mt-12 flex justify-center gap-4 animate-fade-in delay-400">
-            <Link href="/signup">
-              <PrimaryButton text="Start now" />
-            </Link>
-            <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg font-medium">
-              Browse Games
-            </Link>
-          </div>
+        <div className="flex items-center bg-green-600/20 text-green-400 border border-green-500/30 rounded-full px-4 py-1 mb-8">
+          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+          Alpha version
+        </div>
+        <h1 className="flex flex-col text-5xl sm:text-7xl font-bold">
+          One Platform to Track, Share and
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-lime-500">Connect</span>
+        </h1>
+        <p className="md:w-1/2 text-gray-400 mt-6 text-base sm:text-xl">
+          Discover players who love the same games you do. Log your progress, publish reviews, build your gaming identity, and connect with a community that truly shares your interests.
+        </p>
+        <div className="mt-12 flex justify-center gap-4 animate-fade-in delay-400">
+          <Link href="/signup">
+            <PrimaryButton text="Start now for free" />
+          </Link>
+          <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg font-medium">
+            Browse Games
+          </Link>
+        </div>
       </section>
 
+      <section className="w-full flex flex-col  p-20">
+        <div className="flex items-center space-x-8 text-gray-400 mt-6 text-base sm:text-xl">
+          <div className="md:w-1/2">
+            <h2 className="flex flex-col text-5xl sm:text-6xl font-bold text-white mb-6">
+              More than a game tracker
+            </h2>
+            <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlogg in seconds. All your gaming history in one place.</p>
+            <p className="text-white">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to connect with people who play the same games or has the same interests. </p>
+            <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
+          </div>
+          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="w-1/2 rounded-2xl" />
+        </div>
 
-      {/* Footer */}
-      <footer className="relative z-10 backdrop-blur-md bg-white/5 border-t border-white/20 px-8 py-10 text-center">
-        <p className="text-gray-500">© {new Date().getFullYear()} Statrix. The gaming platform for gamers, by gamers.</p>
-      </footer>
+
+      </section>
+
     </main>
   );
 }
