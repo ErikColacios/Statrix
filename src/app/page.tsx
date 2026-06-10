@@ -30,7 +30,7 @@ export default async function Home() {
         </p>
         <div className="mt-12 flex justify-center gap-4 animate-fade-in delay-400">
           <Link href="/signup">
-            <PrimaryButton text="Start now for free" />
+            <PrimaryButton text="Start now" />
           </Link>
           <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-6 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg font-medium">
             Browse Games
@@ -38,9 +38,9 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="w-full flex flex-col  p-20">
-        <div className="flex items-center space-x-8 text-gray-400 mt-6 text-base sm:text-xl">
-          <div className="md:w-1/2">
+      <section className="w-full flex flex-col p-6 xl:p-20">
+        <div className="flex flex-col lg:flex-row items-center lg:space-x-8 text-gray-400 mt-6 text-base md:text-xl">
+          <div className="lg:w-1/2">
             <h2 className="flex flex-col text-5xl sm:text-6xl font-bold text-white mb-6">
               More than a game tracker
             </h2>
@@ -48,7 +48,7 @@ export default async function Home() {
             <p className="text-white">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to connect with people who play the same games or has the same interests. </p>
             <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
           </div>
-          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="w-1/2 rounded-2xl" />
+          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
         </div>
 
 
