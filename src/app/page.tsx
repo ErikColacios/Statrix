@@ -58,30 +58,39 @@ export default async function Home() {
         <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">Current features</h2>
         <p className="text-gray-400 mb-10">These are the core functionalities of Statrix</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-8">
 
-          {/* Game tracking card */}
+          {/* Discover card */}
           <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_lists.jpg" alt="Statrix lists" className="w-full h-96 rounded-lg mb-4" />
-            <div className="px-6 pb-6">
-              <h3 className="text-2xl font-semibold mb-4">Game Tracking</h3>
-              <p>Create lists, rate games, and set your progress for each title.</p>
-            </div>
-          </div>
-
-          {/* Game discovery card */}
-          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_games.jpg" alt="Statrix lists" className="w-full h-96 rounded-lg mb-4" />
-            <div className="px-6 pb-6">
+            <img src="/staticImages/statrix_games.jpg" alt="Statrix games" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
+            <div className="px-6 pb-4">
               <h3 className="text-2xl font-semibold mb-4">Discover new stuff</h3>
               <p>Navigate throught a bast database of games and get some inspiration.</p>
             </div>
           </div>
 
+          {/* Game Tracking card */}
+          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
+            <img src="/staticImages/statrix_lists.jpg" alt="Statrix lists" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
+            <div className="px-6 pb-4">
+              <h3 className="text-2xl font-semibold mb-4">Game Tracking</h3>
+              <p>Create lists, rate games, and set your progress for each title.</p>
+            </div>
+          </div>
+          
+          {/* Reviews card */}
+          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
+            <img src="/staticImages/statrix_reviews.jpg" alt="Statrix reviews" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
+            <div className="px-6 pb-4">
+              <h3 className="text-2xl font-semibold mb-4">Write reviews</h3>
+              <p>Share your thoughts about the games you love, or those you don't so much...</p>
+            </div>
+          </div>
+
           {/* Chat card */}
           <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_chat.jpg" alt="Statrix chat" className="w-full h-96 rounded-lg mb-4" />
-            <div className="px-6 pb-6">
+            <img src="/staticImages/statrix_chat.jpg" alt="Statrix chat" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
+            <div className="px-6 pb-4">
               <h3 className="text-2xl font-semibold mb-4">Connect with players</h3>
               <p>Chat with friends and gather a new squad to play.</p>
             </div>
