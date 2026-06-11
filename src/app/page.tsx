@@ -1,6 +1,5 @@
 import React from "react"
 import Link from "next/link"
-import localFont from 'next/font/local'
 import PrimaryButton from "@/components/PrimaryButton"
 import getSessionUser from "@/actions/getSessionUser"
 import { redirect } from "next/navigation"
@@ -58,7 +57,7 @@ export default async function Home() {
         <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">Current features</h2>
         <p className="text-gray-400 mb-10">These are the core functionalities of Statrix</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2  gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* Discover card */}
           <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
@@ -83,7 +82,7 @@ export default async function Home() {
             <img src="/staticImages/statrix_reviews.jpg" alt="Statrix reviews" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
             <div className="px-6 pb-4">
               <h3 className="text-2xl font-semibold mb-4">Write reviews</h3>
-              <p>Share your thoughts about the games you love, or those you don't so much...</p>
+              <p>Share your thoughts about the games you love, or those that not so much...</p>
             </div>
           </div>
 
@@ -97,11 +96,8 @@ export default async function Home() {
           </div>
 
 
-
-
         </div>
       </section>
-
     </main>
   );
 }
