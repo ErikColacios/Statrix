@@ -105,7 +105,7 @@ export default async function Home() {
         <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12 mt-40">
           <div className="md:w-2/5 flex flex-col">
             {reviews?.map((review: any, index: number) => (
-              <Review review={review} index={index} />
+              <Review review={review} index={index} key={index}/>
             ))}
           </div>
           <div className="md:w-1/5">
