@@ -78,8 +78,8 @@ export default async function Home() {
             <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">
               More than a game tracker
             </h2>
-            <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlogg in seconds. All your gaming history in one place.</p>
-            <p className="text-white">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to connect with people who play the same games or has the same interests. </p>
+            <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlog in seconds. All your gaming history in one place.</p>
+            <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to connect with people who play the same games or has the same interests. </p>
             <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
           </div>
           <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
@@ -89,12 +89,12 @@ export default async function Home() {
       {/* Features Section */}
       <section className="flex flex-col p-6 xl:p-16">
 
-        <div className="flex items-center justify-center space-x-12 mt-12">
-          <div className="w-1/5">
-            <h3 className="text-4xl font-semibold mb-2">Make your lists</h3>
+        <div className="flex flex-col md:flex-row md:items-center justify-center md:space-x-12 mt-12">
+          <div className="md:w-1/5 mb-4">
+            <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Make your lists</h3>
             <p className="text-2xl text-gray-400">Create lists, rate games, and set your progress for each title.</p>
           </div>
-          <div className="w-3/5 flex space-x-4">
+          <div className="md:w-3/5 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <List list={list1} />
             <List list={list2} />
           </div>
@@ -102,14 +102,14 @@ export default async function Home() {
 
 
         {/* Write reviews*/}
-        <div className="flex items-center justify-center space-x-12 mt-40">
-          <div className="w-2/5 flex flex-col w-1/2">
+        <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12 mt-40">
+          <div className="md:w-2/5 flex flex-col">
             {reviews?.map((review: any, index: number) => (
               <Review review={review} index={index} />
             ))}
           </div>
-          <div className="w-1/5">
-            <h3 className="text-4xl font-semibold mb-2">Write reviews</h3>
+          <div className="md:w-1/5">
+            <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Write reviews</h3>
             <p className="text-2xl text-gray-400">Share your thoughts about the games you love, or those that not so much...</p>
           </div>
         </div>
@@ -117,8 +117,8 @@ export default async function Home() {
 
         {/* Chat */}
         <div className="w-full flex items-center justify-center space-x-12 mt-40">
-          <div className="w-1/5">
-            <h3 className="text-4xl font-semibold mb-2">Connect with other players</h3>
+          <div className="lg:w-1/5">
+            <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Connect with other players</h3>
             <p className="text-2xl text-gray-400">Chat with friends and gather a new squad to play.</p>
           </div>
           <div className="w-2/5 flex flex-col">
