@@ -87,9 +87,8 @@ export default async function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="flex flex-col p-6 xl:p-16">
-
-        <div className="flex flex-col md:flex-row md:items-center justify-center md:space-x-12 mt-12">
+      <section className="flex flex-col p-6 xl:p-16 space-y-40">
+        <div className="flex flex-col md:flex-row md:items-center justify-center md:space-x-12">
           <div className="md:w-1/5 mb-4">
             <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Make your lists</h3>
             <p className="text-2xl text-gray-400">Create lists, rate games, and set your progress for each title.</p>
@@ -102,13 +101,13 @@ export default async function Home() {
 
 
         {/* Write reviews*/}
-        <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12 mt-40">
-          <div className="md:w-2/5 flex flex-col">
+        <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12">
+          <div className="md:w-2/5 flex flex-col order-2 md:order-1">
             {reviews?.map((review: any, index: number) => (
               <Review review={review} index={index} key={index}/>
             ))}
           </div>
-          <div className="md:w-1/5">
+          <div className="md:w-2/5 xl:w-1/5 order-1 md:order-2 mb-8">
             <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Write reviews</h3>
             <p className="text-2xl text-gray-400">Share your thoughts about the games you love, or those that not so much...</p>
           </div>
@@ -116,12 +115,12 @@ export default async function Home() {
 
 
         {/* Chat */}
-        <div className="w-full flex items-center justify-center space-x-12 mt-40">
-          <div className="lg:w-1/5">
+        <div className="w-full flex flex-col sm:flex-row sm:items-center justify-center sm:space-x-12">
+          <div className="lg:w-1/5 mb-8">
             <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Connect with other players</h3>
             <p className="text-2xl text-gray-400">Chat with friends and gather a new squad to play.</p>
           </div>
-          <div className="w-2/5 flex flex-col">
+          <div className="sm:w-2/5 flex flex-col">
             <ChatBox messages={messages} />
           </div>
         </div>

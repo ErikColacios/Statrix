@@ -58,7 +58,7 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
             <Dialog.Close className="absolute right-10 top-10 p-2 rounded transition hover:bg-gray-800">
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
-            <p className="text-3xl">Edit list information</p>
+            <p className="text-3xl">Edit list info</p>
 
             <form className="flex flex-col text-sm mt-8" onSubmit={saveChanges}>
                 <div className="flex flex-col">

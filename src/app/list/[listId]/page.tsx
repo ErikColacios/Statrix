@@ -7,7 +7,7 @@ import AddGameModal from '@/components/AddGameModal';
 import SearchGameModal from '@/components/SearchGameModal';
 import EditListInfoModal from '@/components/EditListInfoModal';
 import DeleteListModal from '@/components/DeleteListModal';
-import RemoveGameModal from '@/components/RemoveGameModal';
+import RemoveGameModal from '@/components/DeleteGameModal';
 import { useRouter } from "next/navigation";
 import { deleteGameList } from '@/actions/deleteGameList';
 
@@ -106,7 +106,7 @@ export default function List({ params }: { params: { listId: string } }) {
                                     </div>
                                 </div>
                             </Dialog.Trigger>
-                            <Dialog.Trigger onClick={() => {setGameClicked(game), setModalType("removeGame")}} className="text-xs xl:hidden group-hover:block absolute right-2 bottom-2 px-2 py-1 rounded border border-gray-400 transition hover:bg-zinc-900">
+                            <Dialog.Trigger onClick={() => {setGameClicked(game), setModalType("removeGame")}} className="text-xs xl:hidden group-hover:block absolute right-2 bottom-2 px-2 py-1 rounded rounded-full border border-gray-400 transition hover:bg-zinc-900">
                                 <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
                             </Dialog.Trigger>
                         </div>
