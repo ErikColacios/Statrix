@@ -27,7 +27,7 @@ export default async function Navbar() {
                     <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo" /></Link>
                 </div>
                 <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
-                <div className="flex items-center space-x-6 pr-2 absolute right-0">
+                <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
                     
                     {/* <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/newUser"}>New user</Link> */}
 

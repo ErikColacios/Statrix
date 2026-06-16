@@ -96,4 +96,3 @@ export default async function gamePage({ params }: { params: { list_id: string, 
         )
     )
 }
-
