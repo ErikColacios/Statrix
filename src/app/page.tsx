@@ -39,8 +39,10 @@ export default async function Home() {
   ]
 
   const messages = [
-    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Join my lobby when you are ready!" },
-    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Got it" },
+    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Yeah give me 3 minutes im going to the toilet" },
+    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Join my lobby when you are ready!" },
+    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Accepted" },
+    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Got it, did you receive it?" },
     { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Sure. Add me on Steam, my username is NukeGuy (like here)" },
     { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Hi! You wanna go play some Apex? We need one more to fill the squad" },
   ]
@@ -79,7 +81,7 @@ export default async function Home() {
               More than a game tracker
             </h2>
             <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlog in seconds. All your gaming history in one place.</p>
-            <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to connect with people who play the same games or has the same interests. </p>
+            <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to find people who play the same games or has the same interests. </p>
             <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
           </div>
           <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />

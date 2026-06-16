@@ -10,10 +10,10 @@ import { pool } from "@/util/postgres";
 export async function getListInfo(listId: string, userId: string) {
     try {
         const res = await pool.query(
-            `SELECT list_id, list_name, list_creationdate, list_description
+            `SELECT list_id, list_name, list_creationdate, list_description, list_visibility
              FROM list
              WHERE user_id = $1 AND list_id = $2
-             GROUP BY list_id, list_name, list_creationdate, list_description`,
+             GROUP BY list_id, list_name, list_creationdate, list_description, list_visibility`,
             [userId, listId]
         );
         return res.rows;

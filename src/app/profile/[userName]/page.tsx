@@ -24,7 +24,7 @@ export default async function Profile({ params }: { params: { userName: string }
     if (userId !== undefined) {
         userInfo = await getUserInfo(params.userName)
 
-        if (userInfo.length == 0) {redirect("/")}
+        if (userInfo.length == 0) { redirect("/") }
         if (params.userName == session.user.name) canEdit = true;
 
         userGameStats = await getUserGameStats(params.userName)
@@ -41,7 +41,7 @@ export default async function Profile({ params }: { params: { userName: string }
                     <div className="h-full flex flex-col md:h-[30rem] lg:w-2/3 xl:w-[40rem] border border-gray-600 bg-zinc-900 rounded-lg" key={index}>
                         {/* Profile - widget */}
                         <div className="relative h-70 z-10">
-                            <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg"/>
+                            <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg" />
                             <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0">
                                 <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
                             </div>
@@ -84,12 +84,12 @@ export default async function Profile({ params }: { params: { userName: string }
                     <div className="flex flex-col space-y-4 md:h-[30rem] w-full lg:w-2/3 xl:w-[35rem]">
                         <div className="flex space-x-4 h-1/3">
                             {/* Completed games - widget*/}
-                            <div className="w-full border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                            <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
                                 <p className="text-green-600">Completed games</p>
                                 <p className="text-6xl font-bold mt-1">{userGameStats.gamesCompleted}</p>
                             </div>
                             {/* Most played game - widget*/}
-                            <div className="w-full border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                            <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
                                 <p className="text-green-600">Most played game</p>
                                 <p className="text-xl sm:text-3xl font-bold mt-1">{userGameStats.topGames[0] ? userGameStats.topGames[0].game_name : "No played games yet..."}</p>
                             </div>
@@ -97,31 +97,31 @@ export default async function Profile({ params }: { params: { userName: string }
                         {/* Last review - widget*/}
                         <div className="flex space-x-4 border border-gray-600 bg-zinc-900 rounded-lg h-1/3">
                             {userReviews.map((r: any, index: number) => (
-                                <div className="relative  w-full flex items-center bg-cover bg-center p-4"
+                                <Link href={'/gamePage/'+r.videogame_id} className="relative w-full flex items-center bg-cover bg-center p-4"
                                     style={{ backgroundImage: `url(${r.game_base_image})` }}
                                     key={index}>
-                                    <div className="absolute w-full inset-0 bg-black/60 rounded-lg"/>
+                                    <div className="absolute w-full inset-0 bg-black/60 rounded-lg" />
                                     <img src={r.game_base_image} className="w-20 h-24 rounded z-10 mr-3" alt="Game reviewed" />
                                     <div className="flex flex-col z-10">
                                         <p className="text-green-600 font-bold">Last review <span className="text-white ml-1">{r.videogame_name}</span></p>
                                         <p className="text-sm mt-1">{r.body}</p>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
-                            {userReviews==0 && 
-                            <div className="flex flex-col p-4">
-                                <p className="text-green-600">Last review</p>
-                                <p>No reviews yet...</p>
-                            </div>}
+                            {userReviews == 0 &&
+                                <div className="flex flex-col p-4">
+                                    <p className="text-green-600">Last review</p>
+                                    <p>No reviews yet...</p>
+                                </div>}
                         </div>
                         <div className="flex space-x-4 h-1/3">
                             {/* Games playing - widget*/}
-                            <div className="w-full border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                            <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
                                 <p className="text-green-600">Games playing</p>
                                 <p className="text-6xl font-bold mt-1">{userGameStats.gamesPlayed}</p>
                             </div>
                             {/* Hours played - widget*/}
-                            <div className="w-full border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                            <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
                                 <p className="text-green-600">Hours played</p>
                                 <p className="text-6xl font-bold mt-1">{userTotalHoursPlayed}</p>
                             </div>

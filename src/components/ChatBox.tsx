@@ -3,7 +3,7 @@ import React from "react"
 export default function ChatBox({ messages }: any) {
 
     return (
-        <div className="sm:w-96 h-full" key={0}>
+        <div className="sm:w-96 h-[40rem]" key={0}>
             <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-2xl overflow-hidden">
                 <div className="w-full bg-zinc-900 border-b border-gray-600 text-xl p-4" >
                     <div className="flex items-center">
