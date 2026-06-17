@@ -12,16 +12,17 @@ export async function insertList(listName: string, gameList: Game[]) {
     const listId = uuid();
     const userId:string = session.user.id as string;
     const userName:string = session.user.name as string;
-    const favourite = false;
-    const score = 0;
-    const hours_played = 0;
+    const favourite:boolean = false;
+    const score:number = 0;
+    const hours_played:number = 0;
+    const listVisibility:string = "private";
 
     await client.query("BEGIN");
 
     await client.query(
-      `INSERT INTO list (list_id, user_id, list_name, user_name)
-                VALUES ($1, $2, $3, $4)`,
-      [listId, userId, listName, userName]
+      `INSERT INTO list (list_id, user_id, list_name, user_name, list_visibility)
+                VALUES ($1, $2, $3, $4, $5)`,
+      [listId, userId, listName, userName, listVisibility]
     );
 
     for (const game of gameList) {

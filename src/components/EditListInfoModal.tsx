@@ -25,8 +25,6 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
 
         fetchListInfo()
     }, [])
-        console.log(listInfo.list_visibility)
-
 
     async function saveChanges(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
