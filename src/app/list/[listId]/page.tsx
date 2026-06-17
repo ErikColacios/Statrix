@@ -8,13 +8,11 @@ import SearchGameModal from '@/components/SearchGameModal';
 import EditListInfoModal from '@/components/EditListInfoModal';
 import DeleteListModal from '@/components/DeleteListModal';
 import RemoveGameModal from '@/components/DeleteGameModal';
-import { useRouter } from "next/navigation";
 import { deleteGameList } from '@/actions/deleteGameList';
 
 export default function List({ params }: { params: { listId: string } }) {
 
     let listId = params.listId;
-    const router = useRouter()
     const [listContent, setListContent] = useState<Game[]>([])
     const [gameClicked, setGameClicked] = useState<Game>()
     const [modalType, setModalType] = useState<string>("")

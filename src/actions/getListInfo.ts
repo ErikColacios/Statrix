@@ -10,11 +10,13 @@ import { pool } from "@/util/postgres";
 export async function getListInfo(listId: string, userId: string) {
     try {
         const res = await pool.query(
-            `SELECT list_id, list_name, list_creationdate, list_description, list_visibility
-             FROM list
-             WHERE user_id = $1 AND list_id = $2
-             GROUP BY list_id, list_name, list_creationdate, list_description, list_visibility`,
-            [userId, listId]
+            `SELECT lst.list_id, lst.list_name, lst.list_creationdate, lst.list_description, lst.list_visibility, lst.user_id, usr.user_name, avt.avatar_image
+             FROM list lst
+             INNER JOIN users usr ON usr.user_id = lst.user_id
+             INNER JOIN avatar_images avt ON avt.avatar_image_id = usr.user_avatar_id
+             WHERE list_id = $1
+             GROUP BY lst.list_id, lst.list_name, lst.list_creationdate, lst.list_description, lst.list_visibility, lst.user_id, usr.user_name, avt.avatar_image`,
+            [listId]
         );
         return res.rows;
     } catch (error) {

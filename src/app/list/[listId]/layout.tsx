@@ -17,17 +17,29 @@ export default async function ListLayout({ children, params }: { children: React
   const userId: string = session.user.id
   const userName: string = session.user.name
 
-  if (userId !== undefined) {
-    userInfo = await getUserInfo(userName)
-    listInfo = await getListInfo(listId, userId)
-    listContent = await getListContent(listId)
-  }
-
   if (!session) {
     return (
       redirect("/")
     )
   }
+  if (userId !== undefined) {
+    //userInfo = await getUserInfo(userName)
+    listInfo = await getListInfo(listId, userId)
+    listContent = await getListContent(listId)
+
+    if (listInfo[0].list_visibility === "private") {
+      // If the session user is not the list owner, we redirect to the home page
+      if (listInfo[0].user_id !== userId) {
+        return (
+          redirect("/")
+        )
+      }
+    } else if (listInfo[0].list_visibility === "friendsOnly") {
+      // If the session user is not a friend of the list owner, we redirect to the home page
+      
+    }
+  }
+
   return (
     <section className="flex justify-center text-white bg-gradient-to-b from-black via-gray-900 to-black">
       <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
@@ -67,10 +79,10 @@ export default async function ListLayout({ children, params }: { children: React
               </div>
               <div className='flex items-center text-base text-gray-400 mt-2'>
                 <div className={`w-8 h-8 overflow-hidden rounded rounded-full`}>
-                  <img src={`/avatarImages/${userInfo[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
+                  <img src={`/avatarImages/${listInfo[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
                 </div>
                 <div className='flex items-center space-x-5 text-sm sm:text-base'>
-                  <Link href={`/profile/${userName}`} className='text-white hover:text-green-500 ml-2'>{userName}</Link>
+                  <Link href={`/profile/${listInfo[0].user_name}`} className='text-white hover:text-green-500 ml-2'>{listInfo[0].user_name}</Link>
                   {/* Creation date */}
                   <p>Created {item.list_creationdate.toISOString().split('T')[0]}</p>
                   <p>{listContent.length} games</p>
