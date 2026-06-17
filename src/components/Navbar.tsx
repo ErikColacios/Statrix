@@ -32,7 +32,7 @@ export default async function Navbar() {
                     {/* <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/newUser"}>New user</Link> */}
 
                     {userInfo.length > 0 &&
-                        <p className="hidden text-sm sm:flex text-gray-500 mr-14">{}</p>}
+                        <p className="text-sm sm:flex text-gray-500 mr-14">{userInfo[0].user_id}</p>}
 
                     <Link className="p-2 rounded rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/browseGames"}>Games</Link>
 
