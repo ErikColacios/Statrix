@@ -12,8 +12,9 @@ type Props = {
 
 export default async function AddToListButton({ game_id, game_name, game_cover }: Props) {
 
-    let lists:any[] = await getListsUser()
-    console.log(lists)
+    let lists:any[] = []
+    //let lists:any[] = await getListsUser()
+
 
     return (
         <Dialog.Root>
