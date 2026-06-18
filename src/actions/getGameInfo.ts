@@ -20,7 +20,6 @@ export default function getGameInfo(gameId: number) {
       return response.json();
     })
     .then((response) => {
-      console.log(response)
       return response;
     });
   return res;

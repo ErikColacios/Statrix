@@ -2,15 +2,15 @@ import { List } from "@/types/List"
 import Link from "next/link"
 import React from "react"
 
-type Props  = {
-    userLists:List[] 
+type Props = {
+    userLists: List[]
 }
 
-export default function ListsGrid({userLists}:Props) {
+export default function ListsGrid({ userLists }: Props) {
     return (
         <>
             {userLists.map((list: any, index: number) => (
-                // List - Shows top 5 games with Its cover
+                // Shows top 5 games with Its cover
                 <Link href={`/list/${list.list_id}`} key={index} className='flex flex-col bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 rounded-2xl overflow-hidden mb-4 md:mb-0'>
                     <div className='relative flex w-full h-48 bg-black'>
                         {list.covers.map((cover: any, i: number) => (
@@ -32,7 +32,6 @@ export default function ListsGrid({userLists}:Props) {
                 </Link>
             ))
             }
-    </>
-            
+        </>
     )
 }

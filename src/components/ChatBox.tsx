@@ -10,7 +10,7 @@ export default function ChatBox({ messages }: any) {
                         <div className="w-12 h-12 rounded rounded-full overflow-hidden">
                             <img src={messages[1].avatarImage} className="h-full w-full object-cover" alt="Avatar image" />
                         </div>
-                        <button className="text-white ml-4 hover:text-green-500">{messages[1].senderName}</button>
+                        <button className="text-white ml-4 hover:text-green-500">{messages[0].senderName}</button>
                     </div>
                 </div>
                 <div className="w-full h-full flex flex-col flex-col-reverse overflow-scroll no-scrollbar bg-zinc-900 p-4" >

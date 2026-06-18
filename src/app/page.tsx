@@ -106,7 +106,7 @@ export default async function Home() {
         <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12">
           <div className="md:w-2/5 flex flex-col order-2 md:order-1">
             {reviews?.map((review: any, index: number) => (
-              <Review review={review} index={index} key={index}/>
+              <Review review={review} index={index} key={index} />
             ))}
           </div>
           <div className="md:w-2/5 xl:w-1/5 order-1 md:order-2 mb-8">
@@ -130,6 +130,31 @@ export default async function Home() {
       </section>
 
 
+      {/* Coming soon Section */}
+      <section className="flex flex-col p-8 mt-32 justify-center items-center">
+        <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">What's in the future?</h2>
+        <p className="md:w-1/2 text-base md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
+          We've got tons of ideas that we will end up bringing to life, but for now in the upcoming months, we plan to deliver these new tools for you to start using</p>
+
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 items-center space-y-4 md:space-y-0 mt-8">
+
+          <div className="bg-gray-600 w-96 h-96 rounded-2xl p-6 flex flex-col justify-end">
+            <h3 className="text-2xl font-bold">Social feed</h3>
+            <p>Share posts, screenshots, opinions moments with the community in a <i className="italic">Twitter</i> style dashboard oriented on gaming.</p>
+          </div>
+
+          <div className="bg-gray-600 w-96 h-96 rounded-2xl p-6 flex flex-col justify-end">
+            <h3 className="text-2xl font-bold">Multiplatform imports</h3>
+            <p>Import your games into your library from other gaming networks like Steam, Playstation or Xbox.</p>
+          </div>
+
+          <div className="bg-gray-600 w-96 h-96 rounded-2xl p-6 flex flex-col justify-end">
+            <h3 className="text-2xl font-bold">Enhanced profile customization</h3>
+            <p>Upload your own avatars and banners directly from your device. More profile widgets available and themes.</p>
+          </div>
+        </div>
+      </section>
+
 
       {/* <section className="w-full flex flex-col items-center p-6 mt-12 xl:p-20">
         <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">Current features</h2>
@@ -141,31 +166,7 @@ export default async function Home() {
               <h3 className="text-2xl font-semibold mb-2">Discover new stuff</h3>
               <p>Navigate throught a bast database of games and get some inspiration.</p>
             </div>
-          </div>
-
-          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_lists.jpg" alt="Statrix lists" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
-            <div className="px-6 pb-4">
-              <h3 className="text-2xl font-semibold mb-2">Game Tracking</h3>
-              <p>Create lists, rate games, and set your progress for each title.</p>
-            </div>
-          </div>
-          
-          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_reviews.jpg" alt="Statrix reviews" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
-            <div className="px-6 pb-4">
-              <h3 className="text-2xl font-semibold mb-2">Write reviews</h3>
-              <p>Share your thoughts about the games you love, or those that not so much...</p>
-            </div>
-          </div>
-
-          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_chat.jpg" alt="Statrix chat" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
-            <div className="px-6 pb-4">
-              <h3 className="text-2xl font-semibold mb-2">Connect with players</h3>
-              <p>Chat with friends and gather a new squad to play.</p>
-            </div>
-          </div>
+          </div
         </div>
       </section> */}
     </main>
