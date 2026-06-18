@@ -33,7 +33,7 @@ export default function NewUser() {
 
     return (
         <div className="w-full lg:w-3/5 2xl:w-2/5 flex flex-col items-center justify-center bg-zinc-900 rounded-lg text-center overflow-hidden">
-            <img src="/staticImages/nightcity.jpg" alt="Welcome banner" className="w-full h-full" />
+            <img src="/staticImages/bg_nightcity.jpg" alt="Welcome banner" className="w-full h-full" />
             <div className="flex flex-col space-y-4 mt-12 mb-16">
                 <h1 className="text-4xl font-bold">Welcome aboard!</h1>
                 <p className="mb-4">What is your user name?</p>
