@@ -138,19 +138,26 @@ export default async function Home() {
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 items-center space-y-4 md:space-y-0 mt-8">
 
-          <div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover w-96 h-96 rounded-2xl p-6 flex flex-col justify-end">
-            <h3 className="text-2xl font-bold">Social feed</h3>
-            <p>Share posts, screenshots, opinions moments with the community in a <i className="italic">Twitter</i> style dashboard oriented on gaming.</p>
+          <div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
+            <div className="p-6 backdrop-blur-md w-full">
+              <h3 className="text-2xl font-bold ">Social feed</h3>
+              <p>Share posts, screenshots, opinions and moments with the community in a <i className="italic">Twitter</i> style dashboard oriented on gaming.</p>
+            </div>
           </div>
 
-          <div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl p-6 flex flex-col justify-end">
-            <h3 className="text-2xl font-bold">Multiplatform imports</h3>
-            <p>Import your games into your library from other gaming networks like Steam, Playstation or Xbox.</p>
+          <div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end">
+            <div className="p-6 backdrop-blur-md w-full">
+              <h3 className="text-2xl font-bold">Multiplatform imports</h3>
+              <p>Import your games into your library from other gaming networks like Steam, Playstation or Xbox.</p>
+            </div>
+
           </div>
 
-          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl p-6 flex flex-col justify-end">
-            <h3 className="text-2xl font-bold">Enhanced profile customization</h3>
-            <p>Upload your own avatars and banners directly from your device. More profile widgets available and themes.</p>
+          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
+            <div className="p-6 backdrop-blur-md w-full">
+              <h3 className="text-2xl font-bold">Enhanced profile customization</h3>
+              <p>Upload your own avatars and banners directly from your device. More profile widgets available and themes.</p>
+            </div>
           </div>
         </div>
       </section>

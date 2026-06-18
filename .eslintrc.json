@@ -18,6 +18,7 @@
     ],
     "rules": {
         "@next/next/no-img-element": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/no-unescaped-entities": 0
     }
 }
