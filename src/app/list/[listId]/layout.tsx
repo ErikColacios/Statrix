@@ -12,21 +12,28 @@ export default async function ListLayout({ children, params }: { children: React
   let listId = params.listId;
   let listInfo: any | undefined = []
   let listContent: any | undefined = []
-  let isOwner:boolean = false;
-
-  const userId: string = session.user.id
-  const userName: string = session.user.name
+  let isOwner: boolean = false;
 
   if (!session) {
     return (
       redirect("/")
     )
   }
+
+  const userId: string = session.user.id
+  const userName: string = session.user.name
+
   if (userId !== undefined) {
-    listInfo = await getListInfo(listId, userId)
+    listInfo = await getListInfo(listId)
     listContent = await getListContent(listId)
 
-    if(listInfo[0].user_id === userId)
+    if (listInfo.length === 0) {
+      return (
+        redirect("/")
+      )
+    }
+
+    if (listInfo[0].user_id === userId)
       isOwner = true
 
     if (listInfo[0].list_visibility === "private") {
@@ -39,7 +46,17 @@ export default async function ListLayout({ children, params }: { children: React
     } else if (listInfo[0].list_visibility === "friendsOnly") {
       // If the session user is not a friend of the list owner, we redirect to the home page
       const friendship = await getUsersFriendshipAccepted(userName)
-      console.log(friendship)
+      let isFriend: boolean = false
+      friendship.map((friend: any) => {
+        if (friend.requester_id === listInfo[0].user_id || friend.addressee_id === listInfo[0].user_id) {
+          isFriend = true
+        }
+      })
+      if (!isFriend) {
+        return (
+          redirect("/")
+        )
+      }
     }
   }
 
@@ -48,11 +65,10 @@ export default async function ListLayout({ children, params }: { children: React
       <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
 
         {/* MY LISTS */}
-       {isOwner && <Link href="../mylists" className="group flex items-center text-green-500 text-xl hover:text-green-600 border border-green-600 w-40 rounded">
+        {isOwner && <Link href="../mylists" className="group flex items-center text-green-500 text-xl hover:text-green-600 border border-green-600 w-40 rounded">
           <svg className="w-8 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" /></svg>
           MY LISTS
         </Link>}
-
 
         {listInfo.map((item: any, index: number) => (
           <div className='flex flex-col sm:flex-row' key={index}>

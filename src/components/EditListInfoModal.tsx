@@ -19,7 +19,7 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
 
     useEffect(() => {
         const fetchListInfo = async () => {
-            const res = await getListInfo(listId, userId)
+            const res = await getListInfo(listId)
             setListInfo(res[0])
             setSelectedVisibility(res[0].list_visibility)
             setIsFeatured(res[0].list_featured)

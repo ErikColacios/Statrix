@@ -7,7 +7,7 @@ import { pool } from "@/util/postgres"
  * @param user_id 
  * @returns data
  */
-export async function getListInfo(listId: string, userId: string) {
+export async function getListInfo(listId: string) {
     try {
         const res = await pool.query(
             `SELECT lst.list_id, lst.list_name, lst.list_creationdate, lst.list_description, lst.list_visibility, lst.user_id, lst.list_featured, usr.user_name, avt.avatar_image
