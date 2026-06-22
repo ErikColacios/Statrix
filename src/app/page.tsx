@@ -136,7 +136,7 @@ export default async function Home() {
         <p className="md:w-1/2 text-base md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
           We've got tons of ideas that we will end up bringing to life, but for now in the upcoming months, we plan to deliver these new tools for you to start using</p>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 items-center space-y-4 md:space-y-0 mt-8">
+        <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-4 items-center space-y-4 md:space-y-0 mt-8">
 
           <div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
             <div className="p-6 backdrop-blur-md w-full">
@@ -150,16 +150,36 @@ export default async function Home() {
               <h3 className="text-2xl font-bold">Multiplatform imports</h3>
               <p>Import your games into your library from other gaming networks like Steam, Playstation or Xbox.</p>
             </div>
-
           </div>
 
           <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
             <div className="p-6 backdrop-blur-md w-full">
-              <h3 className="text-2xl font-bold">Enhanced profile customization</h3>
-              <p>Upload your own avatars and banners directly from your device. More profile widgets available and themes.</p>
+              <h3 className="text-2xl font-bold">Enhanced customization</h3>
+              <p>Upload your own avatars and banners directly from your device. More widgets available and themes for your profile.</p>
             </div>
           </div>
+
+          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
+            <div className="p-6 backdrop-blur-md w-full">
+              <h3 className="text-2xl font-bold">Mobile app</h3>
+              <p>Access Statrix from your mobile or tablet. It will be available for both iOS and Android.</p>
+            </div>
+          </div>
+
         </div>
+      </section>
+
+
+      <section className="h-[50vh] flex flex-col px-24 py-8 mt-32 justify-center bg-gray-900">
+        <div className="flex flex-col">
+          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">ready to jump in?</h2>
+          <div>
+            <Link href="/signup" className="text-md sm:text-xl text-green-500">START NOW</Link>
+
+            {/* <Link href="/signup" className="text-md sm:text-xl px-4 py-2 sm:px-12 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Start now</Link> */}
+          </div>
+        </div>
+
       </section>
 
 
