@@ -50,6 +50,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden relative">
+
       {/* Hero Section */}
       <section className="relative z-10 h-screen w-full px-8 flex flex-col items-center justify-center text-center">
         <div className="flex items-center bg-green-600/20 text-green-400 border border-green-500/30 rounded-full px-4 py-1 mb-8">
@@ -130,8 +131,8 @@ export default async function Home() {
       </section>
 
 
-      {/* Coming soon Section */}
-      <section className="flex flex-col p-8 mt-32 justify-center items-center">
+      {/* Coming soon section */}
+      <section className="flex flex-col p-8 xl:p-16 mt-32 justify-center items-center">
         <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">What's in the future?</h2>
         <p className="md:w-1/2 text-base md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
           We've got tons of ideas that we will end up bringing to life, but for now in the upcoming months, we plan to deliver these new tools for you to start using</p>
@@ -152,7 +153,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
+          <div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Enhanced customization</h3>
               <p>Upload your own avatars and banners directly from your device. More widgets available and themes for your profile.</p>
@@ -162,24 +163,28 @@ export default async function Home() {
           <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Mobile app</h3>
-              <p>Access Statrix from your mobile or tablet. It will be available for both iOS and Android.</p>
+              <p>Access to your account from a mobile or tablet. It will be available for both iOS and Android.</p>
             </div>
           </div>
 
         </div>
       </section>
 
-
-      <section className="h-[50vh] flex flex-col px-24 py-8 mt-32 justify-center bg-gray-900">
-        <div className="flex flex-col">
-          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">ready to jump in?</h2>
-          <div>
-            <Link href="/signup" className="text-md sm:text-xl text-green-500">START NOW</Link>
-
-            {/* <Link href="/signup" className="text-md sm:text-xl px-4 py-2 sm:px-12 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Start now</Link> */}
+      {/* CTA section */}
+      <section className="w-full flex flex-col justify-center h-[50vh] text-base md:text-xl p-6 xl:p-20 mt-20">
+        <div className="lg:w-1/2">
+          <h2 className="flex flex-col text-4xl sm:text-6xl font-bold mb-6">Ready to jump in?</h2>
+          <p className="text-gray-400">You can sign up via Google or you can create an account on the traditional way.</p>
+          <p>And of course, this is all for free.</p>
+          <div className="mt-12 flex gap-4 animate-fade-in delay-400">
+            <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+              Start now
+            </Link>
+            <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
+              Browse Games
+            </Link>
           </div>
         </div>
-
       </section>
 
 

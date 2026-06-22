@@ -11,7 +11,7 @@ export default async function SettingsLayout({ children }: { children: React.Rea
   }
 
   return (
-    <section className='h-screen'>
+    <section className='h-full'>
       {children}
     </section>
   )

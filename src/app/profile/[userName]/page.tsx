@@ -34,16 +34,14 @@ export default async function Profile({ params }: { params: { userName: string }
         userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
         userTotalReviews = await getUserTotalReviews(params.userName)
         userReviews = await getUserGameReviews(params.userName)
-
-        userLists = await getListsUser(userInfo[0].user_id, true)
+        userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0,3) // We show only the top 3 featured lists
     }
-
 
     return (
         <>
             {userInfo.map((item: any, index: number) => (
-                <section className="flex flex-col items-center justify-center px-2 py-2 w-full" key={index}>
-                    <div className=" flex flex-col">
+                <section className="min-h-screen bg-black text-white py-16 flex flex-col items-center justify-center px-2 py-2" key={index}>
+                    <div className="flex flex-col">
                         <div className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-4 lg:flex-row">
                             <div className="h-full flex flex-col md:h-[30rem] lg:w-2/3 xl:w-[40rem] border border-gray-600 bg-zinc-900 rounded-lg" >
                                 {/* Profile - widget */}

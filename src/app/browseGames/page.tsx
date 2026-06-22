@@ -73,7 +73,7 @@ export default function BrowseGames() {
 
 
   return (
-    <section className='flex w-full h-screen bg-black text-white text-sm py-20'>
+    <section className='flex w-full bg-black text-white text-sm py-20'>
       <Dialog.Root>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50" />

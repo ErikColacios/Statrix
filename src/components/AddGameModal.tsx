@@ -105,11 +105,11 @@ export default function AddGameModal({ game }: Props) {
                     </div>
 
                     {userId === undefined &&
-                        <div className="py-10">
-                            <p className="text-gray-400 mb-6">Log in to add this game to your library and track your progress!</p>
-                            <Link href="/login"
-                                className="text-lg sm:text-xl px-6 py-2 rounded-lg bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                                Enter or create an account</Link>
+                        <div className="text-gray-400 my-12">
+                            <p className="mb-8">Log in to add this game to your library and track your progress!</p>
+                            <Link href="/login" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                Start now
+                            </Link>
                         </div>
                     }
                     {userId &&

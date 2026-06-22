@@ -94,7 +94,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
 
     
     return (
-        <section className='pt-6 sm:pt-14 md:pt-8'>
+        <section className='pt-6 py-14 md:pt-8'>
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />

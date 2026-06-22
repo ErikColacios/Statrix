@@ -20,8 +20,8 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
     return (
         gameInfo.map((game: any, index: number) => (
-            <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black h-screen text-white text-sm pb-12" key={index}>
-                    <div className='pt-8 w-full flex flex-col games-center items-center blur-none'>
+            <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black text-white text-sm py-16" key={index}>
+                    <div className='w-full flex flex-col games-center items-center blur-none'>
                         {/* Game box */}
                         <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded'>
                             <div className='relative h-96'>
