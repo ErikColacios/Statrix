@@ -13,7 +13,7 @@ export default function Review({ review, index }: any) {
                 }
                 {/* User reviewer button */}
                 <div className="flex items-center hover:text-green-400 ml-1 cursor-pointer">
-                    <div className="w-8 h-8 rounded-sm rounded-full overflow-hidden mr-2">
+                    <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
                         <img src={review.avatarImage} className="h-full w-full object-cover" alt="User avatar" />
                     </div>
                     {review.userName}
