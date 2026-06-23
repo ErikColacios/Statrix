@@ -7,11 +7,8 @@
 }
 
 @theme {
-  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
-  --background-image-gradient-conic: conic-gradient(
-    from 180deg at 50% 50%,
-    var(--tw-gradient-stops)
-  );
+  --animate-slide-left: slide-left 0.2s ease-in forwards;
+  --animate-slide-right: slide-right 0.2s ease-in forwards;
 }
 
 /*
@@ -194,6 +191,17 @@ input[type="number"] {
   opacity: 1;
 }
 
+.cardReviewGreen {
+  background-color: rgba(10, 70, 50, 0.444);
+  background-image: radial-gradient(black, transparent);
+}
+
+.cardReviewRed {
+  background-color: rgba(80, 18, 18, 0.444);
+  background-image: radial-gradient(black, transparent);
+}
+
+
 /* Fade in animation to open the dialogs */
 @keyframes dialog-content-show {
   from {
@@ -218,12 +226,28 @@ input[type="number"] {
   }
 }
 
-.cardReviewGreen {
-  background-color: rgba(10, 70, 50, 0.444);
-  background-image: radial-gradient(black, transparent);
+
+
+/* Fade in animation to open the dialogs */
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translate(-10%, 0%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0%);
+  }
 }
 
-.cardReviewRed {
-  background-color: rgba(80, 18, 18, 0.444);
-  background-image: radial-gradient(black, transparent);
+/* Fade in animation to open the dialogs */
+@keyframes slide-right {
+  from {
+    opacity: 1;
+    transform: translate(0%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-10%, 0%);
+  }
 }

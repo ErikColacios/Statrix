@@ -142,8 +142,9 @@ export default function NewList() {
     };
   }, [showSidebar])
 
-
+  // When clicking the 'Next' button, we change the window to 'Edit list info'
   if (nextSlide === 1) return (<EditListInfo setNextSlide={setNextSlide} gameList={gameList}/>)
+
   if (nextSlide === 0)
     return (
       <section className='flex w-full min-h-screen bg-black text-white text-sm py-20'>

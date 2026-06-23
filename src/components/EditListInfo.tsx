@@ -35,7 +35,7 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
 
 
     return (
-        <div className='w-full flex justify-center'>
+        <div className='w-full flex justify-center animate-slide-left'>
             <div className="w-full xl:w-1/2 flex flex-col p-4 pt-20 sm:p-20 min-h-screen text-white">
                 <p className="text-3xl">List information</p>
                 <div className="flex flex-col text-sm mt-8" >
@@ -43,7 +43,6 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
                         <p className="text-sm text-gray-400">List name</p>
                         <input type="text" name="listName" id="listName" className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600' />
                     </div>
-
 
                     <p className="text-sm text-gray-400 mt-4">List description</p>
                     <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none" />
