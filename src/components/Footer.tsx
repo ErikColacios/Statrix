@@ -5,7 +5,7 @@ export default async function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="absolute bottom-0 h-12 w-full flex flex-col sm:flex-row justify-center items-center bg-black text-white text-sm sm:space-x-20 px-12 py-8">
+    <footer id='footer' className="absolute bottom-0 h-12 w-full flex flex-col sm:flex-row justify-center items-center bg-black text-white text-sm sm:space-x-20 px-12 py-8">
       <div className='flex items-center text-gray-400'>
         <p>@ {currentYear} Statrix</p>
         <p className='ml-4 mr-1'>Game data by</p>
