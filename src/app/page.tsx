@@ -53,7 +53,7 @@ export default async function Home() {
 
       {/* Hero Section */}
       <section className="relative z-10 h-screen w-full px-8 flex flex-col items-center justify-center text-center">
-        <div className="flex items-center bg-green-600/20 text-green-400 border border-green-500/30 rounded-full px-4 py-1 mb-8">
+        <div className="animate-bounce flex items-center bg-green-600/20 text-green-400 border border-green-500/30 rounded-full px-4 py-1 mb-8">
           <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
           Alpha version
         </div>
@@ -65,10 +65,10 @@ export default async function Home() {
           Discover players who love the same games you do. Log your progress, publish reviews, build your gaming identity, and connect with a community that truly shares your interests.
         </p>
         <div className="mt-12 flex justify-center gap-4 animate-fade-in delay-400">
-          <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+          <Link href="/signup" className="sm:w-48 text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
             Start now
           </Link>
-          <Link href={'/browseGames'} className="backdrop-blur-xs bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
+          <Link href={'/browseGames'} className="sm:w-48 backdrop-blur-xs bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
             Browse Games
           </Link>
         </div>
@@ -171,9 +171,9 @@ export default async function Home() {
       </section>
 
       {/* CTA section */}
-      <section className="w-full flex flex-col justify-center h-[50vh] text-base md:text-xl p-6 xl:p-20 mt-20">
+      <section className="w-full flex items-center justify-center h-[50vh] text-base md:text-xl p-6 xl:p-20 mt-20">
         <div className="lg:w-1/2">
-          <h2 className="flex flex-col text-4xl sm:text-6xl font-bold mb-6">Ready to jump in?</h2>
+          <h2 className="flex text-4xl sm:text-6xl font-bold mb-6">Ready to jump in?</h2>
           <p className="text-gray-400">You can sign up via Google or you can create an account on the traditional way.</p>
           <p>And of course, this is all for free.</p>
           <div className="mt-12 flex gap-4 animate-fade-in delay-400">
@@ -184,6 +184,9 @@ export default async function Home() {
               Browse Games
             </Link>
           </div>
+        </div>
+        <div>
+          <img src="/logos/st2_white.png" alt="Statrix logo" className="w-96"/>
         </div>
       </section>
 

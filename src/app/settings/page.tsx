@@ -73,14 +73,14 @@ export default function Settings() {
                         {/* BANNER */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("banner")}>
                             <div className="w-full">
-                                <img src={"/bannerImages/"+item.banner_image} className="w-full h-42 md:h-56 outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" alt="Banner image"/>
+                                <img src={"/bannerImages/"+item.banner_image} className="w-full h-42 md:h-62 outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" alt="Banner image"/>
                             </div>
                         </Dialog.Trigger>
         
         
                         {/* AVATAR */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("avatar")}>
-                            <div className="ml-2 absolute top-10 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
+                            <div className="ml-2 absolute top-15 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
                                 <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image"/>
                             </div>
                         </Dialog.Trigger>
