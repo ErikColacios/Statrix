@@ -59,16 +59,16 @@ export default async function Home() {
         </div>
         <h1 className="flex flex-col text-5xl sm:text-7xl font-bold">
           One Platform to Track, Share and
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-lime-500">Connect</span>
+          <span className="bg-clip-text text-transparent bg-linear-to-r from-green-400 to-lime-500">Connect</span>
         </h1>
         <p className="md:w-1/2 text-gray-400 mt-6 text-base sm:text-xl">
           Discover players who love the same games you do. Log your progress, publish reviews, build your gaming identity, and connect with a community that truly shares your interests.
         </p>
         <div className="mt-12 flex justify-center gap-4 animate-fade-in delay-400">
-          <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+          <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
             Start now
           </Link>
-          <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
+          <Link href={'/browseGames'} className="backdrop-blur-xs bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
             Browse Games
           </Link>
         </div>
@@ -177,10 +177,10 @@ export default async function Home() {
           <p className="text-gray-400">You can sign up via Google or you can create an account on the traditional way.</p>
           <p>And of course, this is all for free.</p>
           <div className="mt-12 flex gap-4 animate-fade-in delay-400">
-            <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+            <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
               Start now
             </Link>
-            <Link href={'/browseGames'} className="backdrop-blur-sm bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
+            <Link href={'/browseGames'} className="backdrop-blur-xs bg-white/10 border border-green-500/30 text-white hover:bg-white/20 hover:border-green-400 rounded-xl px-4 sm:px-8 py-2 sm:py-3 transition-all text-base sm:text-lg">
               Browse Games
             </Link>
           </div>

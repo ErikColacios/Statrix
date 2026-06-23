@@ -68,19 +68,19 @@ export default function Settings() {
                 </Dialog.Content>
             </Dialog.Portal>
             <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80">
-                <form className="w-full relative rounded outline-gray-700" action={formAction}>
+                <form className="w-full relative rounded-sm outline-gray-700" action={formAction}>
 
                         {/* BANNER */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("banner")}>
                             <div className="w-full">
-                                <img src={"/bannerImages/"+item.banner_image} className="w-full h-42 md:h-56 outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" alt="Banner image"/>
+                                <img src={"/bannerImages/"+item.banner_image} className="w-full h-42 md:h-56 outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer" alt="Banner image"/>
                             </div>
                         </Dialog.Trigger>
         
         
                         {/* AVATAR */}
                         <Dialog.Trigger asChild onClick={() => setChooseMode("avatar")}>
-                            <div className="ml-2 absolute top-10 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
+                            <div className="ml-2 absolute top-10 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
                                 <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image"/>
                             </div>
                         </Dialog.Trigger>
@@ -88,42 +88,42 @@ export default function Settings() {
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
                                 <div>
                                     <p className="text-sm text-gray-400">Username</p>
-                                    <input type="text" name="userName" maxLength={16} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
+                                    <input type="text" name="userName" maxLength={16} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Bio</p>
-                                    <textarea rows={7} name="userBio" maxLength={250} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
+                                    <textarea rows={7} name="userBio" maxLength={250} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Email</p>
-                                    <input type="userEmail" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
+                                    <input type="userEmail" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Location</p>
-                                    <input type="text" name="userLocation" maxLength={35} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
+                                    <input type="text" name="userLocation" maxLength={35} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Webpage</p>
-                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} />
+                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Steam Profile</p>
-                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_steam} />
+                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Twitch Profile</p>
-                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} />
+                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">X Profile</p>
-                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600" defaultValue={item.user_x} />
+                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_x} />
                                 </div>
                                 <div>
                                     <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>
                                 </div>
                                 <div>
                                     <Dialog.Trigger onClick={() => setChooseMode("deleteUser")}>
-                                        <span className="rounded text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Delete account</span>
+                                        <span className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Delete account</span>
                                     </Dialog.Trigger>
                                 </div>
         

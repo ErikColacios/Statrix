@@ -97,12 +97,12 @@ export default function AddGame({ game }: Props) {
                 <div className="flex space-x-4">
                     <div className="flex flex-col">
                         <label className="text-gray-400">Score</label>
-                        <input id={'score'} onChange={handleScoreChange} type="number" className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right'
+                        <input id={'score'} onChange={handleScoreChange} type="number" className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right'
                             value={score} />
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-400">Hours played</label>
-                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0}
+                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
                             value={hoursPlayed} />
                     </div>
                 </div>
@@ -112,28 +112,28 @@ export default function AddGame({ game }: Props) {
                         <button
                             onClick={() => setSelectedStatus(GameStatus.PLAYING)}
                             className={selectedStatus === GameStatus.PLAYING
-                                ? "bg-gradient-to-r from-teal-500 to-blue-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                ? "bg-linear-to-r from-teal-500 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                : "rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>{GameStatus.PLAYING}</button>
 
                         <button
                             onClick={() => setSelectedStatus(GameStatus.COMPLETED)}
                             className={selectedStatus === GameStatus.COMPLETED
-                                ? "bg-gradient-to-r from-green-500 to-lime-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                ? "bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                : "rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>{GameStatus.COMPLETED}</button>
                         <button
                             onClick={() => setSelectedStatus(GameStatus.ON_HOLD)}
                             className={selectedStatus === GameStatus.ON_HOLD
-                                ? "bg-gradient-to-r from-indigo-600 to-blue-500 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                ? "bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                : "rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>{GameStatus.ON_HOLD}</button>
 
                         <button
                             onClick={() => setSelectedStatus(GameStatus.DROPPED)}
                             className={selectedStatus === GameStatus.DROPPED
-                                ? "bg-gradient-to-r from-red-600 to-orange-700 rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                : "rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                ? "bg-linear-to-r from-red-600 to-orange-700 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                : "rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>{GameStatus.DROPPED}</button>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ export default function AddGame({ game }: Props) {
                     <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />
                 </div>
 
-                <button className="px-6 py-2 text-center rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                <button className="px-6 py-2 text-center rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
                     onClick={handleSaveUserGame} >
                     Save game
                 </button>

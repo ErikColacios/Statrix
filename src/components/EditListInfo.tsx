@@ -41,12 +41,12 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
                 <div className="flex flex-col text-sm mt-8" >
                     <div className="flex flex-col">
                         <p className="text-sm text-gray-400">List name</p>
-                        <input type="text" name="listName" id="listName" className='rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600' />
+                        <input type="text" name="listName" id="listName" className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600' />
                     </div>
 
 
                     <p className="text-sm text-gray-400 mt-4">List description</p>
-                    <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-700 resize-none" />
+                    <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none" />
 
                     <fieldset className='flex flex-col space-y-1'>
                         <label className="inline-flex items-center mt-4 mb-1">Visibility</label>
@@ -88,10 +88,10 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
 
                     <div className='flex items-center space-x-4 ml-auto mt-8'>
                         {error && <div className="text-red-500">{error}</div>}
-                        <button onClick={() => setNextSlide(0)} className="px-4 py-1 rounded text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
+                        <button onClick={() => setNextSlide(0)} className="px-4 py-1 rounded-sm text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
                             Back
                         </button>
-                        <button onClick={createList} className="px-4 py-1 rounded bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                        <button onClick={createList} className="px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                             Save changes
                         </button>
                     </div>

@@ -172,14 +172,14 @@ export default function NewList() {
           <div className="flex flex-col sm:flex-row items-center mb-4">
             {/* Search bar */}
             <form className='w-full md:w-96 relative flex items-center border border-gray-400' action={formAction}>
-              <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-none pl-2' placeholder='Hollow Knight' />
-              <button className='rounded p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
+              <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
+              <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
             </form>
 
             {/* Sidebar of games added */}
             <div ref={sidebarRef}>
               {showSidebar &&
-                <div className={`absolute right-5 top-40 z-50 overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/80 backdrop-blur-sm border border-gray-600 rounded-2xl m-2 p-4`}>
+                <div className={`absolute right-5 top-40 z-50 overflow-scroll h-96 w-[95%] sm:w-96 no-scrollbar bg-black/80 backdrop-blur-xs border border-gray-600 rounded-2xl m-2 p-4`}>
                   {gameList.map((gameInList, index) => (
                     <div key={index} className='flex items-center mb-3 w-full relative'>
                       <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameInList.cover.image_id}.png`} className='w-10 h-12' width={70} height={70} alt='Videogame cover sidebar' />
@@ -197,7 +197,7 @@ export default function NewList() {
                 <p className='font-bold'>{countGames}</p>
                 <p className='text-gray-300 ml-1'>games</p>
               </button>
-              <button onClick={() => setNextSlide(1)} className="w-32 py-1 rounded-md bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+              <button onClick={() => setNextSlide(1)} className="w-32 py-1 rounded-md bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                 Next
               </button>
             </div>
@@ -209,7 +209,7 @@ export default function NewList() {
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
               {gameItems.map((game, index: number) => (
                 <div key={index} className={`${gameList.includes(game) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} onClick={() => handleSetGameList(game)}>
-                  <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Videogame cover' />
+                  <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50' width={80} height={80} alt='Videogame cover' />
                   <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>
                     <p className='text-sm md:text-lg'>{game.name}</p>
                   </div>
@@ -221,10 +221,10 @@ export default function NewList() {
             </div>}
           {gameItems.length !== 0 &&
             <div className="w-full flex justify-center text-gray-400 space-x-2 py-6">
-              <button className="rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+              <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                 disabled={responseOffset === 0}
                 onClick={() => handlePagination('previous')}>Prev</button>
-              <button className="rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+              <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                 onClick={() => handlePagination('next')}>Next</button>
             </div>
           }

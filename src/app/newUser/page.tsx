@@ -38,12 +38,12 @@ export default function NewUser() {
                 <h1 className="text-4xl font-bold">Welcome aboard!</h1>
                 <p className="mb-4">What is your user name?</p>
                 <form action={formAction}>
-                    <input type="text" maxLength={16} name="usernameLogIn" id="usernameLogIn" className="text-center mb-4 bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600 p-1 focus:outline-none" placeholder="DoomGuy"/>
+                    <input type="text" maxLength={16} name="usernameLogIn" id="usernameLogIn" className="text-center mb-4 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 p-1 focus:outline-hidden" placeholder="DoomGuy"/>
                     {/* Show error message */}
                     {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
 
                     <p className="text-sm text-gray-400 mb-4">This can be changed anytime in your Settings page</p>
-                    <button type="submit" className="text-md sm:text-lg text-white px-3 py-2 sm:px-6 sm:py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Continue</button>
+                    <button type="submit" className="text-md sm:text-lg text-white px-3 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Continue</button>
                 </form>
             </div>
         </div>

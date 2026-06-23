@@ -3,7 +3,7 @@ import React from "react"
 export default function Review({ review, index }: any) {
 
     return (
-        <div className={`flex flex-col overflow-scroll no-scrollbar space-y-2 h-42 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border text-sm 
+        <div className={`flex flex-col overflow-scroll no-scrollbar space-y-2 h-32 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border text-sm 
             ${review.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
             <div className='relative flex items-center text-white'>
                 {review.recommended ?
@@ -13,7 +13,7 @@ export default function Review({ review, index }: any) {
                 }
                 {/* User reviewer button */}
                 <div className="flex items-center hover:text-green-400 ml-1 cursor-pointer">
-                    <div className="w-8 h-8 rounded rounded-full overflow-hidden mr-2">
+                    <div className="w-8 h-8 rounded-sm rounded-full overflow-hidden mr-2">
                         <img src={review.avatarImage} className="h-full w-full object-cover" alt="User avatar" />
                     </div>
                     {review.userName}
@@ -25,12 +25,12 @@ export default function Review({ review, index }: any) {
                     <span>{review.likes}</span>
 
                     {/* Review actions button */}
-                    <button className="flex items-center transition bg-gray-800 hover:bg-gray-600 ml-1 p-1 rounded">
+                    <button className="flex items-center transition bg-gray-800 hover:bg-gray-600 ml-1 p-1 rounded-sm">
                         Like!
                     </button>
                 </div>
             </div>
-            <span className='h-[1px] w-full bg-gray-600'></span>
+            <span className='h-px w-full bg-gray-600'></span>
             <div className='h-full'>
                 <p>{review.body}</p>
             </div>

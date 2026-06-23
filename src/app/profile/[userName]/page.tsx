@@ -40,10 +40,10 @@ export default async function Profile({ params }: { params: { userName: string }
     return (
         <>
             {userInfo.map((item: any, index: number) => (
-                <section className="min-h-screen bg-black text-white py-16 flex flex-col items-center justify-center px-2 py-2" key={index}>
+                <section className="min-h-screen bg-black text-white py-16 flex flex-col items-center px-2 py-2" key={index}>
                     <div className="flex flex-col">
                         <div className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-4 lg:flex-row">
-                            <div className="h-full flex flex-col md:h-[30rem] lg:w-2/3 xl:w-[40rem] border border-gray-600 bg-zinc-900 rounded-lg" >
+                            <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 border border-gray-600 bg-zinc-900 rounded-lg" >
                                 {/* Profile - widget */}
                                 <div className="relative h-70 z-10">
                                     <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg" />
@@ -56,7 +56,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                         <p className="text-4xl font-bold">{item.user_name}</p>
                                         <p className="text-gray-400">Joined {item.user_creationdate.toISOString().split('T')[0]}</p>
                                         {canEdit && <Link href={'/settings'} className="w-1/2 sm:w-full text-center text-md text-white px-3 py-1 sm:px-6 sm:py-1 rounded-xl 
-                                bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                                             Settings</Link>}
                                     </div>
                                     <div className="flex flex-col space-y-2 sm:w-2/3 mt-4 sm:ml-4 sm:mt-0">
@@ -86,7 +86,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col space-y-4 md:h-[30rem] w-full lg:w-2/3 xl:w-[35rem]">
+                            <div className="flex flex-col space-y-4 md:h-120 w-full lg:w-2/3 xl:w-140">
                                 <div className="flex space-x-4 h-1/3">
                                     {/* Completed games - widget*/}
                                     <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
@@ -106,7 +106,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                             style={{ backgroundImage: `url(${r.game_base_image})` }}
                                             key={index}>
                                             <div className="absolute w-full inset-0 bg-black/60 rounded-lg" />
-                                            <img src={r.game_base_image} className="w-20 h-24 rounded z-10 mr-3" alt="Game reviewed" />
+                                            <img src={r.game_base_image} className="w-20 h-24 rounded-sm z-10 mr-3" alt="Game reviewed" />
                                             <div className="flex flex-col z-10">
                                                 <p className="text-green-600 font-bold">Last review <span className="text-white ml-1">{r.videogame_name}</span></p>
                                                 <p className="text-sm mt-1">{r.body}</p>

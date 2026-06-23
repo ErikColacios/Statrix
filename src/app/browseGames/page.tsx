@@ -107,8 +107,8 @@ export default function BrowseGames() {
         <div className="flex flex-col w-full px-4 pb-24 md:px-8">
           {/* Search bar */}
           <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400' action={formAction}>
-            <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-none pl-2' placeholder='Hollow Knight' />
-            <button className='rounded p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
+            <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
+            <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
           </form>
 
           {/* Games shown */}
@@ -116,7 +116,7 @@ export default function BrowseGames() {
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
               {gameItems.map((game, index: number) => (
                 <Dialog.Trigger key={index} onClick={()=> setGameClicked(game)} className={`group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-sm group-hover:brightness-50' width={80} height={80} alt='Game cover' />
+                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50' width={80} height={80} alt='Game cover' />
                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                       <p>{game.name}</p>
                     </div>
@@ -125,10 +125,10 @@ export default function BrowseGames() {
             </div>}
           {gameItems.length !== 0 &&
             <div className="w-full flex justify-center text-gray-400 space-x-2 py-6">
-              <button className="rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+              <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                 disabled={responseOffset === 0}
                 onClick={() => handlePagination('previous')}>Prev</button>
-              <button className="rounded border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+              <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                 onClick={() => handlePagination('next')}>Next</button>
             </div>
           }

@@ -83,7 +83,7 @@ export default function Friends() {
                 </Dialog.Portal>
                 <div className='w-full flex items-center border-b-2 border-gray-500 pb-3'>
                     <h2 className='text-2xl'>Friends</h2>
-                    <Dialog.Trigger className='ml-auto rounded px-4 py-2 bg-gradient-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'
+                    <Dialog.Trigger className='ml-auto rounded-sm px-4 py-2 bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'
                      onClick={() => setModalType("addNewFriend")}>
                        + Add Friend
                     </Dialog.Trigger>
@@ -104,7 +104,7 @@ export default function Friends() {
                         {usersFound.map((item: any, index: number) => (
                             <div key={index} className='relative flex items-center p-2 mb-4 h-16 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
                                 <Link href={`/profile/${item.user_name}`} className='flex items-center'>
-                                    <div className="w-10 h-10 rounded rounded-full overflow-hidden">
+                                    <div className="w-10 h-10 rounded-full overflow-hidden">
                                         <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
                                     </div>
                                     {/* User name */}
@@ -121,18 +121,18 @@ export default function Friends() {
                                         // If the user is the requester, we print only the cancel request button
                                         <div className='flex items-center space-x-3'>
                                             <p className='text-gray-300'>Pending</p>
-                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                            <button className='p-2 rounded-full hover:bg-zinc-700'
                                                 onClick={() => removeFriendRequest(item.user_id)}>
                                                 <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
                                             </button>
                                         </div> :
                                         // If the user is the addressee, we print the accept and reject buttons
                                         <div className='flex items-center space-x-3'>
-                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                            <button className='p-2 rounded-full hover:bg-zinc-700'
                                                 onClick={() => acceptRejectFriendRequest(item.requester_id, FriendshipStatus.ACCEPTED)}>
                                                 <svg width="20px" height="20px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5.5 12.5L10.167 17L19.5 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
                                             </button>
-                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                            <button className='p-2 rounded-full hover:bg-zinc-700'
                                                 onClick={() => acceptRejectFriendRequest(item.requester_id, FriendshipStatus.REJECTED)}>
                                                 <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
                                             </button>
@@ -140,11 +140,11 @@ export default function Friends() {
                                         : ""}
                                     {userSearchMode === FriendshipStatus.ACCEPTED ?
                                         <div className='flex items-center space-x-3'>
-                                            <button className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                            <button className='p-2 rounded-full hover:bg-zinc-700'
                                                 onClick={() => openChat(item.user_id, item.user_name)}>
                                                 <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z" stroke="#ffffff" strokeWidth="1.5"></path> <path d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
                                             </button>
-                                            <Dialog.Trigger className='p-2 rounded rounded-full hover:bg-zinc-700'
+                                            <Dialog.Trigger className='p-2 rounded-full hover:bg-zinc-700'
                                                 onClick={() => {setModalType("deleteFriend"), setFriendClicked(item)}}>
                                                 <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" stroke="#ffffff" strokeWidth="0.396"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>remove-line</title> <path className="clr-i-outline clr-i-outline-path-1" d="M19.61,18l4.86-4.86a1,1,0,0,0-1.41-1.41L18.2,16.54l-4.89-4.89a1,1,0,0,0-1.41,1.41L16.78,18,12,22.72a1,1,0,1,0,1.41,1.41l4.77-4.77,4.74,4.74a1,1,0,0,0,1.41-1.41Z"></path><path className="clr-i-outline clr-i-outline-path-2" d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z"></path><rect x="0" y="0"></rect></g></svg>
                                             </Dialog.Trigger>

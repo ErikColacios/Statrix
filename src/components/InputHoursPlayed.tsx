@@ -30,11 +30,11 @@ export default function InputHoursPlayed({hours_played, game_id, source}:Props){
     switch(source){
         case "listPage":
             return (
-                <input type="number" id={'hours'+game_id} className='w-12 pr-1 rounded bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600 text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
+                <input type="number" id={'hours'+game_id} className='w-12 pr-1 rounded-sm bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
             )
         case "gamePage":
             return (
-                <input type="number" id={'hoursPlayed'} className='text-base rounded text-2xl p-1 bg-gray-800 outline-none border border-gray-700 focus:border-green-600 text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
+                <input type="number" id={'hoursPlayed'} className='text-base rounded-sm text-2xl p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}  onChange={checkNumber} value={value ?? ''}/>
             )
     }
 }

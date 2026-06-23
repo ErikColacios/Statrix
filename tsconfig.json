@@ -32,8 +32,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/newList/[videojuegoId]/page.tsx",
-    "src/app/actions/getVideogames.ts",
     "tailwind.config.ts"
   ],
   "exclude": [

@@ -20,16 +20,16 @@ export default function SignUp() {
                             <p className='text-gray-400'>Create an account</p>
                         </div>
                             <p className="text-sm text-gray-400">Username</p>
-                            <input type="text" className="text-white bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-none" name="userName" id="userName"/>
+                            <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="userName" id="userName"/>
                             <p className="text-sm text-gray-400">Email</p>
-                            <input type="email" className="text-white bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-none" name="email" id="email"/>
+                            <input type="email" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="email" id="email"/>
                             <p className="text-sm text-gray-400">Password</p>
-                            <input type="password" className="text-white bg-gray-800 outline-none border border-1 border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-none" name="password" id="password"/>
+                            <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="password" id="password"/>
                         
                         {/* Show error message */}
                         {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
 
-                        <button className="mt-2 rounded-lg bg-gradient-to-r from-green-400 to-lime-400 p-2 hover:from-green-500 hover:to-lime-600 transition duration-300">Sign up</button>
+                        <button className="mt-2 rounded-lg bg-linear-to-r from-green-400 to-lime-400 p-2 hover:from-green-500 hover:to-lime-600 transition duration-300">Sign up</button>
                     </form>
                     <GoogleSignInButton/>
                     <Link href="/login" className="text-center text-sky-300 hover:text-sky-600 mt-4">Or log into your account</Link>

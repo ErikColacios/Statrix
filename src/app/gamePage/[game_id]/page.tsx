@@ -20,13 +20,13 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
     return (
         gameInfo.map((game: any, index: number) => (
-            <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black text-white text-sm py-16" key={index}>
+            <section className="w-full bg-linear-to-b from-black via-gray-900 to-black text-white text-sm py-16" key={index}>
                     <div className='w-full flex flex-col games-center items-center blur-none'>
                         {/* Game box */}
-                        <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded'>
+                        <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded-sm'>
                             <div className='relative h-96'>
                                 {game.artworks && <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.artworks[0].image_id}.jpg`} className='w-full h-full object-cover' alt='Artwork'/>}
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded" alt='Game cover'/>
+                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded-sm" alt='Game cover'/>
                             </div>
                             <div className='flex flex-col md:flex-row'>
                                 <div className='relative text-sm md:w-2/3 pl-4'>
@@ -62,14 +62,14 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     <div className='text-sm mt-2'>
                                         <span className="text-green-400 mr-2">Genres: </span>
                                         {game.genres?.map((g: any, index: number) => (
-                                            <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200' key={index}>{g.name}</span>
+                                            <span className='text-xs mr-2 bg-gray-600 p-1 rounded-sm text-gray-200' key={index}>{g.name}</span>
                                         ))}
                                     </div>
 
                                     <div className='text-sm mt-2'>
                                         <span className="text-green-400 mr-2">Developers: </span>
                                         {game.involved_companies?.map((c: any, index: number) => (
-                                            <span className='text-xs mr-2 bg-gray-600 p-1 rounded text-gray-200' key={index}>{c.company.name}</span>
+                                            <span className='text-xs mr-2 bg-gray-600 p-1 rounded-sm text-gray-200' key={index}>{c.company.name}</span>
                                         ))}
                                     </div>
 
