@@ -18,7 +18,6 @@ export default function AddNewFriendModal() {
         if (searchedUser !== "") {
             users = await getUserSearched(searchedUser)
             setUsersFound(users)
-            console.log(users)
         }
     }
 

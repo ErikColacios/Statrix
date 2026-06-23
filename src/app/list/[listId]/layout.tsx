@@ -61,7 +61,7 @@ export default async function ListLayout({ children, params }: { children: React
   }
 
   return (
-    <section className="flex justify-center text-white bg-gradient-to-b from-black via-gray-900 to-black">
+    <section className="flex justify-center text-white bg-gradient-to-b from-black via-gray-900 to-black min-h-screen">
       <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
 
         {/* MY LISTS */}

@@ -132,7 +132,7 @@ export default function BrowseGames() {
                 onClick={() => handlePagination('next')}>Next</button>
             </div>
           }
-          {gameItems.length === 0 &&
+          {gameItems.length === 0 && !isLoading &&
             <div className="w-full flex justify-center text-gray-400">
               No games found with the current filters...
             </div>

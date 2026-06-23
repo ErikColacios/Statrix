@@ -5,7 +5,7 @@ import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";
 import { GameStatus } from "../enums/GameStatus";
 
-export async function insertList(listName: string, gameList: Game[]) {
+export async function insertList(listName: string, listDescription:string, listVisibility:string | undefined, gameList: Game[]) {
   const client = await pool.connect();
   try {
     const session:any = await getSessionUser();
@@ -15,14 +15,13 @@ export async function insertList(listName: string, gameList: Game[]) {
     const favourite:boolean = false;
     const score:number = 0;
     const hours_played:number = 0;
-    const listVisibility:string = "private";
 
     await client.query("BEGIN");
 
     await client.query(
-      `INSERT INTO list (list_id, user_id, list_name, user_name, list_visibility)
-                VALUES ($1, $2, $3, $4, $5)`,
-      [listId, userId, listName, userName, listVisibility]
+      `INSERT INTO list (list_id, user_id, list_name, list_description, user_name, list_visibility)
+                VALUES ($1, $2, $3, $4, $5, $6)`,
+      [listId, userId, listName, listDescription, userName, listVisibility]
     );
 
     for (const game of gameList) {

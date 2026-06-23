@@ -134,7 +134,7 @@ export default async function Home() {
       {/* Coming soon section */}
       <section className="flex flex-col p-8 xl:p-16 mt-32 justify-center items-center">
         <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">What's in the future?</h2>
-        <p className="md:w-1/2 text-base md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
+        <p className="md:w-1/2 text-base text-gray-400 md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
           We've got tons of ideas that we will end up bringing to life, but for now in the upcoming months, we plan to deliver these new tools for you to start using</p>
 
         <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-4 items-center space-y-4 md:space-y-0 mt-8">

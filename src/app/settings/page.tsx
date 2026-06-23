@@ -56,7 +56,7 @@ export default function Settings() {
     return (
         userInfo.map((item:any, ident:number) => (
 
-        <section className="relative w-full flex bg-black text-white justify-center py-20 bg-gradient-to-b from-black via-gray-900 to-black" key={ident}>
+        <section className="relative w-full flex text-white justify-center py-20" key={ident}>
         <Dialog.Root>
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/50" />
