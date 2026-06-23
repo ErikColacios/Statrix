@@ -28,7 +28,7 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
             setError("You must add at least 1 game to create a list")
         }
         else {
-            insertList(listName, listDescription, selectedVisibility, gameList);
+            insertList(listName, listDescription, selectedVisibility, isFeatured, gameList);
             router.push("mylists")
         }
     }
@@ -86,7 +86,7 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
                         </div>
                     </fieldset>
 
-                    <div className='flex items-center space-x-4 ml-auto mt-3'>
+                    <div className='flex items-center space-x-4 ml-auto mt-8'>
                         {error && <div className="text-red-500">{error}</div>}
                         <button onClick={() => setNextSlide(0)} className="px-4 py-1 rounded text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
                             Back

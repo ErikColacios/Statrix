@@ -31,6 +31,7 @@
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "swiper": "^11.2.10",
+    "tailwind-animations": "^1.0.1",
     "tailwind-scrollbar-hide": "^1.1.7",
     "uuid": "^9.0.1",
     "v4": "^0.0.1"
