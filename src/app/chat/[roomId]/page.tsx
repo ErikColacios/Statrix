@@ -193,16 +193,15 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
 
   return (
-    <div className="flex w-full md:w-1/2">
-      <div className="w-full h-140 sm:h-160 xl:h-180">
+    <div className="flex w-full md:w-1/2 h-3/4">
+      <div className="w-full ">
         <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-2xl sm:rounded-none sm:rounded-e-2xl overflow-hidden">
-
           {/* Friend info */}
           {friendUser.map((friend: any, friendIdent: number) => (
             <div className="w-full bg-zinc-900 border-b border-gray-600 text-xl p-4" key={friendIdent}>
               <Link href={`/profile/${friend.user_name}`}>
               <div className="flex items-center">
-                <div className="w-12 h-12 rounded-sm rounded-full overflow-hidden">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
                   <img src={`/avatarImages/${friend.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
                 </div>
                 <p className="text-white ml-4 hover:text-green-500">{friend.user_name}</p>
