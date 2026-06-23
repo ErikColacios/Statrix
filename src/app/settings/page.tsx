@@ -92,7 +92,7 @@ export default function Settings() {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Bio</p>
-                                    <textarea rows={7} name="userBio" maxLength={250} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
+                                    <textarea rows={7} name="userBio" maxLength={200} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-400">Email</p>
