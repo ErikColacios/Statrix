@@ -1,6 +1,5 @@
 services:
   web:
-    container_name: web
     build:
       context: .
       dockerfile: Dockerfile.web
@@ -8,7 +7,6 @@ services:
       - "3000"
 
   chat:
-    container_name: chat
     build:
       context: .
       dockerfile: Dockerfile.chat
