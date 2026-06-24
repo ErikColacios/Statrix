@@ -17,7 +17,6 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx
     build:
       context: .
       dockerfile: Dockerfile.nginx
