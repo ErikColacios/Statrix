@@ -15,15 +15,15 @@ services:
     ports:
       - "4000:4000"
 
-  nginx:
-    container_name: nginx
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
-    ports:
-      - 4500:80
-    depends_on:
-      - web
+  # nginx:
+  #   container_name: nginx
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.nginx
+  #   ports:
+  #     - 4500:80
+  #   depends_on:
+  #     - web
 
 # volumes:
 #   db-data:
