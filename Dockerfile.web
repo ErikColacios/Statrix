@@ -1,4 +1,4 @@
-FROM node:22.11.0-alpine AS webBuilder
+FROM node:22.11.0-alpine AS web
 
 WORKDIR /app
 
