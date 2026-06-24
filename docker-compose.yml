@@ -22,6 +22,8 @@ services:
       dockerfile: Dockerfile.nginx
     ports:
       - 4500:80
+    depends_on:
+      - web
 
 # volumes:
 #   db-data:
