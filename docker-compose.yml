@@ -15,6 +15,11 @@ services:
     ports:
       - "4000:4000"
 
+  nginx:
+    image: nginx
+    ports:
+      - 4500:80
+
 # volumes:
 #   db-data:
 #     driver: flocker
