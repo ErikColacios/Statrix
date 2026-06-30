@@ -25,6 +25,7 @@ services:
     depends_on:
       - web
       - chat
+      - certbot
   
   certbot:
     image: certbot/certbot
