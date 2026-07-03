@@ -3,6 +3,8 @@ import { pool } from '@/util/postgres';
 import bcrypt from 'bcryptjs';
 
 export async function logInUser(userName:string, password:string) {
+
+    console.log("Logging in with: ", userName)
     
     const res = await pool.query(
         `SELECT user_id, user_name, user_password FROM users WHERE user_name = $1`,
