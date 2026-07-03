@@ -32,6 +32,8 @@ export const authOptions: AuthOptions = {
         let userLoggingIn:any = null
         let user = { id: "", name: "" }
 
+        console.log("CREDENTIALS: ", credentials)
+
         if (credentials?.userNameLogIn !== undefined && credentials?.passwordLogIn !== undefined) {
           // Here we check if the user exists in the database
           userLoggingIn = await logInUser(credentials.userNameLogIn, credentials.passwordLogIn);
