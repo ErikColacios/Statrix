@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile.web
     expose:
       - "3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   chat:
     build:
@@ -12,7 +14,8 @@ services:
       dockerfile: Dockerfile.chat
     expose:
       - "4000"
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   nginx:
     image: nginx:alpine
     ports:
