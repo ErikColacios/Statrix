@@ -33,5 +33,6 @@ export async function logInUser(userName: string, password: string) {
     }
   } catch (error) {
     console.error(error);
+    return { error: "An error occurred while logging in" };
   }
 }
