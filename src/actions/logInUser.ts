@@ -3,9 +3,6 @@ import { pool } from "@/util/postgres";
 import bcrypt from "bcryptjs";
 
 export async function logInUser(userName: string, password: string) {
-  try {
-    console.log(pool);
-
     const res = await pool.query(
       `SELECT user_id, user_name, user_password FROM users WHERE user_name = $1`,
       [userName],
@@ -35,8 +32,4 @@ export async function logInUser(userName: string, password: string) {
     } else {
       return { userIdLogged, userNameLogged, passwordMatch };
     }
-    
-  } catch (error) {
-    console.log("Error in logInUser: ", error);
-  }
 }
