@@ -14,8 +14,6 @@ export async function logInUser(userName: string, password: string) {
       return { error: "Wrong credentials" };
     }
 
-    console.log(res.rows[0].user_password);
-
     if (res.rows[0].user_password === null) {
       return { error: "Something went wrong" };
     }
