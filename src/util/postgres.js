@@ -2,13 +2,14 @@ import { Pool } from 'pg';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+console.log({
+  host: pool.options.host,
+  port: pool.options.port,
+  database: pool.options.database,
+  user: pool.options.user,
+})
+
 export const pool = new Pool(
-  console.log({
-    host: pool.options.host,
-    port: pool.options.port,
-    database: pool.options.database,
-    user: pool.options.user,
-  }),
   {
     //connectionString: process.env.POSTGRES_URL,
     host: process.env.POSTGRES_HOST,
