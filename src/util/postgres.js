@@ -4,10 +4,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 export const pool = new Pool(
   console.log({
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
-    user: process.env.POSTGRES_USER,
-    database: process.env.POSTGRES_DATABASE,
+    host: pool.options.host,
+    port: pool.options.port,
+    database: pool.options.database,
+    user: pool.options.user,
   }),
   {
     //connectionString: process.env.POSTGRES_URL,
