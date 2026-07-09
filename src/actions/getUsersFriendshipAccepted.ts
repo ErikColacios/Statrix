@@ -1,10 +1,10 @@
 "use server";
 import { pool } from "@/util/postgres";
 
-export default async function getUsersFriendshipAccepted(userName:string | undefined) {
+export default async function getUsersFriendshipAccepted(userId:string | undefined) {
 
-  if (!userName) {
-    throw new Error("The parameter userName is mandatory");
+  if (!userId) {
+    throw new Error("The parameter userId is mandatory");
   }
 
   try {
@@ -13,9 +13,9 @@ export default async function getUsersFriendshipAccepted(userName:string | undef
         FROM users usr
         INNER JOIN user_friendships uf ON uf.requester_id = usr.user_id
         INNER JOIN avatar_images avi ON usr.user_avatar_id = avi.avatar_image_id
-        WHERE uf.status = 'Accepted' AND (uf.addressee_name = $1 OR uf.requester_name = $1)`;
+        WHERE uf.status = 'Accepted' AND (uf.addressee_id = $1 OR uf.requester_id = $1)`;
 
-    const friendships = await pool.query(query1, [userName]);
+    const friendships = await pool.query(query1, [userId]);
 
     return friendships.rows;
 

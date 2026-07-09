@@ -33,29 +33,28 @@ export default async function ListLayout({ children, params }: { children: React
       )
     }
 
-    if (listInfo[0].user_id === userId)
+    if (listInfo[0].user_id === userId) {
       isOwner = true
-
-    if (listInfo[0].list_visibility === "private") {
-      // If the session user is not the list owner, we redirect to the home page
-      if (!isOwner) {
+    } else {
+      if (listInfo[0].list_visibility === "private") {
+        // If the session user is not the list owner, we redirect to the home page
         return (
           redirect("/")
         )
-      }
-    } else if (listInfo[0].list_visibility === "friendsOnly") {
-      // If the session user is not a friend of the list owner, we redirect to the home page
-      const friendship = await getUsersFriendshipAccepted(userName)
-      let isFriend: boolean = false
-      friendship.map((friend: any) => {
-        if (friend.requester_id === listInfo[0].user_id || friend.addressee_id === listInfo[0].user_id) {
-          isFriend = true
+      } else if (listInfo[0].list_visibility === "friendsOnly") {
+        // If the session user is not a friend of the list owner, we redirect to the home page
+        const friendship = await getUsersFriendshipAccepted(userId)
+        let isFriend: boolean = false
+        friendship.map((friend: any) => {
+          if (friend.requester_id === listInfo[0].user_id || friend.addressee_id === listInfo[0].user_id) {
+            isFriend = true
+          }
+        })
+        if (!isFriend) {
+          return (
+            redirect("/")
+          )
         }
-      })
-      if (!isFriend) {
-        return (
-          redirect("/")
-        )
       }
     }
   }
