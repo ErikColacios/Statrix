@@ -29,14 +29,15 @@ export default function Settings() {
     async function handleUpdateUser(prevState: any, formData: FormData) {
         // In case this is a Google user
         if(userInfo[0].user_google_id) {
-
             formData.set("userEmail", userInfo[0].user_email)
             const response = await updateUser(prevState, formData)
             if(response?.error) {
                 return { error: response?.error }
             }
+            if(userInfo[0].user_name !== formData.get("userName")) {
+                await signIn('google');
+            }
 
-            await signIn('google');
         } else {
             // Its NOT a Google user
             const response = await updateUser(prevState, formData)

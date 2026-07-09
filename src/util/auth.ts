@@ -32,8 +32,6 @@ export const authOptions: AuthOptions = {
         let userLoggingIn:any = null
         let user = { id: "", name: "" }
 
-        console.log("CREDENTIALS: ", credentials)
-
         if (credentials?.userNameLogIn !== undefined && credentials?.passwordLogIn !== undefined) {
           // Here we check if the user exists in the database
           userLoggingIn = await logInUser(credentials.userNameLogIn, credentials.passwordLogIn);
@@ -45,7 +43,6 @@ export const authOptions: AuthOptions = {
           }
         }
         else if (credentials?.trigger === "updateUser") {
-          console.log("CREDENTIALS - updateUser")
           userLoggingIn = await getUserInfo(credentials.userNameLogIn);
 
           if(userLoggingIn?.error) {
@@ -56,7 +53,6 @@ export const authOptions: AuthOptions = {
         }
 
         // If the user is successfully logged in, we create the session with the user data (userId and userName)
-        console.log(userLoggingIn)
         return user;
       }
     })
