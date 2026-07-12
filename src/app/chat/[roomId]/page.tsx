@@ -40,7 +40,6 @@ export default function Chat({ params }: { params: { roomId: string } }) {
       if (firstEntry.isIntersecting && hasMoreMessages && !isLoading.current) {
         
         isLoading.current = true;
-        console.log('Visible')
 
         const newOffset = offsetRef.current + 25;
 
