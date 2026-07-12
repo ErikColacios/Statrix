@@ -10,7 +10,7 @@ import React, { useState, useEffect, FormEvent, useRef, useCallback } from "reac
 import { Socket, io } from "socket.io-client";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:4000",
+  "https://statrix.app:4000",
 );
 
 export default function Chat({ params }: { params: { roomId: string } }) {

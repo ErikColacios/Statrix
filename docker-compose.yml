@@ -14,6 +14,9 @@ services:
       dockerfile: Dockerfile.chat
     expose:
       - "4000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      
   nginx:
     image: nginx:alpine
     ports:
