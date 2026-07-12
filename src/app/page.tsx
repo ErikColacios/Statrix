@@ -6,6 +6,7 @@ import { redirect } from "next/navigation"
 import List from "@/components/List"
 import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
+import Footer from "@/components/Footer"
 
 export default async function Home() {
 
@@ -186,24 +187,10 @@ export default async function Home() {
           </div>
         </div>
         <div>
-          <img src="/logos/st2_white.png" alt="Statrix logo" className="py-8 w-52 sm:w-96"/>
+          <img src="/logos/st2_white.png" alt="Statrix logo" className="py-8 w-52 sm:w-96" />
         </div>
       </section>
-
-
-      {/* <section className="w-full flex flex-col items-center p-6 mt-12 xl:p-20">
-        <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">Current features</h2>
-        <p className="text-gray-400 mb-10">These are the core functionalities of Statrix</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-zinc-800/50 border border-gray-700 overflow-hidden rounded-xl">
-            <img src="/staticImages/statrix_games.jpg" alt="Statrix games" className="w-full sm:h-80 rounded-lg mb-4 border-b border-gray-600" />
-            <div className="px-6 pb-4">
-              <h3 className="text-2xl font-semibold mb-2">Discover new stuff</h3>
-              <p>Navigate throught a bast database of games and get some inspiration.</p>
-            </div>
-          </div
-        </div>
-      </section> */}
+      <Footer />
     </main>
   );
 }
