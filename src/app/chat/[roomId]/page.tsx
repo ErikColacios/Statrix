@@ -9,9 +9,7 @@ import Link from "next/link";
 import React, { useState, useEffect, FormEvent, useRef, useCallback } from "react";
 import { Socket, io } from "socket.io-client";
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "https://statrix.app:4000",
-);
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({ path: "/socket.io"});
 
 export default function Chat({ params }: { params: { roomId: string } }) {
 
