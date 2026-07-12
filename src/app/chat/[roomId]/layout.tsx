@@ -18,8 +18,8 @@ export default async function ChatLayout({ children }: { children: React.ReactNo
     existingFriendChatRoom = await getUserChatRooms()
 
     return (
-        <section className='absolute h-screen w-full flex md:justify-center p-4 pt-14 text-white bg-linear-to-b from-black via-gray-900 to-black'>
-            <aside className="hidden sm:flex h-3/4 sm:w-2/5 md:w-2/5 lg:w-1/5 flex-col bg-zinc-900 border border-gray-600 rounded-s-2xl">
+        <section className='absolute h-screen w-full flex md:justify-center p-4 pt-28 text-white bg-linear-to-b from-black via-gray-900 to-black'>
+            <aside className="hidden sm:flex h-6/7 sm:w-2/5 md:w-2/5 lg:w-1/5 flex-col bg-zinc-900 border border-gray-600 rounded-s-2xl">
                 <h2 className="text-2xl font-bold p-6">Recent chats</h2>
                 {existingFriendChatRoom.map((item: any, ident: number) => (
                     <div className="mx-4 py-2 mb-2 rounded-sm bg-zinc-800 hover:bg-zinc-700" key={ident}>
