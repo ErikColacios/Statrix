@@ -34,12 +34,14 @@ export default async function Home() {
 
   const reviews = [
     { userName: "NukeGuy", avatarImage: "/avatarImages/solid_snake.jpg", reviewDate: "2026-06-15", recommended: true, likes: 12, body: "This game is amazing! The graphics are stunning and the gameplay is smooth. I highly recommend it to anyone who loves action-adventure games." },
-    { userName: "Mechatronics", avatarImage: "/avatarImages/master_chief.jpg", reviewDate: "2026-06-14", recommended: false, likes: 3, body: "I was really disappointed with this game. The story was weak and the controls were clunky. I wouldn't recommend it to anyone." },
+    { userName: "Furroman", avatarImage: "/avatarImages/master_chief.jpg", reviewDate: "2026-06-14", recommended: false, likes: 3, body: "I was really disappointed with this game. The story was weak and the controls were clunky. I wouldn't recommend it to anyone." },
     { userName: "Daxter", avatarImage: "/avatarImages/sonic.jpg", reviewDate: "2026-06-13", recommended: true, likes: 8, body: "This game exceeded my expectations. The open world is vast and immersive, and the side quests are engaging. I can't wait to see what the developers do next." },
     { userName: "Chrono", avatarImage: "/avatarImages/link.jpg", reviewDate: "2026-06-12", recommended: false, likes: 1, body: "I found this game to be very repetitive and boring. The combat system is unbalanced and the AI is terrible. I wouldn't recommend it to anyone." },
   ]
 
   const messages = [
+    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-15", avatarImage: "/avatarImages/sonic.jpg", text: "You too, wp. Let's play again some time!" },
+    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-15", avatarImage: "/avatarImages/sonic.jpg", text: "GGs man!" },
     { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Yeah give me 3 minutes im going to the toilet" },
     { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Join my lobby when you are ready!" },
     { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Accepted" },
@@ -147,21 +149,21 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end">
+          <div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Multiplatform imports</h3>
               <p>Import your games into your library from other gaming networks like Steam, Playstation or Xbox.</p>
             </div>
           </div>
 
-          <div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
+          <div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden ">
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Enhanced customization</h3>
               <p>Upload your own avatars and banners directly from your device. More widgets available and themes for your profile.</p>
             </div>
           </div>
 
-          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end">
+          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Mobile app</h3>
               <p>Access to your account from a mobile or tablet. It will be available for both iOS and Android.</p>

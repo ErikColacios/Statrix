@@ -6,12 +6,10 @@ import { Game } from '@/types/Game';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Dialog } from 'radix-ui';
-import { revalidatePath } from "next/cache";
 
 
 export default function SearchGameModal({ listId }: { listId: string }) {
 
-    const router = useRouter()
     let [gamesAdded, setGamesAdded] = useState<Game[]>([])
 
     function addNewGame(game: Game) {
@@ -27,17 +25,12 @@ export default function SearchGameModal({ listId }: { listId: string }) {
         setGamesAdded(gamesAdded.filter(item => item.id !== gameId))
     }
 
-    async function removeGamesInList(gameId: number) {
-        // setOldGamesList(oldGamesList.filter(item => item.gameId !== gameId))
-    }
-
-
     async function saveChanges() {
         updateList(listId, gamesAdded)
     }
 
     return (
-        <div className="w-full h-180 overflow-hidden flex-col border border-gray-600 px-4 py-12 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+        <div className="w-full h-160 md:h-180 overflow-hidden flex-col border border-gray-600 px-4 py-12 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
             <Dialog.Close className="absolute right-10 top-10 p-2 rounded-sm transition hover:bg-gray-800">
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>

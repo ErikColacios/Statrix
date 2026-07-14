@@ -81,7 +81,7 @@ export default function AddNewFriendModal() {
                     </div>
                 ))}
                 {usersFound.length === 0 &&
-                    <div className='flex items-center justify-center bg-gray-800/50 text-gray-400 border border-gray-600 rounded-lg mb-4 h-80 p-4'>
+                    <div className='flex items-center justify-center bg-gray-800/50 text-gray-400 border border-gray-600 rounded-lg h-80 p-4'>
                         Here you will see the users found in the database
                     </div>}
             </div>

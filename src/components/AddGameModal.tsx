@@ -15,7 +15,6 @@ type Props = {
 
 export default function AddGameModal({ game }: Props) {
 
-    const router = useRouter()
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
     const [userGameInfo, setUserGameInfo] = useState<any>([])
@@ -23,7 +22,6 @@ export default function AddGameModal({ game }: Props) {
     const [starred, setStarred] = useState<boolean>(false)
     const [hoursPlayed, setHoursPlayed] = useState<string>("")
     const [score, setScore] = useState<string>("")
-
 
     useEffect(() => {
         if (userId === undefined) return;
