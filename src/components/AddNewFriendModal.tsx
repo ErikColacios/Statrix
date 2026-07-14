@@ -64,7 +64,7 @@ export default function AddNewFriendModal() {
                         </div>
                         <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
                         <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>
-                            <p>{item.user_location}</p>
+                            <p className='hidden sm:block'>{item.user_location}</p>
                             {/* <p>Joined: {item.user_creationdate.toISOString().split('T')[0]}</p> */}
                             { item.status == FriendshipStatus.PENDING &&<p>{item.status}</p> }
                         </div>
@@ -72,7 +72,7 @@ export default function AddNewFriendModal() {
                         {/* Add friend button */}
                         {(item.status === null || item.status == FriendshipStatus.REJECTED) &&
                         <div className="absolute right-5 flex items-center space-x-4">
-                            <p className='text-green-500 hidden' id={"requestSentText"+item.user_id}>Request sent!</p>
+                            <p className='text-green-500 text-xs hidden' id={"requestSentText"+item.user_id}>Request sent!</p>
                             <button id={'addFriendButton'+item.user_id} className='p-2 rounded-full cursor-pointer hover:bg-zinc-700'
                                 onClick={() => sendFriendRequest(item.user_id, item.user_name, item.status)}>
                                 <svg width="20px" height="20px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="5.4399999999999995" stroke="#ffffff" fill="none"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><circle cx="29.22" cy="16.28" r="11.14"></circle><path d="M41.32,35.69c-2.69-1.95-8.34-3.25-12.1-3.25h0A22.55,22.55,0,0,0,6.67,55h29.9"></path><circle cx="45.38" cy="46.92" r="11.94"></circle><line x1="45.98" y1="39.8" x2="45.98" y2="53.8"></line><line x1="38.98" y1="46.8" x2="52.98" y2="46.8"></line></g></svg></button>
