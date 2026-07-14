@@ -1,6 +1,12 @@
 import React from "react";
 import getSessionUser from "@/actions/getSessionUser";
 import { redirect } from "next/navigation"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'New User - Statrix',
+    description: 'Complete your new user setup'
+}
 
 export default async function NewUserLayout({
     children, 

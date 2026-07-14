@@ -1,10 +1,16 @@
 import React from 'react'
+import { Metadata } from 'next';
 import Link from 'next/link';
 import getSessionUser from '@/actions/getSessionUser'
 import { redirect } from 'next/navigation'
 import { getListInfo } from '@/actions/getListInfo';
 import { getListContent } from '@/actions/getListContent';
 import getUsersFriendshipAccepted from '@/actions/getUsersFriendshipAccepted';
+
+export const metadata: Metadata = {
+    title: 'List - Statrix',
+    description: 'View and manage a game list'
+}
 
 export default async function ListLayout({ children, params }: { children: React.ReactNode, params: { listId: string } }) {
 

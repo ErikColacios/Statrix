@@ -5,6 +5,12 @@ import getSessionUser from '@/actions/getSessionUser'
 import NotLoggedVideogamelist from '@/components/NotLoggedVideogamelist'
 import PrimaryButton from '@/components/PrimaryButton'
 import NoListCreated from '@/components/NoListCreated'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'My Lists - Statrix',
+    description: 'Manage your custom game lists'
+}
 
 export default async function MyListsLayout({children}: {children: React.ReactNode}) {
   /**

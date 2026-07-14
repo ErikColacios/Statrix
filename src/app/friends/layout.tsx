@@ -1,12 +1,18 @@
 import getSessionUser from '@/actions/getSessionUser'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import type { Metadata } from 'next'
 
-export default async function friendsLayout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+    title: 'Friends - Statrix',
+    description: 'Manage your friendships and connect with other players'
+}
+
+export default async function FriendsLayout({ children }: { children: React.ReactNode }) {
 
     const session:any = await getSessionUser()
 
-    if (!session.user) {
+    if (!session) {
         return (
             redirect("/")
         )
