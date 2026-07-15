@@ -8,6 +8,7 @@
 @theme {
   --animate-slide-left: slide-left 0.2s ease-in forwards;
   --animate-slide-right: slide-right 0.2s ease-in forwards;
+  --animate-element-appear: element-appear 0.3s forwards;
 }
 
 /*
@@ -248,5 +249,22 @@ input[type="number"] {
   to {
     opacity: 0;
     transform: translate(-10%, 0%);
+  }
+}
+
+/* .element-appear {
+  animation: 0.5s element-appear linear forwards;
+  animation-timeline: view();
+  animation-range: entry 0%  cover 40%;
+} */
+
+@keyframes element-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

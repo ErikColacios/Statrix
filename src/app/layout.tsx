@@ -2,8 +2,9 @@ import React from 'react'
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import Provider from "@/util/provider";
+import getSessionUser from '@/actions/getSessionUser';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: "Statrix",
@@ -16,6 +17,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session: any = await getSessionUser()
+
+  if (session?.user.isNewUser) {
+    redirect("/newUser")
+  }
 
   return (
     <html lang="en">

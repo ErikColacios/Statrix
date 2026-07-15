@@ -1,6 +1,6 @@
-import React from "react"
+"use client"
+import React, { useEffect } from "react"
 import Link from "next/link"
-import PrimaryButton from "@/components/PrimaryButton"
 import getSessionUser from "@/actions/getSessionUser"
 import { redirect } from "next/navigation"
 import List from "@/components/List"
@@ -8,13 +8,35 @@ import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
 import Footer from "@/components/Footer"
 
-export default async function Home() {
+export default function Home() {
 
-  const session: any = await getSessionUser()
+  // const session: any = await getSessionUser()
 
-  if (session?.user.isNewUser) {
-    redirect("/newUser")
-  }
+  // if (session?.user.isNewUser) {
+  //   redirect("/newUser")
+  // }
+
+
+  useEffect(() => {
+      const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("animate-element-appear");
+      } else {
+        entry.target.classList.remove("animate-element-appear");
+      }
+    });
+  });
+
+    const animateElements = document.querySelectorAll(".animate-element-appear");
+    animateElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+  }, [])
+
+
+
 
   const list1 = {
     listName: "Pure cinema", listGames: 23, listCreationDate: "2026-06-24", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_cyberpunk2077.jpg" },
@@ -88,7 +110,7 @@ export default async function Home() {
             <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to find people who play the same games or has the same interests. </p>
             <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
           </div>
-          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
+          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="element-appear  lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
         </div>
       </section>
 
