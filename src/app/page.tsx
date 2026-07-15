@@ -1,40 +1,29 @@
 "use client"
-import React, { useEffect } from "react"
+import React from "react"
 import Link from "next/link"
-import getSessionUser from "@/actions/getSessionUser"
-import { redirect } from "next/navigation"
 import List from "@/components/List"
 import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
 import Footer from "@/components/Footer"
 
-export default function Home() {
+export default async function Home() {
 
-  // const session: any = await getSessionUser()
-
-  // if (session?.user.isNewUser) {
-  //   redirect("/newUser")
-  // }
-
-
-  useEffect(() => {
-      const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("animate-element-appear");
-      } else {
-        entry.target.classList.remove("animate-element-appear");
-      }
-    });
-  });
-
-    const animateElements = document.querySelectorAll(".animate-element-appear");
-    animateElements.forEach((element) => {
-      observer.observe(element);
-    });
-
-  }, [])
-
+  // useEffect(() => {
+  //     const observer = new IntersectionObserver((entries) => {
+  //   entries.forEach((entry) => {
+  //     if (entry.isIntersecting) {
+  //       entry.target.classList.add("animate-element-appear");
+  //     } else {
+  //       entry.target.classList.remove("animate-element-appear");
+  //     }
+  //   });
+  // });
+  
+  //   const animateElements = document.querySelectorAll(".animate-element-appear");
+  //   animateElements.forEach((element) => {
+  //     observer.observe(element);
+  //   });
+  // }, [])
 
 
 

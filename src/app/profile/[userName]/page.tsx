@@ -53,7 +53,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                 </div>
                                 <div className="flex flex-col sm:flex-row px-5 py-6">
                                     <div className="flex flex-col space-y-2 sm:items-center text-sm xl:px-4">
-                                        <p className="text-4xl font-bold">{item.user_name}</p>
+                                        <p className="text-4xl font-bold">{item.user_name.slice(0, 10)}</p>
                                         <p className="text-gray-400">Joined {item.user_creationdate.toISOString().split('T')[0]}</p>
                                         {canEdit && <Link href={'/settings'} className="w-1/2 sm:w-full text-center text-md text-white px-3 py-1 sm:px-6 sm:py-1 rounded-xl 
                                 bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">

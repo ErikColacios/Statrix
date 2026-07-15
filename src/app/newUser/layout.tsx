@@ -8,15 +8,11 @@ export const metadata: Metadata = {
     description: 'Complete your new user setup'
 }
 
-export default async function NewUserLayout({
-    children, 
-  }: {
-    children: React.ReactNode
-  }) {
+export default async function NewUserLayout({children}: {children: React.ReactNode}) {
 
     const session:any = await getSessionUser()
     if (!session?.user.isNewUser){
-        redirect("signup")
+        redirect("/")
     }
 
     return (
