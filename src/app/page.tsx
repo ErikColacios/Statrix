@@ -5,27 +5,9 @@ import List from "@/components/List"
 import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
 import Footer from "@/components/Footer"
+import { motion } from "framer-motion"
 
 export default function Home() {
-
-  // useEffect(() => {
-  //     const observer = new IntersectionObserver((entries) => {
-  //   entries.forEach((entry) => {
-  //     if (entry.isIntersecting) {
-  //       entry.target.classList.add("animate-element-appear");
-  //     } else {
-  //       entry.target.classList.remove("animate-element-appear");
-  //     }
-  //   });
-  // });
-  
-  //   const animateElements = document.querySelectorAll(".animate-element-appear");
-  //   animateElements.forEach((element) => {
-  //     observer.observe(element);
-  //   });
-  // }, [])
-
-
 
   const list1 = {
     listName: "Pure cinema", listGames: 23, listCreationDate: "2026-06-24", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_cyberpunk2077.jpg" },
@@ -89,7 +71,11 @@ export default function Home() {
       </section>
 
       {/* About section */}
-      <section className="w-full flex flex-col p-6 xl:p-20">
+      <motion.div className="w-full flex flex-col p-6 xl:p-20"
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        viewport={{ once: true, amount: 0.3 }}>
         <div className="flex flex-col lg:flex-row items-center lg:space-x-8 text-gray-400 mt-6 text-base md:text-xl">
           <div className="lg:w-1/2">
             <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">
@@ -99,9 +85,9 @@ export default function Home() {
             <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to find people who play the same games or has the same interests. </p>
             <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
           </div>
-          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="element-appear  lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
+          <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className=" lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
         </div>
-      </section>
+      </motion.div>
 
       {/* Features section */}
       <section className="flex flex-col p-6 xl:p-16 space-y-40">
@@ -111,8 +97,22 @@ export default function Home() {
             <p className="text-2xl text-gray-400">Create lists, rate games, and set your progress for each title.</p>
           </div>
           <div className="md:w-3/5 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            <List list={list1} />
-            <List list={list2} />
+            <motion.div className="w-full"
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <List list={list1} />
+            </motion.div>
+            <motion.div className="w-full"
+              initial={{ opacity: 0, x: 80 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <List list={list2} />
+            </motion.div>
           </div>
         </div>
 
@@ -121,65 +121,109 @@ export default function Home() {
         <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12">
           <div className="md:w-2/5 flex flex-col order-2 md:order-1">
             {reviews?.map((review: any, index: number) => (
-              <Review review={review} index={index} key={index} />
+              <motion.div key={index}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                viewport={{ once: true, amount: 0.3 }} >
+                <Review review={review} index={index} />
+              </motion.div>
+
             ))}
           </div>
-          <div className="md:w-2/5 xl:w-1/5 order-1 md:order-2 mb-8">
+
+
+          <motion.div className="md:w-2/5 xl:w-1/5 order-1 md:order-2 mb-8"
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Write reviews</h3>
             <p className="text-2xl text-gray-400">Share your thoughts about the games you love, or those that not so much...</p>
-          </div>
+          </motion.div>
         </div>
 
 
         {/* Chat section */}
         <div className="w-full flex flex-col sm:flex-row sm:items-center justify-center sm:space-x-12">
-          <div className="lg:w-1/5 mb-8">
+          <motion.div className="lg:w-1/5 mb-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Connect with other players</h3>
             <p className="text-2xl text-gray-400">Chat with friends and gather a new squad to play.</p>
-          </div>
-          <div className="sm:w-2/5 flex flex-col">
+          </motion.div>
+          <motion.div className="sm:w-2/5 flex flex-col"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <ChatBox messages={messages} />
-          </div>
+          </motion.div>
         </div>
 
       </section>
 
 
       {/* Coming soon section */}
-      <section className="flex flex-col p-8 xl:p-16 mt-32 justify-center items-center">
-        <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">What's in the future?</h2>
-        <p className="md:w-1/2 text-base text-gray-400 md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
-          We've got tons of ideas that we will end up bringing to life, but for now in the upcoming months, we plan to deliver these new tools for you to start using</p>
+      <section className="flex flex-col p-8 xl:p-16 mt-32 items-center">
+        <motion.div className="flex flex-col items-center justify-center w-full"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, amount: 0.3 }}>
+          <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">What's in the future?</h2>
+          <p className="md:w-1/2 text-base text-gray-400 md:text-xl md:text-center">This is an early version of the app, so expect more cool functionalities in the future.
+            We've got tons of ideas that we will end up bringing to life, but for now in the upcoming months, we plan to deliver these new tools for you to start using</p>
+        </motion.div>
+
 
         <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-4 items-center space-y-4 md:space-y-0 mt-8">
 
-          <div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
+          <motion.div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+            initial={{ opacity: 0, y: 120, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold ">Social feed</h3>
               <p>Share posts, screenshots, opinions and moments with the community in a <i className="italic">Twitter</i> style dashboard oriented on gaming.</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
+          <motion.div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+            initial={{ opacity: 0, y: 120, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Multiplatform imports</h3>
               <p>Import your games into your library from other gaming networks like Steam, Playstation or Xbox.</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden ">
+          <motion.div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+            initial={{ opacity: 0, y: 120, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Enhanced customization</h3>
               <p>Upload your own avatars and banners directly from your device. More widgets available and themes for your profile.</p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden">
+          <motion.div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+            initial={{ opacity: 0, y: 120, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}>
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Mobile app</h3>
               <p>Access to your account from a mobile or tablet. It will be available for both iOS and Android.</p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -202,7 +246,7 @@ export default function Home() {
           <img src="/logos/st2_white.png" alt="Statrix logo" className="py-8 w-52 sm:w-96" />
         </div>
       </section>
-      
+
       <Footer />
     </main>
   );
