@@ -6,7 +6,7 @@ import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
 import Footer from "@/components/Footer"
 
-export default async function Home() {
+export default function Home() {
 
   // useEffect(() => {
   //     const observer = new IntersectionObserver((entries) => {
@@ -180,7 +180,6 @@ export default async function Home() {
               <p>Access to your account from a mobile or tablet. It will be available for both iOS and Android.</p>
             </div>
           </div>
-
         </div>
       </section>
 
@@ -203,6 +202,7 @@ export default async function Home() {
           <img src="/logos/st2_white.png" alt="Statrix logo" className="py-8 w-52 sm:w-96" />
         </div>
       </section>
+      
       <Footer />
     </main>
   );
