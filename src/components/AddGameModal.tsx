@@ -7,7 +7,6 @@ import StarButton from "./StarButton";
 import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 type Props = {
     game: any
@@ -102,7 +101,7 @@ export default function AddGameModal({ game }: Props) {
                         {userId && <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />}
                     </div>
 
-                    {userId === undefined &&
+                    {!userId &&
                         <div className="text-gray-400 my-12">
                             <p className="mb-8">Log in to add this game to your library and track your progress!</p>
                             <Link href="/login" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
