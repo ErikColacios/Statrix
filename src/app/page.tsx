@@ -1,48 +1,22 @@
 "use client"
-import React from "react"
+import React, { useRef } from "react"
 import Link from "next/link"
 import List from "@/components/List"
 import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
 import Footer from "@/components/Footer"
+import dummies from "@/util/dummies"
 import { motion } from "framer-motion"
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from "swiper";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { EffectCoverflow } from 'swiper/modules';
 
 export default function Home() {
 
-  const list1 = {
-    listName: "Pure cinema", listGames: 23, listCreationDate: "2026-06-24", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_cyberpunk2077.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_need_for_speed_mw.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_hollow_knight_silksong.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_red_dead_redemption2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_death_stranding2.jpg" }]
-  }
-
-  const list2 = {
-    listName: "Horror", listGames: 16, listCreationDate: "2026-04-03", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_resident_evil5.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_silent_hill2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_outlast2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" }]
-  }
-
-  const reviews = [
-    { userName: "NukeGuy", avatarImage: "/avatarImages/solid_snake.jpg", reviewDate: "2026-06-15", recommended: true, likes: 12, body: "This game is amazing! The graphics are stunning and the gameplay is smooth. I highly recommend it to anyone who loves action-adventure games." },
-    { userName: "Furroman", avatarImage: "/avatarImages/master_chief.jpg", reviewDate: "2026-06-14", recommended: false, likes: 3, body: "I was really disappointed with this game. The story was weak and the controls were clunky. I wouldn't recommend it to anyone." },
-    { userName: "Daxter", avatarImage: "/avatarImages/sonic.jpg", reviewDate: "2026-06-13", recommended: true, likes: 8, body: "This game exceeded my expectations. The open world is vast and immersive, and the side quests are engaging. I can't wait to see what the developers do next." },
-    { userName: "Chrono", avatarImage: "/avatarImages/link.jpg", reviewDate: "2026-06-12", recommended: false, likes: 1, body: "I found this game to be very repetitive and boring. The combat system is unbalanced and the AI is terrible. I wouldn't recommend it to anyone." },
-  ]
-
-  const messages = [
-    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-15", avatarImage: "/avatarImages/sonic.jpg", text: "You too, wp. Let's play again some time!" },
-    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-15", avatarImage: "/avatarImages/sonic.jpg", text: "GGs man!" },
-    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Yeah give me 3 minutes im going to the toilet" },
-    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Join my lobby when you are ready!" },
-    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Accepted" },
-    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Got it, did you receive it?" },
-    { senderId: 2, senderName: "Dr.Storm", createdAt: "2026-06-14", avatarImage: "/avatarImages/sonic.jpg", text: "Sure. Add me on Steam, my username is NukeGuy (like here)" },
-    { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Hi! You wanna go play some Apex? We need one more to fill the squad" },
-  ]
-
+  const swiperRef = useRef<SwiperType | null>(null);
 
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden relative">
@@ -89,86 +63,137 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* Features section */}
-      <section className="flex flex-col p-6 xl:p-16 space-y-40">
-        <div className="flex flex-col md:flex-row md:items-center justify-center md:space-x-12">
-          <div className="md:w-1/5 mb-4">
-            <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Make your lists</h3>
-            <p className="text-2xl text-gray-400">Create lists, rate games, and set your progress for each title.</p>
-          </div>
-          <div className="md:w-3/5 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            <motion.div className="w-full"
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <List list={list1} />
-            </motion.div>
-            <motion.div className="w-full"
-              initial={{ opacity: 0, x: 80 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <List list={list2} />
-            </motion.div>
-          </div>
+      {/* Make your lists section */}
+      <section className="flex flex-col md:flex-row md:items-center justify-center md:space-x-12 mt-26 p-6 xl:p-20">
+
+        <div className="mb-4 md:w-2/5">
+          <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Make your lists</h3>
+          <p className="text-2xl text-gray-400">Create lists, rate games, and set your progress for each title.</p>
         </div>
 
-
-        {/* Reviews section */}
-        <div className="flex flex-col md:flex-row items-center justify-center md:space-x-12">
-          <div className="md:w-2/5 flex flex-col order-2 md:order-1">
-            {reviews?.map((review: any, index: number) => (
-              <motion.div key={index}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                viewport={{ once: true, amount: 0.3 }} >
-                <Review review={review} index={index} />
-              </motion.div>
-
-            ))}
-          </div>
-
-
-          <motion.div className="md:w-2/5 xl:w-1/5 order-1 md:order-2 mb-8"
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        {/* <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 w-3/5">
+          <motion.div className="w-full"
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
-            viewport={{ once: true, amount: 0.3 }}>
-            <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Write reviews</h3>
-            <p className="text-2xl text-gray-400">Share your thoughts about the games you love, or those that not so much...</p>
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <List list={dummies.list1} />
           </motion.div>
-        </div>
+          <motion.div className="w-full"
+            initial={{ opacity: 0, x: 80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <List list={dummies.list2} />
+          </motion.div>
+        </div> */}
 
 
-        {/* Chat section */}
-        <div className="w-full flex flex-col sm:flex-row sm:items-center justify-center sm:space-x-12">
-          <motion.div className="lg:w-1/5 mb-8"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            viewport={{ once: true, amount: 0.3 }}>
-            <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Connect with other players</h3>
-            <p className="text-2xl text-gray-400">Chat with friends and gather a new squad to play.</p>
-          </motion.div>
-          <motion.div className="sm:w-2/5 flex flex-col"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            viewport={{ once: true, amount: 0.3 }}>
-            <ChatBox messages={messages} />
-          </motion.div>
-        </div>
+        <Swiper onSwiper={(swiper: any) => (swiperRef.current = swiper)}
+          slidesPerView={1}
+          effect={'coverflow'}
+          grabCursor={true}
+          centeredSlides={true}
+          loop={true}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+          modules={[EffectCoverflow]}
+
+          className='w-full md:w-3/5 relative'>
+          <button onClick={() => swiperRef.current?.slidePrev()} className='h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/30 transition'>
+            <svg fill="#ffffff" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
+          </button>
+          <button onClick={() => swiperRef.current?.slideNext()} className='h-full z-50 absolute right-0 top-0 p-2 hover:bg-black/30 transition'>
+            <svg fill="#ffffff" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="2"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon> </g></svg>
+          </button>
+          <SwiperSlide>
+            <List list={dummies.list1} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <List list={dummies.list2} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <List list={dummies.list3} />
+          </SwiperSlide>
+
+        </Swiper>
+
 
       </section>
 
 
+      {/* Reviews section */}
+      <section className="flex flex-col md:flex-row items-center justify-center md:space-x-12 mt-26 p-6 xl:p-20">
+        <div className="md:w-2/5 flex flex-col order-2 md:order-1">
+          {dummies.reviews?.map((review: any, index: number) => (
+            <motion.div key={index}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true, amount: 0.3 }} >
+              <Review review={review} index={index} />
+            </motion.div>
+
+          ))}
+        </div>
+
+        <motion.div className="md:w-2/5 xl:w-1/5 order-1 md:order-2 mb-8"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, amount: 0.3 }}>
+          <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Write reviews</h3>
+          <p className="text-2xl text-gray-400">Share your thoughts about the games you love, or those that not so much...</p>
+        </motion.div>
+      </section>
+
+
+      {/* Chat section */}
+      <section className="w-full flex flex-col sm:flex-row sm:items-center justify-center sm:space-x-12 mt-26 p-6 xl:p-20">
+        <motion.div className="lg:w-1/5 mb-8"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, amount: 0.3 }}>
+          <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Connect with other players</h3>
+          <p className="text-2xl text-gray-400">Chat with friends and gather a new squad to play.</p>
+        </motion.div>
+        <motion.div className="sm:w-2/5 flex flex-col"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, amount: 0.3 }}>
+          <ChatBox messages={dummies.messages} />
+        </motion.div>
+      </section>
+
+
       {/* Coming soon section */}
-      <section className="flex flex-col p-8 xl:p-16 mt-32 items-center">
-        <motion.div className="flex flex-col items-center justify-center w-full"
+      <section className="flex flex-col items-center mt-32 p-6 xl:p-20">
+        <motion.div className="flex flex-col sm:items-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -181,7 +206,7 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-4 items-center space-y-4 md:space-y-0 mt-8">
 
-          <motion.div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+          <motion.div className="bg-[url('/staticImages/bg_subnautica.jpg')] bg-cover sm:w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
             initial={{ opacity: 0, y: 120, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4 }}
@@ -192,7 +217,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+          <motion.div className="bg-[url('/staticImages/bg_monster_hunter.jpg')] bg-cover sm:w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
             initial={{ opacity: 0, y: 120, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -203,7 +228,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+          <motion.div className="bg-[url('/staticImages/bg_rapture.jpg')] bg-cover bg-center sm:w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
             initial={{ opacity: 0, y: 120, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
@@ -214,7 +239,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
+          <motion.div className="bg-[url('/staticImages/bg_resident_evil.jpg')] bg-cover bg-center sm:w-96 h-96 rounded-2xl flex flex-col justify-end overflow-hidden"
             initial={{ opacity: 0, y: 120, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.3 }}
