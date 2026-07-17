@@ -64,9 +64,9 @@ export default function Home() {
       </motion.div>
 
       {/* Make your lists section */}
-      <section className="flex flex-col md:flex-row md:items-center justify-center mt-26 p-6 xl:px-36">
+      <section className="flex flex-col md:flex-row md:items-center justify-center space-x-12 mt-26 p-6 md:p-12 lg:px-22 2xl:px-42">
 
-        <div className="mb-4 md:w-1/4">
+        <div className="mb-4 md:w-2/4">
           <h3 className="text-3xl sm:text-4xl font-semibold mb-2">Make your lists</h3>
           <p className="text-2xl text-gray-400">Create lists, rate games, and set your progress for each title.</p>
         </div>
@@ -75,43 +75,38 @@ export default function Home() {
         <Swiper onSwiper={(swiper: any) => (swiperRef.current = swiper)}
           slidesPerView={1}
           initialSlide={1}
-          breakpoints={{ 1285: { slidesPerView: 3 } }}
+          breakpoints={{ 1100: { slidesPerView: 2 }}}
           effect={'coverflow'}
-          grabCursor={true}
           centeredSlides={true}
           loop={false}
           coverflowEffect={{
-            rotate: -30,
+            rotate: -20,
             stretch: 0,
             depth: 50,
             modifier: 1,
             slideShadows: true,
           }}
-          
           modules={[EffectCoverflow]}
-
-          className='w-full w-3/4 relative'>
-          <button onClick={() => swiperRef.current?.slidePrev()} className='md:w-1/3 md:hidden h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/20 transition'>
-            <svg fill="#ffffff" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
+          className='w-full w-4/5 relative'>
+          <button onClick={() => swiperRef.current?.slidePrev()} className='md:w-1/4 h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/20 transition'>
+            <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
           </button>
-          <button onClick={() => swiperRef.current?.slideNext()} className='md:w-1/3 md:hidden h-full z-50 absolute right-0 top-0 p-2 hover:bg-black/20 transition'>
-            <svg fill="#ffffff" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="2"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon> </g></svg>
+          <button onClick={() => swiperRef.current?.slideNext()} className='lg:w-1/5 h-full z-50 absolute right-0 top-0 p-2 hover:bg-black/20 transition'>
+            <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="2"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon> </g></svg>
           </button>
-          <SwiperSlide>
+          <SwiperSlide className="p-2">
             <List list={dummies.list1} />
           </SwiperSlide>
-          <SwiperSlide>
+          <SwiperSlide className="p-2">
             <List list={dummies.list2} />
           </SwiperSlide>
-          <SwiperSlide>
+          <SwiperSlide className="p-2">
             <List list={dummies.list3} />
           </SwiperSlide>
-                    <SwiperSlide>
+          <SwiperSlide className="p-2">
             <List list={dummies.list4} />
           </SwiperSlide>
-
         </Swiper>
-
 
       </section>
 
