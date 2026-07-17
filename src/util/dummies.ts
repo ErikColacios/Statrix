@@ -7,7 +7,7 @@
   }
 
   const list2 = {
-    listName: "Horror", listGames: 16, listCreationDate: "2026-04-03", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_resident_evil5.jpg" },
+    listName: "Horror", listGames: 16, listCreationDate: "2026-05-03", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_resident_evil5.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_silent_hill2.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_outlast2.jpg" },
@@ -15,19 +15,19 @@
   }
 
   const list3 = {
-    listName: "Misc", listGames: 9, listCreationDate: "2026-04-12", covers: [{gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_silent_hill2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_hollow_knight_silksong.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_red_dead_redemption2.jpg" }]
+    listName: "Fav RPGs", listGames: 9, listCreationDate: "2026-06-12", covers: [{gameBaseImage: "/staticImages/game_covers/cover_dragon_quest3.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_monster_hunter_world.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_fallout_new_vegas.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_expedition33.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_baldurs_gate3.jpg" }]
   }
 
   const list4 = {
-    listName: "Misc", listGames: 9, listCreationDate: "2026-04-12", covers: [{gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_hollow_knight_silksong.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_need_for_speed_mw.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_red_dead_redemption2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" }]
+    listName: "Nostalgia", listGames: 9, listCreationDate: "2026-07-17", covers: [{gameBaseImage: "/staticImages/game_covers/cover_pokemon_emerald.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_daxter.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_casper_spirit_dimensions.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_harry_potter3.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_ratchet_and_clank3.jpg" }]
   }
 
   const reviews = [
@@ -48,11 +48,10 @@
     { senderId: 1, senderName: "NukeGuy", createdAt: "2026-06-14", avatarImage: "/avatarImages/solid_snake.jpg", text: "Hi! You wanna go play some Apex? We need one more to fill the squad" },
   ]
 
+  const lists = {list1, list2, list3, list4}
+  
   export default {
-  list1,
-  list2,
-  list3,
-  list4,
+  lists,
   reviews,
   messages
 }   
