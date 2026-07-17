@@ -14,12 +14,20 @@
     { gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" }]
   }
 
-    const list3 = {
+  const list3 = {
     listName: "Misc", listGames: 9, listCreationDate: "2026-04-12", covers: [{gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_silent_hill2.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_hollow_knight_silksong.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_red_dead_redemption2.jpg" }]
+  }
+
+  const list4 = {
+    listName: "Misc", listGames: 9, listCreationDate: "2026-04-12", covers: [{gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_hollow_knight_silksong.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_need_for_speed_mw.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_red_dead_redemption2.jpg" },
+    { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" }]
   }
 
   const reviews = [
@@ -44,6 +52,7 @@
   list1,
   list2,
   list3,
+  list4,
   reviews,
   messages
 }   
