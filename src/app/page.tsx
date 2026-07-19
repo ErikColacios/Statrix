@@ -87,11 +87,13 @@ export default function Home() {
             slideShadows: true,
           }}
           modules={[EffectCoverflow]}
-          className='w-full w-4/5 relative'>
+          className='w-full w-4/5 relative border-opacity-25'>
+          <div className="hidden sm:flex pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent z-10" />
+          <div className="hidden sm:flex pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent z-10" />
           <button onClick={() => swiperRef.current?.slidePrev()} className='md:w-1/4 h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/20 transition'>
             <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
           </button>
-          <button onClick={() => swiperRef.current?.slideNext()} className='lg:w-1/5 h-full z-50 absolute right-0 top-0 p-2 hover:bg-black/20 transition'>
+          <button onClick={() => swiperRef.current?.slideNext()} className='lg:w-1/4 h-full z-50 absolute right-0 top-0 p-2 hover:bg-black/20 transition'>
             <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="2"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon> </g></svg>
           </button>
           <SwiperSlide className="p-2">
