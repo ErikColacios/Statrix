@@ -10,7 +10,6 @@ export default function NewUser() {
     const [state, formAction] = useFormState<any, FormData>(handleUpdateUserName, undefined)
     const router = useRouter()
     const session:any = useSession()
-    console.log(session)
 
     
     async function handleUpdateUserName(prevState: any, formData: FormData) {
