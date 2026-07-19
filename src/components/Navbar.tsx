@@ -27,24 +27,22 @@ export default async function Navbar() {
                     <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo" /></Link>
                 </div>
                 <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
-                <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
-                    
-                    <Link className="p-2 rounded-sm rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/browseGames"}>Games</Link>
+                    <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
+                        <Link className="p-2 rounded-sm rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/browseGames"}>Games</Link>
+                        {userInfo.length > 0 &&
+                            <Link className="p-2 rounded-sm rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/friends"}>Friends</Link>}
 
-                    {userInfo.length > 0 &&
-                        <Link className="p-2 rounded-sm rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/friends"}>Friends</Link>}
-                    
-                    {userInfo.length > 0 &&
-                        <Notifications userId={userInfo[0].user_id} notificationCount={notificationCount} />}
+                        {userInfo.length > 0 &&
+                            <Notifications userId={userInfo[0].user_id} notificationCount={notificationCount} />}
 
-                    {/* Log In button */}
-                    {userInfo.length == 0 &&
-                        <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 w-32 rounded-sm rounded-lg py-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
+                        {/* Log In button */}
+                        {userInfo.length == 0 &&
+                            <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 w-32 rounded-sm rounded-lg py-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
 
-                    {/* Profile button */}
-                    {userInfo.length > 0 &&
-                        <NavbarProfileButton userName={userInfo[0].user_name} avatarImage={userInfo[0].avatar_image}  />}
-                </div>
+                        {/* Profile button */}
+                        {userInfo.length > 0 &&
+                            <NavbarProfileButton userName={userInfo[0].user_name} avatarImage={userInfo[0].avatar_image} />}
+                    </div>
             </div>
         </header>
     )

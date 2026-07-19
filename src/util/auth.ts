@@ -59,11 +59,16 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     // Here we add the id field to the JWT token
-    async jwt({ token, user }:{ token:JWT, user:any }) {
+    async jwt({ token, user, session, trigger }:{ token:JWT, user:any, session?:any, trigger?:"signIn" | "update" | "signUp" | undefined }) {
       if (user?.id) {
         token.id = user.id
         token.isNewUser = user.isNewUser
       }
+      if (trigger === "update" && session?.name) {
+          token.name = session.name;
+          token.isNewUser = false; // If we are updating the user, it means that the user is no longer new
+      }
+     
       return token
     },
     // And here we add the id field from the token to the session, so we can access it in the client side with useSession

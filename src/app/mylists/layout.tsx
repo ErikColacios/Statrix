@@ -6,19 +6,20 @@ import NotLoggedVideogamelist from '@/components/NotLoggedVideogamelist'
 import PrimaryButton from '@/components/PrimaryButton'
 import NoListCreated from '@/components/NoListCreated'
 import { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
-    title: 'My Lists - Statrix',
-    description: 'Manage your custom game lists'
+  title: 'My Lists - Statrix',
+  description: 'Manage your custom game lists'
 }
 
-export default async function MyListsLayout({children}: {children: React.ReactNode}) {
+export default async function MyListsLayout({ children }: { children: React.ReactNode }) {
   /**
    * Gets the number of lists that this User has
    * @param session 
    * @returns numberOfLists
    */
-  async function getUserListsNumber(session:any) {
+  async function getUserListsNumber(session: any) {
     let numberOfLists: number = 0;
     try {
       const res = await pool.query(`SELECT user_id, user_name, user_lists
@@ -32,9 +33,13 @@ export default async function MyListsLayout({children}: {children: React.ReactNo
     return numberOfLists;
   }
 
-  const session:any = await getSessionUser()
+  const session: any = await getSessionUser()
   let numberOfLists = await getUserListsNumber(session)
   let userHasNoLists: boolean = false;
+
+  if (session?.user.isNewUser) {
+    redirect("/newUser")
+  }
 
   if (!session) {
     return (

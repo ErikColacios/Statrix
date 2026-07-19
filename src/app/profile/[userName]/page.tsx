@@ -24,6 +24,10 @@ export default async function Profile({ params }: { params: { userName: string }
     let canEdit: Boolean = false
     let userLists: List[] = []
 
+    if (session?.user.isNewUser){
+        redirect("/newUser")
+    }
+
     if (userId !== undefined) {
         userInfo = await getUserInfo(params.userName)
 

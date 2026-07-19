@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from '@/components/Navbar';
 import Provider from "@/util/provider";
+import getSessionUser from '@/actions/getSessionUser';
 
 export const metadata: Metadata = {
   title: "Statrix",
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
   icons: "/logos/st_favicon.png"
 };
 
-export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+export default async function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+
   return (
     <html lang="en">
       <head>

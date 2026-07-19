@@ -1,14 +1,17 @@
 "use client"
 import React from "react"
 import updateUserName from "@/actions/updateUserName";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useFormState } from "react-dom";
+import { useRouter } from 'next/navigation'
 
 export default function NewUser() {
 
     const [state, formAction] = useFormState<any, FormData>(handleUpdateUserName, undefined)
-    
+    const router = useRouter()
     const session:any = useSession()
+    console.log(session)
+
     
     async function handleUpdateUserName(prevState: any, formData: FormData) {
         const userName = formData.get("usernameLogIn") as string;
@@ -27,13 +30,14 @@ export default function NewUser() {
         if(response.error) {
             return { error: response.error }
         } else {
-            signIn('google', { callbackUrl: '/' });
+            session.update({name: userName})
+            router.push('/')
         }
     }
 
     return (
-        <div className="w-full lg:w-3/5 2xl:w-2/5 flex flex-col items-center justify-center bg-zinc-900 rounded-lg text-center overflow-hidden">
-            <img src="/staticImages/bg_nightcity.jpg" alt="Welcome banner" className="w-full h-full" />
+        <div className="w-full lg:w-3/5 2xl:w-2/5 flex flex-col items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-center overflow-hidden">
+            <img src="/staticImages/bg_nightcity.jpg" alt="Welcome banner" className="w-full h-full border-b border-gray-600" />
             <div className="flex flex-col space-y-4 mt-12 mb-16">
                 <h1 className="text-4xl font-bold">Welcome aboard!</h1>
                 <p className="mb-4">What is your user name?</p>
