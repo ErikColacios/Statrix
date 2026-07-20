@@ -60,12 +60,6 @@ export const authOptions: AuthOptions = {
   callbacks: {
     // Here we add the id field to the JWT token
     async jwt({ token, user, session, trigger }:{ token:JWT, user:any, session?:any, trigger?:"signIn" | "update" | "signUp" | undefined }) {
-        console.log({
-    trigger,
-    token,
-    user,
-    session,
-  });
       if (user?.id) {
         token.id = user.id
         token.isNewUser = user.isNewUser
