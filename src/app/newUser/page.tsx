@@ -39,7 +39,7 @@ export default function NewUser() {
         if (response.error) {
             return { error: response.error }
         } else {
-            session.update({ name: userName })
+            await session.update({ name: userName })
             router.push("/")
         }
     }
