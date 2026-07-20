@@ -40,7 +40,6 @@ export default function NewUser() {
             return { error: response.error }
         } else {
             session.update({ name: userName })
-            router.prefetch("/") // Prefetch the home page to improve performance
             router.push("/")
         }
     }
