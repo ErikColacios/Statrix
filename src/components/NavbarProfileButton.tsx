@@ -2,23 +2,31 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { logOutUser } from "@/actions/logOutUser";
+import { useSession } from "next-auth/react";
 
-export default function NavbarProfileButton({ userName, avatarImage }: any) {
+export default function NavbarProfileButton({ avatarImage }: any) {
     const [dropdown, setDropdown] = useState(false)
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    const session = useSession()
+    let userName:string = ""
+
+    if(session?.data?.user){
+        userName = session.data?.user?.name as string
+    }
 
     const handleClickOutside = (e: MouseEvent) => {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
-            setDropdown(false);
+            setDropdown(false)
         }
     };
 
     useEffect(() => {
         if (dropdown) {
-            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside)
         }
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside)
         };
     }, [dropdown])
 

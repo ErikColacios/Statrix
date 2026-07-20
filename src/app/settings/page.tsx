@@ -64,7 +64,6 @@ export default function Settings() {
         updateUserAvatar(selectedAvatar.avatar_id, selectedAvatar.avatar_image)
         updateUserBanner(selectedBanner.banner_id, selectedBanner.banner_image)
 
-
         return { success: "Settings updated succesfully!" }
     }
 
@@ -94,8 +93,8 @@ export default function Settings() {
 
                             {/* Avatar image */}
                             <Dialog.Trigger asChild onClick={() => setChooseMode("avatar")}>
-                                <div className="ml-2 absolute top-15 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline-solid outline-1 outline-gray-700 transition hover:outline-green-600 hover:opacity-70 cursor-pointer">
-                                    <img src={"/avatarImages/" + selectedAvatar.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
+                                <div className="bg-black ml-2 absolute top-15 w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
+                                    <img src={"/avatarImages/" + selectedAvatar.avatar_image} className="h-full w-full object-cover transition hover:opacity-70" alt="Avatar image" />
                                 </div>
                             </Dialog.Trigger>
 

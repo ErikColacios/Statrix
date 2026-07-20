@@ -8,13 +8,13 @@ import getSessionUser from "@/actions/getSessionUser";
 
 export default async function Navbar() {
 
-    const session: any = await getSessionUser()
+    let session: any = await getSessionUser()
 
     let userInfo: any = []
     let notificationCount: number = 0
 
     if (session) {
-        const userName: string = session.user.name as string
+        let userName: string = session.user.name as string
         userInfo = await getUserInfo(userName)
         notificationCount = await getNotificationCount() // We fetch the notification count
     }
@@ -41,7 +41,7 @@ export default async function Navbar() {
 
                         {/* Profile button */}
                         {userInfo.length > 0 &&
-                            <NavbarProfileButton userName={userInfo[0].user_name} avatarImage={userInfo[0].avatar_image} />}
+                            <NavbarProfileButton avatarImage={userInfo[0].avatar_image} />}
                     </div>
             </div>
         </header>

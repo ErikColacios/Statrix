@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from '@/components/Navbar';
 import Provider from "@/util/provider";
-import getSessionUser from '@/actions/getSessionUser';
 
 export const metadata: Metadata = {
   title: "Statrix",

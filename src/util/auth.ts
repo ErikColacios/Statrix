@@ -75,6 +75,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }:{ session:any, token:JWT }) {
       if (session.user) {
         session.user.id = token.id,
+        session.user.name = token.name,
         session.user.isNewUser = token.isNewUser
       }
 
@@ -95,6 +96,5 @@ export const authOptions: AuthOptions = {
       }
       return true
     },
-
   }
 };
