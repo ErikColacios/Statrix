@@ -60,6 +60,12 @@ export const authOptions: AuthOptions = {
   callbacks: {
     // Here we add the id field to the JWT token
     async jwt({ token, user, session, trigger }:{ token:JWT, user:any, session?:any, trigger?:"signIn" | "update" | "signUp" | undefined }) {
+        console.log({
+    trigger,
+    token,
+    user,
+    session,
+  });
       if (user?.id) {
         token.id = user.id
         token.isNewUser = user.isNewUser
@@ -75,7 +81,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }:{ session:any, token:JWT }) {
       if (session.user) {
         session.user.id = token.id,
-        //session.user.name = token.name,
+        session.user.name = token.name,
         session.user.isNewUser = token.isNewUser
       }
 

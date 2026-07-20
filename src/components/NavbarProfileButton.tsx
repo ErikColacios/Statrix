@@ -11,6 +11,8 @@ export default function NavbarProfileButton({ avatarImage }: any) {
     const session = useSession()
     let userName:string = ""
 
+    console.log("Sesion navbar",session)
+
     if(session?.data?.user){
         userName = session.data?.user?.name as string
     }
