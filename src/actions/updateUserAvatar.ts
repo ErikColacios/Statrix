@@ -3,8 +3,8 @@ import { pool } from '@/util/postgres';
 import getSessionUser from './getSessionUser';
 
 export default async function updateUserAvatar(avatar_id: number, avatar_name: string) {
-    const session = await getSessionUser()
-    const userId = session.user.id as string
+    const session:any = await getSessionUser()
+    const userId:string = session.user.id as string
 
     try {
         await pool.query(
