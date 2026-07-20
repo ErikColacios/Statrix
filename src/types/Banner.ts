@@ -1,4 +1,5 @@
 interface Banner {
   banner_id: number;
-  banner_name: string;
+  banner_image: string;
+  banner_image_name: string;
 }

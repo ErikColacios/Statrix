@@ -1,4 +1,5 @@
 interface Avatar {
   avatar_id: number;
-  avatar_name: string;
+  avatar_image: string;
+  avatar_image_name: string;
 }
