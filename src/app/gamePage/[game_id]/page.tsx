@@ -54,12 +54,12 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             </div>
 
                             {/* Global stats */}
-                            <aside className='flex flex-col md:ml-auto'>
+                            <aside className='flex flex-col md:ml-auto mt-10 md:mt-0'>
                                 <p className="text-right text-gray-200 mb-2">Global stats</p>
                                 <span className="w-full bg-zinc-600 h-px mb-2"></span>
                                 <div className='flex space-x-8'>
                                     <div className="text-right">
-                                        <p>General rating</p>
+                                        <p className='text-sm'>General rating</p>
                                         <p className="p-4 rounded-lg bg-radial from-green-500 from-40% to-lime-700 text-3xl text-6xl font-bold">{game.rating ? Math.trunc(game.rating) : "-"}</p>
                                     </div>
                                     <div className='w-full grid grid-cols-2 gap-3 md:w-96'>
@@ -85,11 +85,11 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                         </div>
 
 
-                        <section className='flex px-4 mt-8'>
-                            <p className='w-1/2 mt-6'>{game.summary}</p>
+                        <section className='flex flex-col md:flex-row px-4 mt-8'>
+                            <p className='md:w-1/2 mt-6'>{game.summary}</p>
                             {/* User Videogame panel component */}
                             {userId &&
-                                <aside className='w-1/2 ml-auto'>
+                                <aside className='mt-12 md:mt-0 md:w-1/2 ml-auto'>
                                     <AddGame game={gameInfo[0]} />
                                 </aside>
                             }
@@ -97,7 +97,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
 
                         {/* Slider of images component */}
-                        {/* <SliderImages screenshots={game.screenshots} /> */}
+                        <SliderImages screenshots={game.screenshots} />
 
                         {/* Review list component*/}
                         <ReviewSection gameReviews={gameReviews} gameId={params.game_id} gameName={game.name} coverImageId={game.cover.image_id} />
