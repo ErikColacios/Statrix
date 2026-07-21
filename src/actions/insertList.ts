@@ -59,7 +59,6 @@ export async function insertList(listName: string, listDescription:string, listV
     );
 
     await client.query("COMMIT");
-    console.log(`List "${listName}" created successfully for user "${userName}"`);
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error inserting list:", error);

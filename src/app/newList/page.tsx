@@ -12,7 +12,6 @@ export default function NewList() {
 
   const [gameItems, setGameItems] = useState<Game[]>([])
   const [gameList, setGameList] = useState<Game[]>([])
-  const [listName, setListName] = useState<string>("")
   const [countGames, setCountGames] = useState(0)
   const [gameNameSearch, setGameNameSearch] = useState("")
   const [genre, setGenre] = useState(0)
@@ -235,8 +234,4 @@ export default function NewList() {
         </div>
       </section>
     )
-
-
-
-
 }

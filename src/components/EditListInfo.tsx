@@ -1,15 +1,12 @@
 'use client'
 import React from 'react';
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 import { useRouter } from "next/navigation";
 import { insertList } from '@/actions/insertList';
 
 export default function EditListInfo({ setNextSlide, gameList }: any) {
 
     const router = useRouter()
-    const session: any = useSession();
-    const userId: string = session?.data?.user?.id as string;
     const [error, setError] = useState<string | null>(null)
     const [selectedVisibility, setSelectedVisibility] = useState<string | undefined>();
     const [isFeatured, setIsFeatured] = useState<boolean>(false);
