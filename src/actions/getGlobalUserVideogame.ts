@@ -21,10 +21,13 @@ export default async function getGlobalUserVideogame(game_id: number) {
         const query2 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and status = $2`;
         const count2 = await pool.query(query2, [game_id, GameStatus.COMPLETED]);
 
-        const query3 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and favourite = $2`;
-        const count3 = await pool.query(query3, [game_id, true]);
+        const query3 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and status = $2`;
+        const count3 = await pool.query(query3, [game_id, GameStatus.DROPPED]);
 
-        const globalStats:GameGlobalStats[] = [count1.rows[0].count, count2.rows[0].count, count3.rows[0].count]
+        const query4 = `select COUNT(1)::int from user_videogame WHERE game_id = $1 and favourite = $2`;
+        const count4 = await pool.query(query4, [game_id, true]);
+
+        const globalStats:GameGlobalStats[] = [count1.rows[0].count, count2.rows[0].count, count3.rows[0].count, count4.rows[0].count]
         return globalStats;
 
     } catch (error) {

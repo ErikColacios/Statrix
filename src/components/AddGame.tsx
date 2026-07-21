@@ -90,9 +90,9 @@ export default function AddGame({ game }: Props) {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center bg-zinc-900 border border-zinc-600 md:items-start p-3 md:p-6 rounded-2xl">
-            <p className="text-base text-gray-200 mb-2">Your statistics</p>
-            <span className="w-full bg-zinc-600 h-px mb-2"></span>
+        <div className="flex flex-col justify-center items-end">
+            <p className="text-gray-200 mb-2">Your statistics</p>
+            <span className="w-4/5 bg-zinc-600 h-px mb-2"></span>
             <div className="flex flex-col space-y-3">
                 <div className="flex space-x-4">
                     <div className="flex flex-col">

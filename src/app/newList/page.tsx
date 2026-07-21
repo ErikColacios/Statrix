@@ -1,10 +1,8 @@
 "use client"
 import React from "react";
 import { getCovers } from '@/actions/getCovers'
-import { insertList } from '@/actions/insertList'
 import CustomModal from '@/components/CustomModal'
 import { Game } from '@/types/Game'
-import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import SkeletonBrowseGames from "../browseGames/skeleton";
