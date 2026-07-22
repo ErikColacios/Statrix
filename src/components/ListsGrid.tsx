@@ -1,3 +1,4 @@
+"use server"
 import { List } from "@/types/List"
 import Link from "next/link"
 import React from "react"
@@ -6,7 +7,7 @@ type Props = {
     userLists: List[]
 }
 
-export default function ListsGrid({ userLists }: Props) {
+export default async function ListsGrid({ userLists }: Props) {
     return (
         <>
             {userLists.map((list: any, index: number) => (

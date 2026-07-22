@@ -12,7 +12,7 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
     const [isFeatured, setIsFeatured] = useState<boolean>(false);
 
 
-    function createList() {
+    async function createList() {
         const listNameElement: HTMLInputElement = document.getElementById("listName") as HTMLInputElement
         const listDescriptionElement: HTMLInputElement = document.getElementById("listDescription") as HTMLInputElement
         const listName: string = listNameElement.value;
@@ -25,7 +25,7 @@ export default function EditListInfo({ setNextSlide, gameList }: any) {
             setError("You must add at least 1 game to create a list")
         }
         else {
-            insertList(listName, listDescription, selectedVisibility, isFeatured, gameList);
+            await insertList(listName, listDescription, selectedVisibility, isFeatured, gameList);
             router.push("mylists")
         }
     }
