@@ -7,10 +7,8 @@ import { sendEmail } from './sendEmail';
 
 export async function signUp(prevState:{ error: undefined | string} , formData: FormData) {
     
-    await sendEmail()
-
     // First generates a random uuid for the new user
-    const user_id = uuid();
+    const userId = uuid();
 
     // Gets the data from the form
     const userName = formData.get("userNameSignUp") as string;
@@ -26,24 +24,27 @@ export async function signUp(prevState:{ error: undefined | string} , formData: 
             return { error: "The user name must not contain whitespaces"};
         }
 
-        // const res = await pool.query(`SELECT user_id, user_name, user_password FROM users WHERE user_name = $1 OR user_email = $2`, 
-        //     [userName, userEmail])
+        const res = await pool.query(`SELECT user_id, user_name, user_password FROM users WHERE user_name = $1 OR user_email = $2`,
+            [userName, userEmail])
 
-        // if (res.rows.length === 0) {
-        //     // If the email doesn't exist, we create the new user
-        //     const hashedPassword = await bcrypt.hash(userPasswordPlain, 10)
+        if (res.rows.length === 0) {
+            // If the email doesn't exist, we create the new user
+            const hashedPassword = await bcrypt.hash(userPasswordPlain, 10)
 
-        //     await pool.query(
-        //         `INSERT INTO users (
-        //             user_id, user_name, user_email, user_password,user_lists, user_bio, user_location)
-        //         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        //         [user_id, userName, userEmail, hashedPassword, userLists, userBio, userLocation]
-        //     );
-        // } else {
-        //     return { error: "There is an existing account with this user name or email" };
-        // }
+            await pool.query(
+                `INSERT INTO users (
+                    user_id, user_name, user_email, user_password,user_lists, user_bio, user_location)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                [userId, userName, userEmail, hashedPassword, userLists, userBio, userLocation]
+            );
 
-    //redirectPath = "/"
+            // If the user is created, we send him an email to verificate his account
+            await sendEmail(userId, userName, userEmail);
+        } else {
+            return { error: "There is an existing account with this user name or email" };
+        }
+
+    redirectPath = "/"
     } catch (error){
         return { error };
     } finally{

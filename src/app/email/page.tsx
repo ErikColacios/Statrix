@@ -6,7 +6,7 @@ export default function Email() {
 
     return (
         <section className="w-full bg-zinc-700 p-20">
-            <EmailTemplate userName='Erik' />
+            <EmailTemplate userName='Erik' token={''} />
         </section>
     )
 }
