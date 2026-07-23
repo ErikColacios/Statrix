@@ -1,5 +1,4 @@
 "use server"
-import { redirect } from 'next/navigation';
 import { v4 as uuid } from "uuid";
 import { pool } from '@/util/postgres'
 import bcrypt from "bcryptjs";
@@ -18,12 +17,12 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
     const userLists:number = 0
     const userLocation:string = "No mans land"
 
-    let redirectPath: string | null = null
     try {
         if (userName.includes(" ")) {
             return { error: "The user name must not contain whitespaces"};
         }
 
+        // Check if there is an account with this userName or email
         const res = await pool.query(`SELECT user_id, user_name, user_password FROM users WHERE user_name = $1 OR user_email = $2`,
             [userName, userEmail])
 
@@ -39,16 +38,15 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
             );
 
             // If the user is created, we send him an email to verificate his account
-            await sendEmail(userId, userName, userEmail);
+            const response:Response = await sendEmail(userId, userName, userEmail);
+            if(response.status === 500) {
+                return { error: "There was a problem with the email verification." };
+            }
         } else {
             return { error: "There is an existing account with this user name or email" };
         }
 
-    redirectPath = "/"
     } catch (error){
         return { error };
-    } finally{
-        if(redirectPath)
-            redirect(redirectPath)
     }
 }
