@@ -7,7 +7,7 @@ interface EmailTemplateProps {
 
 export function EmailTemplate({ userName, token }: EmailTemplateProps) {
     return (
-        <div style={{ backgroundColor: "black", color: "#9E9E9E", width: "100%", padding: "2%", fontFamily:'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'}}>
+        <div style={{ backgroundColor: "black", color: "#9E9E9E", width: "100%", padding: "4%", fontFamily:'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'}}>
             <div style={{maxWidth: "400px", margin: "0 auto"}}>
                 <img src="https://statrix.app/logos/st2_white.png" alt="Statrix logo" width="200" />
                 <p style={{ color: "white", marginTop: "16px" }}>Hi {userName}, welcome to Statrix!</p>

@@ -4,7 +4,6 @@ import { Resend } from 'resend';
 import crypto from "crypto"
 import insertEmailVerificationToken from './insertEmailVerificationToken';
 
-
 /**
  * Sends an email to the mail of the user signing up. 
  * @param userId
