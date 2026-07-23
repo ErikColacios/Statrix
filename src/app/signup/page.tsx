@@ -23,8 +23,8 @@ export default function SignUp() {
             if(response?.error){
                 return { error: response.error };
             } else {
-                setNextSlide(1)
                 setEmail(emailSignUp)
+                setNextSlide(1)
             }
         }
     }

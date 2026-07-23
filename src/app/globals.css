@@ -8,6 +8,7 @@
 @theme {
   --animate-slide-left: slide-left 0.2s ease-in forwards;
   --animate-slide-right: slide-right 0.2s ease-in forwards;
+  --animate-slide-bottom: slide-bottom 0.5s ease-in forwards;
   --animate-element-appear: element-appear 0.3s forwards;
 }
 
@@ -249,5 +250,17 @@ input[type="number"] {
   to {
     opacity: 0;
     transform: translate(-10%, 0%);
+  }
+}
+
+/* Fade in animation to open the dialogs */
+@keyframes slide-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
   }
 }
