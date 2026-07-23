@@ -5,7 +5,7 @@ import { pool } from '@/util/postgres'
 import bcrypt from "bcryptjs";
 import { sendEmail } from './sendEmail';
 
-export async function signUp(prevState:{ error: undefined | string} , formData: FormData) {
+export async function signUpUser(prevState:{ error: undefined | string} , formData: FormData) {
     
     // First generates a random uuid for the new user
     const userId = uuid();

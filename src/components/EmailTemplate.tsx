@@ -13,8 +13,7 @@ export function EmailTemplate({ userName, token }: EmailTemplateProps) {
                 <p style={{ color: "white", marginTop: "16px" }}>Hi {userName}, welcome to Statrix!</p>
                 <p>To finish your account setup, click the button below. </p>
                 <a
-                    href={`http://localhost:3000/verifyEmail?token=${token}`}
-                    //href={`https://statrix.app?token=${token}`}
+                    href={`https://statrix.app?token=${token}`}
                     style={{
                         display: "inline-block",
                         backgroundColor: "#2A2828",

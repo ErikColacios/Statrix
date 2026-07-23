@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import updateEmailVerificationToken from '@/actions/updateEmailVerificationToken';
+import { redirect } from 'next/navigation';
 
 interface Props {
   searchParams: Promise<{token?: string}>;
@@ -10,7 +11,11 @@ interface Props {
 export default async function VerifyEmail({searchParams}:Props) {
 
     const token:string = (await searchParams).token as string
-    updateEmailVerificationToken(token)
+    const response = await updateEmailVerificationToken(token)
+
+    if(!response.success){
+        redirect("/")
+    }
     
     return (
         <section className="w-full flex justify-center items-center text-white pt-20">

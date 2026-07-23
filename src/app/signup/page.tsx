@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { signUp } from '@/actions/signUpUser'
+import { signUpUser } from '@/actions/signUpUser'
 import { useFormState } from 'react-dom'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
 import Link from 'next/link'
@@ -17,9 +17,8 @@ export default function SignUp() {
         if (userNameSignUp === "" || emailSignUp === "" || passwordSignUp === "") {
             return { error: "There are missing fields" };
         } else {
-            await signUp(prevState, formData)
+            await signUpUser(prevState, formData)
         }
-
     }
 
     return (
@@ -32,20 +31,20 @@ export default function SignUp() {
                             <h2 className={`text-4xl font-medium`}>New members</h2>
                             <p className='text-gray-400'>Create an account</p>
                         </div>
-                            <p className="text-sm text-gray-400">Username</p>
-                            <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="userNameSignUp" id="userNameSignUp"/>
-                            <p className="text-sm text-gray-400">Email</p>
-                            <input type="email" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="emailSignUp" id="emailSignUp"/>
-                            <p className="text-sm text-gray-400">Password</p>
-                            <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="passwordSignUp" id="passwordSignUp"/>
-                        
+                        <p className="text-sm text-gray-400">Username</p>
+                        <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="userNameSignUp" id="userNameSignUp" />
+                        <p className="text-sm text-gray-400">Email</p>
+                        <input type="email" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="emailSignUp" id="emailSignUp" />
+                        <p className="text-sm text-gray-400">Password</p>
+                        <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="passwordSignUp" id="passwordSignUp" />
+
                         {/* Show error message */}
                         {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
 
                         <button className="mt-2 rounded-lg bg-linear-to-r from-green-400 to-lime-400 p-2 hover:from-green-500 hover:to-lime-600 transition duration-300">Sign up</button>
 
                     </form>
-                    <GoogleSignInButton/>
+                    <GoogleSignInButton />
                     <Link href="/login" className="text-center text-sky-300 hover:text-sky-600 mt-4">Or log into your account</Link>
                 </div>
             </div>
