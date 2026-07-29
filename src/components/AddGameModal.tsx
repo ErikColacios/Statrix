@@ -20,7 +20,9 @@ export default function AddGameModal({ game }: Props) {
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
     const [hoursPlayed, setHoursPlayed] = useState<string>("")
-    const [score, setScore] = useState<string>("")
+    const [score, setScore] = useState<number>(0)
+    const [scoreColor, setScoreColor] = useState<string>("")
+    const [rangeVisible, setRangeVisible] = useState<boolean>(false)
 
     useEffect(() => {
         if (userId === undefined) return;
@@ -36,6 +38,14 @@ export default function AddGameModal({ game }: Props) {
             setStarred(userGameInfo[0]?.favourite)
             setScore(userGameInfo[0]?.score)
             setHoursPlayed(userGameInfo[0]?.hours_played)
+
+            if (score >= 8) {
+                setScoreColor("green")
+            } else if (score >= 4) {
+                setScoreColor("yellow")
+            } else if (score < 4) {
+                setScoreColor("red")
+            }
         }
 
     }, [userGameInfo])
@@ -46,23 +56,22 @@ export default function AddGameModal({ game }: Props) {
     }
 
     function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
-        if (e.target.value !== "") {
-            const valueScore = parseFloat(e.target.value);
-            if (valueScore > 10) {
-                setScore("10")
-            } else if (valueScore < 0) {
-                setScore("0")
-            } else {
-                setScore(valueScore.toString());
-            }
-        } else {
-            setScore("0")
+        const valueScore = parseFloat(e.target.value)
+
+        if (valueScore >= 8) {
+            setScoreColor("green")
+        } else if (valueScore >= 4) {
+            setScoreColor("yellow")
+        } else if (valueScore < 4) {
+            setScoreColor("red")
         }
+        setScore(valueScore);
     }
+
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.value !== "") {
-            const valueHoursPlayed = parseFloat(e.target.value);
+            const valueHoursPlayed = parseFloat(e.target.value)
             if (valueHoursPlayed < 0) {
                 setHoursPlayed("0")
             } else if (valueHoursPlayed > 100000) {
@@ -73,6 +82,10 @@ export default function AddGameModal({ game }: Props) {
         } else {
             setHoursPlayed("0")
         }
+    }
+
+    function handleShowRange() {
+        rangeVisible ? setRangeVisible(false) : setRangeVisible(true)
     }
 
 
@@ -87,12 +100,16 @@ export default function AddGameModal({ game }: Props) {
 
 
     return (
-        <div className="w-full h-full flex flex-col justify-center border border-gray-600 sm:p-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
+        <div id="modal" className={`w-full h-full flex flex-col justify-center border border-gray-600 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition 
+            ${scoreColor === "green" ? " cardReviewGreen border-green-600" : ""}
+            ${scoreColor === "yellow" ? " cardReviewYellow border-yellow-600" : ""}
+            ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
+            `}>
             <Dialog.Close className="absolute right-5 sm:right-10 top-15 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800" >
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
             <div className="flex flex-col items-center text-center sm:text-left sm:items-start sm:flex-row sm:space-x-8">
-                <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-48 h-64 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
+                <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game?.cover?.image_id ? game?.cover.image_id : game.game_image_id}.png`} className='w-full h-full transition duration-300' width={80} height={80} alt='Game cover' />
                 </Link>
                 <div className="flex flex-col items-center sm:items-start mt-8 sm:mt-0">
@@ -110,23 +127,32 @@ export default function AddGameModal({ game }: Props) {
                         </div>
                     }
                     {userId &&
-                        <div>
-                            <div className="flex space-x-4 mt-6">
+                        <>
+                            <div className="flex flex-col space-y-6 mt-6">
                                 <div className="flex flex-col">
-                                    <label className="text-gray-400">Score</label>
-                                    <input id={'score'} onChange={handleScoreChange} type="number" className='w-24 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right'
-                                        value={score} />
+                                    <p className="text-gray-400">Score</p>
+                                        <div className={`w-96 sm:w-80 flex items-center justify-center sm:justify-start space-x-2 relative group`}>
+                                            <span id={'scoreText'} onClick={handleShowRange} 
+                                            className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
+                                            ${scoreColor === "green" ? " text-green-600" : ""}
+                                            ${scoreColor === "yellow" ? " text-yellow-600" : ""}
+                                            ${scoreColor === "red" ? " text-rose-600" : ""}
+                                            `}>{score}</span>
+                                            <p className="group-hover:hidden absolute sm:left-15 text-xs ml-10"> Drag to rate</p>
+                                            <input min="0" max="10" defaultValue={0} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
+                                        </div>
+
                                 </div>
-                                <div className="flex flex-col">
-                                    <label className="text-gray-400">Hours played</label>
+                                <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
+                                    <p className="text-gray-400">Hours played</p>
                                     <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-24 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
                                         value={hoursPlayed} />
                                 </div>
                             </div>
                             <div className="flex space-x-4 mt-2">
                                 <div className="flex flex-col">
-                                    <label className="text-gray-400 mt-2">Status</label>
-                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                    <p className="text-gray-400 mt-2">Status</p>
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                                         <button
                                             onClick={() => setSelectedStatus(GameStatus.PLAYING)}
                                             className={selectedStatus === GameStatus.PLAYING
@@ -160,7 +186,7 @@ export default function AddGameModal({ game }: Props) {
                                 onClick={handleSaveUserGame} >
                                 Save
                             </Dialog.Close>
-                        </div>
+                        </>
                     }
                 </div>
             </div>
