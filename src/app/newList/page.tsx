@@ -28,7 +28,7 @@ export default function NewList() {
   const [alert, setAlert] = useState(<></>)
 
   const [responseOffset, setResponseOffset] = useState<number>(0)
-  const [responseLimit, setResponseLimit] = useState<number>(21)
+  const [responseLimit, setResponseLimit] = useState<number>(64)
 
   const [nextSlide, setNextSlide] = useState<number>(0)
 
@@ -169,7 +169,7 @@ export default function NewList() {
         <div className="flex flex-col w-full px-4 pb-24 md:px-8">
           <div className="flex flex-col sm:flex-row items-center mb-4">
             {/* Search bar */}
-            <form className='w-full md:w-96 relative flex items-center border border-gray-400' action={formAction}>
+            <form className='w-full md:w-96 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
               <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
               <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
             </form>

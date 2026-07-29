@@ -77,7 +77,7 @@ export default function BrowseGames() {
       <Dialog.Root>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-          <Dialog.Content onCloseAutoFocus={(e) => {e.preventDefault()}} className={`fixed flex justify-center p-2 left-1/2 w-full md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+          <Dialog.Content onCloseAutoFocus={(e) => {e.preventDefault()}} className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
                 data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
             <Dialog.Title className="DialogTitle"></Dialog.Title>
             <Dialog.Description className="DialogDescription"></Dialog.Description>
@@ -106,7 +106,7 @@ export default function BrowseGames() {
 
         <div className="flex flex-col w-full px-4 pb-24 md:px-8">
           {/* Search bar */}
-          <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400' action={formAction}>
+          <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
             <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
             <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
           </form>

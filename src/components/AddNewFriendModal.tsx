@@ -40,22 +40,22 @@ export default function AddNewFriendModal() {
     }
 
     return (
-        <div className="flex w-full h-[75vh] md:h-[65vh] flex-col border border-gray-600 space-y-8 px-4 py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
-            <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded-sm transition hover:bg-gray-800" >
+        <div className="flex w-full h-full sm:h-[75vh] md:h-[65vh] flex-col border border-gray-600 space-y-8 px-4 py-24 sm:py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+            <Dialog.Close className="mt-8 absolute top-10 sm:top-0 right-5 p-2 rounded-sm transition hover:bg-gray-800" >
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
             <h2 className="text-3xl">Search user</h2>
-            <p className="text-gray-300">Search a friend typing the user name here</p>
+            <p className="text-gray-400">Search a friend typing the user name here</p>
             {/* Search user */}
             <div className="flex">
-                <form className='flex text-sm border' action={searchUser}>
-                    <input type="text" name="searchUser" id="searchUser" className='w-full rounded-sm pl-2 sm:w-32 lg:w-full bg-transparent outline-hidden' placeholder='User name' />
+                <form className='flex text-sm border rounded-md' action={searchUser}>
+                    <input type="text" name="searchUser" id="searchUser" className='w-full pl-2 p-2 sm:w-32 lg:w-full bg-transparent outline-hidden' placeholder='User name' />
                     <button className='p-1 rounded-sm ml-2 cursor-pointer transition hover:bg-gray-700' type='submit'><img src="/staticImages/icon_search.png" alt="Search button" className='w-5' width={20} height={20} /></button>
                 </form>
                 <div className="loader-small ml-3 hidden" id="loader"></div>
             </div>
 
-            <div className='mt-5 overflow-scroll no-scrollbar'>
+            <div className='overflow-scroll no-scrollbar'>
                 {/* Users found */}
                 {usersFound.map((item: any, index: number) => (
                     <div key={index} className='relative flex items-center mb-4 p-2 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
