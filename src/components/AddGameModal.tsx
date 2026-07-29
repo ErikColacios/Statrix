@@ -14,15 +14,14 @@ type Props = {
 
 export default function AddGameModal({ game }: Props) {
 
-    const session: any = useSession();
-    const userId: string = session?.data?.user?.id as string;
+    const session: any = useSession()
+    const userId: string = session?.data?.user?.id as string
     const [userGameInfo, setUserGameInfo] = useState<any>([])
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
     const [hoursPlayed, setHoursPlayed] = useState<string>("")
     const [score, setScore] = useState<number>(0)
-    const [scoreColor, setScoreColor] = useState<string>("")
-    const [rangeVisible, setRangeVisible] = useState<boolean>(false)
+    const [scoreColor, setScoreColor] = useState<string>("none")
 
     useEffect(() => {
         if (userId === undefined) return;
@@ -47,7 +46,6 @@ export default function AddGameModal({ game }: Props) {
                 setScoreColor("red")
             }
         }
-
     }, [userGameInfo])
 
     // Passed to StarButton
@@ -70,7 +68,6 @@ export default function AddGameModal({ game }: Props) {
         setScore(valueScore);
     }
 
-
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.value !== "") {
             const valueHoursPlayed = parseFloat(e.target.value)
@@ -85,11 +82,6 @@ export default function AddGameModal({ game }: Props) {
             setHoursPlayed("0")
         }
     }
-
-    function handleShowRange() {
-        rangeVisible ? setRangeVisible(false) : setRangeVisible(true)
-    }
-
 
     async function handleSaveUserGame() {
         const gameId: number = game.id ? game.id : game.game_id;
@@ -139,15 +131,15 @@ export default function AddGameModal({ game }: Props) {
                                 <div className="flex flex-col">
                                     <p className="text-gray-400">Score</p>
                                         <div className={`w-96 sm:w-80 flex items-center justify-center sm:justify-start space-x-2 relative group`}>
-                                            <span id={'scoreText'} onClick={handleShowRange} 
+                                            <span id={'scoreText'}
                                             className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
                                             ${scoreColor === "green" ? " text-green-600" : ""}
                                             ${scoreColor === "yellow" ? " text-yellow-600" : ""}
                                             ${scoreColor === "red" ? " text-rose-600" : ""}
                                             ${scoreColor === "none" ? "" : ""}
                                             `}>{score}</span>
-                                            <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>
-                                            <input min="0" max="10" defaultValue={0} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
+                                            {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>}
+                                            <input min="0" max="10" value={score} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
                                         </div>
 
                                 </div>
