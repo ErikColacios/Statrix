@@ -64,6 +64,8 @@ export default function AddGameModal({ game }: Props) {
             setScoreColor("yellow")
         } else if (valueScore < 4) {
             setScoreColor("red")
+        } else if (valueScore == 0) {
+            setScoreColor("none")
         }
         setScore(valueScore);
     }
@@ -100,7 +102,7 @@ export default function AddGameModal({ game }: Props) {
 
 
     return (
-        <div id="modal" className={`w-full h-full flex flex-col justify-center border border-gray-600 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition 
+        <div id="modal" className={`w-full h-full flex flex-col justify-center border border-gray-600 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/50
             ${scoreColor === "green" ? " cardReviewGreen border-green-600" : ""}
             ${scoreColor === "yellow" ? " cardReviewYellow border-yellow-600" : ""}
             ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
@@ -108,14 +110,19 @@ export default function AddGameModal({ game }: Props) {
             <Dialog.Close className="absolute right-5 sm:right-10 top-15 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800" >
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
+
             <div className="flex flex-col items-center text-center sm:text-left sm:items-start sm:flex-row sm:space-x-8">
-                <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game?.cover?.image_id ? game?.cover.image_id : game.game_image_id}.png`} className='w-full h-full transition duration-300' width={80} height={80} alt='Game cover' />
-                </Link>
+                <aside className="flex flex-col">
+                    <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
+                        <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game?.cover?.image_id ? game?.cover.image_id : game.game_image_id}.png`} className='w-full h-full transition duration-300' width={80} height={80} alt='Game cover' />
+                    </Link>
+                    <div className="flex items-center justify-center space-x-2 text-gray-300 text-sm mt-2"><p>Mark as favourite</p>{userId && <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />}</div>
+                </aside>
+
+
                 <div className="flex flex-col items-center sm:items-start mt-8 sm:mt-0">
                     <div className="flex space-x-4">
                         <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className="text-2xl md:text-3xl">{game?.name ? game?.name : game?.game_name}</Link>
-                        {userId && <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />}
                     </div>
 
                     {!userId &&
@@ -128,7 +135,7 @@ export default function AddGameModal({ game }: Props) {
                     }
                     {userId &&
                         <>
-                            <div className="flex flex-col space-y-6 mt-6">
+                            <div className="flex flex-col space-y-3 mt-6">
                                 <div className="flex flex-col">
                                     <p className="text-gray-400">Score</p>
                                         <div className={`w-96 sm:w-80 flex items-center justify-center sm:justify-start space-x-2 relative group`}>
@@ -137,8 +144,9 @@ export default function AddGameModal({ game }: Props) {
                                             ${scoreColor === "green" ? " text-green-600" : ""}
                                             ${scoreColor === "yellow" ? " text-yellow-600" : ""}
                                             ${scoreColor === "red" ? " text-rose-600" : ""}
+                                            ${scoreColor === "none" ? "" : ""}
                                             `}>{score}</span>
-                                            <p className="group-hover:hidden absolute sm:left-15 text-xs ml-10"> Drag to rate</p>
+                                            <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>
                                             <input min="0" max="10" defaultValue={0} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
                                         </div>
 
@@ -148,6 +156,7 @@ export default function AddGameModal({ game }: Props) {
                                     <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-24 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
                                         value={hoursPlayed} />
                                 </div>
+
                             </div>
                             <div className="flex space-x-4 mt-2">
                                 <div className="flex flex-col">
@@ -182,7 +191,7 @@ export default function AddGameModal({ game }: Props) {
                                     </div>
                                 </div>
                             </div>
-                            <Dialog.Close className="w-full text-white px-6 py-2 mt-4 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                            <Dialog.Close className="w-4/5 sm:w-full text-white px-6 py-2 mt-4 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
                                 onClick={handleSaveUserGame} >
                                 Save
                             </Dialog.Close>
