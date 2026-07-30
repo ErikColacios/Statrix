@@ -114,7 +114,7 @@ export default function AddGameModal({ game }: Props) {
                 </aside>
 
 
-                <div className="flex flex-col items-center sm:items-start mt-8 sm:mt-0">
+                <div className="flex flex-col items-center sm:items-start mt-5 sm:mt-0">
                     <div className="flex space-x-4">
                         <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className="text-2xl md:text-3xl">{game?.name ? game?.name : game?.game_name}</Link>
                     </div>

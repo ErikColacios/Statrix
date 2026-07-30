@@ -58,7 +58,7 @@ export default async function MyListsLayout({ children }: { children: React.Reac
         <div className="flex items-center text-lg md:text-3xl border-b-2 border-gray-500 pb-3 mb-8">
           <h2 className='text-2xl'>My lists</h2>
           <p className='text-gray-400 text-base ml-8 mt-1'>{numberOfLists} list/s</p>
-          <Link href={"newList"} className="ml-auto"><PrimaryButton text='Add list' /></Link>
+          <Link href={"newList"} className="ml-auto"><PrimaryButton text='+ Add list' /></Link>
         </div>
         {/* If the user has no lists, shows the component NoListCreated, if not it shows the children (mylists) */}
         {userHasNoLists ? <NoListCreated /> : children}
