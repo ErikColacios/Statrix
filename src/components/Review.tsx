@@ -17,7 +17,7 @@ export default function Review({ review, index }: any) {
                         <img src={review.avatarImage} className="h-full w-full object-cover" alt="User avatar" />
                     </div>
                     {review.userName}
-                    <span className="text-xs text-gray-300 ml-1 sm:ml-4">{review.reviewDate}</span>
+                    <span className="text-xs text-gray-300 ml-3 sm:ml-4">{review.reviewDate}</span>
                 </div>
                 {/* Like button */}
                 <div className="flex items-center ml-auto pr-2 text-xs">
