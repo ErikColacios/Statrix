@@ -106,8 +106,8 @@ export default function AddGameModal({ game }: Props) {
             </Dialog.Close>
 
             <div className="flex flex-col items-center text-center sm:text-left sm:items-start sm:flex-row sm:space-x-8">
-                <aside className="flex flex-col">
-                    <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
+                <aside className="flex flex-col items-center justify-center">
+                    <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-32 sm:w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
                         <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game?.cover?.image_id ? game?.cover.image_id : game.game_image_id}.png`} className='w-full h-full transition duration-300' width={80} height={80} alt='Game cover' />
                     </Link>
                     <div className="flex items-center justify-center space-x-2 text-gray-300 text-sm mt-2"><p>Mark as favourite</p>{userId && <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />}</div>
@@ -129,7 +129,7 @@ export default function AddGameModal({ game }: Props) {
                     }
                     {userId &&
                         <>
-                            <div className="flex flex-col space-y-3 mt-6">
+                            <div className="flex flex-col space-y-2 mt-2">
                                 <div className="flex flex-col">
                                     <p className="text-gray-400">Score</p>
                                         <div className={`w-96 sm:w-80 flex items-center justify-center sm:justify-start space-x-2 relative group`}>

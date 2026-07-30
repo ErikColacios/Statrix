@@ -56,7 +56,7 @@ export default function Home() {
               More than a game tracker
             </h2>
             <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlog in seconds. All your gaming history in one place.</p>
-            <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to find people who play the same games or has the same interests. </p>
+            <p className="text-white mt-1">Beyond of that, we want to focus more on the social aspect of gaming, because sometimes it gets hard to find people who play the same games or have the same interests. </p>
             <p className="text-white">This site provides tools to help share with the world what type of player you are, and display the passion you put into it.</p>
           </div>
           <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className=" lg:w-1/2 rounded-2xl mt-8 lg:mt-0" />
@@ -214,7 +214,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}>
             <div className="p-6 backdrop-blur-md w-full">
               <h3 className="text-2xl font-bold">Mobile app</h3>
-              <p>Access to your account from a mobile or tablet. It will be available for both iOS and Android.</p>
+              <p>Access to your account from a smartphone or tablet. It will be available for both iOS and Android.</p>
             </div>
           </motion.div>
         </div>
@@ -224,7 +224,7 @@ export default function Home() {
       <section className="w-full flex flex-col sm:flex-row sm:items-center justify-center h-[50vh] text-base md:text-xl p-6 pb-12 xl:p-20 my-20">
         <div className="lg:w-1/2">
           <h2 className="flex text-4xl sm:text-6xl font-bold mb-6">Ready to jump in?</h2>
-          <p className="text-gray-400">You can sign up via Google or you can create an account on the traditional way.</p>
+          <p className="text-gray-400">You can sign up via Google or you can create an account the traditional way.</p>
           <p>And of course, this is all for free.</p>
           <div className="mt-4 sm:mt-12 flex gap-4 animate-fade-in delay-400">
             <Link href="/signup" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
