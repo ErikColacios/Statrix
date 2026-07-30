@@ -131,7 +131,7 @@ export default function AddGameModal({ game }: Props) {
                         <>
                             <div className="flex flex-col space-y-2 mt-2">
                                 <div className="flex flex-col">
-                                    <p className="text-gray-400">Score</p>
+                                    <p className="hidden sm:flex text-gray-400">Score</p>
                                         <div className={`w-96 sm:w-80 flex items-center justify-center sm:justify-start space-x-2 relative group`}>
                                             <span id={'scoreText'}
                                             className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
