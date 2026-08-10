@@ -11,8 +11,7 @@ export async function fetchGamesIGDB(gameName: string,  gameGenre: number, respo
   let condition = "";
 
   if (gameName) {
-    condition = `; search "${gameName}";`;
-    console.log(condition)
+    condition = `; search "${gameName}"`;
   } else if (gameGenre && gameGenre != 0) {
     condition = `& genres=${gameGenre}`;
   }
@@ -68,7 +67,7 @@ export async function fetchGamesIGDB(gameName: string,  gameGenre: number, respo
     return games;
   }
 
-  async function getGamesByConditions() {
+  async function getGamesBySearch() {
     const gamesRes = await fetch("https://api.igdb.com/v4/games", {
       method: "POST",
       headers: {
@@ -85,11 +84,30 @@ export async function fetchGamesIGDB(gameName: string,  gameGenre: number, respo
     });
 
     let games = await gamesRes.json();
+
+    // If the search returns no results, we try to fetch again with a different query to get more results
+    if(games.length === 0) {
+            const gamesRes2 = await fetch("https://api.igdb.com/v4/games", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Client-ID": client_id!,
+                Authorization: `Bearer ${bearer}`,
+                "Content-Type": "text/plain",
+            },
+            body: `
+                    fields id, name, genres, cover.image_id, rating, release_dates.human;
+                    where cover != null & cover.image_id != null & rating != null & name~*"${gameName}*";
+                    limit ${responseLimit};
+                    `,
+            });
+            games = await gamesRes2.json();
+    }
     return games;
   }
 
   if (gameName !== "" || gameGenre !== 0) {
-    return await getGamesByConditions();
+    return await getGamesBySearch();
   } else {
     return await getPopularGames();
   }
