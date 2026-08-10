@@ -11,7 +11,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
     let [gamesAdded, setGamesAdded] = useState<Game[]>([])
 
-    function addNewGame(game: Game) {
+    async function addNewGame(game: Game) {
         for (let i = 0; i < gamesAdded.length; i++) {
             if (gamesAdded[i].name === game.name) {
                 return;

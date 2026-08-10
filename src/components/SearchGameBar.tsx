@@ -6,15 +6,14 @@ import { Game } from "../types/Game"
 export default function SearchGameBar({ addNewGame }: any) {
 
     let [gameItems, setGameItems] = useState<Game[]>([])
-    const [gameSearch, setGameSearch] = useState("")
 
-    function handleSetGameNameSearch() {
+    async function handleSetGameNameSearch() {
         let gameSearchBar: HTMLInputElement = document.getElementById("gameSearchBar") as HTMLInputElement
         let gameListSearch: HTMLDivElement = document.getElementById("gameListSearch") as HTMLDivElement
         let loader: HTMLDivElement = document.getElementById("loader") as HTMLDivElement
-        let name: string = gameSearchBar.value
+        let gameName: string = gameSearchBar.value
 
-        if (name === "") {
+        if (gameName === "") {
             gameListSearch.style.display = "none"
             loader.style.display = "none"
             setGameItems([])
@@ -22,21 +21,19 @@ export default function SearchGameBar({ addNewGame }: any) {
         } else {
             gameListSearch.style.display = "block"
         }
-        console.log(name)
-        setGameSearch(name)
 
         // If the input name is equal or larger than 3, we fetch the videogames. We do this to prevent too many requests to the api
-        if (name.length >= 3) {
+        if (gameName.length >= 3) {
             loader.style.display = "block"
-            fetchVideogames()
+            fetchVideogames(gameName)
         }
     }
 
-    async function fetchVideogames() {
+    async function fetchVideogames(gameName: string) {
         let loader: HTMLDivElement = document.getElementById("loader") as HTMLDivElement
 
         try {
-            const covers = await fetchGamesIGDB(gameSearch, 0, 0, 20)
+            const covers = await fetchGamesIGDB(gameName, 0, 0, 20)
             if (covers) {
                 setGameItems(covers)
                 loader.style.display = "none"
