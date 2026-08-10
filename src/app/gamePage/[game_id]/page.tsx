@@ -60,7 +60,12 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                 <div className='flex space-x-8'>
                                     <div className="text-right">
                                         <p className='text-sm'>General rating</p>
-                                        <p className="p-4 rounded-lg bg-radial from-green-500 from-40% to-lime-700 text-3xl text-6xl font-bold">{game.rating ? Math.trunc(game.rating) : "-"}</p>
+                                        <p className={`p-4 rounded-lg bg-radial text-6xl font-bold
+                                            ${game.rating >= 70 ? " from-green-500 from-50% to-lime-700" : ""}
+                                            ${game.rating >= 50 && game.rating < 70 ? " from-yellow-500 from-50% to-orange-600" : ""}
+                                            ${game.rating < 50 ? " from-red-500 from-50% to-rose-700" : ""}
+                                            `}>
+                                            {game.rating ? Math.trunc(game.rating) : "-"}</p>
                                     </div>
                                     <div className='w-full grid grid-cols-2 gap-3 md:w-96'>
                                         <div className="border-l-1 border-green-500 bg-gradient-to-r from-transparent to-lime-700 pl-2 rounded-r-lg">
