@@ -1,17 +1,17 @@
 "use server"
 /**
- * Fetches game information from the IDGB Api. The restriction is the game name, the game genre and the limit of responses.
+ * Fetches game information from the IDGB Api. The restriction is the game name, the game genre and the offset and limit of responses.
  * @param gameName 
  * @param gameGenre
  * @param responseOffset
  * @param responseLimit
  * @returns 
  */
-export async function getCovers(gameName:string, gameGenre:number, responseOffset:number, responseLimit:number) {
+export async function fetchGamesIGDB(gameName:string, gameGenre:number, responseOffset:number, responseLimit:number) {
 let condition='';
 
 if (gameName){
-    condition = `& name~*"${gameName}"*`;
+    condition = `; search "${gameName}";`;
 }
 else if (gameGenre && gameGenre != 0) {
     condition = `& genres=${gameGenre}`;
@@ -37,7 +37,6 @@ const bearer = process.env.BEARER
             limit ${responseLimit};
         `
         });
-        //console.log(await popularGamesRes.json())
 
         const popularGames = await popularGamesRes.json();
         const gameIds = popularGames.map((g: any) => g.game_id).filter(Boolean);
@@ -61,7 +60,6 @@ const bearer = process.env.BEARER
             limit ${responseLimit};
             `
         });
-        //console.log(await gamesRes.json())
         const games = await gamesRes.json();
         
         return games;
@@ -83,8 +81,9 @@ const bearer = process.env.BEARER
             limit ${responseLimit};
             `
         });
-        const games = await gamesRes.json();
-        // console.log(games)
+
+        let games = await gamesRes.json()
+        console.log(games)
         return games;
     }
 

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react"
-import { getCovers } from "../actions/getCovers"
+import { fetchGamesIGDB } from "../actions/fetchGamesIGDB"
 import { Game } from "../types/Game"
 
 export default function SearchGameBar({ addNewGame }: any) {
@@ -22,7 +22,7 @@ export default function SearchGameBar({ addNewGame }: any) {
         } else {
             gameListSearch.style.display = "block"
         }
-
+        console.log(name)
         setGameSearch(name)
 
         // If the input name is equal or larger than 3, we fetch the videogames. We do this to prevent too many requests to the api
@@ -36,7 +36,7 @@ export default function SearchGameBar({ addNewGame }: any) {
         let loader: HTMLDivElement = document.getElementById("loader") as HTMLDivElement
 
         try {
-            const covers = await getCovers(gameSearch, 0, 0, 20)
+            const covers = await fetchGamesIGDB(gameSearch, 0, 0, 20)
             if (covers) {
                 setGameItems(covers)
                 loader.style.display = "none"
@@ -69,7 +69,8 @@ export default function SearchGameBar({ addNewGame }: any) {
             <div className="flex relative">
                 <div className="flex flex-col w-full text-sm">
                     <div className="flex relative items-center mb-4">
-                        <input className='w-full rounded-lg p-2 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600' type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3" onChange={() => handleSetGameNameSearch()} />
+                        <input className='w-full rounded-lg p-2 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600' type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3"
+                         onChange={() => handleSetGameNameSearch()} />
                         <div className="loader-small absolute right-0 mr-3 hidden" id="loader"></div>
                     </div>
                     <div className="h-96 overflow-auto no-scrollbar mb-4" id="gameListSearch" ref={ref}>

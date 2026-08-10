@@ -106,15 +106,15 @@ export default async function Profile({ params }: { params: { userName: string }
                                     </div>
                                 </div>
                                 {/* Last review - widget*/}
-                                <div className="flex space-x-4 border border-gray-600 bg-zinc-900 rounded-lg h-1/3">
+                                <div className="flex space-x-4 border border-gray-600 bg-zinc-900 rounded-lg overflow-hidden h-1/3">
                                     {userReviews.map((r: any, index: number) => (
                                         <Link href={'/gamePage/' + r.videogame_id} className="relative w-full flex items-center bg-cover bg-center p-4 transition hover:opacity-70"
                                             style={{ backgroundImage: `url(${r.game_base_image})` }}
                                             key={index}>
-                                            <div className="absolute w-full inset-0 bg-black/60 rounded-lg" />
-                                            <img src={r.game_base_image} className="w-20 h-24 rounded-sm z-10 mr-3" alt="Game reviewed" />
+                                            <div className="absolute w-full inset-0 bg-black/60 " />
+                                            <img src={r.game_base_image} className="w-20 h-24 z-10 mr-3" alt="Game reviewed" />
                                             <div className="flex flex-col z-10">
-                                                <p className="text-green-600 font-bold">Last review <span className="text-white ml-1">{r.videogame_name}</span></p>
+                                                <p className="text-green-400 font-bold">Last review <span className="text-white ml-1">{r.videogame_name}</span></p>
                                                 <p className="text-sm mt-1">{r.body}</p>
                                             </div>
                                         </Link>

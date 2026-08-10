@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { getCovers } from '@/actions/getCovers'
+import { fetchGamesIGDB } from '@/actions/fetchGamesIGDB'
 import { Game } from '@/types/Game'
 import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
@@ -29,9 +29,10 @@ export default function BrowseGames() {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers = await getCovers(gameNameSearch, genre, responseOffset, responseLimit)
+        const covers = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
         if (covers) {
           setGameItems(covers)
+          console.log(covers)
           setIsLoading(false)
         }
       } catch (error) {

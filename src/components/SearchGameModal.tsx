@@ -3,7 +3,6 @@ import React from 'react';
 import updateList from '@/actions/updateList';
 import SearchGameBar from '@/components/SearchGameBar';
 import { Game } from '@/types/Game';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Dialog } from 'radix-ui';
 
