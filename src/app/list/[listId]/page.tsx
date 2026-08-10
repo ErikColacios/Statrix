@@ -98,7 +98,11 @@ export default function List({ params }: { params: { listId: string } }) {
                                     <div className='flex space-x-4 text-sm mt-4'>
                                         <div className='flex text-gray-400 items-center'>
                                             <label className="mr-2">Score</label>
-                                            <p className='text-white'>{game.score}</p>
+                                            <p className={`font-bold
+                                            ${game.score >= 8 ? " text-green-600" : ""}
+                                            ${game.score >= 4 && game.score < 8 ? " text-yellow-600" : ""}
+                                            ${game.score < 4 ? " text-rose-600" : ""}
+                                            `}>{game.score}</p>
                                         </div>
                                         <div className='flex items-center text-sm'>
                                             <div className='flex text-gray-400 items-center'>
