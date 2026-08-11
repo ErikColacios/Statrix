@@ -26,12 +26,13 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                     <div className='w-full lg:w-2/3 lg:w-2/3 3xl:w-1/2 bg-black/80 mt-8 rounded-sm'>
                         <div className='relative h-96'>
                             {game.artworks && <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.artworks[0].image_id}.jpg`} className='w-full h-full object-cover' alt='Artwork' />}
-                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute w-24 sm:w-36 md:w-48 ml-4 rounded-sm" alt='Game cover' />
+                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className="bottom-[-60px] absolute z-50 w-24 sm:w-36 md:w-48 ml-4 rounded-sm" alt='Game cover' />
+                            <div className="pointer-events-none absolute inset-y-0 bottom-0 w-full h-full bg-gradient-to-t from-black to-transparent z-5" />
                         </div>
 
 
                         {/* Game Info */}
-                        <div className='flex flex-col md:flex-row px-4 pt-20'>
+                        <section className='flex flex-col md:flex-row px-4 pt-20'>
                             <div className='flex flex-col'>
                                 <h2 className="mb-4 text-3xl md:text-4xl font-bold">{game.name}</h2>
 
@@ -87,14 +88,14 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                     </div>
                                 </div>
                             </aside>
-                        </div>
+                        </section>
 
 
-                        <section className='flex flex-col md:flex-row px-4 mt-8'>
-                            <p className='md:w-1/2 mt-6'>{game.summary}</p>
-                            {/* User Videogame panel component */}
+                        <section className='md:grid md:grid-cols-5 gap-4 2xl:gap-12 px-4 mt-8'>
+                            <p className='col-span-3 mt-6'>{game.summary}</p>
+                            {/* If user is logged in, show the AddGame component */}
                             {userId &&
-                                <aside className='mt-12 md:mt-0 md:w-1/2 ml-auto'>
+                                <aside className='mt-12 md:mt-0 md:col-span-2 ml-auto'>
                                     <AddGame game={gameInfo[0]} />
                                 </aside>
                             }
@@ -102,7 +103,7 @@ export default async function gamePage({ params }: { params: { list_id: string, 
 
 
                         {/* Slider of images component */}
-                        <SliderImages screenshots={game.screenshots} />
+                        {game.screenshots && <SliderImages screenshots={game.screenshots} />}
 
                         {/* Review list component*/}
                         <ReviewSection gameReviews={gameReviews} gameId={params.game_id} gameName={game.name} coverImageId={game.cover.image_id} />

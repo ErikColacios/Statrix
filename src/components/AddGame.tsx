@@ -13,12 +13,11 @@ type Props = {
 
 export default function AddGame({ game }: Props) {
 
-    const session: any = useSession();
     const [userGameInfo, setUserGameInfo] = useState<any>([])
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
-    const [hoursPlayed, setHoursPlayed] = useState<string>("")
-    const [score, setScore] = useState<string>("")
+    const [hoursPlayed, setHoursPlayed] = useState<string>("0")
+    const [score, setScore] = useState<number>(0)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
 
@@ -44,24 +43,23 @@ export default function AddGame({ game }: Props) {
     }
 
 
-    function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
-        if (e.target.value !== "") {
-            const valueScore = parseFloat(e.target.value);
-            if (valueScore > 10) {
-                setScore("10")
-            } else if (valueScore < 0) {
-                setScore("0")
-            } else {
-                setScore(valueScore.toString());
-            }
-        } else {
-            setScore("0")
-        }
+    async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const valueScore = parseFloat(e.target.value)
+        setScore(valueScore)
+        // if (valueScore >= 8) {
+        //     setScoreColor("green")
+        // } else if (valueScore >= 4) {
+        //     setScoreColor("yellow")
+        // } else if (valueScore < 4) {
+        //     setScoreColor("red")
+        // } else if (valueScore === 0) {
+        //     setScoreColor("none")
+        // }
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.value !== "") {
-            const valueHoursPlayed = parseFloat(e.target.value);
+            const valueHoursPlayed = parseFloat(e.target.value)
             if (valueHoursPlayed < 0) {
                 setHoursPlayed("0")
             } else if (valueHoursPlayed > 100000) {
@@ -75,10 +73,8 @@ export default function AddGame({ game }: Props) {
     }
 
     async function handleSaveUserGame() {
-        const newScore: number = (document.getElementById("score") as HTMLInputElement).valueAsNumber
-        const newHoursPlayed: number = (document.getElementById("hoursPlayed") as HTMLInputElement).valueAsNumber
         if (game.id) {
-            const res = await updateUserVideogame(game.id, selectedStatus, newScore, newHoursPlayed, starred, game.name, game.game_image_id);
+            const res = await updateUserVideogame(game.id, selectedStatus, Number(score), Number(hoursPlayed), starred, game.name, game.game_image_id);
             if (res?.success) {
                 setError(null)
                 setSuccess(res?.message || "Game info updated successfully.")
@@ -90,19 +86,25 @@ export default function AddGame({ game }: Props) {
     }
 
     return (
-        <div className="flex flex-col justify-center items-end">
-            <p className="text-gray-200 mb-2">Your statistics</p>
-            <span className="w-4/5 bg-zinc-600 h-px mb-2"></span>
+        <div className="flex flex-col justify-center">
+            <p className="text-right text-gray-200 mb-2">Your stats</p>
+            <span className="w-full bg-zinc-600 h-px mb-2"></span>
             <div className="flex flex-col space-y-3">
                 <div className="flex space-x-4">
-                    <div className="flex flex-col">
+                    <div className="w-1/2 flex flex-col">
                         <label className="text-gray-400">Score</label>
-                        <input id={'score'} onChange={handleScoreChange} type="number" className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right'
-                            value={score} />
+                        <div className={`flex items-center justify-center sm:justify-start space-x-2 relative group`}>
+                            <span id={'scoreText'}
+                                className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
+                            `}>{score}</span>
+                            {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>}
+
+                            <input min="0" max="10" value={score} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
+                        </div>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="w-1/2 flex flex-col">
                         <label className="text-gray-400">Hours played</label>
-                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
+                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
                             value={hoursPlayed} />
                     </div>
                 </div>
