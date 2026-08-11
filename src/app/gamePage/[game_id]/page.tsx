@@ -50,7 +50,12 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             <span className='text-xs mr-2 bg-gray-600 p-1 rounded-sm text-gray-200' key={index}>{c.company.name}</span>
                                         ))}
                                     </div>
-
+                                    <div className='mt-2'>
+                                        <span className="text-green-400 mr-2">Platforms:</span>
+                                        {game.platforms?.map((p: any, index: number) => (
+                                            <span className='text-xs mr-2 bg-gray-600 p-1 rounded-sm text-gray-200' key={index}>{p.name}</span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
 
