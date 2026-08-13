@@ -36,6 +36,7 @@ export default function UserVideogame({ userGames }: Props) {
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
             <div className="flex items-center  border-b-2 border-gray-500 pb-3 mb-8">
                 <h2 className='text-2xl md:text-3xl'>My games</h2>
+                <p className='text-gray-400 text-base ml-8 mt-1'>{userGames.length} game/s</p>
                 <form className='ml-auto w-full md:w-96 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
                     <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Half Life 2' />
                     <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
