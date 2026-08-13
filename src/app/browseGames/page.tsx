@@ -2,7 +2,7 @@
 import React from "react";
 import { fetchGamesIGDB } from '@/actions/fetchGamesIGDB'
 import { Game } from '@/types/Game'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import SkeletonBrowseGames from "../browseGames/skeleton";
 import { Dialog } from "radix-ui";

@@ -5,7 +5,7 @@ export type Game = {
     name: string,
     game_name: string,
     summary: string,
-    cateogry: number,
+    category: number,
     cover:{
         image_id:number,
         url:string
