@@ -2,7 +2,7 @@
 import React from "react"
 import { Dialog } from "radix-ui"
 
-export default function DeleteGameModal({ gameId, gameName, gameBaseImage, handleRemoveGame }: any) {
+export default function DeleteGameListModal({ listId, gameId, gameName, gameBaseImage, handleRemoveGame }: any) {
 
     return (
         <div className="flex flex-col items-center justify-center h-full sm:h-[40vh] border border-gray-600 space-y-4 px-4 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
@@ -16,9 +16,9 @@ export default function DeleteGameModal({ gameId, gameName, gameBaseImage, handl
                         <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="17" r="1" fill="#ffffff"></circle> <path d="M12 10L12 14" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
                         <h2 className="text-2xl">Warning</h2>
                     </div>
-                    <p>Are you sure you want to remove <strong>{gameName}</strong>? Your hours played, rating and status will be lost.</p>
+                    <p>Are you sure you want to remove <strong>{gameName}</strong> from the list?</p>
                     <div className="flex space-x-8 mt-6">
-                        <Dialog.Close onClick={() => handleRemoveGame(gameId)} className="px-6 py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Remove</Dialog.Close>
+                        <Dialog.Close onClick={() => handleRemoveGame(listId, gameId)} className="px-6 py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Remove</Dialog.Close>
                         <Dialog.Close className=" px-6 py-3 rounded-xl border-green-500 text-green-400 hover:bg-green-900/30">
                             Cancel
                         </Dialog.Close>

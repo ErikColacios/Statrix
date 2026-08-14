@@ -7,7 +7,7 @@ import AddGameModal from '@/components/AddGameModal';
 import SearchGameModal from '@/components/SearchGameModal';
 import EditListInfoModal from '@/components/EditListInfoModal';
 import DeleteListModal from '@/components/DeleteListModal';
-import RemoveGameModal from '@/components/DeleteGameModal';
+import DeleteGameListModal from '@/components/DeleteGameListModal';
 import { deleteGameList } from '@/actions/deleteGameList';
 
 export default function List({ params }: { params: { listId: string } }) {
@@ -56,7 +56,7 @@ export default function List({ params }: { params: { listId: string } }) {
                             <DeleteListModal listId={listId} />
                         )}
                         {modalType === "removeGame" && isOwner && (
-                            <RemoveGameModal listId={listId} gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />
+                            <DeleteGameListModal listId={listId} gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />
                         )}
                     </Dialog.Content>
                 </Dialog.Portal>

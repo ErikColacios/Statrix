@@ -1,7 +1,6 @@
 "use server";
 import { pool } from "@/util/postgres";
 import getSessionUser from "./getSessionUser";
-import { useRouter } from "next/navigation";
 
 export async function deleteGameList(listId: string, gameId: number | undefined) {
   try {
