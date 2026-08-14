@@ -1,3 +1,18 @@
+  const userVideogames = [
+    { userName: "DrStorm", action: "started playing", gameName: "Kingdom Hearts 3", avatarImage: "/avatarImages/sora.jpg" },
+    { userName: "erik", action: "rated", gameName: "Doom The dark ages", avatarImage: "/avatarImages/arthur_morgan.jpg" },
+    { userName: "Xaldin", action: "started playing", gameName: "Marvel's Spider-Man", avatarImage: "/avatarImages/geralt.jpg" },
+    { userName: "MiaXX", action: "starred", gameName: "Persona 5 Royal", avatarImage: "/avatarImages/hornet.jpg" },
+    { userName: "noah4", action: "rated", gameName: "Silent Hill 2 Remake", avatarImage: "/avatarImages/cloud.jpg" },
+    { userName: "AegonEX", action: "finished", gameName: "The Last of Us Part II", avatarImage: "/avatarImages/kratos.jpg" },
+    { userName: "roronoa", action: "dropped", gameName: "One Piece Odyssey", avatarImage: "/avatarImages/sonic.jpg" },
+    { userName: "joeliin", action: "starred", gameName: "Forza Horizon 6", avatarImage: "/avatarImages/mario_luigi.jpg" },
+    { userName: "E.V.A", action: "started playing", gameName: "Project Zomboid", avatarImage: "/avatarImages/solid_snake.jpg" },
+    { userName: "synnister", action: "started playing", gameName: "Delta Force", avatarImage: "/avatarImages/geralt.jpg" },
+    { userName: "DestroyerPro100", action: "rated", gameName: "Bioshock Infinite", avatarImage: "/avatarImages/big_daddy.jpg" },
+    { userName: "ByHittroX", action: "started playing", gameName: "Dark Souls", avatarImage: "/avatarImages/lady_maria.jpg" },
+  ]
+
   const list1 = {
     listName: "Pure cinema", listGames: 23, listCreationDate: "2026-06-24", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_cyberpunk2077.jpg" },
     { gameBaseImage: "/staticImages/game_covers/cover_need_for_speed_mw.jpg" },
@@ -51,6 +66,7 @@
   const lists = {list1, list2, list3, list4}
   
   export default {
+  userVideogames,
   lists,
   reviews,
   messages

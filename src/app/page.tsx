@@ -35,7 +35,7 @@ export default function Home() {
         <p className="md:w-1/2 text-gray-400 mt-6 text-base sm:text-xl">
           Discover players who love the same games you do. Log your progress, publish reviews, build your gaming identity, and connect with a community that truly shares your interests.
         </p>
-        <div className="mt-12 flex justify-center gap-4 animate-fade-in delay-400">
+        <div className="mt-6 sm:mt-12 flex justify-center gap-4 animate-fade-in delay-400">
           <Link href="/signup" className="sm:w-48 text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
             Start now
           </Link>
@@ -43,21 +43,17 @@ export default function Home() {
             Browse Games
           </Link>
         </div>
-       
-       {/* <div className="relative w-3/4 bg-gray-800 overflow-hidden">
-        <div className="flex space-x-8 items-center overflow-x-auto">
-            <UserVideogameMiniCard />
-            <UserVideogameMiniCard />
-            <UserVideogameMiniCard />
-            <UserVideogameMiniCard />
-            <UserVideogameMiniCard />
-            <UserVideogameMiniCard />
-            <UserVideogameMiniCard />
+
+        <div className="bottom-0 absolute overflow-hidden pt-8">
+          <div className="flex space-x-8 items-center w-full marquee-track-x [animation:marquee-x_40s_linear_infinite]">
+            {dummies.userVideogames?.map((uv: any, index: number) => (
+              <UserVideogameMiniCard userVideogames={uv} key={index} />
+            ))}
+          </div>
         </div>
-
-       </div> */}
-
       </section>
+
+
 
       {/* About section */}
       <motion.div className="w-full flex flex-col p-6 xl:p-20"

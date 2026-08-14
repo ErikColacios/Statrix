@@ -269,3 +269,20 @@ input[type="number"] {
     transform: translateY(0%);
   }
 }
+
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-30% - 0.5rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track-x {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+  }
+}
