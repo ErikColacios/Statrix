@@ -14,30 +14,35 @@ export default function UserVideogame({ userGames }: Props) {
     const [gameClicked, setGameClicked] = useState<Game>()
     const [modalType, setModalType] = useState<string>("")
     const [gameList, setGameList] = useState<Game[]>(userGames)
+    const [gameListFiltered, setGameListFiltered] = useState<Game[]>(userGames)
     const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
 
 
     function handleSearchGame() {
-        const searchGame: HTMLInputElement = document.getElementById("searchGame") as HTMLInputElement
-        const name: string = searchGame.value
-
-        gameList.filter((game: Game) => {
-            if (game.game_name.toLowerCase().includes(name.toLowerCase())) {
-                setGameList([game])
-            }
-        })
+        const searchGame = document.getElementById("searchGame") as HTMLInputElement
+        const name = searchGame.value
 
         if (name === "") {
+            setGameListFiltered(userGames)
             setGameList(userGames)
+            return
         }
+
+        const filteredGames = gameList.filter((game: Game) =>
+            game.game_name.toLowerCase().includes(name.toLowerCase())
+        )
+
+        setGameListFiltered(filteredGames)
     }
 
     return (
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
-            <div className="flex items-center  border-b-2 border-gray-500 pb-3 mb-8">
-                <h2 className='text-2xl md:text-3xl'>My games</h2>
-                <p className='text-gray-400 text-base ml-8 mt-1'>{userGames.length} game/s</p>
-                <form className='ml-auto w-full md:w-96 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
+            <div className="flex flex-col md:flex-row border-b-1 border-gray-500 pb-3 mb-8">
+                <div className="flex items-center space-x-4">
+                    <h2 className='text-2xl md:text-3xl'>My games</h2>
+                    <p className='text-gray-400 text-base md:ml-8 mt-1'>{userGames.length} game/s</p>
+                </div>
+                <form className='ml-auto w-full md:w-96 mt-4 md:mt-0 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
                     <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Half Life 2' />
                     <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
                 </form>
@@ -56,7 +61,7 @@ export default function UserVideogame({ userGames }: Props) {
                             )}
                         </Dialog.Content>
                     </Dialog.Portal>
-                    {gameList.map((game: Game, index: number) => (
+                    {gameListFiltered.map((game: Game, index: number) => (
                         <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
                             <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full'>
                                 <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />

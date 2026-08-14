@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { EffectCoverflow } from 'swiper/modules';
+import UserVideogameMiniCard from "@/components/UserVideogameMiniCard"
 
 export default function Home() {
 
@@ -42,6 +43,20 @@ export default function Home() {
             Browse Games
           </Link>
         </div>
+       
+       {/* <div className="relative w-3/4 bg-gray-800 overflow-hidden">
+        <div className="flex space-x-8 items-center overflow-x-auto">
+            <UserVideogameMiniCard />
+            <UserVideogameMiniCard />
+            <UserVideogameMiniCard />
+            <UserVideogameMiniCard />
+            <UserVideogameMiniCard />
+            <UserVideogameMiniCard />
+            <UserVideogameMiniCard />
+        </div>
+
+       </div> */}
+
       </section>
 
       {/* About section */}
@@ -75,7 +90,7 @@ export default function Home() {
         <Swiper onSwiper={(swiper: any) => (swiperRef.current = swiper)}
           slidesPerView={1}
           initialSlide={1}
-          breakpoints={{ 1100: { slidesPerView: 2 }}}
+          breakpoints={{ 1100: { slidesPerView: 2 } }}
           effect={'coverflow'}
           centeredSlides={true}
           loop={false}
