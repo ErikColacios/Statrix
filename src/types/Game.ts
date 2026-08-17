@@ -1,3 +1,5 @@
+import { GameStatus } from "@/enums/GameStatus"
+
 export type Game = {
     gameId: number,
     game_id:number,
@@ -20,5 +22,6 @@ export type Game = {
     game_base_image:string,
     score:number
     hours_played:number,
-    favourite:boolean
+    favourite:boolean,
+    status: GameStatus
 }
