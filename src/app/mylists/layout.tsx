@@ -55,7 +55,7 @@ export default async function MyListsLayout({ children }: { children: React.Reac
   return (
     <section className="flex justify-center text-white min-h-screen bg-linear-to-b from-black via-gray-900 to-black min-h-screen">
       <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
-        <div className="flex items-center text-lg md:text-3xl border-b-2 border-gray-500 pb-3 mb-8">
+        <div className="flex items-center text-lg md:text-3xl pb-3 mb-4">
           <h2 className='text-2xl'>My lists</h2>
           <p className='text-gray-400 text-base ml-8 mt-1'>{numberOfLists} list/s</p>
           <Link href={"newList"} className="ml-auto"><PrimaryButton text='+ Add list' /></Link>

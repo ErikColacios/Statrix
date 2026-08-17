@@ -17,7 +17,7 @@ export default function MyGames() {
     const [gameList, setGameList] = useState<Game[]>()
     const [gameListFiltered, setGameListFiltered] = useState<Game[]>()
     const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
-    const [playedGames, setPlayedGames] = useState<number>(0)
+    const [playingGames, setPlayingGames] = useState<number>(0)
     const [completedGames, setCompletedGames] = useState<number>(0)
     const [onholdGames, setOnholdGames] = useState<number>(0)
     const [droppedGames, setDroppedGames] = useState<number>(0)
@@ -27,7 +27,7 @@ export default function MyGames() {
             let userGames: any[] = await getUserVideogameAll()
             setGameList(userGames)
             setGameListFiltered(userGames)
-            setPlayedGames(userGames.filter((game: Game) => game.status === GameStatus.PLAYING).length)
+            setPlayingGames(userGames.filter((game: Game) => game.status === GameStatus.PLAYING).length)
             setCompletedGames(userGames.filter((game: Game) => game.status === GameStatus.COMPLETED).length)
             setOnholdGames(userGames.filter((game: Game) => game.status === GameStatus.ON_HOLD).length)
             setDroppedGames(userGames.filter((game: Game) => game.status === GameStatus.DROPPED).length)
@@ -77,7 +77,7 @@ export default function MyGames() {
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
                             <p className="text-3xl md:text-4xl font-bold text-zinc-400">Playing</p>
-                            <p className="ml-auto text-lg text-gray-400">{playedGames} games</p>
+                            <p className="ml-auto text-lg text-gray-400">{playingGames} games</p>
                         </div>
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.COMPLETED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.COMPLETED)) }}>
                             <p className="text-3xl md:text-4xl font-bold text-zinc-400">Completed</p>
@@ -115,10 +115,10 @@ export default function MyGames() {
                             <svg className="w-6 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" /></svg>
                             Back
                         </button>
-                        <p className={`text-3xl font-bold
-                            ${viewGameStatus === GameStatus.PLAYING ? 'text-blue-600' : 
-                            viewGameStatus === GameStatus.COMPLETED ? 'text-green-500' :
-                            viewGameStatus === GameStatus.ON_HOLD ? 'text-purple-500' : 'text-rose-600'}`}>{viewGameStatus}</p>
+                        {viewGameStatus === GameStatus.PLAYING && <div className="flex items-end text-3xl"><p className="text-blue-600 font-bold">Playing</p><p className="text-gray-400 text-base ml-auto">{playingGames} games</p></div>}
+                        {viewGameStatus === GameStatus.COMPLETED && <div className="flex items-end text-3xl"><p className="text-green-600 font-bold">Completed</p><p className="text-gray-400 text-base ml-auto">{completedGames} games</p></div>}
+                        {viewGameStatus === GameStatus.ON_HOLD && <div className="flex items-end text-3xl"><p className="text-purple-600 font-bold">On hold</p><p className="text-gray-400 text-base ml-auto">{onholdGames} games</p></div>}
+                        {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-3xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
                         {gameListFiltered?.map((game: Game, index: number) => (
                             <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
 
