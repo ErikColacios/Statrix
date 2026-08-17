@@ -130,7 +130,7 @@ export default function AddGameModal({ game }: Props) {
 
 
     return (
-        <div id="modal" className={`w-full h-full flex flex-col justify-center border border-gray-600 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/50
+        <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/50
             ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
             ${scoreColor === "yellow" ? " cardReviewYellow border-yellow-600" : ""}
             ${scoreColor === "green" ? " cardReviewGreen border-green-600" : ""}
@@ -166,7 +166,7 @@ export default function AddGameModal({ game }: Props) {
                             <div className="flex flex-col space-y-2 mt-2">
                                 <div className="flex flex-col">
                                     <p className="hidden sm:flex text-gray-400">Score</p>
-                                    <div className={`flex items-center justify-center sm:justify-start space-x-2 relative group`}>
+                                    <div className={`relative flex items-center justify-center sm:justify-start space-x-2 group`}>
                                         <span id={'scoreText'}
                                             className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
                                             ${scoreColor === "green" ? " text-green-600" : ""}
@@ -174,15 +174,15 @@ export default function AddGameModal({ game }: Props) {
                                             ${scoreColor === "red" ? " text-rose-600" : ""}
                                             ${scoreColor === "none" ? "" : ""}
                                             `}>{score}</span>
-                                        {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>}
+                                        {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs">Drag to rate</p>}
                                         <input min="0" max="10" value={score} className="w-52 sm:w-72 rangeSlider" type="range" onChange={handleScoreChange}></input>
 
-                                        {scoreColor === "green" && <p className="text-green-600 text-sm">Excellent</p>}
-                                        {scoreColor === "yellow" && <p className="text-yellow-600 text-sm">Good</p>}
-                                        {scoreColor === "red" && <p className="text-rose-600 text-sm">Bad</p>}
+                                        {scoreColor === "green" && <p className="text-green-600 text-sm w-16">Excellent</p>}
+                                        {scoreColor === "yellow" && <p className="text-yellow-600 text-sm w-16">Good</p>}
+                                        {scoreColor === "red" && <p className="text-rose-600 text-sm w-16">Bad</p>}
                                     </div>
                                 </div>
-                                <div className="flex space-x-4">
+                                <div className="flex justify-center sm:justify-start space-x-4">
                                     <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
                                         <p className="text-gray-400">Hours played</p>
                                         <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-28 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}

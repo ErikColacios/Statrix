@@ -21,6 +21,7 @@ export default function AddGame({ game }: Props) {
     const [score, setScore] = useState<number>(0)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
+    const [scoreColor, setScoreColor] = useState<string>("none")
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
 
     const dropdownRef = useRef<HTMLDivElement>(null)
@@ -52,6 +53,16 @@ export default function AddGame({ game }: Props) {
             setScore(userGameInfo[0]?.score)
             setHoursPlayed(userGameInfo[0]?.hours_played)
             setYearCompleted(userGameInfo[0]?.year_completed ? userGameInfo[0]?.year_completed : "-")
+
+            if (userGameInfo[0]?.score >= 8) {
+                setScoreColor("green")
+            } else if (userGameInfo[0]?.score >= 4) {
+                setScoreColor("yellow")
+            } else if (userGameInfo[0]?.score < 4) {
+                setScoreColor("red")
+            } else if (userGameInfo[0]?.score == 0) {
+                setScoreColor("none")
+            }
         }
     }, [userGameInfo])
 
@@ -72,7 +83,17 @@ export default function AddGame({ game }: Props) {
 
     async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
         const valueScore = parseFloat(e.target.value)
-        setScore(valueScore)
+        setScore(valueScore);
+
+        if (valueScore >= 8) {
+            setScoreColor("green")
+        } else if (valueScore >= 4) {
+            setScoreColor("yellow")
+        } else if (valueScore < 4) {
+            setScoreColor("red")
+        } else if (valueScore === 0) {
+            setScoreColor("none")
+        }
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -114,34 +135,41 @@ export default function AddGame({ game }: Props) {
             <p className="text-right text-gray-200 mb-2">Your stats</p>
             <span className="w-full bg-zinc-600 h-px mb-2"></span>
             <div className="flex flex-col space-y-3">
-                <div className="flex space-x-4">
-                    <div className="w-1/2 flex flex-col">
+                <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col">
                         <label className="text-gray-400">Score</label>
-                        <div className={`flex items-center justify-center sm:justify-start space-x-2 relative group`}>
+                        <div className={`flex items-center sm:justify-start space-x-2 relative group`}>
                             <span id={'scoreText'}
                                 className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
-                            `}>{score}</span>
-                            {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>}
+                                            ${scoreColor === "green" ? " text-green-600" : ""}
+                                            ${scoreColor === "yellow" ? " text-yellow-600" : ""}
+                                            ${scoreColor === "red" ? " text-rose-600" : ""}
+                                            ${scoreColor === "none" ? "" : ""}
+                                            `}>{score}</span>
+                            {score == 0 && <p className="group-hover:hidden absolute ml-28 sm:left-15 text-xs">Drag to rate</p>}
 
-                            <input min="0" max="10" value={score} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
+                            <input min="0" max="10" value={score} className="w-1/2 rangeSlider" type="range" onChange={handleScoreChange}></input>
+                            {scoreColor === "green" && <p className="text-green-600 text-sm w-16">Excellent</p>}
+                            {scoreColor === "yellow" && <p className="text-yellow-600 text-sm w-16">Good</p>}
+                            {scoreColor === "red" && <p className="text-rose-600 text-sm w-16">Bad</p>}
                         </div>
                     </div>
-                    <div className="flex space-x-4">
+                    <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
                             <p className="text-gray-400">Hours played</p>
-                            <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-28 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
+                            <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
                                 value={hoursPlayed} />
                         </div>
                         <div className="relative flex flex-col sm:justify-center items-center justify-start sm:items-start">
-                            <p className="text-sm text-gray-400">Year completed</p>
+                            <p className="text-gray-400">Year completed</p>
                             <button name="years" id="years-select" onClick={() => setShowDropdownYear(!showDropdownYear)}
-                                className='w-34 max-x-23 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
+                                className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
                                 {yearCompleted}
                             </button>
 
                             {/* Dropdown of years */}
                             {showDropdownYear &&
-                                <div ref={dropdownRef} className="max-h-24 w-34 p-1 bg-gray-800 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
+                                <div ref={dropdownRef} className="max-h-24 p-1 bg-gray-800 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
                                     <p className="text-sm cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
 
                                     {years.map((year: number, index: number) => (
