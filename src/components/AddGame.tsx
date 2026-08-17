@@ -17,9 +17,26 @@ export default function AddGame({ game }: Props) {
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
     const [hoursPlayed, setHoursPlayed] = useState<string>("0")
+    const [yearCompleted, setYearCompleted] = useState<string>("-")
     const [score, setScore] = useState<number>(0)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
+    const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
+
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    const handleClickOutside = (e: MouseEvent) => {
+        if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
+            setShowDropdownYear(false)
+        }
+    };
+
+    const years: number[] = []
+    let currentYear = new Date().getFullYear();
+
+    for (let i = currentYear; i >= 1975; i--) {
+        years.push(i)
+    }
 
     useEffect(() => {
         const fetchUserGame = async () => {
@@ -34,8 +51,18 @@ export default function AddGame({ game }: Props) {
             setStarred(userGameInfo[0]?.favourite)
             setScore(userGameInfo[0]?.score)
             setHoursPlayed(userGameInfo[0]?.hours_played)
+            setYearCompleted(userGameInfo[0]?.year_completed ? userGameInfo[0]?.year_completed : "-")
         }
     }, [userGameInfo])
+
+    useEffect(() => {
+        if (dropdownRef) {
+            document.addEventListener("mousedown", handleClickOutside)
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        };
+    }, [dropdownRef])
 
     // Passed to StarButton
     function handleStarred() {
@@ -46,15 +73,6 @@ export default function AddGame({ game }: Props) {
     async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
         const valueScore = parseFloat(e.target.value)
         setScore(valueScore)
-        // if (valueScore >= 8) {
-        //     setScoreColor("green")
-        // } else if (valueScore >= 4) {
-        //     setScoreColor("yellow")
-        // } else if (valueScore < 4) {
-        //     setScoreColor("red")
-        // } else if (valueScore === 0) {
-        //     setScoreColor("none")
-        // }
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -72,9 +90,15 @@ export default function AddGame({ game }: Props) {
         }
     }
 
+    function handleYearCompletedChange(selectedYear: string) {
+        setYearCompleted(selectedYear)
+        setShowDropdownYear(false)
+    }
+
+
     async function handleSaveUserGame() {
         if (game.id) {
-            const res = await updateUserVideogame(game.id, selectedStatus, Number(score), Number(hoursPlayed), starred, game.name, game.game_image_id);
+            const res = await updateUserVideogame(game.id, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, game.name, game.game_image_id);
             if (res?.success) {
                 setError(null)
                 setSuccess(res?.message || "Game info updated successfully.")
@@ -102,10 +126,30 @@ export default function AddGame({ game }: Props) {
                             <input min="0" max="10" value={score} className="rangeSlider" type="range" onChange={handleScoreChange}></input>
                         </div>
                     </div>
-                    <div className="w-1/2 flex flex-col">
-                        <label className="text-gray-400">Hours played</label>
-                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
-                            value={hoursPlayed} />
+                    <div className="flex space-x-4">
+                        <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
+                            <p className="text-gray-400">Hours played</p>
+                            <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-28 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
+                                value={hoursPlayed} />
+                        </div>
+                        <div className="relative flex flex-col sm:justify-center items-center justify-start sm:items-start">
+                            <p className="text-sm text-gray-400">Year completed</p>
+                            <button name="years" id="years-select" onClick={() => setShowDropdownYear(!showDropdownYear)}
+                                className='w-34 max-x-23 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
+                                {yearCompleted}
+                            </button>
+
+                            {/* Dropdown of years */}
+                            {showDropdownYear &&
+                                <div ref={dropdownRef} className="max-h-24 w-34 p-1 bg-gray-800 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
+                                    <p className="text-sm cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
+
+                                    {years.map((year: number, index: number) => (
+                                        <p className="cursor-pointer hover:bg-gray-700" key={index} onClick={() => handleYearCompletedChange(year.toString())}>{year}</p>
+                                    ))}
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-col">
