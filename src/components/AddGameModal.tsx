@@ -20,6 +20,7 @@ export default function AddGameModal({ game }: Props) {
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
     const [hoursPlayed, setHoursPlayed] = useState<string>("")
+    const [yearCompleted, setYearCompleted] = useState<string>("")
     const [score, setScore] = useState<number>(0)
     const [scoreColor, setScoreColor] = useState<string>("none")
 
@@ -37,6 +38,7 @@ export default function AddGameModal({ game }: Props) {
             setSelectedStatus(userGameInfo[0]?.status)
             setStarred(userGameInfo[0]?.favourite)
             setHoursPlayed(userGameInfo[0]?.hours_played)
+            setYearCompleted(userGameInfo[0]?.year_completed)
 
             if (userGameInfo[0]?.score >= 8) {
                 setScoreColor("green")
@@ -82,6 +84,21 @@ export default function AddGameModal({ game }: Props) {
             }
         } else {
             setHoursPlayed("0")
+        }
+    }
+
+    function handleYearCompletedChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const currentYear = new Date().getFullYear()
+
+        if (e.target.value !== "") {
+            const valueYearCompleted = parseFloat(e.target.value)
+            if (valueYearCompleted < 1970) {
+                setYearCompleted("1970")
+            } else if (valueYearCompleted > currentYear) {
+                setYearCompleted(currentYear.toString())
+            } else {
+                setYearCompleted(valueYearCompleted.toString())
+            }
         }
     }
 
@@ -141,7 +158,7 @@ export default function AddGameModal({ game }: Props) {
                                             ${scoreColor === "none" ? "" : ""}
                                             `}>{score}</span>
                                         {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs"> Drag to rate</p>}
-                                        <input min="0" max="10" value={score} className="w-96 sm:w-72 rangeSlider" type="range" onChange={handleScoreChange}></input>
+                                        <input min="0" max="10" value={score} className="w-52 sm:w-72 rangeSlider" type="range" onChange={handleScoreChange}></input>
 
                                         {scoreColor === "green" && <p className="text-green-600 text-sm">Excellent</p>}
                                         {scoreColor === "yellow" && <p className="text-yellow-600 text-sm">Good</p>}
@@ -152,6 +169,11 @@ export default function AddGameModal({ game }: Props) {
                                     <p className="text-gray-400">Hours played</p>
                                     <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-24 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
                                         value={hoursPlayed} />
+                                </div>
+                                <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
+                                    <p className="text-gray-400">Year completed</p>
+                                    <input type="number" id={'yearCompleted'} onChange={handleYearCompletedChange} className='w-24 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
+                                        value={yearCompleted} />
                                 </div>
 
                             </div>
