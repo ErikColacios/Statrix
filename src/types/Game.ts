@@ -23,5 +23,6 @@ export type Game = {
     score:number
     hours_played:number,
     favourite:boolean,
-    status: GameStatus
+    status: GameStatus,
+    year_completed:string
 }

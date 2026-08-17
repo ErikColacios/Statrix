@@ -8,6 +8,7 @@ import AddGameModal from "@/components/AddGameModal"
 import DeleteGameModal from "@/components/DeleteGameModal"
 import { deleteUserVideogame } from "@/actions/deleteUserVideogame"
 import { GameStatus } from "@/enums/GameStatus"
+import SkeletonMyGames from "./skeleton"
 
 export default function MyGames() {
 
@@ -17,6 +18,8 @@ export default function MyGames() {
     const [gameList, setGameList] = useState<Game[]>()
     const [gameListFiltered, setGameListFiltered] = useState<Game[]>()
     const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     const [playingGames, setPlayingGames] = useState<number>(0)
     const [completedGames, setCompletedGames] = useState<number>(0)
     const [onholdGames, setOnholdGames] = useState<number>(0)
@@ -24,6 +27,7 @@ export default function MyGames() {
 
     useEffect(() => {
         async function fetchUserVideogames() {
+            setIsLoading(true)
             let userGames: any[] = await getUserVideogameAll()
             setGameList(userGames)
             setGameListFiltered(userGames)
@@ -31,6 +35,7 @@ export default function MyGames() {
             setCompletedGames(userGames.filter((game: Game) => game.status === GameStatus.COMPLETED).length)
             setOnholdGames(userGames.filter((game: Game) => game.status === GameStatus.ON_HOLD).length)
             setDroppedGames(userGames.filter((game: Game) => game.status === GameStatus.DROPPED).length)
+            setIsLoading(false)
         }
 
         fetchUserVideogames()
@@ -73,7 +78,7 @@ export default function MyGames() {
                 </form>
             </div>
             <div className='flex flex-col space-y-4'>
-                {viewGameStatus === GameStatus.NONE &&
+                { isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
                             <p className="text-3xl md:text-4xl font-bold text-zinc-400">Playing</p>
@@ -93,7 +98,7 @@ export default function MyGames() {
                         </div>
                     </section>
                 }
-
+                
                 {viewGameStatus !== GameStatus.NONE &&
                     <Dialog.Root>
                         <Dialog.Portal>
@@ -119,9 +124,9 @@ export default function MyGames() {
                         {viewGameStatus === GameStatus.COMPLETED && <div className="flex items-end text-3xl"><p className="text-green-600 font-bold">Completed</p><p className="text-gray-400 text-base ml-auto">{completedGames} games</p></div>}
                         {viewGameStatus === GameStatus.ON_HOLD && <div className="flex items-end text-3xl"><p className="text-purple-600 font-bold">On hold</p><p className="text-gray-400 text-base ml-auto">{onholdGames} games</p></div>}
                         {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-3xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
+                        
                         {gameListFiltered?.map((game: Game, index: number) => (
                             <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
-
                                 <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full'>
                                     <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
                                     <div className='flex flex-col ml-3 sm:ml-10'>
@@ -149,6 +154,13 @@ export default function MyGames() {
                                                     <p className='text-white'>{game.hours_played} h</p>
                                                 </div>
                                             </div>
+                                            { viewGameStatus === GameStatus.COMPLETED && 
+                                            <div className='flex items-center text-sm'>
+                                                <div className='flex text-gray-400 items-center'>
+                                                    <label className="mr-2">Year completed</label>
+                                                    <p className='text-white'>{game.year_completed}</p>
+                                                </div>
+                                            </div>}
                                         </div>
                                     </div>
                                 </Dialog.Trigger>
