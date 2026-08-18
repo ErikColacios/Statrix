@@ -81,19 +81,19 @@ export default function MyGames() {
                 { isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
-                            <p className="text-3xl md:text-4xl font-bold text-zinc-400">Playing</p>
+                            <p className="text-3xl font-bold text-zinc-400">Playing</p>
                             <p className="ml-auto text-lg text-gray-400">{playingGames} games</p>
                         </div>
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.COMPLETED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.COMPLETED)) }}>
-                            <p className="text-3xl md:text-4xl font-bold text-zinc-400">Completed</p>
+                            <p className="text-3xl font-bold text-zinc-400">Completed</p>
                             <p className="ml-auto text-lg text-gray-400">{completedGames} games</p>
                         </div>
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.ON_HOLD), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.ON_HOLD)) }}>
-                            <p className="text-3xl md:text-4xl font-bold text-zinc-400">On hold</p>
+                            <p className="text-3xl font-bold text-zinc-400">On hold</p>
                             <p className="ml-auto text-lg text-gray-400">{onholdGames} games</p>
                         </div>
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.DROPPED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.DROPPED)) }}>
-                            <p className="text-3xl md:text-4xl font-bold text-zinc-400">Dropped</p>
+                            <p className="text-3xl font-bold text-zinc-400">Dropped</p>
                             <p className="ml-auto text-lg text-gray-400">{droppedGames} games</p>
                         </div>
                     </section>
@@ -104,7 +104,7 @@ export default function MyGames() {
                         <Dialog.Portal>
                             <Dialog.Overlay className="fixed inset-0 bg-black/50" />
                             <Dialog.Content onCloseAutoFocus={(e) => { e.preventDefault() }}
-                                className={`fixed w-full h-full sm:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-4/5 lg:w-3/5 2xl:w-3/7  rounded-lg shadow-xl
+                                className={`fixed w-full h-full sm:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-4/5 xl:w-3/5 2xl:w-3/7 rounded-lg shadow-xl
                                     data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                                 <Dialog.Title className="DialogTitle"></Dialog.Title>
                                 <Dialog.Description className="DialogDescription"></Dialog.Description>

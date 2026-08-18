@@ -7,6 +7,7 @@ import StarButton from "./StarButton";
 import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { useSession } from "next-auth/react";
+import AddToListModal from "./AddToListModal";
 
 type Props = {
     game: any
@@ -26,6 +27,7 @@ export default function AddGameModal({ game }: Props) {
     const [score, setScore] = useState<number>(0)
     const [scoreColor, setScoreColor] = useState<string>("none")
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
+    const [nextSlide, setNextSlide] = useState<number>(0)
 
     const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -128,9 +130,11 @@ export default function AddGameModal({ game }: Props) {
         }
     }
 
+  if (nextSlide === 1) return ( <AddToListModal game_id={game.game_id} game_name={game.game_name} game_cover={game.game_cover} setNextSlide={setNextSlide}/>)
 
+  if (nextSlide === 0)
     return (
-        <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/50
+        <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/80
             ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
             ${scoreColor === "yellow" ? " cardReviewYellow border-yellow-600" : ""}
             ${scoreColor === "green" ? " cardReviewGreen border-green-600" : ""}
@@ -190,14 +194,14 @@ export default function AddGameModal({ game }: Props) {
                                     </div>
                                     <div className="relative flex flex-col sm:justify-center items-center justify-start sm:items-start">
                                         <p className="text-gray-400">Year completed</p>
-                                        <button name="years" id="years-select" onClick={() => setShowDropdownYear(!showDropdownYear)}
-                                            className='w-34 max-x-23 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
+                                        <button onClick={() => setShowDropdownYear(!showDropdownYear)}
+                                            className='w-34 max-x-23 rounded-sm p-1 bg-zinc-900 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
                                             {yearCompleted}
                                         </button>
 
                                         {/* Dropdown of years */}
                                         {showDropdownYear &&
-                                            <div ref={dropdownRef} className="max-h-24 w-34 p-1 bg-gray-800 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
+                                            <div ref={dropdownRef} className="max-h-28 w-34 p-1 bg-zinc-900 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
                                                 <p className="cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
 
                                                 {years.map((year: number, index: number) => (
@@ -209,8 +213,8 @@ export default function AddGameModal({ game }: Props) {
                                 </div>
 
                             </div>
-                            <div className="flex space-x-4 mt-2">
-                                <div className="flex flex-col">
+                            <div className="flex space-x-4 mt-2 w-full">
+                                <div className="flex flex-col w-full">
                                     <p className="text-gray-400 mt-2">Status</p>
                                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                                         <button
@@ -250,10 +254,18 @@ export default function AddGameModal({ game }: Props) {
                                     </div>
                                 </div>
                             </div>
-                            <Dialog.Close className="w-4/5 sm:w-full text-white px-6 py-2 mt-4 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
-                                onClick={handleSaveUserGame} >
-                                Save changes
-                            </Dialog.Close>
+
+                            <div className="w-full flex space-x-2 mt-6">
+                                <Dialog.Close className="w-full text-white px-6 py-2 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                                    onClick={handleSaveUserGame} >
+                                    Save changes
+                                </Dialog.Close>
+                                <button className="w-full px-6 py-2 rounded-sm border border-gray-400 transition hover:text-white hover:bg-zinc-800"
+                                    onClick={() => setNextSlide(1)}  >
+                                    Add to list
+                                </button>
+                            </div>
+
                         </>
                     }
                 </div>

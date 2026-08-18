@@ -44,7 +44,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="bottom-0 absolute overflow-hidden pt-8">
+        <div className="bottom-0 absolute overflow-hidden py-8">
           <div className="flex space-x-8 items-center w-full marquee-track-x [animation:marquee-x_40s_linear_infinite]">
             {dummies.userVideogames?.map((uv: any, index: number) => (
               <UserVideogameMiniCard userVideogames={uv} key={index} />
@@ -125,7 +125,7 @@ export default function Home() {
 
 
       {/* Reviews section */}
-      <section className="flex flex-col md:flex-row items-center justify-center md:space-x-12 mt-26 p-6 xl:p-20">
+      <section className="flex flex-col md:flex-row items-center justify-center md:space-x-12 mt-22 p-6 xl:p-20">
         <div className="md:w-2/5 flex flex-col order-2 md:order-1">
           {dummies.reviews?.map((review: any, index: number) => (
             <motion.div key={index}
@@ -151,7 +151,7 @@ export default function Home() {
 
 
       {/* Chat section */}
-      <section className="w-full flex flex-col sm:flex-row sm:items-center justify-center sm:space-x-12 mt-26 p-6 xl:p-20">
+      <section className="w-full flex flex-col sm:flex-row sm:items-center justify-center sm:space-x-12 mt-22 p-6 xl:p-20">
         <motion.div className="lg:w-1/5 mb-8"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}

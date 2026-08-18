@@ -169,8 +169,8 @@ export default function AddGame({ game }: Props) {
 
                             {/* Dropdown of years */}
                             {showDropdownYear &&
-                                <div ref={dropdownRef} className="max-h-24 p-1 bg-gray-800 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
-                                    <p className="text-sm cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
+                                <div ref={dropdownRef} className="w-full max-h-28 p-1 bg-gray-800 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
+                                    <p className="cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
 
                                     {years.map((year: number, index: number) => (
                                         <p className="cursor-pointer hover:bg-gray-700" key={index} onClick={() => handleYearCompletedChange(year.toString())}>{year}</p>
