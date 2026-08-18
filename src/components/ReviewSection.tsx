@@ -22,7 +22,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
     // Session and user
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
-    
+
     const [openReviewId, setOpenReviewId] = useState<string | null>(null);
     const [modalType, setModalType] = useState<string>("")
     const [reviewClicked, setReviewClicked] = useState([])
@@ -92,7 +92,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
         };
     }, [openReviewId])
 
-    
+
     return (
         <section className='pt-6 py-14 md:pt-8'>
             <Dialog.Root>
@@ -123,7 +123,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                 </div>
                 <div className='bg-zinc-900 p-4'>
                     {reviews?.map((review: any, index: number) => (
-                        <div className={`flex flex-col overflow-scroll no-scrollbar space-y-2 h-28 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border 
+                        <div className={`flex flex-col overflow-scroll no-scrollbar space-y-1 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border max-h-42
                             ${review.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
                             <div className='relative flex items-center text-white'>
                                 {review.recommended ?
@@ -148,7 +148,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                                     {openReviewId && openReviewId === review.review_id && (
                                         <div data-review-dropdown={review.review_id} id={"reviewActions" + review.review_id} className="top-0 right-10 absolute flex flex-col bg-gray-800 p-2 rounded-sm">
                                             {/* <button className="text-left p-1 hover:text-green-400">Edit review</button> */}
-                                            <Dialog.Trigger onClick={() => {setModalType("deleteReview"), setReviewClicked(review)}} className="text-left p-1 hover:text-green-400">Delete review</Dialog.Trigger>
+                                            <Dialog.Trigger onClick={() => { setModalType("deleteReview"), setReviewClicked(review) }} className="text-left p-1 hover:text-green-400">Delete review</Dialog.Trigger>
                                         </div>
                                     )}
 
@@ -169,7 +169,6 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                             </div>
                         </div>
                     ))}
-
                     {!gameReviews.length && (
                         <div className='flex justify-center items-center text-center text-gray-300 p-2 h-36 border border-gray-500'>
                             <p>There are no reviews of this game yet... Add the first one!</p>
