@@ -22,6 +22,7 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
     const [selectedList, setSelectedList] = useState<List>()
 
     useEffect(() => {
+        // Fetch the lists which don't have the game we are adding
         async function fetchLists() {
             let userLists: List[] = await getListsUser(userId, false)
             let listsToFilter: List[] = []
@@ -48,9 +49,9 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
 
 
     async function handleAddToList() {
-        // We update the list adding only this one game
+        // Update the list adding only this one game
         if (selectedList)
-            await updateListOneGame(selectedList, game_id, game_name, game_base_image);
+            await updateListOneGame(selectedList, game_id, game_name, game_base_image)
     }
 
     return (

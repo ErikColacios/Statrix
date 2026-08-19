@@ -53,7 +53,7 @@ export default function MyGames() {
             return
         }
 
-        if(viewGameStatus === GameStatus.NONE) {
+        if (viewGameStatus === GameStatus.NONE) {
             setViewGameStatus("All")
         }
 
@@ -82,31 +82,38 @@ export default function MyGames() {
                 </form>
             </div>
             <div className='flex flex-col space-y-4'>
-                { isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
+                {isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2 h-24 flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" 
-                            onClick={() => { setViewGameStatus("All"), setGameListFiltered(gameList)}} >
+                        <div className="md:col-span-2 h-24 flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8"
+                            onClick={() => { setViewGameStatus("All"), setGameListFiltered(gameList) }} >
                             <p className="text-3xl font-bold text-zinc-400">All the games</p>
                         </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
+                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
+                            <img src="/staticImages/icon_controller_gray.png" alt="Controller icon" className="bg-blue-500 bg-clip-text w-8 mr-2" />
                             <p className="text-3xl font-bold text-zinc-400">Playing</p>
                             <p className="ml-auto text-lg text-gray-400">{playingGames} games</p>
                         </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.COMPLETED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.COMPLETED)) }}>
-                            <p className="text-3xl font-bold text-zinc-400">Completed</p>
+                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.COMPLETED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.COMPLETED)) }}>
+                            <div className="flex items-center">
+                                <img src="/staticImages/icon_confirmation_gray.png" alt="Confirmation icon" className="w-5 mr-2" />
+                                <p className="text-3xl font-bold text-zinc-400">Completed</p>
+                            </div>
                             <p className="ml-auto text-lg text-gray-400">{completedGames} games</p>
+
                         </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.ON_HOLD), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.ON_HOLD)) }}>
+                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.ON_HOLD), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.ON_HOLD)) }}>
+                            <img src="/staticImages/icon_clock_gray.png" alt="Clock icon" className="w-8 h-8 mr-2" />
                             <p className="text-3xl font-bold text-zinc-400">On hold</p>
                             <p className="ml-auto text-lg text-gray-400">{onholdGames} games</p>
                         </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.DROPPED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.DROPPED)) }}>
+                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.DROPPED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.DROPPED)) }}>
+                            <img src="/staticImages/icon_skull_gray.png" alt="Skull icon" className="w-8 h-8 mr-2" />
                             <p className="text-3xl font-bold text-zinc-400">Dropped</p>
                             <p className="ml-auto text-lg text-gray-400">{droppedGames} games</p>
                         </div>
                     </section>
                 }
-                
+
                 {viewGameStatus !== GameStatus.NONE &&
                     <Dialog.Root>
                         <Dialog.Portal>
@@ -132,7 +139,7 @@ export default function MyGames() {
                         {viewGameStatus === GameStatus.COMPLETED && <div className="flex items-end text-2xl"><p className="text-green-400 font-bold">Completed</p><p className="text-gray-400 text-base ml-auto">{completedGames} games</p></div>}
                         {viewGameStatus === GameStatus.ON_HOLD && <div className="flex items-end text-2xl"><p className="text-purple-600 font-bold">On hold</p><p className="text-gray-400 text-base ml-auto">{onholdGames} games</p></div>}
                         {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-2xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
-                        
+
                         {gameListFiltered?.map((game: Game, index: number) => (
                             <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
                                 <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full'>
@@ -162,13 +169,13 @@ export default function MyGames() {
                                                     <p className='text-white'>{game.hours_played} h</p>
                                                 </div>
                                             </div>
-                                            { viewGameStatus === GameStatus.COMPLETED && 
-                                            <div className='hidden sm:flex items-center text-sm'>
-                                                <div className='flex text-gray-400 items-center'>
-                                                    <label className="mr-2">Year completed</label>
-                                                    <p className='text-white'>{game.year_completed}</p>
-                                                </div>
-                                            </div>}
+                                            {viewGameStatus === GameStatus.COMPLETED &&
+                                                <div className='hidden sm:flex items-center text-sm'>
+                                                    <div className='flex text-gray-400 items-center'>
+                                                        <label className="mr-2">Year completed</label>
+                                                        <p className='text-white'>{game.year_completed}</p>
+                                                    </div>
+                                                </div>}
                                         </div>
                                     </div>
                                 </Dialog.Trigger>
