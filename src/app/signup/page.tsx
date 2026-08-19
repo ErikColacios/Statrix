@@ -32,13 +32,13 @@ export default function SignUp() {
     return (
         <section className={`relative flex w-full h-screen bg-[url("/staticImages/bg_fallout.jpg")] bg-cover`}>
             <div className='absolute bg-black/50 w-full h-full'></div>
-            <div className='flex items-center justify-center bg-black/60 p-8 md:p-20 w-full p-8 sm:w-4/5 lg:w-1/2 2xl:w-1/3 backdrop-blur-md'>
+            <div className='flex items-center justify-center bg-black/60 p-3 md:p-8 md:p-20 w-full sm:w-4/5 lg:w-1/2 2xl:w-1/3 backdrop-blur-md'>
                 <div className='flex flex-col bg-zinc-900 text-white border border-green-500 rounded-lg w-full p-6 py-14'>
                     {(nextSlide === 0) &&
                         <>
                             <form className='flex flex-col' action={formAction}>
                                 <div className='mb-8 text-center'>
-                                    <h2 className={`text-4xl font-medium`}>New members</h2>
+                                    <h2 className={`text-2xl md:text-4xl font-medium`}>New members</h2>
                                     <p className='text-gray-400 mt-2'>Already have an account? <Link href="/login" className='text-white hover:text-green-500'>Log in</Link></p>
                                 </div>
                                 <p className="text-sm text-gray-400">Username</p>

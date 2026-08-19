@@ -24,7 +24,7 @@ export default async function Navbar() {
             <div className="flex justify-center items-center w-full bg-black/50 backdrop-blur-xs text-white fixed z-50 top p-4">
                 <div className="absolute left-0 pl-4 md:pl-16">
                     <Link href="/"><img src={`/logos/st2_white.png`} className="w-32 hidden sm:flex" alt="Statrix Logo" /></Link>
-                    <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo" /></Link>
+                    <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo small" /></Link>
                 </div>
                 <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
                     <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
