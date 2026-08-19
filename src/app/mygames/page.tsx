@@ -14,7 +14,7 @@ export default function MyGames() {
 
     const [gameClicked, setGameClicked] = useState<Game>()
     const [modalType, setModalType] = useState<string>("")
-    const [viewGameStatus, setViewGameStatus] = useState<GameStatus>(GameStatus.NONE)
+    const [viewGameStatus, setViewGameStatus] = useState<GameStatus | "All">(GameStatus.NONE)
     const [gameList, setGameList] = useState<Game[]>()
     const [gameListFiltered, setGameListFiltered] = useState<Game[]>()
     const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
@@ -53,6 +53,10 @@ export default function MyGames() {
             return
         }
 
+        if(viewGameStatus === GameStatus.NONE) {
+            setViewGameStatus("All")
+        }
+
         const filteredGames = gameList?.filter((game: Game) =>
             game.game_name.toLowerCase().includes(name.toLowerCase())
         )
@@ -69,17 +73,21 @@ export default function MyGames() {
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
             <div className="flex flex-col md:flex-row  border-gray-500 pb-3 mb-4">
                 <div className="flex items-center space-x-4">
-                    <h2 className='text-2xl md:text-3xl'>My games</h2>
+                    <h2 className='text-4xl font-bold md:text-5xl'>My games</h2>
                     <p className='text-gray-400 text-base md:ml-8 mt-1'>{gameList?.length} game/s</p>
                 </div>
-                <form className='ml-auto w-full md:w-96 mt-4 md:mt-0 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
+                <form className='ml-auto w-full md:w-96 mt-4 md:mt-0 relative flex items-center border border-gray-400 rounded-xl' action={formAction}>
                     <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Half Life 2' />
-                    <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
+                    <button className='rounded-sm pr-2 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
                 </form>
             </div>
             <div className='flex flex-col space-y-4'>
                 { isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="md:col-span-2 h-24 flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" 
+                            onClick={() => { setViewGameStatus("All"), setGameListFiltered(gameList)}} >
+                            <p className="text-3xl font-bold text-zinc-400">All the games</p>
+                        </div>
                         <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
                             <p className="text-3xl font-bold text-zinc-400">Playing</p>
                             <p className="ml-auto text-lg text-gray-400">{playingGames} games</p>
@@ -120,10 +128,10 @@ export default function MyGames() {
                             <svg className="w-6 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" /></svg>
                             Back
                         </button>
-                        {viewGameStatus === GameStatus.PLAYING && <div className="flex items-end text-3xl"><p className="text-blue-600 font-bold">Playing</p><p className="text-gray-400 text-base ml-auto">{playingGames} games</p></div>}
-                        {viewGameStatus === GameStatus.COMPLETED && <div className="flex items-end text-3xl"><p className="text-green-500 font-bold">Completed</p><p className="text-gray-400 text-base ml-auto">{completedGames} games</p></div>}
-                        {viewGameStatus === GameStatus.ON_HOLD && <div className="flex items-end text-3xl"><p className="text-purple-600 font-bold">On hold</p><p className="text-gray-400 text-base ml-auto">{onholdGames} games</p></div>}
-                        {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-3xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
+                        {viewGameStatus === GameStatus.PLAYING && <div className="flex items-end text-2xl"><p className="text-blue-500 font-bold">Playing</p><p className="text-gray-400 text-base ml-auto">{playingGames} games</p></div>}
+                        {viewGameStatus === GameStatus.COMPLETED && <div className="flex items-end text-2xl"><p className="text-green-400 font-bold">Completed</p><p className="text-gray-400 text-base ml-auto">{completedGames} games</p></div>}
+                        {viewGameStatus === GameStatus.ON_HOLD && <div className="flex items-end text-2xl"><p className="text-purple-600 font-bold">On hold</p><p className="text-gray-400 text-base ml-auto">{onholdGames} games</p></div>}
+                        {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-2xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
                         
                         {gameListFiltered?.map((game: Game, index: number) => (
                             <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
