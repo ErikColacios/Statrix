@@ -35,12 +35,11 @@ export default function AddGameModal({ game }: Props) {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
             setShowDropdownYear(false)
         }
-    };
+    }
 
     for (let i = currentYear; i >= 1975; i--) {
         years.push(i)
     }
-
 
     useEffect(() => {
         if (userId === undefined) return;
@@ -130,7 +129,7 @@ export default function AddGameModal({ game }: Props) {
         }
     }
 
-  if (nextSlide === 1) return ( <AddToListModal game_id={game.game_id} game_name={game.game_name} game_cover={game.game_cover} setNextSlide={setNextSlide}/>)
+  if (nextSlide === 1) return ( <AddToListModal game_id={game.game_id} game_name={game.game_name} game_base_image={game.game_base_image} setNextSlide={setNextSlide}/>)
 
   if (nextSlide === 0)
     return (
@@ -256,12 +255,14 @@ export default function AddGameModal({ game }: Props) {
                             </div>
 
                             <div className="w-full flex space-x-2 mt-6">
-                                <Dialog.Close className="w-full text-white px-6 py-2 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                                <Dialog.Close className="flex items-center justify-center w-full px-6 py-2 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
                                     onClick={handleSaveUserGame} >
+                                    <img src="/staticImages/icon_confirmation.png" alt="Bookmark icon" className="w-3 h-3 mr-2" />
                                     Save changes
                                 </Dialog.Close>
-                                <button className="w-full px-6 py-2 rounded-sm border border-gray-400 transition hover:text-white hover:bg-zinc-800"
-                                    onClick={() => setNextSlide(1)}  >
+                                <button className="flex items-center justify-center w-full px-6 py-2 rounded-sm border border-gray-400 transition hover:text-white hover:bg-zinc-800"
+                                    onClick={() => setNextSlide(1)} >
+                                    <img src="/staticImages/icon_bookmark.png" alt="Bookmark icon" className="w-6 h-6 mr-1" />
                                     Add to list
                                 </button>
                             </div>

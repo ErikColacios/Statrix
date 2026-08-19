@@ -26,7 +26,7 @@ export async function getListsUser(userId:string, searchFeatured:boolean): Promi
         );
 
 
-        for(let i = 0; i< rows.length; i++) {
+        for(let i = 0; i < rows.length; i++) {
             const list_id:string = rows[i].list_id;
             const list_name:string = rows[i].list_name;
             const list_creationdate:string = rows[i].list_creationdate;

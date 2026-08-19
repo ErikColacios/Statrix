@@ -5,41 +5,49 @@ import updateListOneGame from "../actions/updateListOneGame";
 import { getListsUser } from "@/actions/getListsUser";
 import { useSession } from "next-auth/react";
 import { List } from "@/types/List";
+import { getListContent } from "@/actions/getListContent";
 
 type Props = {
     game_id: string,
     game_name: string,
-    game_cover: string,
+    game_base_image: string,
     setNextSlide: any
 };
 
-export default function AddToListModal({ game_id, game_name, game_cover, setNextSlide }: Props) {
+export default function AddToListModal({ game_id, game_name, game_base_image, setNextSlide }: Props) {
 
     const session: any = useSession()
     const userId: string = session?.data?.user?.id as string
     const [lists, setLists] = useState<List[]>([])
-    const [selectedLists, setSelectedLists] = useState<List[]>([])
+    const [selectedList, setSelectedList] = useState<List>()
 
     useEffect(() => {
-        let userLists: List[] = []
+        async function fetchLists() {
+            let userLists: List[] = await getListsUser(userId, false)
 
-        async function getLists() {
-            userLists = await getListsUser(userId, false)
+             for (const list of userLists) {
+                const listId: string = list.list_id
+                const listContent: any = await getListContent(listId)
+
+                listContent.map((content: any) => {
+                    if (content.game_id == game_id) {
+                        console.log("Llega", game_id, content.game_id, listId)
+                        userLists.filter((userList: List) => userList.list_id !== listId)
+                    }
+                })
+            }
+            
             setLists(userLists)
+
         }
-        getLists()
+        fetchLists()
     }, [])
 
-    function handleSelectGame(list: List) {
-        setSelectedLists([...selectedLists, list])
-        console.log(selectedLists)
-    }
 
     async function handleAddToList() {
-        const selectedListId: string = (document.getElementById("selectList") as HTMLSelectElement).value;
-
         // We update the list adding only this one game
-        await updateListOneGame(selectedListId, game_id, game_name, game_cover);
+        if (selectedList)
+            await updateListOneGame(selectedList, game_id, game_name, game_base_image);
     }
 
     return (
@@ -51,14 +59,13 @@ export default function AddToListModal({ game_id, game_name, game_cover, setNext
             <div className="w-full flex flex-col text-sm mt-2" >
                 <div className="w-full text-sm ">
                     <p className="text-gray-200">{game_name}</p>
-                    <p className="text-gray-400 my-4">Choose a list</p>
+                    <p className="text-gray-400 mt-4 mb-1">Choose a list</p>
                     <div className="flex flex-col space-y-2 max-h-96 sm:max-h-46 overflow-y-scroll no-scrollbar">
                         {lists.map((list: List, index: number) => (
-                            <div className="w-full flex bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl p-4" key={index} >
+                            <div className="w-full flex bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl p-4" key={index}
+                                onClick={() => setSelectedList(list)} >
                                 <p>{list.list_name}</p>
-                                <button className={`w-4 h-4 rounded-full hover:bg-green-300 ml-auto ${selectedLists.map((l:List)=> (
-                                    l.list_id === list.list_id ? 'bg-green-600' : 'bg-white'
-                                ))}` } onClick={() => handleSelectGame(list)}></button>
+                                <button className={`ml-auto w-4 h-4 ml-4 rounded-full ${list === selectedList ? 'bg-linear-to-r from-green-500 to-lime-500' : 'bg-white'}`}></button>
                             </div>
                         ))}
                     </div>
@@ -66,13 +73,12 @@ export default function AddToListModal({ game_id, game_name, game_cover, setNext
                         <button onClick={() => setNextSlide(0)} className="ml-auto px-4 py-1 rounded-sm text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
                             Back
                         </button>
-                        <button onClick={() => setNextSlide(0)} className="flex items-center px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                        {selectedList && <button onClick={handleAddToList} className="flex items-center px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                             <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
                             Save
-                        </button>
+                        </button>}
                     </div>
                 </div>
-
             </div>
         </div>
     )

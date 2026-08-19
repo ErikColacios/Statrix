@@ -70,7 +70,7 @@ export default function MyGames() {
 
 
     return (
-        <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20'>
+        <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20 pb-8'>
             <div className="flex flex-col md:flex-row  border-gray-500 pb-3 mb-4">
                 <div className="flex items-center space-x-4">
                     <h2 className='text-4xl font-bold md:text-5xl'>My games</h2>
