@@ -24,6 +24,7 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
     useEffect(() => {
         async function fetchLists() {
             let userLists: List[] = await getListsUser(userId, false)
+            let listsToFilter: List[] = []
 
              for (const list of userLists) {
                 const listId: string = list.list_id
@@ -31,14 +32,16 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
 
                 listContent.map((content: any) => {
                     if (content.game_id == game_id) {
-                        console.log("Llega", game_id, content.game_id, listId)
-                        userLists.filter((userList: List) => userList.list_id !== listId)
+                        listsToFilter.push(list)
                     }
                 })
             }
+
+            for (const listToFilter of listsToFilter) {
+                userLists = userLists.filter((userList: List) => userList !== listToFilter)
+            }
             
             setLists(userLists)
-
         }
         fetchLists()
     }, [])
