@@ -6,6 +6,7 @@ import { getListsUser } from "@/actions/getListsUser";
 import { useSession } from "next-auth/react";
 import { List } from "@/types/List";
 import { getListContent } from "@/actions/getListContent";
+import Link from "next/link";
 
 type Props = {
     game_id: string,
@@ -27,7 +28,7 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
             let userLists: List[] = await getListsUser(userId, false)
             let listsToFilter: List[] = []
 
-             for (const list of userLists) {
+            for (const list of userLists) {
                 const listId: string = list.list_id
                 const listContent: any = await getListContent(listId)
 
@@ -41,7 +42,7 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
             for (const listToFilter of listsToFilter) {
                 userLists = userLists.filter((userList: List) => userList !== listToFilter)
             }
-            
+
             setLists(userLists)
         }
         fetchLists()
@@ -61,9 +62,9 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
             </Dialog.Close>
             <p className="text-3xl">Add to list</p>
             <div className="w-full flex flex-col text-sm mt-8 sm:mt-2" >
-                <div className="w-full text-sm ">
-                    <p className="text-gray-200">{game_name}</p>
-                    <p className="text-gray-400 mt-4 mb-1">Choose a list</p>
+                <div className="w-full text-sm">
+                    <p className="text-gray-200 mt-2">{game_name}</p>
+                    {lists.length !== 0 && <p className="text-gray-400 mt-4 mb-1">Choose a list</p>}
                     <div className="flex flex-col space-y-2 max-h-96 sm:max-h-46 overflow-y-scroll no-scrollbar">
                         {lists.map((list: List, index: number) => (
                             <div className="w-full flex bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl p-4" key={index}
@@ -72,8 +73,16 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
                                 <button className={`ml-auto w-4 h-4 ml-4 rounded-full ${list === selectedList ? 'bg-linear-to-r from-green-500 to-lime-500' : 'bg-white'}`}></button>
                             </div>
                         ))}
+
+                        {lists.length === 0 &&
+                            <div className="w-full flex flex-col space-y-4 rounded-2xl mt-5">
+                                <p className="text-gray-400">You don't have any lists yet. Create the first one!</p>
+                            </div>}
                     </div>
                     <div className="w-full flex space-x-2 mt-4">
+                        {lists.length === 0 && <Link href={"/newList"} className="flex justify-center px-6 py-1 rounded bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                            + Create list
+                        </Link>}
                         <button onClick={() => setNextSlide(0)} className="ml-auto px-4 py-1 rounded-sm text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
                             Back
                         </button>
