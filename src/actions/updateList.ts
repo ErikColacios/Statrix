@@ -3,8 +3,9 @@ import { pool } from "@/util/postgres";
 import { Game } from "../types/Game";
 import getSessionUser from "./getSessionUser";
 import { GameStatus } from "../enums/GameStatus";
+import { GameIGDB } from "@/types/GameIGDB";
 
-export default async function updateList(listId: string, newGamesAdded: Game[]) {
+export default async function updateList(listId: string, newGamesAdded: GameIGDB[]) {
   const session:any = await getSessionUser();
   const userId:string = session.user.id as string;
 
@@ -24,8 +25,8 @@ export default async function updateList(listId: string, newGamesAdded: Game[]) 
          ON CONFLICT (list_id, game_id, user_id) DO NOTHING`,
         [
           listId,
-          game.game_id,
-          game.game_name,
+          game.id,
+          game.name,
           game.cover.image_id,
           game_base_image,
           userId
@@ -37,7 +38,7 @@ export default async function updateList(listId: string, newGamesAdded: Game[]) 
                     user_id, game_id, score, hours_played, game_name, game_image_id, game_base_image, status
                 ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                 ON CONFLICT (user_id, game_id) DO NOTHING`,
-        [userId, game.game_id, 0, 0, game.game_name, game.cover.image_id, game_base_image, GameStatus.PLAYING]
+        [userId, game.id, 0, 0, game.name, game.cover.image_id, game_base_image, GameStatus.PLAYING]
       );
     }
 

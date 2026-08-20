@@ -2,10 +2,11 @@
 import React, { useEffect, useRef, useState } from "react"
 import { fetchGamesIGDB } from "../actions/fetchGamesIGDB"
 import { Game } from "../types/Game"
+import { GameIGDB } from "@/types/GameIGDB"
 
 export default function SearchGameBar({ addNewGame }: any) {
 
-    let [gameItems, setGameItems] = useState<Game[]>([])
+    let [gameItems, setGameItems] = useState<GameIGDB[]>([])
 
     async function handleSetGameNameSearch() {
         let gameSearchBar: HTMLInputElement = document.getElementById("gameSearchBar") as HTMLInputElement
@@ -33,10 +34,11 @@ export default function SearchGameBar({ addNewGame }: any) {
         let loader: HTMLDivElement = document.getElementById("loader") as HTMLDivElement
 
         try {
-            const covers = await fetchGamesIGDB(gameName, 0, 0, 20)
+            const covers:GameIGDB[] = await fetchGamesIGDB(gameName, 0, 0, 20)
             if (covers) {
                 setGameItems(covers)
                 loader.style.display = "none"
+                console.log(covers)
             }
         } catch (error) {
             console.log(error)

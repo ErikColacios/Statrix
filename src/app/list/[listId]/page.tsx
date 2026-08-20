@@ -9,6 +9,7 @@ import EditListInfoModal from '@/components/EditListInfoModal';
 import DeleteListModal from '@/components/DeleteListModal';
 import DeleteGameListModal from '@/components/DeleteGameListModal';
 import { deleteGameList } from '@/actions/deleteGameList';
+import { ViewMode } from '@/enums/ViewMode';
 
 export default function List({ params }: { params: { listId: string } }) {
 
@@ -16,6 +17,7 @@ export default function List({ params }: { params: { listId: string } }) {
     const [listContent, setListContent] = useState<Game[]>([])
     const [gameClicked, setGameClicked] = useState<Game>()
     const [modalType, setModalType] = useState<string>("")
+    const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.GRID)
     const [isOwner, setIsOwner] = useState<boolean>(false)
 
     useEffect(() => {
@@ -60,26 +62,29 @@ export default function List({ params }: { params: { listId: string } }) {
                         )}
                     </Dialog.Content>
                 </Dialog.Portal>
-
+                
+                <div className='w-full flex text-sm mt-3'>
+                    <button onClick={() => setViewMode(ViewMode.LIST)} className="px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">List view</button>
+                    <button onClick={() => setViewMode(ViewMode.GRID)} className="px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">Grid view</button>
                 {isOwner &&
-                    <div className='w-full flex text-sm mt-3 sm:mt-0'>
-                        <div className='flex  sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto'>
-                            <Dialog.Trigger onClick={() => { setModalType("addGame") }} className="px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                                + Add games
-                            </Dialog.Trigger>
+                    <div className='flex sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto'>
+                        <Dialog.Trigger onClick={() => { setModalType("addGame") }} className="px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                            + Add games
+                        </Dialog.Trigger>
 
-                            <Dialog.Trigger onClick={() => { setModalType("editListInfo") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
-                                Edit list info
-                            </Dialog.Trigger>
+                        <Dialog.Trigger onClick={() => { setModalType("editListInfo") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            Edit list info
+                        </Dialog.Trigger>
 
-                            <Dialog.Trigger onClick={() => { setModalType("deleteList") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
-                                Delete list
-                            </Dialog.Trigger>
-                        </div>
+                        <Dialog.Trigger onClick={() => { setModalType("deleteList") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            Delete list
+                        </Dialog.Trigger>
                     </div>
                 }
+                </div>
 
-                <div className="grid lg:grid-cols-2 gap-4 mt-3">
+
+                <div className={`mt-3 grid gap-4 ${viewMode === ViewMode.GRID ? 'grid-cols-3' : 'grid-cols-1'}`}>
                     {/* List content */}
                     {listContent.map((game: Game, index: number) => (
                         <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
@@ -88,12 +93,14 @@ export default function List({ params }: { params: { listId: string } }) {
                                 <div className='flex flex-col ml-3 sm:ml-10'>
                                     <div className='flex'>
                                         <p className="text-left text-lg sm:text-xl mr-4">{game.game_name}</p>
+                                        {viewMode == ViewMode.LIST && 
                                         <div className='flex items-center sm:flex-row  mr-4 md:mr-12'>
                                             <div>
                                                 <svg className={game.favourite ? "hidden" : ""} width="20px" height="28px" viewBox="0 0 33.00 33.00" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#fcfcfc" strokeWidth="0.132"><title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" strokeWidth="0.858" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
                                                 <svg className={game.favourite ? "" : "hidden"} width="20px" height="28px" viewBox="0 -0.5 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#000000" strokeWidth="0.132"></g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill="#ffffff"> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
                                             </div>
-                                        </div>
+                                        </div>}
+
                                     </div>
                                     <div className='flex space-x-4 text-sm mt-4'>
                                         <div className='flex text-gray-400 items-center'>

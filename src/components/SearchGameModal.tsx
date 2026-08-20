@@ -5,15 +5,17 @@ import SearchGameBar from '@/components/SearchGameBar';
 import { Game } from '@/types/Game';
 import { useState } from 'react';
 import { Dialog } from 'radix-ui';
+import { GameIGDB } from '@/types/GameIGDB';
 
 
 export default function SearchGameModal({ listId }: { listId: string }) {
 
-    let [gamesAdded, setGamesAdded] = useState<Game[]>([])
+    let [gamesAdded, setGamesAdded] = useState<GameIGDB[]>([])
 
-    async function addNewGame(game: Game) {
+    async function addNewGame(game: GameIGDB) {
         for (let i = 0; i < gamesAdded.length; i++) {
-            if (gamesAdded[i].game_name === game.game_name) {
+            if (gamesAdded[i].name === game.name) {
+                console.log(gamesAdded[i].name, game.name)
                 return;
             }
         }
@@ -21,7 +23,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
     }
 
     async function removeAddedGame(gameId: number) {
-        setGamesAdded(gamesAdded.filter(item => item.game_id !== gameId))
+        setGamesAdded(gamesAdded.filter(item => item.id !== gameId))
     }
 
     async function saveChanges() {
@@ -48,8 +50,8 @@ export default function SearchGameModal({ listId }: { listId: string }) {
                         </Dialog.Close>
                     </div>
 
-                    <div className="max-h-140 no-scrollbar overflow-y-auto grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-4 py-2">
-                        {gamesAdded.map((game: any, index: number) => (
+                    <div className="max-h-140 no-scrollbar overflow-y-auto grid grid-cols-3 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-7 gap-6 py-2">
+                        {gamesAdded.map((game: GameIGDB, index: number) => (
                             <div key={index} className="group w-24 relative flex justify-center items-center rounded-2xl border border-gray-600 overflow-hidden cursor-pointer transition hover:scale-110">
                                 <img src={game.cover.image_id ? `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png` : ""}
                                 className="w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50"

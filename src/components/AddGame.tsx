@@ -5,10 +5,10 @@ import StarButton from "./StarButton";
 import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { Game } from "@/types/Game";
-import { useSession } from "next-auth/react";
+import { GameIGDB } from "@/types/GameIGDB";
 
 type Props = {
-    game: Game
+    game: GameIGDB
 };
 
 export default function AddGame({ game }: Props) {
@@ -119,7 +119,8 @@ export default function AddGame({ game }: Props) {
 
     async function handleSaveUserGame() {
         if (game.id) {
-            const res = await updateUserVideogame(game.id, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, game.name, game.game_image_id);
+            console.log(game.cover.image_id)
+            const res = await updateUserVideogame(game.id, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, game.name, game.cover.image_id);
             if (res?.success) {
                 setError(null)
                 setSuccess(res?.message || "Game info updated successfully.")
