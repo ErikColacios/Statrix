@@ -1,6 +1,5 @@
 "use server"
 import React from 'react'
-import { Game } from '@/types/Game';
 import getGameInfo from '@/actions/getGameInfo';
 import getGlobalUserVideogame from '@/actions/getGlobalUserVideogame';
 import getGameReviews from '@/actions/getGameReviews';
@@ -9,12 +8,13 @@ import SliderImages from '@/components/SliderImages';
 import ReviewSection from '@/components/ReviewSection';
 import AddGame from '@/components/AddGame';
 import getSessionUser from '@/actions/getSessionUser';
+import { GameIGDB } from '@/types/GameIGDB';
 
 export default async function gamePage({ params }: { params: { list_id: string, game_id: number } }) {
 
     const session = await getSessionUser()
     const userId: string | undefined = session?.user.id as string
-    let gameInfo: Game[] = await getGameInfo(params.game_id)
+    let gameInfo: GameIGDB[] = await getGameInfo(params.game_id)
     let globalStats: any[] = await getGlobalUserVideogame(params.game_id)
     let gameReviews: any[] = await getGameReviews(params.game_id, ReviewMode.POPULAR)
 
