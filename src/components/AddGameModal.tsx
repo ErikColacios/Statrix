@@ -34,17 +34,15 @@ export default function AddGameModal({ game }: Props) {
 
     const dropdownRef = useRef<HTMLDivElement>(null)
 
-    if (game === undefined) return;
-
     function isGameIGDB(game: Game | GameIGDB): game is GameIGDB {
         return "id" in game && "name" in game
     }
 
-    if(isGameIGDB(game)){
+    //if(isGameIGDB(game)){
         //console.log("Es de IGDB", game.cover.image_id)
-    }else {
+    //}else {
         //console.log(game)
-    }
+    //}
 
     const handleClickOutside = (e: MouseEvent) => {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
@@ -57,7 +55,7 @@ export default function AddGameModal({ game }: Props) {
     }
 
     useEffect(() => {
-        if (userId === undefined) return;
+    if (game === undefined) return;
         const fetchUserGame = async () => {
             if (isGameIGDB(game)) {
                 setUserGameInfo(await getUserVideogame(game.id))
@@ -149,7 +147,7 @@ export default function AddGameModal({ game }: Props) {
             await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, gameName, imageId);
         }
     }
-
+    if (game === undefined) return;
     if (nextSlide === 1) return (<AddToListModal game_id={isGameIGDB(game) ? game.id : game.game_id} game_name={isGameIGDB(game) ? game.name : game.game_name} game_base_image={isGameIGDB(game) ? game.cover.image_id : game.game_image_id} setNextSlide={setNextSlide} />)
 
     if (nextSlide === 0)
