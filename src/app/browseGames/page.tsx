@@ -1,7 +1,6 @@
 "use client"
 import React from "react";
 import { fetchGamesIGDB } from '@/actions/fetchGamesIGDB'
-import { Game } from '@/types/Game'
 import { GameIGDB } from '@/types/GameIGDB'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
@@ -81,6 +80,8 @@ export default function BrowseGames() {
                 data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
             <Dialog.Title className="DialogTitle"></Dialog.Title>
             <Dialog.Description className="DialogDescription"></Dialog.Description>
+
+            {/* Add game modal */}
             <AddGameModal game={gameClicked}/>
           </Dialog.Content>
         </Dialog.Portal>

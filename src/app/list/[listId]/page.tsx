@@ -40,8 +40,8 @@ export default function List({ params }: { params: { listId: string } }) {
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-                    <Dialog.Content onCloseAutoFocus={(e) => { e.preventDefault() }} 
-                    className={isOwner ? `fixed w-full h-full sm:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-4/5 lg:w-3/5 2xl:w-3/7  rounded-lg shadow-xl
+                    <Dialog.Content onCloseAutoFocus={(e) => { e.preventDefault() }}
+                        className={isOwner ? `fixed w-full h-full sm:h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-4/5 lg:w-3/5 2xl:w-3/7  rounded-lg shadow-xl
                                     data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]` : 'hidden'}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
@@ -59,73 +59,101 @@ export default function List({ params }: { params: { listId: string } }) {
                         )}
                         {modalType === "removeGame" && isOwner && (
                             <DeleteGameListModal listId={listId} gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />
-                        )}
+                        )}  
                     </Dialog.Content>
                 </Dialog.Portal>
-                
-                <div className='w-full flex text-sm mt-3'>
-                    <button onClick={() => setViewMode(ViewMode.LIST)} className="px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">List view</button>
-                    <button onClick={() => setViewMode(ViewMode.GRID)} className="px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">Grid view</button>
-                {isOwner &&
-                    <div className='flex sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto'>
-                        <Dialog.Trigger onClick={() => { setModalType("addGame") }} className="px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                            + Add games
-                        </Dialog.Trigger>
 
-                        <Dialog.Trigger onClick={() => { setModalType("editListInfo") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
-                            Edit list info
-                        </Dialog.Trigger>
-
-                        <Dialog.Trigger onClick={() => { setModalType("deleteList") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
-                            Delete list
-                        </Dialog.Trigger>
+                <div className='w-full flex flex-col sm:flex-row text-sm mt-3'>
+                    <div className='flex space-x-2 order-2 sm:order-1 mt-4 sm:mt-0'>
+                        <button onClick={() => setViewMode(ViewMode.LIST)} className="px-1 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            <img src="/staticImages/icon_list.png" alt="List icon" className="w-5" />
+                        </button>
+                        <button onClick={() => setViewMode(ViewMode.GRID)} className="hidden lg:flex px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            <img src="/staticImages/icon_grid.png" alt="Grid icon" className="w-4" />
+                        </button>
+                        <button onClick={() => setViewMode(ViewMode.COVERS)} className="px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                            <img src="/staticImages/icon_covers.png" alt="Covers icon" className="w-4" />
+                        </button>
                     </div>
-                }
+
+                    {isOwner &&
+                        <div className='flex sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto order-1 sm:order-2'>
+                            <Dialog.Trigger onClick={() => { setModalType("addGame") }} className="px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                + Add games
+                            </Dialog.Trigger>
+
+                            <Dialog.Trigger onClick={() => { setModalType("editListInfo") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                                Edit list info
+                            </Dialog.Trigger>
+
+                            <Dialog.Trigger onClick={() => { setModalType("deleteList") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                                Delete list
+                            </Dialog.Trigger>
+                        </div>
+                    }
                 </div>
 
 
-                <div className={`mt-3 grid gap-4 ${viewMode === ViewMode.GRID ? 'grid-cols-3' : 'grid-cols-1'}`}>
-                    {/* List content */}
-                    {listContent.map((game: Game, index: number) => (
-                        <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
-                            <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full' disabled={!isOwner}>
-                                <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
-                                <div className='flex flex-col ml-3 sm:ml-10'>
-                                    <div className='flex'>
-                                        <p className="text-left text-lg sm:text-xl mr-4">{game.game_name}</p>
-                                        {viewMode == ViewMode.LIST && 
-                                        <div className='flex items-center sm:flex-row  mr-4 md:mr-12'>
-                                            <div>
-                                                <svg className={game.favourite ? "hidden" : ""} width="20px" height="28px" viewBox="0 0 33.00 33.00" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#fcfcfc" strokeWidth="0.132"><title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" strokeWidth="0.858" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
-                                                <svg className={game.favourite ? "" : "hidden"} width="20px" height="28px" viewBox="0 -0.5 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#000000" strokeWidth="0.132"></g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill="#ffffff"> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
+                {(viewMode === ViewMode.LIST || viewMode === ViewMode.GRID) &&
+                    <div className={`mt-4 grid gap-4 ${viewMode === ViewMode.GRID ? 'lg:grid-cols-2' : viewMode === ViewMode.LIST ? 'grid-cols-1' : ''}`}>
+                        {/* List content */}
+                        {listContent.map((game: Game, index: number) => (
+                            <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
+                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full' disabled={!isOwner}>
+                                    <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
+                                    <div className='flex flex-col ml-3 sm:ml-10'>
+                                        <div className='flex'>
+                                            <p className="text-left text-lg sm:text-xl mr-4">{game.game_name}</p>
+                                            <div className='flex items-center sm:flex-row  mr-4 md:mr-12'>
+                                                <div>
+                                                    <svg className={game.favourite ? "hidden" : ""} width="20px" height="28px" viewBox="0 0 33.00 33.00" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#fcfcfc" strokeWidth="0.132"><title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" strokeWidth="0.858" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
+                                                    <svg className={game.favourite ? "" : "hidden"} width="20px" height="28px" viewBox="0 -0.5 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#000000" strokeWidth="0.132"></g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill="#ffffff"> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
+                                                </div>
                                             </div>
-                                        </div>}
-
-                                    </div>
-                                    <div className='flex space-x-4 text-sm mt-4'>
-                                        <div className='flex text-gray-400 items-center'>
-                                            <label className="mr-2">Score</label>
-                                            <p className={`font-bold
+                                        </div>
+                                        <div className='flex space-x-4 text-sm mt-4'>
+                                            <div className='flex text-gray-400 items-center'>
+                                                <label className="mr-2">Score</label>
+                                                <p className={`font-bold
                                             ${game.score >= 8 ? " text-green-600" : ""}
                                             ${game.score >= 4 && game.score < 8 ? " text-yellow-600" : ""}
                                             ${game.score < 4 ? " text-rose-600" : ""}
                                             `}>{game.score}</p>
-                                        </div>
-                                        <div className='flex items-center text-sm'>
-                                            <div className='flex text-gray-400 items-center'>
-                                                <label className="mr-2">Playtime</label>
-                                                <p className='text-white'>{game.hours_played} h</p>
+                                            </div>
+                                            <div className='flex items-center text-sm'>
+                                                <div className='flex text-gray-400 items-center'>
+                                                    <label className="mr-2">Playtime</label>
+                                                    <p className='text-white'>{game.hours_played} h</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Dialog.Trigger>
-                            <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-2 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
-                                <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
-                            </Dialog.Trigger>
-                        </div>
-                    ))}
-                </div>
+                                </Dialog.Trigger>
+                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-2 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
+                                    <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+                                </Dialog.Trigger>
+                            </div>
+                        ))}
+                    </div>
+                }
+
+                {viewMode === ViewMode.COVERS &&
+                    <div className={`mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3`}>
+                        {listContent.map((game: Game, index: number) => (
+                            <div key={index}>
+                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className="group relative flex justify-center items-center rounded-lg overflow-hidden hover:border-green-500" disabled={!isOwner} >
+                                    <img src={game.game_base_image} className='w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50' alt={'Game cover'} />
+                                    <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
+                                        <p>{game.game_name}</p>
+                                    </div>
+                                </Dialog.Trigger>
+                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-2 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
+                                    <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+                                </Dialog.Trigger>
+                            </div>
+                        ))}
+                    </div>
+                }
             </Dialog.Root>
         </>
     )

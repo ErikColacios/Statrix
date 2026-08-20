@@ -86,10 +86,10 @@ export default function AddToListModal({ game_id, game_name, game_base_image, se
                         <button onClick={() => setNextSlide(0)} className="ml-auto px-4 py-1 rounded-sm text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
                             Back
                         </button>
-                        {selectedList && <button onClick={handleAddToList} className="flex items-center px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                        {selectedList && <Dialog.Close onClick={handleAddToList} className="flex items-center px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                             <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
                             Save
-                        </button>}
+                        </Dialog.Close>}
                     </div>
                 </div>
             </div>
