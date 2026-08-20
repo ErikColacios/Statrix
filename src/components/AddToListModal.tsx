@@ -9,7 +9,7 @@ import { getListContent } from "@/actions/getListContent";
 import Link from "next/link";
 
 type Props = {
-    game_id: string,
+    game_id: number,
     game_name: string,
     game_base_image: string,
     setNextSlide: any

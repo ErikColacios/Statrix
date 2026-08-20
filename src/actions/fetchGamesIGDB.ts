@@ -1,4 +1,7 @@
 "use server";
+
+import { GameIGDB } from "@/types/GameIGDB";
+
 /**
  * Fetches game information from the IDGB Api. The restriction is the game name, the game genre and the offset and limit of responses.
  * @param gameName
@@ -62,7 +65,7 @@ export async function fetchGamesIGDB(gameName: string,  gameGenre: number, respo
             limit ${responseLimit};
             `,
     });
-    const games = await gamesRes.json();
+    const games:GameIGDB = await gamesRes.json();
 
     return games;
   }

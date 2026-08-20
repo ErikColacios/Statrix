@@ -6,14 +6,16 @@ import { List } from "@/types/List";
 
 export default async function updateListOneGame(
   list: List,
-  gameId: string,
+  gameId: number,
   gameName: string,
-  gameBaseImage: string
+  gameImageId: string
 ) {
   const session:any = await getSessionUser();
   const userId:string = session.user.id as string;
 
   const client = await pool.connect();
+
+  const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameImageId}.png`;
 
   try {
     await client.query("BEGIN");

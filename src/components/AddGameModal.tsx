@@ -8,12 +8,15 @@ import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { useSession } from "next-auth/react";
 import AddToListModal from "./AddToListModal";
+import { Game } from "@/types/Game";
+import { GameIGDB } from "@/types/GameIGDB";
 
 type Props = {
-    game: any
+    game: GameIGDB | Game | undefined
 };
 
 export default function AddGameModal({ game }: Props) {
+
     const years: number[] = []
     let currentYear = new Date().getFullYear()
 
@@ -31,6 +34,18 @@ export default function AddGameModal({ game }: Props) {
 
     const dropdownRef = useRef<HTMLDivElement>(null)
 
+    if (game === undefined) return;
+
+    function isGameIGDB(game: Game | GameIGDB): game is GameIGDB {
+        return "id" in game && "name" in game
+    }
+
+    if(isGameIGDB(game)){
+        //console.log("Es de IGDB", game.cover.image_id)
+    }else {
+        //console.log(game)
+    }
+
     const handleClickOutside = (e: MouseEvent) => {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
             setShowDropdownYear(false)
@@ -44,7 +59,11 @@ export default function AddGameModal({ game }: Props) {
     useEffect(() => {
         if (userId === undefined) return;
         const fetchUserGame = async () => {
-            setUserGameInfo(await getUserVideogame(game.id ? game.id : game.game_id))
+            if (isGameIGDB(game)) {
+                setUserGameInfo(await getUserVideogame(game.id))
+            } else {
+                setUserGameInfo(await getUserVideogame(game.game_id))
+            }
         }
         fetchUserGame()
     }, [])
@@ -121,156 +140,152 @@ export default function AddGameModal({ game }: Props) {
     }
 
     async function handleSaveUserGame() {
-        const gameId: number = game.id ? game.id : game.game_id;
-        const imageId: string = game?.cover?.image_id ? game?.cover.image_id : game.game_image_id;
+        if(game === undefined) return;
+        const gameId: number = isGameIGDB(game) ? game.id : game.game_id
+        const gameName: string = isGameIGDB(game) ? game.name : game.game_name
+        const imageId: string = isGameIGDB(game) ? game.cover.image_id : game.game_image_id
 
         if (gameId) {
-            await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, game.name, imageId);
+            await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, gameName, imageId);
         }
     }
 
-  if (nextSlide === 1) return ( <AddToListModal game_id={game.game_id} game_name={game.game_name} game_base_image={game.game_base_image} setNextSlide={setNextSlide}/>)
+    if (nextSlide === 1) return (<AddToListModal game_id={isGameIGDB(game) ? game.id : game.game_id} game_name={isGameIGDB(game) ? game.name : game.game_name} game_base_image={isGameIGDB(game) ? game.cover.image_id : game.game_image_id} setNextSlide={setNextSlide} />)
 
-  if (nextSlide === 0)
-    return (
-        <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/80
+    if (nextSlide === 0)
+        return (
+            <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/80
             ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
             ${scoreColor === "yellow" ? " cardReviewYellow border-yellow-600" : ""}
             ${scoreColor === "green" ? " cardReviewGreen border-green-600" : ""}
             `}>
-            <Dialog.Close className="absolute right-5 sm:right-10 top-15 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800" >
-                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
-            </Dialog.Close>
+                <Dialog.Close className="absolute right-5 sm:right-10 top-15 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800" >
+                    <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+                </Dialog.Close>
 
-            <div className="flex flex-col items-center text-center sm:text-left sm:items-start sm:flex-row sm:space-x-8">
-                <aside className="flex flex-col items-center justify-center">
-                    <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className='relative w-32 sm:w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
-                        <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game?.cover?.image_id ? game?.cover.image_id : game.game_image_id}.png`} className='w-full h-full transition duration-300' width={80} height={80} alt='Game cover' />
-                    </Link>
-                    <div className="flex items-center justify-center space-x-2 text-gray-300 text-sm mt-2"><p>Mark as favourite</p>{userId && <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />}</div>
-                </aside>
+                <div className="flex flex-col items-center text-center sm:text-left sm:items-start sm:flex-row sm:space-x-8">
+                    <aside className="flex flex-col items-center justify-center">
+                        <Link href={`/gamePage/${isGameIGDB(game) ? game.id : game.game_id}`} className='relative w-32 sm:w-48 md:h-60 rounded-2xl overflow-hidden cursor-pointer transition hover:opacity-70'>
+                            <img src={isGameIGDB(game) ? `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png` : game.game_base_image} className='w-full h-full transition duration-300' width={80} height={80} alt='Game cover' />
+                        </Link>
+                        <div className="flex items-center justify-center space-x-2 text-gray-300 text-sm mt-2"><p>Mark as favourite</p>{userId && <StarButton handleStarred={handleStarred} favourite={starred} gameId={isGameIGDB(game) ? game.id : game.game_id} />}</div>
+                    </aside>
 
-
-                <div className="flex flex-col items-center sm:items-start mt-5 sm:mt-0">
-                    <div className="flex space-x-4">
-                        <Link href={`/gamePage/${game.id ? game.id : game.game_id}`} className="text-2xl md:text-3xl">{game?.name ? game?.name : game?.game_name}</Link>
-                    </div>
-
-                    {!userId &&
-                        <div className="text-gray-400 my-12">
-                            <p className="mb-8">Log in to add this game to your library and track your progress!</p>
-                            <Link href="/login" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                                Start now
-                            </Link>
+                    <div className="flex flex-col items-center sm:items-start mt-5 sm:mt-0">
+                        <div className="flex space-x-4">
+                            <Link href={`/gamePage/${isGameIGDB(game) ? game.id : game.game_id}`} className="text-2xl md:text-3xl">{isGameIGDB(game) ? game.name : game.game_name}</Link>
                         </div>
-                    }
-                    {userId &&
-                        <>
-                            <div className="flex flex-col space-y-2 mt-2">
-                                <div className="flex flex-col">
-                                    <p className="hidden sm:flex text-gray-400">Score</p>
-                                    <div className={`relative flex items-center justify-center sm:justify-start space-x-2 group`}>
-                                        <span id={'scoreText'}
-                                            className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
+
+                        {!userId &&
+                            <div className="text-gray-400 my-12">
+                                <p className="mb-8">Log in to add this game to your library and track your progress!</p>
+                                <Link href="/login" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                    Start now
+                                </Link>
+                            </div>
+                        }
+                        {userId &&
+                            <>
+                                <div className="flex flex-col space-y-2 mt-2">
+                                    <div className="flex flex-col">
+                                        <p className="hidden sm:flex text-gray-400">Score</p>
+                                        <div className={`relative flex items-center justify-center sm:justify-start space-x-2 group`}>
+                                            <span id={'scoreText'}
+                                                className={`flex hover:bg-zinc-800 transition cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-zinc-900 border border-gray-500 p-1 text-xl font-bold
                                             ${scoreColor === "green" ? " text-green-600" : ""}
                                             ${scoreColor === "yellow" ? " text-yellow-600" : ""}
                                             ${scoreColor === "red" ? " text-rose-600" : ""}
                                             ${scoreColor === "none" ? "" : ""}
                                             `}>{score}</span>
-                                        {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs">Drag to rate</p>}
-                                        <input min="0" max="10" value={score} className="w-52 sm:w-72 rangeSlider" type="range" onChange={handleScoreChange}></input>
+                                            {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs">Drag to rate</p>}
+                                            <input min="0" max="10" value={score ? score : 0} className="w-52 sm:w-72 rangeSlider" type="range" onChange={handleScoreChange}></input>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center sm:justify-start space-x-4">
+                                        <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
+                                            <p className="text-gray-400">Hours played</p>
+                                            <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-28 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
+                                                value={hoursPlayed ? hoursPlayed : 0} />
+                                        </div>
+                                        <div className="relative flex flex-col sm:justify-center items-center justify-start sm:items-start">
+                                            <p className="text-gray-400">Year completed</p>
+                                            <button onClick={() => setShowDropdownYear(!showDropdownYear)}
+                                                className='w-34 max-x-23 rounded-sm p-1 bg-zinc-900 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
+                                                {yearCompleted}
+                                            </button>
 
-                                        {scoreColor === "green" && <p className="text-green-600 text-sm w-16">Excellent</p>}
-                                        {scoreColor === "yellow" && <p className="text-yellow-600 text-sm w-16">Good</p>}
-                                        {scoreColor === "red" && <p className="text-rose-600 text-sm w-16">Bad</p>}
+                                            {/* Dropdown of years */}
+                                            {showDropdownYear &&
+                                                <div ref={dropdownRef} className="max-h-28 w-34 p-1 bg-zinc-900 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
+                                                    <p className="cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
+
+                                                    {years.map((year: number, index: number) => (
+                                                        <p className="cursor-pointer hover:bg-gray-700" key={index} onClick={() => handleYearCompletedChange(year.toString())}>{year}</p>
+                                                    ))}
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className="flex space-x-4 mt-2 w-full">
+                                    <div className="flex flex-col w-full">
+                                        <p className="text-gray-400 mt-2">Status</p>
+                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                                            <button
+                                                onClick={() => setSelectedStatus(GameStatus.PLAYING)}
+                                                className={selectedStatus === GameStatus.PLAYING
+                                                    ? "flex items-center justify-center bg-linear-to-r from-teal-500 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                    : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                }>
+                                                <img src="/staticImages/icon_controller.png" alt="Controller icon" className="w-4 mr-2" />
+                                                {GameStatus.PLAYING}</button>
+
+                                            <button
+                                                onClick={() => setSelectedStatus(GameStatus.COMPLETED)}
+                                                className={selectedStatus === GameStatus.COMPLETED
+                                                    ? "flex items-center justify-center  bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                    : "flex items-center justify-center  rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                }>
+                                                <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
+                                                {GameStatus.COMPLETED}</button>
+                                            <button
+                                                onClick={() => setSelectedStatus(GameStatus.ON_HOLD)}
+                                                className={selectedStatus === GameStatus.ON_HOLD
+                                                    ? "flex items-center justify-center bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                    : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                }>
+                                                <img src="/staticImages/icon_clock.png" alt="Clock icon" className="w-4 h-4 mr-2" />
+                                                {GameStatus.ON_HOLD}</button>
+
+                                            <button
+                                                onClick={() => setSelectedStatus(GameStatus.DROPPED)}
+                                                className={selectedStatus === GameStatus.DROPPED
+                                                    ? "flex items-center justify-center bg-linear-to-r from-red-600 to-orange-700 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                    : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                                }>
+                                                <img src="/staticImages/icon_skull.png" alt="Skull icon" className="w-4 h-4 mr-2" />
+                                                {GameStatus.DROPPED}</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex justify-center sm:justify-start space-x-4">
-                                    <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
-                                        <p className="text-gray-400">Hours played</p>
-                                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-28 rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
-                                            value={hoursPlayed} />
-                                    </div>
-                                    <div className="relative flex flex-col sm:justify-center items-center justify-start sm:items-start">
-                                        <p className="text-gray-400">Year completed</p>
-                                        <button onClick={() => setShowDropdownYear(!showDropdownYear)}
-                                            className='w-34 max-x-23 rounded-sm p-1 bg-zinc-900 outline-hidden border border-gray-700 focus:border-green-600 text-right no-scrollbar'>
-                                            {yearCompleted}
-                                        </button>
 
-                                        {/* Dropdown of years */}
-                                        {showDropdownYear &&
-                                            <div ref={dropdownRef} className="max-h-28 w-34 p-1 bg-zinc-900 border border-gray-700 overflow-scroll no-scrollbar absolute top-0 mt-16 rounded">
-                                                <p className="cursor-pointer hover:bg-gray-700" onClick={() => handleYearCompletedChange("Don't remember")}>Don't remember</p>
-
-                                                {years.map((year: number, index: number) => (
-                                                    <p className="cursor-pointer hover:bg-gray-700" key={index} onClick={() => handleYearCompletedChange(year.toString())}>{year}</p>
-                                                ))}
-                                            </div>
-                                        }
-                                    </div>
+                                <div className="w-full flex space-x-2 mt-6">
+                                    <Dialog.Close className="flex items-center justify-center w-full px-2 sm:px-6 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
+                                        onClick={handleSaveUserGame} >
+                                        <img src="/staticImages/icon_confirmation.png" alt="Bookmark icon" className="w-3 h-3 mr-2" />
+                                        Save
+                                    </Dialog.Close>
+                                    <button className="flex items-center justify-center w-full px-2 sm: py-2 rounded-xl border border-gray-400 transition hover:text-white hover:bg-zinc-800"
+                                        onClick={() => setNextSlide(1)} >
+                                        <img src="/staticImages/icon_bookmark.png" alt="Bookmark icon" className="w-6 h-6 mr-1" />
+                                        Add to list
+                                    </button>
                                 </div>
-
-                            </div>
-                            <div className="flex space-x-4 mt-2 w-full">
-                                <div className="flex flex-col w-full">
-                                    <p className="text-gray-400 mt-2">Status</p>
-                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-                                        <button
-                                            onClick={() => setSelectedStatus(GameStatus.PLAYING)}
-                                            className={selectedStatus === GameStatus.PLAYING
-                                                ? "flex items-center justify-center bg-linear-to-r from-teal-500 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                                : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                            }>
-                                            <img src="/staticImages/icon_controller.png" alt="Controller icon" className="w-4 mr-2" />
-                                            {GameStatus.PLAYING}</button>
-
-                                        <button
-                                            onClick={() => setSelectedStatus(GameStatus.COMPLETED)}
-                                            className={selectedStatus === GameStatus.COMPLETED
-                                                ? "flex items-center justify-center  bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                                : "flex items-center justify-center  rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                            }>
-                                            <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
-                                            {GameStatus.COMPLETED}</button>
-                                        <button
-                                            onClick={() => setSelectedStatus(GameStatus.ON_HOLD)}
-                                            className={selectedStatus === GameStatus.ON_HOLD
-                                                ? "flex items-center justify-center bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                                : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                            }>
-                                            <img src="/staticImages/icon_clock.png" alt="Clock icon" className="w-4 h-4 mr-2" />
-                                            {GameStatus.ON_HOLD}</button>
-
-                                        <button
-                                            onClick={() => setSelectedStatus(GameStatus.DROPPED)}
-                                            className={selectedStatus === GameStatus.DROPPED
-                                                ? "flex items-center justify-center bg-linear-to-r from-red-600 to-orange-700 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                                : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                            }>
-                                            <img src="/staticImages/icon_skull.png" alt="Skull icon" className="w-4 h-4 mr-2" />
-                                            {GameStatus.DROPPED}</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="w-full flex space-x-2 mt-6">
-                                <Dialog.Close className="flex items-center justify-center w-full px-2 sm:px-6 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
-                                    onClick={handleSaveUserGame} >
-                                    <img src="/staticImages/icon_confirmation.png" alt="Bookmark icon" className="w-3 h-3 mr-2" />
-                                    Save changes
-                                </Dialog.Close>
-                                <button className="flex items-center justify-center w-full px-2 sm: py-2 rounded-xl border border-gray-400 transition hover:text-white hover:bg-zinc-800"
-                                    onClick={() => setNextSlide(1)} >
-                                    <img src="/staticImages/icon_bookmark.png" alt="Bookmark icon" className="w-6 h-6 mr-1" />
-                                    Add to list
-                                </button>
-                            </div>
-
-                        </>
-                    }
+                            </>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
 }

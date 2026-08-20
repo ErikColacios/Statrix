@@ -1,10 +1,8 @@
 import { GameStatus } from "@/enums/GameStatus"
 
+// This type is used when the game is processed in the Statrix database, for example when a user has saved in his 'user_videogame' table or 'list_games'
 export type Game = {
-    gameId: number,
     game_id:number,
-    id: number,  // the same as videogame_id
-    name: string,
     game_name: string,
     summary: string,
     category: number,

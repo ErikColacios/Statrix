@@ -2,6 +2,7 @@
 import React from "react";
 import { fetchGamesIGDB } from '@/actions/fetchGamesIGDB'
 import { Game } from '@/types/Game'
+import { GameIGDB } from '@/types/GameIGDB'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import SkeletonBrowseGames from "../browseGames/skeleton";
@@ -10,9 +11,8 @@ import AddGameModal from "@/components/AddGameModal";
 
 export default function BrowseGames() {
 
-  const [gameItems, setGameItems] = useState<Game[]>([])
-  const [gameList, setGameList] = useState<Game[]>([])
-  const [gameClicked, setGameClicked] = useState<Game>()
+  const [gameItems, setGameItems] = useState<GameIGDB[]>([])
+  const [gameClicked, setGameClicked] = useState<GameIGDB>()
 
   const [gameNameSearch, setGameNameSearch] = useState("")
   const [genre, setGenre] = useState(0)
@@ -29,10 +29,9 @@ export default function BrowseGames() {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
+        const covers:GameIGDB[] = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
         if (covers) {
           setGameItems(covers)
-          console.log(covers)
           setIsLoading(false)
         }
       } catch (error) {

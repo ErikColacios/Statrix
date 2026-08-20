@@ -4,8 +4,9 @@ import { v4 as uuid } from "uuid";
 import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";
 import { GameStatus } from "../enums/GameStatus";
+import { GameIGDB } from "@/types/GameIGDB";
 
-export async function insertList(listName: string, listDescription:string, listVisibility:string | undefined, isFeatured:boolean, gameList: Game[]) {
+export async function insertList(listName: string, listDescription:string, listVisibility:string | undefined, isFeatured:boolean, gameList: GameIGDB[]) {
   const client = await pool.connect();
   try {
     const session:any = await getSessionUser();

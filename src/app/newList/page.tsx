@@ -7,11 +7,12 @@ import { useEffect, useRef, useState } from 'react'
 import { useFormState } from 'react-dom'
 import SkeletonBrowseGames from "../browseGames/skeleton";
 import EditListInfo from "@/components/EditListInfo";
+import { GameIGDB } from "@/types/GameIGDB";
 
 export default function NewList() {
 
-  const [gameItems, setGameItems] = useState<Game[]>([])
-  const [gameList, setGameList] = useState<Game[]>([])
+  const [gameItems, setGameItems] = useState<GameIGDB[]>([])
+  const [gameList, setGameList] = useState<GameIGDB[]>([])
   const [countGames, setCountGames] = useState(0)
   const [gameNameSearch, setGameNameSearch] = useState("")
   const [genre, setGenre] = useState(0)
@@ -38,7 +39,7 @@ export default function NewList() {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
+        const covers:GameIGDB[] = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
         if (covers) {
           setGameItems(covers)
           setIsLoading(false)
@@ -55,7 +56,7 @@ export default function NewList() {
    * Controls if the game exists in the list, and if it don't, then adds it
    * @param game 
    */
-  function handleSetGameList(game: Game) {
+  function handleSetGameList(game: GameIGDB) {
     let listLength: number = gameList.length;
     let gameFound = false;
 
@@ -205,7 +206,7 @@ export default function NewList() {
           {/* Games shown */}
           {isLoading ? <SkeletonBrowseGames /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
-              {gameItems.map((game, index: number) => (
+              {gameItems.map((game:GameIGDB, index: number) => (
                 <div key={index} className={`${gameList.includes(game) ? 'border border-4 border-green-500 shadow-[inset_4px_0px_100px_50px_#19ff6e]' : ''} group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} onClick={() => handleSetGameList(game)}>
                   <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50' width={80} height={80} alt='Videogame cover' />
                   <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6	group-hover:block'>

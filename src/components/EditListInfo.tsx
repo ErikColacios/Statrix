@@ -3,8 +3,14 @@ import React from 'react';
 import { useState } from 'react';
 import { useRouter } from "next/navigation";
 import { insertList } from '@/actions/insertList';
+import { GameIGDB } from '@/types/GameIGDB';
 
-export default function EditListInfo({ setNextSlide, gameList }: any) {
+interface Props {
+    setNextSlide:any,
+    gameList:GameIGDB[]
+}
+
+export default function EditListInfo({ setNextSlide, gameList }: Props) {
 
     const router = useRouter()
     const [error, setError] = useState<string | null>(null)
