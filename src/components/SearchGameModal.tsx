@@ -13,7 +13,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
     async function addNewGame(game: Game) {
         for (let i = 0; i < gamesAdded.length; i++) {
-            if (gamesAdded[i].name === game.name) {
+            if (gamesAdded[i].game_name === game.game_name) {
                 return;
             }
         }
@@ -21,7 +21,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
     }
 
     async function removeAddedGame(gameId: number) {
-        setGamesAdded(gamesAdded.filter(item => item.id !== gameId))
+        setGamesAdded(gamesAdded.filter(item => item.game_id !== gameId))
     }
 
     async function saveChanges() {
