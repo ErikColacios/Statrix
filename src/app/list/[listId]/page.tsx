@@ -82,12 +82,14 @@ export default function List({ params }: { params: { listId: string } }) {
                                 + Add games
                             </Dialog.Trigger>
 
-                            <Dialog.Trigger onClick={() => { setModalType("editListInfo") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
-                                Edit list info
+                            <Dialog.Trigger onClick={() => { setModalType("editListInfo") }} className="flex items-center px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                                <img src="/staticImages/icon_edit.png" alt="Edit list icon" className="w-3 mr-1" />
+                                Edit list
                             </Dialog.Trigger>
 
-                            <Dialog.Trigger onClick={() => { setModalType("deleteList") }} className="px-2 py-1  rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
-                                Delete list
+                            <Dialog.Trigger onClick={() => { setModalType("deleteList") }} className="flex items-center px-2 py-1 rounded-sm text-gray-400 border border-gray-400 transition hover:text-white hover:bg-zinc-800">
+                                <img src="/staticImages/icon_trash.png" alt="Trash icon" className="w-4 mr-1" />
+                                Delete
                             </Dialog.Trigger>
                         </div>
                     }
