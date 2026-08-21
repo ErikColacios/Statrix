@@ -23,11 +23,13 @@ export default async function ListsGrid({ userLists }: Props) {
                     </div>
 
                     <div className='flex items-center p-6'>
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col w-full '>
                             <p className="text-2xl text-gray-200">{list.list_name}</p>
-                            <p className="text-sm text-gray-400 pt-1">Games: {list.covers[0].total_games}</p>
+                            <div className="flex items-center text-sm text-gray-400 pt-2">
+                                <p>Games: {list.covers[0].total_games}</p>
+                                <p className="ml-auto ">Created: {list.list_creationdate.toISOString().split('T')[0]}</p>
+                            </div>
                         </div>
-                        <p className="ml-auto text-sm text-gray-400">Created: {list.list_creationdate.toISOString().split('T')[0]}</p>
                     </div>
                 </Link>
             ))

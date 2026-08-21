@@ -50,7 +50,7 @@ export default async function Profile({ params }: { params: { userName: string }
                             <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 border border-gray-600 bg-zinc-900 rounded-lg" >
                                 {/* Profile - widget */}
                                 <div className="relative h-48 md:h-70 z-10">
-                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg sm:w-full sm:h-62" />
+                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-gray-600 sm:w-full sm:h-62" />
                                     <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0">
                                         <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
                                     </div>
@@ -92,7 +92,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col space-y-4 md:h-120 w-full lg:w-2/3 xl:w-140">
+                            <div className="flex flex-col space-y-4 md:h-120 w-full lg:w-2/3 xl:w-160">
                                 <div className="flex space-x-4 h-1/3">
                                     {/* Completed games - widget*/}
                                     <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
@@ -141,7 +141,8 @@ export default async function Profile({ params }: { params: { userName: string }
                         </div>
 
                         {/* Featured lists */}
-                        <div className="grid md:grid-cols-3 gap-2 mt-4">
+                        <p className="mt-4 text-base text-zinc-400 pl-1">Featured lists</p>
+                        <div className="grid md:grid-cols-3 gap-2 ">
                             <ListsGrid userLists={userLists} />
                         </div>
                     </div>
