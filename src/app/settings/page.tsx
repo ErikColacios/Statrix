@@ -100,20 +100,20 @@ export default function Settings() {
 
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
                                 <div>
-                                    <p className="text-lg text-gray-400">Username</p>
-                                    <input type="text" name="userName" maxLength={16} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
+                                    <p className="text-lg text-gray-400">User name</p>
+                                    <input type="text" name="userName" maxLength={16} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
                                 </div>
                                 <div>
                                     <p className="text-lg text-gray-400">Bio</p>
-                                    <textarea rows={7} name="userBio" maxLength={200} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
+                                    <textarea rows={7} name="userBio" maxLength={200} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
                                 </div>
                                 <div>
                                     <p className="text-lg text-gray-400">Email</p>
-                                    <input type="userEmail" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
+                                    <input type="userEmail" name="userEmail" maxLength={35} className="w-full rounded-lg p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
                                 </div>
                                 <div>
                                     <p className="text-lg text-gray-400">Location</p>
-                                    <input type="text" name="userLocation" maxLength={35} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
+                                    <input type="text" name="userLocation" maxLength={35} className="w-full rounded-lg p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
                                 </div>
 
                                 <h3 className="text-xl font-bold text-gray-400 mt-4">Social links</h3>

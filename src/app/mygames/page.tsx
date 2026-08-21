@@ -77,7 +77,7 @@ export default function MyGames() {
                     <p className='text-gray-400 text-base md:ml-8 mt-1'>{gameList?.length} game/s</p>
                 </div>
                 <form className='ml-auto w-full md:w-96 mt-4 md:mt-0 relative flex items-center border border-gray-400 rounded-xl' action={formAction}>
-                    <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Half Life 2' />
+                    <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2 py-1' placeholder='Half Life 2' />
                     <button className='rounded-sm pr-2 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
                 </form>
             </div>

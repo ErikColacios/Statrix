@@ -10,6 +10,9 @@ import { redirect } from "next/navigation";
 import { List } from "@/types/List";
 import { getListsUser } from "@/actions/getListsUser";
 import ListsGrid from "@/components/ListsGrid";
+import { getUserFavouriteGames } from "@/actions/getUserFavouriteGames";
+import FavouriteGames from "@/components/FavouriteGames";
+import { Game } from "@/types/Game";
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 
@@ -22,6 +25,7 @@ export default async function Profile({ params }: { params: { userName: string }
     let userTotalReviews: number | undefined
     let userReviews: any | undefined = []
     let canEdit: Boolean = false
+    let favouriteGames: Game[] = []
     let userLists: List[] = []
 
     if (session?.user.isNewUser) {
@@ -38,6 +42,7 @@ export default async function Profile({ params }: { params: { userName: string }
         userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
         userTotalReviews = await getUserTotalReviews(params.userName)
         userReviews = await getUserGameReviews(params.userName)
+        favouriteGames = await getUserFavouriteGames(params.userName)
         userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0, 3) // We show only the top 3 featured lists
     }
 
@@ -92,19 +97,19 @@ export default async function Profile({ params }: { params: { userName: string }
                                         <div className="flex text-sm space-x-8 mt-2">
                                             <div className="flex flex-col w-24 overflow-hidden">
                                                 <p className="text-gray-400">Location</p>
-                                                <p className="">{item.user_location}</p>
+                                                <p>{item.user_location}</p>
                                             </div>
                                             <div className="flex flex-col">
                                                 <p className="text-gray-400">Friends</p>
-                                                <p className="">{item.friends}</p>
+                                                <p>{item.friends}</p>
                                             </div>
                                             <div className="flex flex-col">
                                                 <p className="text-gray-400">Lists</p>
-                                                <p className="">{item.user_lists}</p>
+                                                <p>{item.user_lists}</p>
                                             </div>
                                             <div className="flex flex-col">
                                                 <p className="text-gray-400">Reviews</p>
-                                                <p className="">{userTotalReviews}</p>
+                                                <p>{userTotalReviews}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -157,6 +162,10 @@ export default async function Profile({ params }: { params: { userName: string }
                                 </div>
                             </div>
                         </div>
+
+                        {/* Fav games */}
+                        <p className="mt-4 text-base text-zinc-400 pl-1">Fav games</p>
+                        <FavouriteGames favouriteGames={favouriteGames} />
 
                         {/* Featured lists */}
                         <p className="mt-4 text-base text-zinc-400 pl-1">Featured lists</p>
