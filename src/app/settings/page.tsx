@@ -100,40 +100,47 @@ export default function Settings() {
 
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
                                 <div>
-                                    <p className="text-sm text-gray-400">Username</p>
+                                    <p className="text-lg text-gray-400">Username</p>
                                     <input type="text" name="userName" maxLength={16} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-400">Bio</p>
+                                    <p className="text-lg text-gray-400">Bio</p>
                                     <textarea rows={7} name="userBio" maxLength={200} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none" defaultValue={item.user_bio} />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-400">Email</p>
+                                    <p className="text-lg text-gray-400">Email</p>
                                     <input type="userEmail" name="userEmail" maxLength={35} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_email} />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-400">Location</p>
+                                    <p className="text-lg text-gray-400">Location</p>
                                     <input type="text" name="userLocation" maxLength={35} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_location} />
                                 </div>
-                                <div>
-                                    <p className="text-sm text-gray-400">Webpage</p>
-                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} />
+
+                                <h3 className="text-xl font-bold text-gray-400 mt-4">Social links</h3>
+                                <div className="flex items-center space-x-2 text-lg">
+                                    <img src="/staticImages/icon_steam_gray.png" alt="Steam icon" className="w-8 h-8" />
+                                    <p className="hidden sm:flex w-32 text-lg text-gray-400">Steam</p>
+                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam} placeholder="steamcommunity.com/id/yourSteamProfile" />
                                 </div>
-                                <div>
-                                    <p className="text-sm text-gray-400">Steam Profile</p>
-                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam} />
+                                <div className="flex items-center space-x-2">
+                                    <img src="/staticImages/icon_twitch_gray.png" alt="Twitch icon" className="w-8 h-8" />
+                                    <p className="hidden sm:flex w-32 text-lg text-gray-400">Twitch</p>
+                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} placeholder="twitch.tv/yourTwitchChannel"/>
                                 </div>
-                                <div>
-                                    <p className="text-sm text-gray-400">Twitch Profile</p>
-                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} />
+                                <div className="flex items-center space-x-2">
+                                    <img src="/staticImages/icon_x_gray.png" alt="X icon" className="w-8 h-8" />
+                                    <p className="hidden sm:flex w-32 text-lg text-gray-400">X Account</p>
+                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_x} placeholder="x.com/your-X-user"/>
                                 </div>
-                                <div>
-                                    <p className="text-sm text-gray-400">X Profile</p>
-                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_x} />
+                                <div className="flex items-center space-x-2">
+                                    <img src="/staticImages/icon_web_gray.png" alt="Web icon" className="w-8 h-8" />
+                                    <p className="hidden sm:flex w-32 text-lg text-gray-400">Web Page</p>
+                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} placeholder="your-site.com"/>
                                 </div>
-                                <div>
+                                <div className="mt-6">
                                     <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>
                                 </div>
+
                                 <div>
                                     <Dialog.Trigger onClick={() => setChooseMode("deleteUser")}>
                                         <span className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Delete account</span>
@@ -142,7 +149,7 @@ export default function Settings() {
 
                                 <div className="py-6 flex flex-col items-center">
                                     <PrimaryButton text="Save changes" />
-                                    <div className="text-sm h-8">
+                                    <div className="text-lg h-8">
                                         {/* Error message */}
                                         {state?.error && <p className='text-red-500 mt-2'>{state.error}</p>}
                                         {/* Success message */}
