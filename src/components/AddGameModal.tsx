@@ -55,7 +55,7 @@ export default function AddGameModal({ game }: Props) {
     }
 
     useEffect(() => {
-    if (game === undefined) return;
+    if (game === undefined || userId === undefined) return;
         const fetchUserGame = async () => {
             if (isGameIGDB(game)) {
                 setUserGameInfo(await getUserVideogame(game.id))
@@ -175,9 +175,9 @@ export default function AddGameModal({ game }: Props) {
                         </div>
 
                         {!userId &&
-                            <div className="text-gray-400 my-12">
+                            <div className="text-gray-400 my-10">
                                 <p className="mb-8">Log in to add this game to your library and track your progress!</p>
-                                <Link href="/login" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                <Link href="/login" className="text-md sm:text-lg text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                                     Start now
                                 </Link>
                             </div>
