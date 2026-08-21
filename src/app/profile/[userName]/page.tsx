@@ -164,11 +164,15 @@ export default async function Profile({ params }: { params: { userName: string }
                         </div>
 
                         {/* Fav games */}
-                        <p className="mt-4 text-base text-zinc-400 pl-1">Fav games</p>
+                        <p className="flex items-center mt-4 mb-1 text-base text-zinc-400 pl-1">
+                            <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
+                            Favourite lists</p>
                         <FavouriteGames favouriteGames={favouriteGames} />
 
                         {/* Featured lists */}
-                        <p className="mt-4 text-base text-zinc-400 pl-1">Featured lists</p>
+                        <p className="flex items-center mt-4 mb-1 text-base text-zinc-400 pl-1">
+                            <img src="/staticImages/icon_list.png" alt="List icon" className="w-5 h-5 mr-1" />
+                            Featured lists</p>
                         <div className="grid md:grid-cols-3 gap-2 ">
                             <ListsGrid userLists={userLists} />
                         </div>
