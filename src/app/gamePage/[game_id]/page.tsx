@@ -73,20 +73,20 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                                             `}>
                                             {game.rating ? Math.trunc(game.rating) : "-"}</p>
                                     </div>
-                                    <div className='w-full grid grid-cols-2 gap-3 md:w-96'>
-                                        <div className="border-l-1 border-green-500 bg-gradient-to-r from-transparent to-lime-700 pl-2 rounded-r-lg">
+                                    <div className='w-full grid grid-cols-2 gap-3 md:w-84'>
+                                        <div className="border-l-2 border-green-500 bg-zinc-900 pl-2 rounded-r-lg">
                                             <p className="">Playing</p>
                                             <p className="text-xl font-bold mt-1">{globalStats[0]}</p>
                                         </div>
-                                        <div className="border-l-1 border-cyan-500 bg-gradient-to-r from-transparent to-sky-500 pl-2 rounded-r-lg">
+                                        <div className="border-l-2 border-cyan-600 bg-zinc-900 pl-2 rounded-r-lg">
                                             <p className="">Completed</p>
                                             <p className="text-xl font-bold mt-1">{globalStats[1]}</p>
                                         </div>
-                                        <div className="border-l-1 border-red-600 bg-gradient-to-r from-transparent to-rose-800 pl-2 rounded-r-lg">
+                                        <div className="border-l-2 border-red-600 bg-zinc-900 pl-2 rounded-r-lg">
                                             <p className="">Dropped</p>
                                             <p className="text-xl font-bold mt-1">{globalStats[2]}</p>
                                         </div>
-                                        <div className="border-l-1 border-amber-600 bg-gradient-to-r from-transparent to-amber-400 pl-2 rounded-r-lg">
+                                        <div className="border-l-2 border-amber-600 bg-zinc-900 pl-2 rounded-r-lg">
                                             <p className="">Starred</p>
                                             <p className="text-xl font-bold mt-1">{globalStats[3]}</p>
                                         </div>
