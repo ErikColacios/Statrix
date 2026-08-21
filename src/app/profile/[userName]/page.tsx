@@ -166,7 +166,7 @@ export default async function Profile({ params }: { params: { userName: string }
                         {/* Fav games */}
                         <p className="flex items-center mt-4 mb-1 text-base text-zinc-400 pl-1">
                             <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
-                            Favourite lists</p>
+                            Favourite games</p>
                         <FavouriteGames favouriteGames={favouriteGames} />
 
                         {/* Featured lists */}
