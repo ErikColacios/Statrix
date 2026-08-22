@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ProfileLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    
     return (
         <>
             {children}

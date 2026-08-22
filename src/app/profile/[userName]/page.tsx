@@ -17,7 +17,6 @@ import { Game } from "@/types/Game";
 export default async function Profile({ params }: { params: { userName: string } }) {
 
     const session: any = await getSessionUser()
-    const userId: string = session.user.id as string
 
     let userInfo: any | undefined = []
     let userGameStats: any | undefined = []
@@ -32,19 +31,17 @@ export default async function Profile({ params }: { params: { userName: string }
         redirect("/newUser")
     }
 
-    if (userId !== undefined) {
-        userInfo = await getUserInfo(params.userName)
+    userInfo = await getUserInfo(params.userName)
 
-        if (userInfo.length == 0) { redirect("/") }
-        if (params.userName == session.user.name) canEdit = true;
+    if (userInfo.length == 0) { redirect("/") }
+    if (params.userName == session?.user?.name) canEdit = true
 
-        userGameStats = await getUserGameStats(params.userName)
-        userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
-        userTotalReviews = await getUserTotalReviews(params.userName)
-        userReviews = await getUserGameReviews(params.userName)
-        favouriteGames = await getUserFavouriteGames(params.userName)
-        userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0, 3) // We show only the top 3 featured lists
-    }
+    userGameStats = await getUserGameStats(params.userName)
+    userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
+    userTotalReviews = await getUserTotalReviews(params.userName)
+    userReviews = await getUserGameReviews(params.userName)
+    favouriteGames = await getUserFavouriteGames(params.userName)
+    userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0, 3) // We show only the top 3 featured lists
 
     return (
         <>
