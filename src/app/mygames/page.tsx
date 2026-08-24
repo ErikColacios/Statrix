@@ -141,7 +141,7 @@ export default function MyGames() {
                         {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-2xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
 
                         {gameListFiltered?.map((game: Game, index: number) => (
-                            <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
+                            <div className="group relative rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
                                 <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full'>
                                     <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
                                     <div className='flex flex-col ml-3 sm:ml-10'>

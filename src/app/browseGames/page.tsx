@@ -28,7 +28,7 @@ export default function BrowseGames() {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers:GameIGDB[] = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
+        const covers: GameIGDB[] = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
         if (covers) {
           setGameItems(covers)
           setIsLoading(false)
@@ -76,13 +76,13 @@ export default function BrowseGames() {
       <Dialog.Root>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-          <Dialog.Content onCloseAutoFocus={(e) => {e.preventDefault()}} className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+          <Dialog.Content onCloseAutoFocus={(e) => { e.preventDefault() }} className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto md:w-4/5 lg:w-3/5 2xl:w-3/6 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
                 data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
             <Dialog.Title className="DialogTitle"></Dialog.Title>
             <Dialog.Description className="DialogDescription"></Dialog.Description>
 
             {/* Add game modal */}
-            <AddGameModal game={gameClicked}/>
+            <AddGameModal game={gameClicked} />
           </Dialog.Content>
         </Dialog.Portal>
         {/* Sidebar */}
@@ -106,6 +106,11 @@ export default function BrowseGames() {
 
 
         <div className="flex flex-col w-full px-4 pb-24 md:px-4">
+          <div className="pb-6">
+            <h2 className='text-4xl font-bold md:text-5xl pb-2'>Browse games</h2>
+            <p className="text-gray-400">Search any game, rate it, start tracking your progress and add it to your list</p>
+          </div>
+
           {/* Search bar */}
           <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
             <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
@@ -116,12 +121,12 @@ export default function BrowseGames() {
           {isLoading ? <SkeletonBrowseGames /> :
             <div className='grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4'>
               {gameItems.map((game, index: number) => (
-                <Dialog.Trigger key={index} onClick={()=> setGameClicked(game)} className={`group relative flex flex-col justify-center items-center rounded-xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 rounded-xl group-hover:blur-xs group-hover:brightness-50' alt='Game cover' />
-                    <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
-                      <p className="hidden sm:contents">{game.name}</p>
-                    </div>
-                    <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
+                <Dialog.Trigger key={index} onClick={() => setGameClicked(game)} className={`group relative flex flex-col justify-center items-center rounded-xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-105`} >
+                  <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 rounded-xl group-hover:blur-xs group-hover:brightness-50' alt='Game cover' />
+                  <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
+                    <p className="hidden sm:contents">{game.name}</p>
+                  </div>
+                  <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
                 </Dialog.Trigger>
               ))}
             </div>}
