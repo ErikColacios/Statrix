@@ -105,7 +105,7 @@ export default function BrowseGames() {
         </aside>
 
 
-        <div className="flex flex-col w-full px-4 pb-24 md:px-8">
+        <div className="flex flex-col w-full px-4 pb-24 md:px-4">
           {/* Search bar */}
           <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
             <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
@@ -114,13 +114,14 @@ export default function BrowseGames() {
 
           {/* Games shown */}
           {isLoading ? <SkeletonBrowseGames /> :
-            <div className='grid justify-center grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-8'>
+            <div className='grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4'>
               {gameItems.map((game, index: number) => (
-                <Dialog.Trigger key={index} onClick={()=> setGameClicked(game)} className={`group relative flex justify-center items-center rounded-2xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
-                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50' width={80} height={80} alt='Game cover' />
+                <Dialog.Trigger key={index} onClick={()=> setGameClicked(game)} className={`group relative flex flex-col justify-center items-center rounded-xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-110`} >
+                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 rounded-xl group-hover:blur-xs group-hover:brightness-50' alt='Game cover' />
                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
-                      <p>{game.name}</p>
+                      <p className="hidden sm:contents">{game.name}</p>
                     </div>
+                    <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
                 </Dialog.Trigger>
               ))}
             </div>}
