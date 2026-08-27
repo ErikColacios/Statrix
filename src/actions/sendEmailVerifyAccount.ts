@@ -1,5 +1,5 @@
 "use server"
-import { EmailTemplate } from '@/components/EmailTemplate';
+import { EmailTemplateVerifyAccount } from '@/components/EmailTemplateVerifyAccount';
 import { Resend } from 'resend';
 import crypto from "crypto"
 import insertEmailVerificationToken from './insertEmailVerificationToken';
@@ -11,7 +11,7 @@ import insertEmailVerificationToken from './insertEmailVerificationToken';
  * @param email
  * @returns 
  */
-export async function sendEmail(userId:string, userName:string, email:string) {
+export async function sendEmailVerifyAccount(userId:string, userName:string, email:string) {
   try {
 
     const resend = new Resend(process.env.RESEND_API_KEY as string);
@@ -24,7 +24,7 @@ export async function sendEmail(userId:string, userName:string, email:string) {
       from: 'Statrix <noreply@statrix.app>',
       to: [email],
       subject: 'Verify your account',
-      react: EmailTemplate({ userName: userName, token: token }),
+      react: EmailTemplateVerifyAccount({ userName: userName, token: token }),
     });
 
     if (error) {

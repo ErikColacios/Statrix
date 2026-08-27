@@ -48,9 +48,9 @@ export default function LogIn() {
                             <p className='text-gray-400 mt-2'>Don't have an account? <Link href="/signup" className='text-white hover:text-green-500'>Sign up</Link></p>
                         </div>
                         <p className="text-sm text-gray-400">User name</p>
-                        <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="usernameLogIn" id="usernameLogIn" placeholder='MyUsername'/>
+                        <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="usernameLogIn" id="usernameLogIn" placeholder='userName'/>
                         <p className="text-sm text-gray-400">Password</p>
-                        <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="passwordLogIn" id="passwordLogIn" placeholder='SuperSecretPassword'/>
+                        <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="passwordLogIn" id="passwordLogIn" placeholder='password'/>
 
                         {/* Show error message */}
                         {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}
@@ -58,6 +58,7 @@ export default function LogIn() {
                         <button className="mt-2 rounded-lg bg-linear-to-r from-green-400 to-lime-400 p-2 hover:from-green-500 hover:to-lime-600 transition duration-300">Log in</button>
                     </form>
                     <GoogleLogInButton />
+                    <Link href={"forgotPassword"} className='hover:text-green-400 hover:underline text-center mt-2'>Forgot your password?</Link>
                 </div>
             </div>
         </section>

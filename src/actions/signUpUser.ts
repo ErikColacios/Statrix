@@ -2,7 +2,7 @@
 import { v4 as uuid } from "uuid";
 import { pool } from '@/util/postgres'
 import bcrypt from "bcryptjs";
-import { sendEmail } from './sendEmail';
+import { sendEmailVerifyAccount } from './sendEmailVerifyAccount';
 
 export async function signUpUser(prevState:{ error: undefined | string} , formData: FormData) {
     
@@ -38,7 +38,7 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
             );
 
             // If the user is created, we send him an email to verificate his account
-            const response:Response = await sendEmail(userId, userName, userEmail);
+            const response:Response = await sendEmailVerifyAccount(userId, userName, userEmail);
             if(response.status === 500) {
                 return { error: "There was a problem with the email verification." };
             }

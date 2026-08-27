@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface EmailTemplateProps {
+interface Props {
     userName: string;
     token: string;
 }
 
-export function EmailTemplate({ userName, token }: EmailTemplateProps) {
+export function EmailTemplateVerifyAccount({ userName, token }: Props) {
     return (
         <div style={{ backgroundColor: "black", color: "#9E9E9E", width: "100%", padding: "4%", fontFamily:'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'}}>
             <div style={{maxWidth: "400px", margin: "0 auto"}}>
