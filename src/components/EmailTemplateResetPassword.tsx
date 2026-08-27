@@ -12,7 +12,7 @@ export function EmailTemplateResetPassword({ token }: Props) {
                 <p style={{ color: "white", marginTop: "16px" }}>Hello, we received a request for a password reset with this email.</p>
                 <p>In order to do it, access the link below.</p>
                 <a
-                    href={`https://statrix.app/resetPassword?token=${token}`}
+                    href={`https://statrix.app/passwordReset?token=${token}`}
                     style={{
                         display: "inline-block",
                         backgroundColor: "#2A2828",
