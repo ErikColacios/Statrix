@@ -7,7 +7,7 @@ type Props = {
     favouriteGames: Game[]
 }
 
-export default async function FavouriteGames({ favouriteGames }: Props) {
+export default async function ActivityWidget({ favouriteGames }: Props) {
     return (
         <div className="grid grid-cols-5 gap-2 px-1">
             {favouriteGames.map((game: Game, index: number) => (

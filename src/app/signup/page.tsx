@@ -42,11 +42,11 @@ export default function SignUp() {
                                     <p className='text-gray-400 mt-2'>Already have an account? <Link href="/login" className='text-white hover:text-green-500'>Log in</Link></p>
                                 </div>
                                 <p className="text-sm text-gray-400">Username</p>
-                                <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="userNameSignUp" id="userNameSignUp" placeholder='MyUsername'/>
+                                <input type="text" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="userNameSignUp" id="userNameSignUp" placeholder='userName'/>
                                 <p className="text-sm text-gray-400">Email</p>
-                                <input type="email" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="emailSignUp" id="emailSignUp" placeholder='email@gmail.com'/>
+                                <input type="email" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="emailSignUp" id="emailSignUp" placeholder='you@example.com'/>
                                 <p className="text-sm text-gray-400">Password</p>
-                                <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="passwordSignUp" id="passwordSignUp" placeholder='SuperSecretPassword' />
+                                <input type="password" className="text-white bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600 mb-4 p-1 focus:outline-hidden" name="passwordSignUp" id="passwordSignUp" placeholder='password' />
 
                                 {/* Show error message */}
                                 {state?.error && <p className='text-red-500 text-sm mb-2'>{state.error}</p>}

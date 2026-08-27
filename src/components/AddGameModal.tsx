@@ -32,6 +32,8 @@ export default function AddGameModal({ game }: Props) {
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
     const [nextSlide, setNextSlide] = useState<number>(0)
 
+    const [activity, setActivity] = useState<Activity[]>([])
+
     const dropdownRef = useRef<HTMLDivElement>(null)
 
     function isGameIGDB(game: Game | GameIGDB): game is GameIGDB {
@@ -39,9 +41,9 @@ export default function AddGameModal({ game }: Props) {
     }
 
     //if(isGameIGDB(game)){
-        //console.log("Es de IGDB", game.cover.image_id)
+    //console.log("Es de IGDB", game.cover.image_id)
     //}else {
-        //console.log(game)
+    //console.log(game)
     //}
 
     const handleClickOutside = (e: MouseEvent) => {
@@ -55,7 +57,7 @@ export default function AddGameModal({ game }: Props) {
     }
 
     useEffect(() => {
-    if (game === undefined || userId === undefined) return;
+        if (game === undefined || userId === undefined) return;
         const fetchUserGame = async () => {
             if (isGameIGDB(game)) {
                 setUserGameInfo(await getUserVideogame(game.id))
@@ -97,10 +99,35 @@ export default function AddGameModal({ game }: Props) {
         }
     }, [userGameInfo])
 
+
+    // This function is called everytime the user changes some field in this modal. Its used to track the new activity with the game
+    function handleAddActivity(action: string) {
+        if (game === undefined) return;
+        const gameId: number = isGameIGDB(game) ? game.id : game.game_id
+        const gameName: string = isGameIGDB(game) ? game.name : game.game_name
+        const imageId: string = isGameIGDB(game) ? game.cover.image_id : game.game_image_id
+        const fechaActual: Date = new Date()
+
+        const newActivity: Activity = {
+            userId: userId,
+            gameId: gameId,
+            activityId: 1,
+            gameName: gameName,
+            gameBaseImage: imageId,
+            action: action,
+            action_date: fechaActual
+        }
+        //{userId, gameId, 2, gameName, imageId, "starred", fechaActual}
+        setActivity([...activity, newActivity])
+        //console.log(activity)
+    }
+
     // Passed to StarButton
     function handleStarred() {
         setStarred(!starred)
+        handleAddActivity("starred")
     }
+
 
     async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
         const valueScore = parseFloat(e.target.value)
@@ -115,6 +142,8 @@ export default function AddGameModal({ game }: Props) {
         } else if (valueScore === 0) {
             setScoreColor("none")
         }
+
+        handleAddActivity("rated")
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -132,13 +161,32 @@ export default function AddGameModal({ game }: Props) {
         }
     }
 
+    function handleStatusChange(status: GameStatus) {
+        setSelectedStatus(status)
+
+        switch (status) {
+            case GameStatus.PLAYING:
+                handleAddActivity("is playing")
+                break;
+            case GameStatus.COMPLETED:
+                handleAddActivity("completed")
+                break;
+            case GameStatus.ON_HOLD:
+                handleAddActivity("is holding")
+                break;
+            case GameStatus.DROPPED:
+                handleAddActivity("dropped")
+                break;
+        }
+    }
+
     function handleYearCompletedChange(selectedYear: string) {
         setYearCompleted(selectedYear)
         setShowDropdownYear(false)
     }
 
     async function handleSaveUserGame() {
-        if(game === undefined) return;
+        if (game === undefined) return;
         const gameId: number = isGameIGDB(game) ? game.id : game.game_id
         const gameName: string = isGameIGDB(game) ? game.name : game.game_name
         const imageId: string = isGameIGDB(game) ? game.cover.image_id : game.game_image_id
@@ -231,7 +279,7 @@ export default function AddGameModal({ game }: Props) {
                                         <p className="text-gray-400 mt-2">Status</p>
                                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                                             <button
-                                                onClick={() => setSelectedStatus(GameStatus.PLAYING)}
+                                                onClick={() => handleStatusChange(GameStatus.PLAYING)}
                                                 className={selectedStatus === GameStatus.PLAYING
                                                     ? "flex items-center justify-center bg-linear-to-r from-teal-500 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                                     : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
@@ -240,7 +288,7 @@ export default function AddGameModal({ game }: Props) {
                                                 {GameStatus.PLAYING}</button>
 
                                             <button
-                                                onClick={() => setSelectedStatus(GameStatus.COMPLETED)}
+                                                onClick={() => handleStatusChange(GameStatus.COMPLETED)}
                                                 className={selectedStatus === GameStatus.COMPLETED
                                                     ? "flex items-center justify-center  bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                                     : "flex items-center justify-center  rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
@@ -248,7 +296,7 @@ export default function AddGameModal({ game }: Props) {
                                                 <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
                                                 {GameStatus.COMPLETED}</button>
                                             <button
-                                                onClick={() => setSelectedStatus(GameStatus.ON_HOLD)}
+                                                onClick={() => handleStatusChange(GameStatus.ON_HOLD)}
                                                 className={selectedStatus === GameStatus.ON_HOLD
                                                     ? "flex items-center justify-center bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                                     : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
@@ -257,7 +305,7 @@ export default function AddGameModal({ game }: Props) {
                                                 {GameStatus.ON_HOLD}</button>
 
                                             <button
-                                                onClick={() => setSelectedStatus(GameStatus.DROPPED)}
+                                                onClick={() => handleStatusChange(GameStatus.DROPPED)}
                                                 className={selectedStatus === GameStatus.DROPPED
                                                     ? "flex items-center justify-center bg-linear-to-r from-red-600 to-orange-700 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                                     : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
