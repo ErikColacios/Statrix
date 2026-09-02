@@ -1,24 +1,28 @@
 "use server"
 import Link from "next/link"
 import React from "react"
-import { Game } from "@/types/Game"
 
 type Props = {
-    favouriteGames: Game[]
+    userActivity: Activity[]
 }
 
-export default async function ActivityWidget({ favouriteGames }: Props) {
+export default async function ActivityWidget({ userActivity }: Props) {
     return (
-        <div className="grid grid-cols-5 gap-2 px-1">
-            {favouriteGames.map((game: Game, index: number) => (
-                <Link href={`/gamePage/${game.game_id}`} key={index} className='relative group w-16 md:w-28'>
-                    <div className="flex justify-center items-center rounded-lg overflow-hidden hover:border-green-500" >
-                        <img src={game.game_base_image} className='w-full h-full transition duration-300 group-hover:blur-xs group-hover:brightness-50' alt={'Game cover'} />
-                        <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
-                            <p className="text-xs">{game.game_name}</p>
-                        </div>
+        <div className="flex flex-col space-y-2">
+            {userActivity.map((activity: Activity, index: number) => (
+                <div className='w-full flex items-center space-x-8 py-1 pr-4 relative bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base' key={index}>
+                    <div className={`absolute left-0 top-0 w-12 h-12 sm:w-14 sm:h-14 overflow-hidden border border-gray-600`}>
+                        <img src={activity.game_base_image} className="h-full w-full object-cover" alt="Avatar image" />
                     </div>
-                </Link>
+                    <div className="pl-19 flex flex-col items-start">
+                        <div className="flex space-x-2">
+                            <p className="font-bold hover:text-green-500">{activity.user_name}</p>
+                            <p className="text-gray-400">{activity.action}</p>
+                        </div>
+                        <Link href={`/gamePage/${activity.game_id}`} className="font-bold hover:text-green-500">{activity.game_name}</Link>
+                    </div>
+                    <p className="text-gray-400">{activity.action_date.toLocaleDateString()}</p>
+                </div>
             ))}
         </div>
     )

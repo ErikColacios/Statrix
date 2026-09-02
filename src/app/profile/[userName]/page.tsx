@@ -13,6 +13,8 @@ import ListsGrid from "@/components/ListsGrid";
 import { getUserFavouriteGames } from "@/actions/getUserFavouriteGames";
 import FavouriteGames from "@/components/FavouriteGames";
 import { Game } from "@/types/Game";
+import ActivityWidget from "@/components/ActivityWidget";
+import { getUserActivity } from "@/actions/getUserActivity";
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 
@@ -25,6 +27,7 @@ export default async function Profile({ params }: { params: { userName: string }
     let userReviews: any | undefined = []
     let canEdit: Boolean = false
     let favouriteGames: Game[] = []
+    let userActivity: Activity[] = []
     let userLists: List[] = []
 
     if (session?.user.isNewUser) {
@@ -41,6 +44,7 @@ export default async function Profile({ params }: { params: { userName: string }
     userTotalReviews = await getUserTotalReviews(params.userName)
     userReviews = await getUserGameReviews(params.userName)
     favouriteGames = await getUserFavouriteGames(params.userName)
+    userActivity = await getUserActivity(params.userName)
     userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0, 3) // We show only the top 3 featured lists
 
     return (
@@ -160,24 +164,26 @@ export default async function Profile({ params }: { params: { userName: string }
                             </div>
                         </div>
 
-                        <div className="flex w-full">
-                            <div className="flex flex-col w-1/2">
+                        <div className="flex flex-col md:flex-row w-full">
+
+                            <div className="flex flex-col sm:w-1/2">
                                 {/* Fav games */}
-                                <p className="flex items-center mt-4 mb-1 text-base text-zinc-400 pl-1">
+                                <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
                                     <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
                                     Favourite games</p>
                                 <FavouriteGames favouriteGames={favouriteGames} />
                             </div>
 
 
-                            <div className="flex flex-col w-1/2">
-                                {/* Fav games */}
-                                <p className="flex items-center mt-4 mb-1 text-base text-zinc-400 pl-1">
-                                    <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
-                                    Favourite games</p>
-                                <FavouriteGames favouriteGames={favouriteGames} />
+                            <div className="flex flex-col sm:w-1/2">
+                                {/* Activity */}
+                                <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
+                                    <img src="/staticImages/icon_activity_gray.png" alt="Activity icon" className="w-4 h-4 mr-1" />
+                                    Activity</p>
+                                <div className="h-48 overflow-y-scroll no-scrollbar">
+                                    <ActivityWidget userActivity={userActivity} />
+                                </div>
                             </div>
-
                         </div>
 
 

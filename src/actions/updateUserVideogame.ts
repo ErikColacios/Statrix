@@ -9,6 +9,7 @@ import insertUserGameActivity from "./insertUserGameActivity";
 export default async function updateUserVideogame(userGameUpdated:UserGame) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
+  const userName: string = session.user.name as string;
 
   if (!userId) {
     console.warn("No user session found.");
@@ -19,7 +20,7 @@ export default async function updateUserVideogame(userGameUpdated:UserGame) {
   const previousUserGame: UserGame = await getUserVideogame(userGameUpdated.game_id);
 
   // Then we check all the changes and create an array of activity changes to insert into the user_game_activity table
-  const activityChanges: Activity[] = manageActivityChanges(previousUserGame, userGameUpdated, userId);
+  const activityChanges: Activity[] = manageActivityChanges(previousUserGame, userGameUpdated, userId, userName);
 
 
   try {
@@ -66,13 +67,13 @@ export default async function updateUserVideogame(userGameUpdated:UserGame) {
 }
 
 
-function manageActivityChanges(previousUserGame: UserGame, userGameUpdated: UserGame, userId: string) {
+function manageActivityChanges(previousUserGame: UserGame, userGameUpdated: UserGame, userId: string, userName: string) {
   const activityChanges: Activity[] = []
 
   if (previousUserGame?.favourite !== userGameUpdated?.favourite) {
     if (userGameUpdated?.favourite) {
         const favouriteChange: Activity = {
-        userId: userId, gameId: userGameUpdated.game_id, activityId: 0, gameName: userGameUpdated.game_name, gameBaseImage: userGameUpdated.game_base_image,
+        user_id: userId, user_name: userName, game_id: userGameUpdated.game_id, activity_id: 0, game_name: userGameUpdated.game_name, game_base_image: userGameUpdated.game_base_image,
         action: "starred",
         action_date: new Date(),
       }
@@ -83,7 +84,7 @@ function manageActivityChanges(previousUserGame: UserGame, userGameUpdated: User
   if (previousUserGame?.score.toString() !== userGameUpdated?.score.toString()) {
     if (userGameUpdated?.score !== 0){
       const scoreChange: Activity = {
-        userId: userId, gameId: userGameUpdated.game_id, activityId: 0, gameName: userGameUpdated.game_name, gameBaseImage: userGameUpdated.game_base_image,
+        user_id: userId, user_name: userName, game_id: userGameUpdated.game_id, activity_id: 0, game_name: userGameUpdated.game_name, game_base_image: userGameUpdated.game_base_image,
         action: "rated " + userGameUpdated.score,
         action_date: new Date(),
       }
@@ -93,7 +94,7 @@ function manageActivityChanges(previousUserGame: UserGame, userGameUpdated: User
 
   if (previousUserGame?.status !== userGameUpdated?.status) {
     const statusChange: Activity = {
-      userId: userId, gameId: userGameUpdated.game_id, activityId: 0, gameName: userGameUpdated.game_name, gameBaseImage: userGameUpdated.game_base_image,
+      user_id: userId, user_name: userName, game_id: userGameUpdated.game_id, activity_id: 0, game_name: userGameUpdated.game_name, game_base_image: userGameUpdated.game_base_image,
       action: userGameUpdated.status === GameStatus.PLAYING ? "started playing" : userGameUpdated.status === GameStatus.COMPLETED ? "completed" : userGameUpdated.status === GameStatus.DROPPED ? "dropped" : "updated status",
       action_date: new Date(),
     }
