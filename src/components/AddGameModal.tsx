@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import AddToListModal from "./AddToListModal";
 import { Game } from "@/types/Game";
 import { GameIGDB } from "@/types/GameIGDB";
+import { UserGame } from "@/types/UserGame";
 
 type Props = {
     game: GameIGDB | Game | undefined
@@ -22,10 +23,10 @@ export default function AddGameModal({ game }: Props) {
 
     const session: any = useSession()
     const userId: string = session?.data?.user?.id as string
-    const [userGameInfo, setUserGameInfo] = useState<any>([])
+    const [userGameInfo, setUserGameInfo] = useState<UserGame>()
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
-    const [hoursPlayed, setHoursPlayed] = useState<string>("")
+    const [hoursPlayed, setHoursPlayed] = useState<number | undefined>()
     const [yearCompleted, setYearCompleted] = useState<string>("-")
     const [score, setScore] = useState<number>(0)
     const [scoreColor, setScoreColor] = useState<string>("none")
@@ -60,9 +61,11 @@ export default function AddGameModal({ game }: Props) {
         if (game === undefined || userId === undefined) return;
         const fetchUserGame = async () => {
             if (isGameIGDB(game)) {
-                setUserGameInfo(await getUserVideogame(game.id))
+                const userGame: UserGame = await getUserVideogame(game.id)
+                setUserGameInfo(userGame)
             } else {
-                setUserGameInfo(await getUserVideogame(game.game_id))
+                const userGame: UserGame = await getUserVideogame(game.game_id)
+                setUserGameInfo(userGame)
             }
         }
         fetchUserGame()
@@ -80,52 +83,29 @@ export default function AddGameModal({ game }: Props) {
 
 
     useEffect(() => {
-        if (userGameInfo.length > 0) {
-            setScore(userGameInfo[0]?.score)
-            setSelectedStatus(userGameInfo[0]?.status)
-            setStarred(userGameInfo[0]?.favourite)
-            setHoursPlayed(userGameInfo[0]?.hours_played)
-            setYearCompleted(userGameInfo[0]?.year_completed ? userGameInfo[0]?.year_completed : "-")
+        if (userGameInfo !== undefined) {
+            setScore(userGameInfo?.score)
+            setSelectedStatus(userGameInfo?.status)
+            setStarred(userGameInfo?.favourite)
+            setHoursPlayed(userGameInfo?.hours_played)
+            setYearCompleted(userGameInfo?.year_completed)
 
-            if (userGameInfo[0]?.score >= 8) {
+            if (userGameInfo?.score >= 8) {
                 setScoreColor("green")
-            } else if (userGameInfo[0]?.score >= 4) {
+            } else if (userGameInfo?.score >= 4) {
                 setScoreColor("yellow")
-            } else if (userGameInfo[0]?.score < 4) {
+            } else if (userGameInfo?.score < 4) {
                 setScoreColor("red")
-            } else if (userGameInfo[0]?.score == 0) {
+            } else if (userGameInfo?.score == 0) {
                 setScoreColor("none")
             }
         }
     }, [userGameInfo])
 
 
-    // This function is called everytime the user changes some field in this modal. Its used to track the new activity with the game
-    function handleAddActivity(action: string) {
-        if (game === undefined) return;
-        const gameId: number = isGameIGDB(game) ? game.id : game.game_id
-        const gameName: string = isGameIGDB(game) ? game.name : game.game_name
-        const imageId: string = isGameIGDB(game) ? game.cover.image_id : game.game_image_id
-        const fechaActual: Date = new Date()
-
-        const newActivity: Activity = {
-            userId: userId,
-            gameId: gameId,
-            activityId: 1,
-            gameName: gameName,
-            gameBaseImage: imageId,
-            action: action,
-            action_date: fechaActual
-        }
-        //{userId, gameId, 2, gameName, imageId, "starred", fechaActual}
-        setActivity([...activity, newActivity])
-        //console.log(activity)
-    }
-
     // Passed to StarButton
     function handleStarred() {
         setStarred(!starred)
-        handleAddActivity("starred")
     }
 
 
@@ -143,21 +123,20 @@ export default function AddGameModal({ game }: Props) {
             setScoreColor("none")
         }
 
-        handleAddActivity("rated")
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.value !== "") {
             const valueHoursPlayed = parseFloat(e.target.value)
             if (valueHoursPlayed < 0) {
-                setHoursPlayed("0")
+                setHoursPlayed(0)
             } else if (valueHoursPlayed > 100000) {
-                setHoursPlayed("")
+                setHoursPlayed(undefined)
             } else {
-                setHoursPlayed(valueHoursPlayed.toString());
+                setHoursPlayed(valueHoursPlayed);
             }
         } else {
-            setHoursPlayed("0")
+            setHoursPlayed(0)
         }
     }
 
@@ -166,16 +145,12 @@ export default function AddGameModal({ game }: Props) {
 
         switch (status) {
             case GameStatus.PLAYING:
-                handleAddActivity("is playing")
                 break;
             case GameStatus.COMPLETED:
-                handleAddActivity("completed")
                 break;
             case GameStatus.ON_HOLD:
-                handleAddActivity("is holding")
                 break;
             case GameStatus.DROPPED:
-                handleAddActivity("dropped")
                 break;
         }
     }
@@ -191,10 +166,24 @@ export default function AddGameModal({ game }: Props) {
         const gameName: string = isGameIGDB(game) ? game.name : game.game_name
         const imageId: string = isGameIGDB(game) ? game.cover.image_id : game.game_image_id
 
+        const userGameUpdated: UserGame = {
+            user_id: userId,
+            game_id: gameId,
+            game_name: gameName,
+            game_image_id: imageId,
+            game_base_image: `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.png`,
+            favourite: starred,
+            score: Number(score),
+            hours_played: hoursPlayed,
+            status: selectedStatus,
+            year_completed: yearCompleted
+        }
+
         if (gameId) {
-            await updateUserVideogame(gameId, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, gameName, imageId);
+            await updateUserVideogame(userGameUpdated);
         }
     }
+
     if (game === undefined) return;
     if (nextSlide === 1) return (<AddToListModal game_id={isGameIGDB(game) ? game.id : game.game_id} game_name={isGameIGDB(game) ? game.name : game.game_name} game_base_image={isGameIGDB(game) ? game.cover.image_id : game.game_image_id} setNextSlide={setNextSlide} />)
 

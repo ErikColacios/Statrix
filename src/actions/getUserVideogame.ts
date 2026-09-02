@@ -17,7 +17,7 @@ export default async function getUserVideogame(gameId: number) {
         const query = `SELECT * FROM public.user_videogame WHERE user_id = $1 AND game_id = $2`;
         const { rows } = await pool.query(query, [userId, gameId]);
 
-        return rows;
+        return rows[0];
     } catch (error) {
         console.error("Error fetching user videogame info:", error);
         throw error;

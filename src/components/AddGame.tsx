@@ -6,17 +6,21 @@ import getUserVideogame from "@/actions/getUserVideogame";
 import updateUserVideogame from "@/actions/updateUserVideogame";
 import { Game } from "@/types/Game";
 import { GameIGDB } from "@/types/GameIGDB";
+import { UserGame } from "@/types/UserGame";
+import { useSession } from "next-auth/react";
 
 type Props = {
-    game: GameIGDB
+    game: GameIGDB | Game | undefined
 };
 
 export default function AddGame({ game }: Props) {
 
-    const [userGameInfo, setUserGameInfo] = useState<any>([])
+    const session: any = useSession()
+    const userId: string = session?.data?.user?.id as string
+    const [userGameInfo, setUserGameInfo] = useState<UserGame>()
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
-    const [hoursPlayed, setHoursPlayed] = useState<string>("0")
+    const [hoursPlayed, setHoursPlayed] = useState<number | undefined>(undefined)
     const [yearCompleted, setYearCompleted] = useState<string>("-")
     const [score, setScore] = useState<number>(0)
     const [error, setError] = useState<string | null>(null)
@@ -25,6 +29,10 @@ export default function AddGame({ game }: Props) {
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
 
     const dropdownRef = useRef<HTMLDivElement>(null)
+
+    function isGameIGDB(game: Game | GameIGDB): game is GameIGDB {
+        return "id" in game && "name" in game
+    }
 
     const handleClickOutside = (e: MouseEvent) => {
         if (dropdownRef.current && (!dropdownRef.current.contains(e.target as Node))) {
@@ -40,27 +48,36 @@ export default function AddGame({ game }: Props) {
     }
 
     useEffect(() => {
+        if (game === undefined) return;
         const fetchUserGame = async () => {
-            setUserGameInfo(await getUserVideogame(game.id))
+            if (isGameIGDB(game)) {
+                const userGame: UserGame = await getUserVideogame(game.id)
+                console.log(userGame)
+                setUserGameInfo(userGame)
+            } else {
+                const userGame: UserGame = await getUserVideogame(game.game_id)
+                console.log(userGame)
+                setUserGameInfo(userGame)
+            }
         }
         fetchUserGame()
     }, [])
 
     useEffect(() => {
-        if (userGameInfo.length > 0) {
-            setSelectedStatus(userGameInfo[0]?.status)
-            setStarred(userGameInfo[0]?.favourite)
-            setScore(userGameInfo[0]?.score)
-            setHoursPlayed(userGameInfo[0]?.hours_played)
-            setYearCompleted(userGameInfo[0]?.year_completed ? userGameInfo[0]?.year_completed : "-")
+        if (userGameInfo !== undefined) {
+            setScore(userGameInfo?.score)
+            setSelectedStatus(userGameInfo?.status)
+            setStarred(userGameInfo?.favourite)
+            setHoursPlayed(userGameInfo?.hours_played)
+            setYearCompleted(userGameInfo?.year_completed)
 
-            if (userGameInfo[0]?.score >= 8) {
+            if (userGameInfo?.score >= 8) {
                 setScoreColor("green")
-            } else if (userGameInfo[0]?.score >= 4) {
+            } else if (userGameInfo?.score >= 4) {
                 setScoreColor("yellow")
-            } else if (userGameInfo[0]?.score < 4) {
+            } else if (userGameInfo?.score < 4) {
                 setScoreColor("red")
-            } else if (userGameInfo[0]?.score == 0) {
+            } else if (userGameInfo?.score == 0) {
                 setScoreColor("none")
             }
         }
@@ -94,20 +111,36 @@ export default function AddGame({ game }: Props) {
         } else if (valueScore === 0) {
             setScoreColor("none")
         }
+
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.value !== "") {
             const valueHoursPlayed = parseFloat(e.target.value)
             if (valueHoursPlayed < 0) {
-                setHoursPlayed("0")
+                setHoursPlayed(0)
             } else if (valueHoursPlayed > 100000) {
-                setHoursPlayed("")
+                setHoursPlayed(undefined)
             } else {
-                setHoursPlayed(valueHoursPlayed.toString());
+                setHoursPlayed(valueHoursPlayed);
             }
         } else {
-            setHoursPlayed("0")
+            setHoursPlayed(0)
+        }
+    }
+
+    function handleStatusChange(status: GameStatus) {
+        setSelectedStatus(status)
+
+        switch (status) {
+            case GameStatus.PLAYING:
+                break;
+            case GameStatus.COMPLETED:
+                break;
+            case GameStatus.ON_HOLD:
+                break;
+            case GameStatus.DROPPED:
+                break;
         }
     }
 
@@ -118,9 +151,27 @@ export default function AddGame({ game }: Props) {
 
 
     async function handleSaveUserGame() {
-        if (game.id) {
-            console.log(game.cover.image_id)
-            const res = await updateUserVideogame(game.id, selectedStatus, Number(score), Number(hoursPlayed), yearCompleted, starred, game.name, game.cover.image_id);
+        if (game === undefined) return;
+
+        const gameId: number = isGameIGDB(game) ? game.id : game.game_id
+        const gameName: string = isGameIGDB(game) ? game.name : game.game_name
+        const imageId: string = isGameIGDB(game) ? game.cover.image_id : game.game_image_id
+
+        const userGameUpdated: UserGame = {
+            user_id: userId,
+            game_id: gameId,
+            game_name: gameName,
+            game_image_id: imageId,
+            game_base_image: `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.png`,
+            favourite: starred,
+            score: Number(score),
+            hours_played: hoursPlayed,
+            status: selectedStatus,
+            year_completed: yearCompleted
+        }
+
+        if (gameId) {
+            const res = await updateUserVideogame(userGameUpdated);
             if (res?.success) {
                 setError(null)
                 setSuccess(res?.message || "Game info updated successfully.")
@@ -131,6 +182,7 @@ export default function AddGame({ game }: Props) {
         }
     }
 
+    if (game === undefined) return;
     return (
         <div className="flex flex-col justify-center">
             <p className="text-right text-gray-200 mb-2">Your stats</p>
@@ -159,7 +211,7 @@ export default function AddGame({ game }: Props) {
                         <div className="flex flex-col sm:justify-center items-center justify-start sm:items-start">
                             <p className="text-gray-400">Hours played</p>
                             <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className='w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600 text-right' min={0}
-                                value={hoursPlayed} />
+                                value={hoursPlayed ? hoursPlayed : 0} />
                         </div>
                         <div className="relative flex flex-col sm:justify-center items-center justify-start sm:items-start">
                             <p className="text-gray-400">Year completed</p>
@@ -183,33 +235,35 @@ export default function AddGame({ game }: Props) {
                 </div>
                 <div className="flex flex-col">
                     <label className="text-gray-400 mt-2">Status</label>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                         <button
-                            onClick={() => setSelectedStatus(GameStatus.PLAYING)}
+                            onClick={() => handleStatusChange(GameStatus.PLAYING)}
                             className={selectedStatus === GameStatus.PLAYING
                                 ? "flex items-center justify-center bg-linear-to-r from-teal-500 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                 : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>
                             <img src="/staticImages/icon_controller.png" alt="Controller icon" className="w-4 mr-2" />
                             {GameStatus.PLAYING}</button>
+
                         <button
-                            onClick={() => setSelectedStatus(GameStatus.COMPLETED)}
+                            onClick={() => handleStatusChange(GameStatus.COMPLETED)}
                             className={selectedStatus === GameStatus.COMPLETED
-                                ? "flex items-center justify-center bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                ? "flex items-center justify-center  bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                : "flex items-center justify-center  rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>
                             <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
                             {GameStatus.COMPLETED}</button>
                         <button
-                            onClick={() => setSelectedStatus(GameStatus.ON_HOLD)}
+                            onClick={() => handleStatusChange(GameStatus.ON_HOLD)}
                             className={selectedStatus === GameStatus.ON_HOLD
                                 ? "flex items-center justify-center bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                 : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                             }>
                             <img src="/staticImages/icon_clock.png" alt="Clock icon" className="w-4 h-4 mr-2" />
                             {GameStatus.ON_HOLD}</button>
+
                         <button
-                            onClick={() => setSelectedStatus(GameStatus.DROPPED)}
+                            onClick={() => handleStatusChange(GameStatus.DROPPED)}
                             className={selectedStatus === GameStatus.DROPPED
                                 ? "flex items-center justify-center bg-linear-to-r from-red-600 to-orange-700 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                 : "flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
@@ -220,7 +274,7 @@ export default function AddGame({ game }: Props) {
                 </div>
                 <div className="flex items-center space-x-4">
                     <label className="text-gray-400">Favourite</label>
-                    <StarButton handleStarred={handleStarred} favourite={starred} gameId={game.id} />
+                    <StarButton handleStarred={handleStarred} favourite={starred} gameId={isGameIGDB(game) ? game?.id : game?.game_id} />
                 </div>
 
                 <button className="px-6 py-2 text-center rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"

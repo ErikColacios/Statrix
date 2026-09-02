@@ -95,7 +95,6 @@ export default async function gamePage({ params }: { params: { list_id: string, 
                             </aside>
                         </section>
 
-
                         <section className='md:grid md:grid-cols-5 gap-4 2xl:gap-12 px-4 mt-8'>
                             <p className='col-span-3 mt-6'>{game.summary}</p>
                             {/* If user is logged in, show the AddGame component */}

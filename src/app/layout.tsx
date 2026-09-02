@@ -7,7 +7,7 @@ import Provider from "@/util/provider";
 export const metadata: Metadata = {
   title: "Statrix",
   description: "Showcase your gaming identity",
-  icons: "/logos/st_favicon.png"
+  icons: "/logos/favicon.ico"
 };
 
 export default async function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
@@ -17,7 +17,7 @@ export default async function RootLayout({children}: Readonly<{children: React.R
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link rel="icon" href="/logos/st_favicon.png" />
+        <link rel="icon" href="/logos/favicon.ico" />
         <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"></link>
       </head>
       <body className='bg-black relative'>
