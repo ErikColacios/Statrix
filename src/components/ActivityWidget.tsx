@@ -12,7 +12,7 @@ export default async function ActivityWidget({ userActivity, canEdit }: Props) {
         <div className="flex flex-col space-y-2">
             {userActivity.map((activity: Activity, index: number) => (
                 <div className='w-full flex items-center bg-zinc-900 border border-gray-600 overflow-hidden rounded-lg text-white text-sm sm:text-base' key={index}>
-                    <img src={activity.game_base_image} className="h-16 w-16" alt="" />
+                    <img src={activity.game_base_image} className="w-16 h-18" alt="Game cover" />
                     <div className="flex flex-col items-start pl-4 w-4/5">
                         <div className="flex space-x-2">
                             <p className="font-bold">{activity.user_name}</p>

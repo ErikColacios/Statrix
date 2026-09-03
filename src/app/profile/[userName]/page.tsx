@@ -176,12 +176,14 @@ export default async function Profile({ params }: { params: { userName: string }
 
                             {/* Activity */}
                             <div className="flex flex-col sm:w-1/2">
-                                <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
+                                <div className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
                                     <img src="/staticImages/icon_activity_gray.png" alt="Activity icon" className="w-4 h-4 mr-1" />
-                                    Activity</p>
-                                    <div className="sm:h-37 overflow-y-scroll no-scrollbar">
-                                        <ActivityWidget userActivity={userActivity} canEdit={canEdit}/>
-                                    </div>
+                                    <p>Activity</p>
+                                    <Link href={`/profile/${params.userName}/activity`} className="ml-auto text-green-500 hover:text-green-600">See all</Link>
+                                </div>
+                                <div className="sm:h-39 overflow-y-scroll no-scrollbar">
+                                    <ActivityWidget userActivity={userActivity} canEdit={canEdit}/>
+                                </div>
                             </div>
                         </div>
 
