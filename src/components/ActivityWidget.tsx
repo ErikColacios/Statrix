@@ -14,7 +14,7 @@ export default async function ActivityWidget({ userActivity }: Props) {
                     <img src={activity.game_base_image} className="h-16 w-16" alt="" />
                     <div className="flex flex-col items-start pl-4 w-4/5">
                         <div className="flex space-x-2">
-                            <p className="font-bold hover:text-green-500">{activity.user_name}</p>
+                            <p className="font-bold">{activity.user_name}</p>
                             <p className="text-gray-400">{activity.action}</p>
                         </div>
                         <Link href={`/gamePage/${activity.game_id}`} className="font-bold hover:text-green-500">{activity.game_name}</Link>
