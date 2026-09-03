@@ -63,7 +63,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}>
         <div className="flex flex-col lg:flex-row items-center lg:space-x-8 text-gray-400 mt-6 text-base md:text-xl">
           <div className="lg:w-1/2">
-            <h2 className="flex flex-col text-4xl sm:text-6xl font-bold text-white mb-6">
+            <h2 className="flex flex-col text-4xl sm:text-4xl font-bold text-white mb-6">
               More than a game tracker
             </h2>
             <p>Statrix works perfectly as a self game-tracking platform. Here you can search any game that you ever played, rate it and save it to your backlog in seconds. All your gaming history in one place.</p>
