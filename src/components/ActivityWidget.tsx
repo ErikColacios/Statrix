@@ -3,10 +3,11 @@ import Link from "next/link"
 import React from "react"
 
 type Props = {
-    userActivity: Activity[]
+    userActivity: Activity[],
+    canEdit: boolean
 }
 
-export default async function ActivityWidget({ userActivity }: Props) {
+export default async function ActivityWidget({ userActivity, canEdit }: Props) {
     return (
         <div className="flex flex-col space-y-2">
             {userActivity.map((activity: Activity, index: number) => (
@@ -28,7 +29,7 @@ export default async function ActivityWidget({ userActivity }: Props) {
                     <div className="flex flex-col text-center text-gray-400">
                         <p>(－_－) zzZ</p>
                         <p>No recent activity yet.</p>
-                        <Link href={`/browseGames`} className="text-white font-bold hover:text-green-500">Go add some games!</Link>
+                        {canEdit && <Link href={`/browseGames`} className="text-white font-bold hover:text-green-500">Go add some games!</Link>}
                     </div>
                 </div>
             )}

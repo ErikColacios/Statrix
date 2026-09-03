@@ -25,7 +25,7 @@ export default async function Profile({ params }: { params: { userName: string }
     let userTotalHoursPlayed: number | undefined
     let userTotalReviews: number | undefined
     let userReviews: any | undefined = []
-    let canEdit: Boolean = false
+    let canEdit: boolean = false
     let favouriteGames: Game[] = []
     let userActivity: Activity[] = []
     let userLists: List[] = []
@@ -170,7 +170,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                 <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
                                     <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
                                     Favourite games</p>
-                                <FavouriteGames favouriteGames={favouriteGames} />
+                                <FavouriteGames favouriteGames={favouriteGames} canEdit={canEdit}/>
                             </div>
 
 
@@ -180,7 +180,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                     <img src="/staticImages/icon_activity_gray.png" alt="Activity icon" className="w-4 h-4 mr-1" />
                                     Activity</p>
                                     <div className="sm:h-37 overflow-y-scroll no-scrollbar">
-                                        <ActivityWidget userActivity={userActivity} />
+                                        <ActivityWidget userActivity={userActivity} canEdit={canEdit}/>
                                     </div>
                             </div>
                         </div>

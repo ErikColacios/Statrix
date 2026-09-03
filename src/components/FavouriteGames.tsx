@@ -1,13 +1,14 @@
 "use server"
-import Link from "next/link"
 import React from "react"
 import { Game } from "@/types/Game"
+import Link from "next/link"
 
 type Props = {
-    favouriteGames: Game[]
+    favouriteGames: Game[],
+    canEdit: boolean
 }
 
-export default async function FavouriteGames({ favouriteGames }: Props) {
+export default async function FavouriteGames({ favouriteGames, canEdit }: Props) {
     return (
         <>
             <section className="grid grid-cols-5 gap-2 px-1">
@@ -24,31 +25,31 @@ export default async function FavouriteGames({ favouriteGames }: Props) {
             </section>
             {favouriteGames.length === 0 && (
                 <section className="grid grid-cols-5 gap-2 px-1">
-                    <Link href={`/browseGames`} className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
+                    <div className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
                         <div className="flex flex-col text-center text-gray-400">
                             <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-8 h-8" />
                         </div>
-                    </Link>
-                    <Link href={`/browseGames`}  className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
+                    </div>
+                    <div className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
                         <div className="flex flex-col text-center text-gray-400">
                             <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-8 h-8" />
                         </div>
-                    </Link>
-                    <Link href={`/browseGames`}  className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
+                    </div>
+                    <div className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
                         <div className="flex flex-col text-center text-gray-400">
                             <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-8 h-8" />
                         </div>
-                    </Link>
-                    <Link href={`/browseGames`}  className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
+                    </div>
+                    <div className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
                         <div className="flex flex-col text-center text-gray-400">
                             <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-8 h-8" />
                         </div>
-                    </Link>
-                    <Link href={`/browseGames`}  className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
+                    </div>
+                    <div className='w-full h-26 md:h-36 flex items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
                         <div className="flex flex-col text-center text-gray-400">
                             <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-8 h-8" />
                         </div>
-                    </Link>
+                    </div>
                 </section>
             )}
         </>
