@@ -44,7 +44,7 @@ export default async function Profile({ params }: { params: { userName: string }
     userTotalReviews = await getUserTotalReviews(params.userName)
     userReviews = await getUserGameReviews(params.userName)
     favouriteGames = await getUserFavouriteGames(params.userName)
-    userActivity = await getUserActivity(params.userName)
+    userActivity = (await getUserActivity(params.userName)).slice(0, 5)
     userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0, 3) // We show only the top 3 featured lists
 
     return (
@@ -55,13 +55,13 @@ export default async function Profile({ params }: { params: { userName: string }
                         <div className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-4 lg:flex-row">
                             <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 border border-gray-600 bg-zinc-900 rounded-lg" >
                                 {/* Profile - widget */}
-                                <div className="relative h-48 md:h-70 z-10">
+                                <div className="relative h-38 md:h-70 z-10">
                                     <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-gray-600 sm:w-full sm:h-62" />
-                                    <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0">
+                                    <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-5">
                                         <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
                                     </div>
                                 </div>
-                                <div className="flex flex-col sm:flex-row px-5 py-6">
+                                <div className="flex flex-col sm:flex-row px-5 py-4">
                                     <div className="flex flex-col space-y-2 sm:items-center text-sm xl:px-4">
                                         <p className="text-4xl font-bold">{item.user_name.slice(0, 10)}</p>
                                         <p className="text-gray-400">Joined {item.user_creationdate.toISOString().split('T')[0]}</p>
@@ -164,9 +164,9 @@ export default async function Profile({ params }: { params: { userName: string }
                             </div>
                         </div>
 
-                        <div className="flex flex-col md:flex-row w-full">
+                        <div className="flex flex-col md:flex-row md:space-x-4 w-full">
                             {/* Fav games */}
-                            <div className="flex flex-col sm:w-1/2 pl-1">
+                            <div className="flex flex-col sm:w-1/2">
                                 <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
                                     <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
                                     Favourite games</p>
@@ -175,21 +175,19 @@ export default async function Profile({ params }: { params: { userName: string }
 
 
                             {/* Activity */}
-                            <div className="flex flex-col sm:w-1/2 pl-1">
+                            <div className="flex flex-col sm:w-1/2">
                                 <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
                                     <img src="/staticImages/icon_activity_gray.png" alt="Activity icon" className="w-4 h-4 mr-1" />
                                     Activity</p>
-                                {userActivity.length > 0 && (
-                                    <div className="h-37 overflow-y-scroll no-scrollbar">
+                                    <div className="sm:h-37 overflow-y-scroll no-scrollbar">
                                         <ActivityWidget userActivity={userActivity} />
                                     </div>
-                                )}
                             </div>
                         </div>
 
 
                         {/* Featured lists */}
-                        <p className="flex items-center mt-4 mb-1 text-base text-zinc-400 pl-1">
+                        <p className="flex items-center mt-4 mb-1 text-base text-zinc-400">
                             <img src="/staticImages/icon_list.png" alt="List icon" className="w-5 h-5 mr-1" />
                             Featured lists</p>
                         <div className="grid md:grid-cols-3 gap-2 ">
