@@ -44,16 +44,11 @@ export default function NavbarProfileButton({ avatarImage }: any) {
 
             {dropdown && <div className="flex flex-col absolute bg-zinc-900/90 backdrop-blur-lg text-sm w-44 text-gray-200 
                 border border-green-500 rounded rounded-lg top-12 md:top-10 space-y-2 z-40 right-4 p-4">
-                <div className="flex items-center mb-3">
+                <Link href={`/profile/${userName}`} className="flex items-center mb-3">
                     <div className="sm:left-0 w-10 h-10 border border-gray-600 rounded-full overflow-hidden">
                         <img src={`/avatarImages/${avatarImage}`} className="h-full w-full object-cover" alt="Avatar image" />
                     </div>
-                    <b className="ml-2">{userName.slice(0,10)}</b>
-                </div>
-
-                <Link href={`/profile/${userName}`} className="flex items-center hover:text-green-400">
-                    <svg className="mr-1" width="18px" height="18px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 7C9.65685 7 11 5.65685 11 4C11 2.34315 9.65685 1 8 1C6.34315 1 5 2.34315 5 4C5 5.65685 6.34315 7 8 7Z" fill="#ffffff"></path> <path d="M14 12C14 10.3431 12.6569 9 11 9H5C3.34315 9 2 10.3431 2 12V15H14V12Z" fill="#ffffff"></path> </g></svg>
-                    My profile
+                    <b className="ml-2 hover:text-green-400">{userName.slice(0,10)}</b>
                 </Link>
                 <Link href="/mygames" className="flex items-center hover:text-green-400">
                     <svg className="mr-1" width="17px" height="16px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M0 13L3 14L6 11H10L13 14L16 13L15.248 4.7284C15.1076 3.18316 13.812 2 12.2604 2H3.73964C2.18803 2 0.89244 3.18316 0.751964 4.72839L0 13ZM12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6ZM12 8C12 8.55228 11.5523 9 11 9C10.4477 9 10 8.55228 10 8C10 7.44772 10.4477 7 11 7C11.5523 7 12 7.44772 12 8ZM5 8C6.10457 8 7 7.10457 7 6C7 4.89543 6.10457 4 5 4C3.89543 4 3 4.89543 3 6C3 7.10457 3.89543 8 5 8Z" fill="#ffffff"></path> </g></svg>
