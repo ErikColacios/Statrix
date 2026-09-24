@@ -16,7 +16,7 @@ export default function ImportSteamGames() {
         const userInfo = await getUserInfo(session.user.name)
 
         if (userInfo.length === 0) {
-          console.error("User info not found");
+          //console.error("User info not found");
           return;
         }
         setUserInfo(userInfo)
@@ -24,7 +24,7 @@ export default function ImportSteamGames() {
         const steamGames = await fetchSteamLibrary(userInfo[0].user_steam_id)
 
         if (steamGames) {
-          console.log(steamGames)
+          //console.log(steamGames)
           setSteamGames(steamGames)
         } else {
           console.error("No Steam games found for the user.");
