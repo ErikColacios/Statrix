@@ -11,9 +11,13 @@ import { useFormState } from "react-dom";
 import { signIn } from "next-auth/react";
 import updateUserAvatar from "@/actions/updateUserAvatar";
 import updateUserBanner from "@/actions/updateUserBanner";
+import { fetchSteamLibrary } from "@/actions/fetchSteamLibrary";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Settings() {
 
+    const router = useRouter()
     const [userInfo, setUserInfo] = useState<any[]>([])
     const [state, formAction] = useFormState<any, FormData>(handleUpdateUser, undefined)
     const [chooseMode, setChooseMode] = useState<"avatar" | "banner" | "deleteUser">("avatar")
@@ -33,6 +37,11 @@ export default function Settings() {
         }
         getUserInfoSession()
     }, [])
+
+    async function handleConnectSteam() {
+        // Redirect the user to the Steam login page
+        router.push("/api/steam/login");
+    }
 
     async function handleUpdateUser(prevState: any, formData: FormData) {
         // In case this is a Google user
@@ -75,7 +84,7 @@ export default function Settings() {
                         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        <Dialog.Content className={`fixed w-full p-2 md:w-4/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                        <Dialog.Content className={`fixed w-full p-2 md:w-4/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl
                         data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                             <SettingsModals chooseMode={chooseMode} selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar} selectedBanner={selectedBanner} setSelectedBanner={setSelectedBanner} />
                         </Dialog.Content>
@@ -119,23 +128,32 @@ export default function Settings() {
                                 <h3 className="text-xl font-bold text-gray-400 mt-4">Social links</h3>
                                 <div className="flex items-center space-x-2 text-lg">
                                     <img src="/staticImages/icon_steam_gray.png" alt="Steam icon" className="w-8 h-8" />
-                                    <p className="hidden sm:flex w-32 text-lg text-gray-400">Steam</p>
-                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam} placeholder="steamcommunity.com/id/yourSteamProfile" />
+                                    <p className="hidden sm:flex w-26 text-lg text-gray-400">Steam</p>
+                                    <input type="text" name="userSteam" maxLength={50} className="w-1/3 p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam_url} placeholder="steamcommunity.com/id/yourSteamProfile" />
+
+                                    {/* Connect Steam account */}
+                                    {!userInfo[0].user_steam_id && (
+                                        <button onClick={handleConnectSteam} className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Connect</button>
+                                    )}
+                                    {/* Import Steam games */}
+                                    {userInfo[0].user_steam_id && (
+                                        <Link href="/importSteamGames" className="rounded-sm text-gray-400 border border-green-400 px-2 py-1 transition hover:text-white hover:bg-green-900/70">Import games</Link>
+                                    )}
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_twitch_gray.png" alt="Twitch icon" className="w-8 h-8" />
                                     <p className="hidden sm:flex w-32 text-lg text-gray-400">Twitch</p>
-                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} placeholder="twitch.tv/yourTwitchChannel"/>
+                                    <input type="text" name="userTwitch" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_twitch} placeholder="twitch.tv/yourTwitchChannel" />
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_x_gray.png" alt="X icon" className="w-8 h-8" />
                                     <p className="hidden sm:flex w-32 text-lg text-gray-400">X Account</p>
-                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_x} placeholder="x.com/your-X-user"/>
+                                    <input type="text" name="userX" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_x} placeholder="x.com/your-X-user" />
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_web_gray.png" alt="Web icon" className="w-8 h-8" />
                                     <p className="hidden sm:flex w-32 text-lg text-gray-400">Web Page</p>
-                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} placeholder="your-site.com"/>
+                                    <input type="text" name="userWebpage" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_webpage} placeholder="your-site.com" />
                                 </div>
                                 <div className="mt-6">
                                     <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>

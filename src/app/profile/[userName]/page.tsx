@@ -78,8 +78,8 @@ export default async function Profile({ params }: { params: { userName: string }
                                                     <b><a className="hover:text-green-500 ml-1" href={"https://" + item.user_webpage} target="_blank" rel="noopener noreferrer">{item.user_webpage}</a></b>
                                                 </div>
                                             )}
-                                            {item.user_steam && (
-                                                <a className="" href={item.user_steam} target="_blank" rel="noopener noreferrer">
+                                            {item.user_steam_url && (
+                                                <a className="" href={item.user_steam_url} target="_blank" rel="noopener noreferrer">
                                                     <img src="/staticImages/icon_steam.png" alt="Steam icon" className="w-4 h-4" />
                                                 </a>
                                             )}

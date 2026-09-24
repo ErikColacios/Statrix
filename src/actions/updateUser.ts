@@ -25,7 +25,7 @@ export default async function updateUser(prevState: any, formData: FormData) {
                  user_email = $3,
                  user_location = $4,
                  user_webpage = $5,
-                 user_steam = $6,
+                 user_steam_url = $6,
                  user_twitch = $7,
                  user_x = $8
              WHERE user_id = $9`,
