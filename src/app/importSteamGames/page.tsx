@@ -13,7 +13,7 @@ export default function ImportSteamGames() {
   const [userInfo, setUserInfo] = useState<any[]>([])
   const [steamGames, setSteamGames] = useState<any[]>([])
 
-  const [importing, setImporting] = useState(false)
+  const [stopImporting, setStopImporting] = useState<boolean>(false)
   const [importedGames, setImportedGames] = useState<number>(0)
   const [notFoundGames, setNotFoundGames] = useState<string[]>([])
 

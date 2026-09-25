@@ -1,6 +1,5 @@
 'use client'
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React from 'react';
 import { Dialog } from 'radix-ui';
 import LoadingAnimation from './LoadingAnimation';
 import insertSteamGames from '@/actions/insertSteamGames';
@@ -11,7 +10,6 @@ export default function ImportSteamGamesModal({ importedGames, setImportedGames,
         setImportedGames(0)
         setNotFoundGames([])
         const res = await insertSteamGames(steamGames)
-        //console.log(res)
 
         if (res?.success === false) {
             setNotFoundGames(res?.notFoundGames || [])
@@ -47,7 +45,6 @@ export default function ImportSteamGamesModal({ importedGames, setImportedGames,
                             ))}
                         </ul>
                     </div>
-
                 )}
             </div>
             <div className='flex space-x-2 ml-auto'>

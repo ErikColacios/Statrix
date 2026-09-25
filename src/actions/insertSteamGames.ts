@@ -5,6 +5,7 @@ import getGameInfoByNameIGDB from "./getGameInfoByNameIGDB";
 import { GameIGDB } from "@/types/GameIGDB";
 import { GameStatus } from "@/enums/GameStatus";
 
+
 export default async function insertSteamGames(steamGames: any[]) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
@@ -17,8 +18,8 @@ export default async function insertSteamGames(steamGames: any[]) {
     let notFoundGames: string[] = [];
     let importedGames: number = 0;
 
-    for (const game of steamGames) {
 
+    for (const game of steamGames) {
       // For each Steam game, we match the info with the IGDB api to insert it to the database.
       const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(game.name);
 
@@ -55,7 +56,7 @@ export default async function insertSteamGames(steamGames: any[]) {
         success: false,
         message: "There was an error inserting Steam games.",
         notFoundGames: notFoundGames,
-        importedGames: importedGames
+        importedGames: importedGames,
       };
     }
   } catch (error) {
@@ -64,7 +65,7 @@ export default async function insertSteamGames(steamGames: any[]) {
       success: false,
       message: "There was an error inserting Steam games.",
       notFoundGames: [],
-      importedGames: 0
+      importedGames: 0,
     };
   }
 }
