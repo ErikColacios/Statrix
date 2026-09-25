@@ -1,19 +1,18 @@
 "use client"
 import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Dialog } from 'radix-ui';
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import { signIn } from "next-auth/react";
 import getUserInfo from "@/actions/getUserInfo";
 import updateUser from "@/actions/updateUser";
 import SettingsModals from "@/components/SettingsModals";
 import PrimaryButton from "@/components/PrimaryButton";
 import getSessionUser from "@/actions/getSessionUser";
-import { Dialog } from 'radix-ui';
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { signIn } from "next-auth/react";
 import updateUserAvatar from "@/actions/updateUserAvatar";
 import updateUserBanner from "@/actions/updateUserBanner";
-import { fetchSteamLibrary } from "@/actions/fetchSteamLibrary";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export default function Settings() {
 
@@ -128,8 +127,8 @@ export default function Settings() {
                                 <h3 className="text-xl font-bold text-gray-400 mt-4">Social links</h3>
                                 <div className="flex items-center space-x-2 text-lg">
                                     <img src="/staticImages/icon_steam_gray.png" alt="Steam icon" className="w-8 h-8" />
-                                    <p className="hidden sm:flex w-26 text-lg text-gray-400">Steam</p>
-                                    <input type="text" name="userSteam" maxLength={50} className="w-1/3 p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam_url} placeholder="steamcommunity.com/id/yourSteamProfile" />
+                                    <p className="hidden sm:flex w-36 text-gray-400">Steam</p>
+                                    <input type="text" name="userSteam" maxLength={50} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_steam_url} placeholder="steamcommunity.com/id/yourSteamProfile" />
 
                                     {/* Connect Steam account */}
                                     {!userInfo[0].user_steam_id && (
@@ -137,7 +136,7 @@ export default function Settings() {
                                     )}
                                     {/* Import Steam games */}
                                     {userInfo[0].user_steam_id && (
-                                        <Link href="/importSteamGames" className="rounded-sm text-gray-400 border border-green-400 px-2 py-1 transition hover:text-white hover:bg-green-900/70">Import games</Link>
+                                        <Link href="/importSteamGames" className="rounded-sm text-base text-lime-300 border border-green-400 px-2 py-1 transition  hover:bg-green-900/70">Import</Link>
                                     )}
                                 </div>
                                 <div className="flex items-center space-x-2">

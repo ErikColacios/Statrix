@@ -2,28 +2,63 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Dialog } from 'radix-ui';
-import { getListInfo } from '@/actions/getListInfo';
-import { useSession } from 'next-auth/react';
-import updateListInfo from '@/actions/updateListInfo';
-import { useRouter } from "next/navigation";
+import LoadingAnimation from './LoadingAnimation';
+import insertSteamGames from '@/actions/insertSteamGames';
 
-export default function ImportSteamGamesModal() {
+export default function ImportSteamGamesModal({ importedGames, setImportedGames, notFoundGames, setNotFoundGames, steamGames }: { importedGames: number, setImportedGames: any, notFoundGames: string[], setNotFoundGames: any, steamGames: any[] }) {
 
-    const router = useRouter()
-    const session: any = useSession();
-    const userId: string = session?.data?.user?.id as string;
-    const [error, setError] = useState<string | null>(null)
+    async function handleRetryImportGames() {
+        setImportedGames(0)
+        setNotFoundGames([])
+        const res = await insertSteamGames(steamGames)
+        console.log(res)
 
+        if (res?.success === false) {
+            setNotFoundGames(res?.notFoundGames || [])
+        }
+        setImportedGames(res?.importedGames || 0)
+    }
 
     return (
-        <div className="w-full h-full sm:h-160 flex flex-col justify-center sm:border sm:border-gray-600 px-4 py-10 md:px-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
-            <Dialog.Close className="absolute right-5 top-20 sm:right-10 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800">
-                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
-            </Dialog.Close>
-            <p className="text-3xl pt-8">Edit list info</p>
+        <div className="w-full h-full flex flex-col justify-center sm:border sm:border-gray-600 px-4 py-8 md:px-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
+            {importedGames === 0 && (
+                <div className='flex flex-col'>
+                    <h3 className="text-3xl font-bold mb-4">Importing ...</h3>
+                    <p className="text-gray-400 mb-8">Please wait. This may take a few minutes, depending on the amount of games to be imported.</p>
+                    <LoadingAnimation />
+                </div>
+            )}
+            {notFoundGames.length > 0 && (
+                <h3 className="text-3xl font-bold">Imported with errors</h3>
+            )}
 
-            <div>
-                Importing games...
+            <div className="flex flex-col w-full mt-4">
+                {importedGames !== 0 && (
+                    <div className="cardReviewGreen rounded-xl p-3 mb-4">
+                        <p className="text-green-400">{importedGames} games imported successfully.</p>
+                    </div>
+                )}
+                {notFoundGames.length > 0 && (
+                    <div className="cardReviewRed rounded-xl flex flex-col mt-4 p-3 overflow-scroll no-scrollbar max-h-96 mb-4">
+                        <p>Unable to import {notFoundGames.length} games</p>
+                        <ul className="text-red-500 text-sm mt-2">
+                            {notFoundGames.map((game, index) => (
+                                <li key={index}>{game}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                )}
+            </div>
+            <div className='flex space-x-2 ml-auto'>
+                {notFoundGames.length > 0 && (
+                    <button onClick={handleRetryImportGames} className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
+                        <p>Import again</p>
+                    </button>
+                )}
+                <Dialog.Close className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
+                    <p>Cancel</p>
+                </Dialog.Close>
             </div>
         </div>
     )
