@@ -14,7 +14,7 @@ export default function getGameInfoByNameIGDB(gameName: string) {
       "Access-Control-Allow-Origin": `${baseUrl}`,
     },
     body: `fields id, name, cover.image_id;
-     limit 1; where cover != null & cover.image_id !=null & involved_companies !=null & name="${gameName}";`,
+     limit 1; where cover != null & cover.image_id !=null & involved_companies !=null & name ~"${gameName}";`,
   })
     .then((response) => {
       return response.json();

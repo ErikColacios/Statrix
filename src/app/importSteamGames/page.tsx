@@ -32,7 +32,6 @@ export default function ImportSteamGames() {
         const steamGames = await fetchSteamLibrary(userInfo[0].user_steam_id)
 
         if (steamGames) {
-          //console.log(steamGames)
           setSteamGames(steamGames)
         }
 
@@ -44,11 +43,9 @@ export default function ImportSteamGames() {
   }, [])
 
   async function handleImportAllGames() {
-    //setImporting(true)
 
     if (importedGames === 0) {
       const res = await insertSteamGames(steamGames)
-      console.log(res)
       if (res?.success === false) {
         setNotFoundGames(res?.notFoundGames || [])
       }
@@ -100,7 +97,6 @@ export default function ImportSteamGames() {
                 </div>
               ))}
             </div>
-
           </div>
         </section>
       </Dialog.Root>

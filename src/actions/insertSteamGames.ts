@@ -10,7 +10,6 @@ export default async function insertSteamGames(steamGames: any[]) {
   const userId: string = session.user.id as string;
 
   if (!userId) {
-    console.warn("No user session found.");
     return { success: false, message: "No user session found." };
   }
 
@@ -22,7 +21,6 @@ export default async function insertSteamGames(steamGames: any[]) {
 
       // For each Steam game, we match the info with the IGDB api to insert it to the database.
       const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(game.name);
-      console.log(game.name, gameIGDB?.id);
 
       if (gameIGDB && gameIGDB.cover && gameIGDB.cover.image_id) {
         const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameIGDB.cover.image_id}.png`;
@@ -47,7 +45,7 @@ export default async function insertSteamGames(steamGames: any[]) {
         importedGames++;
       } else {
         notFoundGames.push(game.name);
-        console.warn(`Game "${game.name}" not found in IGDB or missing cover image.`);
+        //console.warn(`Game "${game.name}" not found in IGDB or missing cover image.`);
       }
     }
 

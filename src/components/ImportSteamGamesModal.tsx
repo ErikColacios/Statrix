@@ -11,7 +11,7 @@ export default function ImportSteamGamesModal({ importedGames, setImportedGames,
         setImportedGames(0)
         setNotFoundGames([])
         const res = await insertSteamGames(steamGames)
-        console.log(res)
+        //console.log(res)
 
         if (res?.success === false) {
             setNotFoundGames(res?.notFoundGames || [])
