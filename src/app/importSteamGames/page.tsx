@@ -46,6 +46,7 @@ export default function ImportSteamGames() {
 
     if (importedGames === 0) {
       const res = await insertSteamGames(steamGames)
+      console.log(res)
       if (res?.success === false) {
         setNotFoundGames(res?.notFoundGames || [])
       }
