@@ -17,7 +17,7 @@ export default async function insertSteamGames(steamGames: any[]) {
   try {
     let notFoundGames: string[] = [];
     let importedGames: number = 0;
-
+    const BATCH_SIZE = 10;
 
     for (const game of steamGames) {
       // For each Steam game, we match the info with the IGDB api to insert it to the database.
