@@ -22,7 +22,6 @@ export default async function getGameInfoByNameIGDB(gameName: string) {
 
     if (!response.ok) {
       console.log(`IGDB error: ${response.status} ${response.statusText}`)
-        //throw new Error(`IGDB error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();

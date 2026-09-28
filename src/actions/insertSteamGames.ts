@@ -6,24 +6,20 @@ import { GameIGDB } from "@/types/GameIGDB";
 import { GameStatus } from "@/enums/GameStatus";
 
 
-export default async function insertSteamGames(steamGames: any[]) {
+export default async function insertSteamGames(steamGame: any) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
+  let notFoundGame: boolean = false;
 
   if (!userId) {
     return { success: false, message: "No user session found." };
   }
 
   try {
-    let notFoundGames: string[] = [];
-    let importedGames: number = 0;
-    const BATCH_SIZE = 10;
-
-    for (let i=0; i < BATCH_SIZE; i++) {
       // For each Steam game, we match the info with the IGDB api to insert it to the database.
-      const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(steamGames[i].name);
+      const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(steamGame.name);
 
-      console.log(steamGames[i].name)
+      //console.log(steamGame.name)
       if (gameIGDB && gameIGDB.cover && gameIGDB.cover.image_id) {
         const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameIGDB.cover.image_id}.png`;
 
@@ -43,28 +39,21 @@ export default async function insertSteamGames(steamGames: any[]) {
             GameStatus.PLAYING,
           ],
         );
-
-        importedGames++;
       } else {
-        notFoundGames.push(steamGames[i].name);
-        console.warn(`Game "${steamGames[i].name}" not found in IGDB or missing cover image.`);
+        notFoundGame = true
+        console.warn(`${steamGame.name} not found in IGDB or missing cover image.`);
       }
-    }
 
     // In the end we return the games that were not found in IGDB
-    if (notFoundGames.length > 0) {
+    if (notFoundGame) {
       return {
         success: false,
-        message: "There was an error inserting Steam games.",
-        notFoundGames: notFoundGames,
-        importedGames: importedGames,
+        message: `${steamGame.name} not found in IGDB.`
       };
     } else {
       return {
         success: true,
-        message: "All games imported successfully.",
-        notFoundGames: notFoundGames,
-        importedGames: importedGames,
+        message:`${steamGame.name} imported successfully..`
       };
     }
   } catch (error) {
@@ -72,8 +61,6 @@ export default async function insertSteamGames(steamGames: any[]) {
     return {
       success: false,
       message: "There was an error inserting Steam games.",
-      notFoundGames: [],
-      importedGames: 0,
     };
   }
 }

@@ -14,6 +14,7 @@ export default function ImportSteamGames() {
   const [steamGames, setSteamGames] = useState<any[]>([])
 
   const [stopImporting, setStopImporting] = useState<boolean>(false)
+  const [gamesCount, setGamesCount] = useState<number>(0)
   const [importedGames, setImportedGames] = useState<number>(0)
   const [notFoundGames, setNotFoundGames] = useState<string[]>([])
 
@@ -45,12 +46,21 @@ export default function ImportSteamGames() {
   async function handleImportAllGames() {
 
     if (importedGames === 0) {
-      const res = await insertSteamGames(steamGames)
-      console.log(res)
-      if (res?.success === false) {
-        setNotFoundGames(res?.notFoundGames || [])
+      let gamesCount: number = 1
+      let importedGamesCount: number = importedGames
+
+      for (const game of steamGames) {
+        
+        const res = await insertSteamGames(game)
+        //console.log(res)
+        if (res?.success === false) {
+          setNotFoundGames(prev => [...prev, game.name])
+        } else {
+          importedGamesCount++
+          setImportedGames(importedGamesCount)
+        }
+        setGamesCount(gamesCount++)
       }
-      setImportedGames(res?.importedGames || 0)
     }
   }
 
@@ -64,7 +74,7 @@ export default function ImportSteamGames() {
               data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
             <Dialog.Title className="DialogTitle"></Dialog.Title>
             <Dialog.Description className="DialogDescription"></Dialog.Description>
-            <ImportSteamGamesModal importedGames={importedGames} setImportedGames={setImportedGames} notFoundGames={notFoundGames} setNotFoundGames={setNotFoundGames} steamGames={steamGames} />
+            <ImportSteamGamesModal importedGames={importedGames} setImportedGames={setImportedGames} notFoundGames={notFoundGames} setNotFoundGames={setNotFoundGames} steamGames={steamGames} gamesCount={gamesCount} />
           </Dialog.Content>
         </Dialog.Portal>
         <section className='flex w-full justify-center items-center text-white text-sm py-20'>
