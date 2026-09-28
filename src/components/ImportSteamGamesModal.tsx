@@ -4,28 +4,40 @@ import { Dialog } from 'radix-ui';
 import LoadingAnimation from './LoadingAnimation';
 import insertSteamGames from '@/actions/insertSteamGames';
 
-export default function ImportSteamGamesModal({ importedGames, setImportedGames, notFoundGames, setNotFoundGames, steamGames, gamesCount }: { importedGames: number, setImportedGames: any, notFoundGames: string[], setNotFoundGames: any, steamGames: any[], gamesCount: number }) {
+export default function ImportSteamGamesModal({ importedGames, setImportedGames, notFoundGames, setNotFoundGames, steamGames, gamesCount, setGamesCount, stopImportingRef }: { importedGames: number, setImportedGames: any, notFoundGames: string[], setNotFoundGames: any, steamGames: any[], gamesCount: number, setGamesCount: any, stopImportingRef: React.MutableRefObject<boolean> }) {
 
     async function handleRetryImportGames() {
         setImportedGames(0)
         setNotFoundGames([])
-        const res = await insertSteamGames(steamGames)
+        setGamesCount(0)
+        stopImportingRef.current = false
+        let gamesCount: number = 1
+        let importedGamesCount: number = importedGames
 
-        // if (res?.success === false) {
-        //     setNotFoundGames(res?.notFoundGames || [])
-        // }
-        // setImportedGames(res?.importedGames || 0)
+        for (const game of steamGames) {
+            if (stopImportingRef.current) {
+                console.log("Steam import cancelled")
+                break;
+            }
+            const res = await insertSteamGames(game)
+            if (res?.success === false) {
+                setNotFoundGames((prev: any) => [...prev, game.name])
+            } else {
+                importedGamesCount++
+                setImportedGames(importedGamesCount)
+            }
+            setGamesCount(gamesCount++)
+        }
     }
 
     return (
         <div className="w-full h-full flex flex-col justify-center sm:border sm:border-gray-600 px-4 py-8 md:px-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
-
             {gamesCount !== steamGames.length && (
                 <div className='flex flex-col'>
                     <h3 className="text-3xl font-bold mb-4">Importing ...</h3>
-                    <p className="text-gray-400 mb-8">Please wait. This may take a few minutes, depending on the amount of games to be imported.</p>
-                    <LoadingAnimation />
+                    <p className="text-gray-400 mb-4">Please wait. This may take a few minutes, depending on the amount of games to be imported.</p>
                     <p>{gamesCount} / {steamGames.length}</p>
+                    <LoadingAnimation />
                 </div>
             )}
 
@@ -51,14 +63,13 @@ export default function ImportSteamGamesModal({ importedGames, setImportedGames,
                 )}
             </div>
 
-
             <div className='flex space-x-2 ml-auto'>
-                {notFoundGames.length > 0 && (
+                {notFoundGames.length > 0 && gamesCount === steamGames.length && (
                     <button onClick={handleRetryImportGames} className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
                         <p>Import again</p>
                     </button>
                 )}
-                <Dialog.Close className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
+                <Dialog.Close onClick={() => stopImportingRef.current = true} className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
                     <p>Cancel</p>
                 </Dialog.Close>
             </div>

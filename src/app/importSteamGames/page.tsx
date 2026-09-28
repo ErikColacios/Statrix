@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
 import { fetchSteamLibrary } from "@/actions/fetchSteamLibrary";
 import getSessionUser from "@/actions/getSessionUser";
@@ -12,8 +12,8 @@ export default function ImportSteamGames() {
 
   const [userInfo, setUserInfo] = useState<any[]>([])
   const [steamGames, setSteamGames] = useState<any[]>([])
+  const stopImportingRef = useRef(false)
 
-  const [stopImporting, setStopImporting] = useState<boolean>(false)
   const [gamesCount, setGamesCount] = useState<number>(0)
   const [importedGames, setImportedGames] = useState<number>(0)
   const [notFoundGames, setNotFoundGames] = useState<string[]>([])
@@ -35,7 +35,6 @@ export default function ImportSteamGames() {
         if (steamGames) {
           setSteamGames(steamGames)
         }
-
       } catch (error) {
         console.error("Error fetching Steam games:", error)
       }
@@ -44,23 +43,22 @@ export default function ImportSteamGames() {
   }, [])
 
   async function handleImportAllGames() {
+    let gamesCount: number = 1
+    let importedGamesCount: number = importedGames
 
-    if (importedGames === 0) {
-      let gamesCount: number = 1
-      let importedGamesCount: number = importedGames
-
-      for (const game of steamGames) {
-        
-        const res = await insertSteamGames(game)
-        //console.log(res)
-        if (res?.success === false) {
-          setNotFoundGames(prev => [...prev, game.name])
-        } else {
-          importedGamesCount++
-          setImportedGames(importedGamesCount)
-        }
-        setGamesCount(gamesCount++)
+    for (const game of steamGames) {
+      if (stopImportingRef.current) {
+        console.log("Import cancelled")
+        break;
       }
+      const res = await insertSteamGames(game)
+      if (res?.success === false) {
+        setNotFoundGames(prev => [...prev, game.name])
+      } else {
+        importedGamesCount++
+        setImportedGames(importedGamesCount)
+      }
+      setGamesCount(gamesCount++)
     }
   }
 
@@ -74,7 +72,7 @@ export default function ImportSteamGames() {
               data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
             <Dialog.Title className="DialogTitle"></Dialog.Title>
             <Dialog.Description className="DialogDescription"></Dialog.Description>
-            <ImportSteamGamesModal importedGames={importedGames} setImportedGames={setImportedGames} notFoundGames={notFoundGames} setNotFoundGames={setNotFoundGames} steamGames={steamGames} gamesCount={gamesCount} />
+            <ImportSteamGamesModal importedGames={importedGames} setImportedGames={setImportedGames} notFoundGames={notFoundGames} setNotFoundGames={setNotFoundGames} steamGames={steamGames} gamesCount={gamesCount} setGamesCount={setGamesCount} stopImportingRef={stopImportingRef} />
           </Dialog.Content>
         </Dialog.Portal>
         <section className='flex w-full justify-center items-center text-white text-sm py-20'>

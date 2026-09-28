@@ -5,7 +5,6 @@ import getGameInfoByNameIGDB from "./getGameInfoByNameIGDB";
 import { GameIGDB } from "@/types/GameIGDB";
 import { GameStatus } from "@/enums/GameStatus";
 
-
 export default async function insertSteamGames(steamGame: any) {
   const session: any = await getSessionUser();
   const userId: string = session.user.id as string;
@@ -18,7 +17,7 @@ export default async function insertSteamGames(steamGame: any) {
   try {
       // For each Steam game, we match the info with the IGDB api to insert it to the database.
       const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(steamGame.name);
-
+      
       //console.log(steamGame.name)
       if (gameIGDB && gameIGDB.cover && gameIGDB.cover.image_id) {
         const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameIGDB.cover.image_id}.png`;
@@ -41,7 +40,7 @@ export default async function insertSteamGames(steamGame: any) {
         );
       } else {
         notFoundGame = true
-        console.warn(`${steamGame.name} not found in IGDB or missing cover image.`);
+        //console.warn(`${steamGame.name} not found in IGDB or missing cover image.`);
       }
 
     // In the end we return the games that were not found in IGDB
@@ -51,9 +50,10 @@ export default async function insertSteamGames(steamGame: any) {
         message: `${steamGame.name} not found in IGDB.`
       };
     } else {
+      //console.log(`${steamGame.name} imported successfully.`)
       return {
         success: true,
-        message:`${steamGame.name} imported successfully..`
+        message:`${steamGame.name} imported successfully.`
       };
     }
   } catch (error) {
