@@ -31,8 +31,8 @@ export default function ImportSteamGamesModal({ importedGames, setImportedGames,
             )}
 
             <div className="flex flex-col w-full mt-4">
-                {importedGames !== 0 && (
-                    <div className="cardReviewGreen rounded-xl p-3 mb-4">
+                {notFoundGames.length === 0 && (
+                    <div className="cardReviewGreen rounded-xl p-3 my-4">
                         <p className="text-green-400">{importedGames} games imported successfully.</p>
                     </div>
                 )}

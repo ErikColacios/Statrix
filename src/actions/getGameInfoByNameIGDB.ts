@@ -1,3 +1,4 @@
+"use server";
 export default async function getGameInfoByNameIGDB(gameName: string) {
     const clientId = process.env.CLIENT_ID;
     const bearer = process.env.BEARER;

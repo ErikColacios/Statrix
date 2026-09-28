@@ -19,11 +19,11 @@ export default async function insertSteamGames(steamGames: any[]) {
     let importedGames: number = 0;
     const BATCH_SIZE = 10;
 
-    for (const game of steamGames) {
+    for (let i=0; i < BATCH_SIZE; i++) {
       // For each Steam game, we match the info with the IGDB api to insert it to the database.
-      const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(game.name);
+      const gameIGDB: GameIGDB = await getGameInfoByNameIGDB(steamGames[i].name);
 
-      console.log(game.name)
+      console.log(steamGames[i].name)
       if (gameIGDB && gameIGDB.cover && gameIGDB.cover.image_id) {
         const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameIGDB.cover.image_id}.png`;
 
@@ -46,8 +46,8 @@ export default async function insertSteamGames(steamGames: any[]) {
 
         importedGames++;
       } else {
-        notFoundGames.push(game.name);
-        console.warn(`Game "${game.name}" not found in IGDB or missing cover image.`);
+        notFoundGames.push(steamGames[i].name);
+        console.warn(`Game "${steamGames[i].name}" not found in IGDB or missing cover image.`);
       }
     }
 
@@ -56,6 +56,13 @@ export default async function insertSteamGames(steamGames: any[]) {
       return {
         success: false,
         message: "There was an error inserting Steam games.",
+        notFoundGames: notFoundGames,
+        importedGames: importedGames,
+      };
+    } else {
+      return {
+        success: true,
+        message: "All games imported successfully.",
         notFoundGames: notFoundGames,
         importedGames: importedGames,
       };
