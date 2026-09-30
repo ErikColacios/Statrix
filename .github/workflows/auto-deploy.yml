@@ -21,7 +21,18 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
+            set -e
+
             cd /docker/Statrix
+
+            echo "Pulling latest code..."
             git pull origin main
+
+            echo "Stopping containers..."
             docker compose down
-            docker compose up --build
+
+            echo "Building and starting containers..."
+            docker compose up --build -d
+
+            echo "Checking containers..."
+            docker compose ps
