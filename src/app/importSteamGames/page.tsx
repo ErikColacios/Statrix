@@ -11,12 +11,13 @@ import Link from "next/link";
 export default function ImportSteamGames() {
 
   const [userInfo, setUserInfo] = useState<any[]>([])
-  const [steamGames, setSteamGames] = useState<any[]>([])
+  let [steamGames, setSteamGames] = useState<any[]>([])
   const stopImportingRef = useRef(false)
 
   const [gamesCount, setGamesCount] = useState<number>(0)
   const [importedGames, setImportedGames] = useState<number>(0)
   const [notFoundGames, setNotFoundGames] = useState<string[]>([])
+  const [selectedGames, setSelectedGames] = useState<any[]>([])
 
   useEffect(() => {
     const fetchSteamGames = async () => {
@@ -42,22 +43,36 @@ export default function ImportSteamGames() {
     fetchSteamGames()
   }, [])
 
-  async function handleImportAllGames() {
-    let gamesCount: number = 1
-    let importedGamesCount: number = importedGames
+  useEffect(() => {
 
-    for (const game of steamGames) {
+  }, [])
+
+
+  async function handleImportGames(importMode: string) {
+    let gamesCount = 1
+    let importedGamesCount = importedGames
+
+    const gamesToImport = importMode === "importAll" ? steamGames : selectedGames
+
+    if (importMode === "importAll") {
+      setSelectedGames(steamGames)
+    }
+
+    for (const game of gamesToImport) {
       if (stopImportingRef.current) {
         console.log("Import cancelled")
-        break;
+        break
       }
+
       const res = await insertSteamGames(game)
+
       if (res?.success === false) {
         setNotFoundGames(prev => [...prev, game.name])
       } else {
         importedGamesCount++
         setImportedGames(importedGamesCount)
       }
+
       setGamesCount(gamesCount++)
     }
   }
@@ -72,7 +87,7 @@ export default function ImportSteamGames() {
               data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
             <Dialog.Title className="DialogTitle"></Dialog.Title>
             <Dialog.Description className="DialogDescription"></Dialog.Description>
-            <ImportSteamGamesModal importedGames={importedGames} setImportedGames={setImportedGames} notFoundGames={notFoundGames} setNotFoundGames={setNotFoundGames} steamGames={steamGames} gamesCount={gamesCount} setGamesCount={setGamesCount} stopImportingRef={stopImportingRef} />
+            <ImportSteamGamesModal importedGames={importedGames} setImportedGames={setImportedGames} notFoundGames={notFoundGames} setNotFoundGames={setNotFoundGames} selectedGames={selectedGames} gamesCount={gamesCount} setGamesCount={setGamesCount} stopImportingRef={stopImportingRef} />
           </Dialog.Content>
         </Dialog.Portal>
         <section className='flex w-full justify-center items-center text-white text-sm py-20'>
@@ -91,18 +106,23 @@ export default function ImportSteamGames() {
                 <p className="text-yellow-400">No games found in your Steam library.</p>
               )}
               {steamGames.length > 0 && (
-                <div className="flex items-center space-x-2 mt-2">
+                <div className="flex items-center mt-2">
                   <p className="text-green-400">{steamGames.length} Steam games found.</p>
-                  <Dialog.Trigger onClick={handleImportAllGames} className="ml-auto rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Import all</Dialog.Trigger>
+                  <div className="ml-auto flex space-x-2">
+                    {selectedGames.length > 0 && <Dialog.Trigger onClick={() => handleImportGames("importSelected")} className="ml-auto flex justify-center px-3 py-1 rounded bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Import selected</Dialog.Trigger>}
+                    <Dialog.Trigger onClick={() => handleImportGames("importAll")} className="ml-auto rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">Import all</Dialog.Trigger>
+                  </div>
                 </div>
               )}
             </div>
 
             <div className="flex flex-col mt-4 space-y-4">
               {steamGames.map((game, index: number) => (
-                <div className="flex items-center" key={index}>
+                <div className="flex items-center hover:bg-zinc-900 px-2 py-2 rounded cursor-pointer" key={index}
+                  onClick={() => setSelectedGames((prev: any) => [...prev, game.name])}>
                   <img src={`https://media.steampowered.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`} className='w-8 rounded-xl' alt='Steam game icon' />
                   <p className="ml-4 text-xl">{game.name}</p>
+                  <button className={`ml-auto w-4 h-4 ml-4 rounded-full ${selectedGames.includes(game.name) ? 'bg-linear-to-r from-green-500 to-lime-500' : 'bg-white'}`}></button>
                 </div>
               ))}
             </div>

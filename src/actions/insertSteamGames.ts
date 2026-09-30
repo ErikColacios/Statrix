@@ -40,7 +40,7 @@ export default async function insertSteamGames(steamGame: any) {
         );
       } else {
         notFoundGame = true
-        //console.warn(`${steamGame.name} not found in IGDB or missing cover image.`);
+        console.warn(`${steamGame.name} not found in IGDB or missing cover image.`);
       }
 
     // In the end we return the games that were not found in IGDB
