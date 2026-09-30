@@ -72,7 +72,7 @@ export default function Settings() {
         updateUserAvatar(selectedAvatar.avatar_id, selectedAvatar.avatar_image)
         updateUserBanner(selectedBanner.banner_id, selectedBanner.banner_image)
 
-        return { success: "Settings updated succesfully!" }
+        return { success: "Settings updated!" }
     }
 
     return (
@@ -107,7 +107,15 @@ export default function Settings() {
                             </Dialog.Trigger>
 
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
-                                <button className="ml-auto w-64 text-white px-3 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Save changes</button>
+                                <div className="ml-auto flex items-center space-x-4">
+                                    <div className="text-sm">
+                                        {/* Error message */}
+                                        {state?.error && <p className='text-red-500'>{state.error}</p>}
+                                        {/* Success message */}
+                                        {state?.success && <p className='text-green-500'>{state.success}</p>}
+                                    </div>
+                                    <button className="text-sm text-white px-4 py-1 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Save changes</button>
+                                </div>
                                 <div>
                                     <p className="text-lg text-gray-400">User name</p>
                                     <input type="text" name="userName" maxLength={16} className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600" defaultValue={item.user_name} />
@@ -165,14 +173,6 @@ export default function Settings() {
                                     </Dialog.Trigger>
                                 </div>
 
-                                <div className="py-6 flex flex-col items-center">
-                                    <div className="text-lg h-8">
-                                        {/* Error message */}
-                                        {state?.error && <p className='text-red-500 mt-2'>{state.error}</p>}
-                                        {/* Success message */}
-                                        {state?.success && <p className='text-green-500 mt-2'>{state.success}</p>}
-                                    </div>
-                                </div>
                             </div>
                         </form>
                     </div>
