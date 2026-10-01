@@ -53,7 +53,7 @@ export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
 
     if (!userId) {
         return (
-            <div className="relative flex flex-col justify-center items-center text-center w-80 sm:w-full h-96 p-2 border border-gray-500 space-y-6 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+            <div className="relative flex flex-col justify-center items-center text-center w-80 sm:w-full h-96 p-2 border border-gray-600 space-y-6 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
                 <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded-sm transition hover:bg-gray-800" >
                     <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
                 </Dialog.Close>
@@ -64,7 +64,7 @@ export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
         )
     } else {
         return (
-            <div className="w-full md:w-200 flex flex-col border border-gray-500 space-y-8 px-4 py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
+            <div className="w-full h-full md:w-200 flex flex-col border border-gray-600 space-y-8 px-4 py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
                 {alert}
                 <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded-sm transition hover:bg-gray-800" >
                     <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
@@ -73,7 +73,7 @@ export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
                 <div className="flex flex-col md:flex-row items-center md:items-start md:pt-12">
                     <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${gameCover}.png`} alt="Game cover" className="w-36 lg:w-48 rounded-sm" />
                     <div className="flex flex-col w-full md:ml-8">
-                        <textarea id="reviewBody" className="w-full h-32 md:h-64 mt-4 sm:mt-0 bg-gray-800 border border-gray-500 rounded-sm focus:outline-hidden resize-none focus:border-green-500 p-2" placeholder="Your review"></textarea>
+                        <textarea id="reviewBody" className="w-full h-32 md:h-64 mt-4 sm:mt-0 bg-zinc-900 border border-gray-500 rounded-sm focus:outline-hidden resize-none focus:border-green-500 p-2" placeholder="Your review"></textarea>
                         <LikeDislikeButtons />
                     </div>
                 </div>

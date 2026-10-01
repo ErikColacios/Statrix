@@ -1,5 +1,4 @@
 'use server'
-
 import React from 'react'
 import getGameInfoIGDB from '@/actions/getGameInfoIGDB'
 import getGlobalUserVideogame from '@/actions/getGlobalUserVideogame'
@@ -143,19 +142,19 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                             <div className="grid grid-cols-2">
                                 <div className="p-4 border-b border-r border-white/10 last:border-r-0">
                                     <p className="text-xs text-gray-500 uppercase">Playing</p>
-                                    <p className="text-xl font-bold mt-1">{globalStats[0].globalPlaying ?? 0}</p>
+                                    <p className="text-xl font-bold mt-1">{globalStats.globalPlaying ?? 0}</p>
                                 </div>
                                 <div className="p-4 border-b border-r border-white/10 last:border-r-0">
                                     <p className="text-xs text-gray-500 uppercase">Completed</p>
-                                    <p className="text-xl font-bold mt-1">{globalStats[0].globalCompleted ?? 0}</p>
+                                    <p className="text-xl font-bold mt-1">{globalStats.globalCompleted ?? 0}</p>
                                 </div>
                                 <div className="p-4 border-b border-r border-white/10 last:border-r-0">
                                     <p className="text-xs text-gray-500 uppercase">Dropped</p>
-                                    <p className="text-xl font-bold mt-1">{globalStats[0].globalDropped ?? 0}</p>
+                                    <p className="text-xl font-bold mt-1">{globalStats.globalDropped ?? 0}</p>
                                 </div>
                                 <div className="p-4 border-b border-r border-white/10 last:border-r-0">
                                     <p className="text-xs text-gray-500 uppercase">Starred</p>
-                                    <p className="text-xl font-bold mt-1">{globalStats[0].globalFavourite ?? 0}</p>
+                                    <p className="text-xl font-bold mt-1">{globalStats.globalFavourite ?? 0}</p>
                                 </div>
                             </div>
                         </div>
