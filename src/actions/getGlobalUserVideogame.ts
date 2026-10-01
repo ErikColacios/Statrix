@@ -5,6 +5,7 @@ import { GameStatus } from "../enums/GameStatus";
 type GameGlobalStats = {
     globalPlaying:number,
     globalCompleted:number,
+    globalDropped:number,
     globalFavourite:number
 }
 
