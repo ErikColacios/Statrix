@@ -46,7 +46,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
 
                 {/* Hero content */}
                 <div className="relative max-w-6xl mx-auto px-4 pt-20 pb-12">
-                    <div className="flex flex-col md:flex-row gap-8 items-end">
+                    <div className="flex flex-col md:flex-row gap-8 items-start md:items-end">
                         {/* Cover */}
                         <div className="shrink-0">
                             <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`}
@@ -174,7 +174,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                 <section className="mt-16 pt-10 border-t border-white/10">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold">Reviews</h2>
-                        <p className="text-sm text-gray-500 mt-1">What the Statrix community thinks about {game.name}.</p>
+                        <p className="text-sm text-gray-500 mt-1">Check what the community thinks about {game.name}.</p>
                     </div>
                     <ReviewSection
                         gameReviews={gameReviews}

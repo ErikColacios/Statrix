@@ -94,7 +94,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
 
 
     return (
-        <section className='pt-6 py-14 md:pt-8'>
+        <section className='pt-6 py-14'>
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -112,16 +112,16 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                     </Dialog.Content>
                 </Dialog.Portal>
                 <div className='relative flex flex-col'>
-                    <div className="flex text-sm">
-                        <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular reviews</button>
-                        <button className={`pl-4 pt-1 pr-4 pb-1 transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.RECENT)}>Recent reviews</button>
+                    <div className="flex space-x-1 text-sm">
+                        <button className={`px-4 pt-1 pb-1 rounded transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.POPULAR)}>Popular</button>
+                        <button className={`px-4 pt-1 pb-1 rounded transition hover:bg-gray-600 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-zinc-900' : 'bg-transparent'}`} onClick={() => loadReviews(ReviewMode.RECENT)}>Recent</button>
                         <Dialog.Trigger onClick={() => setModalType("addReview")} className='ml-auto mb-2 rounded-sm px-2 py-1 bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300'>
                             + Add review
                         </Dialog.Trigger>
                     </div>
 
                 </div>
-                <div className='bg-zinc-900 p-4'>
+                <div className='pt-4'>
                     {reviews?.map((review: any, index: number) => (
                         <div className={`flex flex-col overflow-scroll no-scrollbar space-y-1 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border max-h-42
                             ${review.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
