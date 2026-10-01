@@ -2,7 +2,7 @@
 import { pool } from "@/util/postgres";
 import getSessionUser from "./getSessionUser";
 
-export default async function updateUserSteamId(steamId: string) {
+export default async function updateUserSteamId(steamId: string | null) {
     const session:any = await getSessionUser();
     const userId:string = session.user.id;
 
