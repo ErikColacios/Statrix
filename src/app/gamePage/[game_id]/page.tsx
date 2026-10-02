@@ -37,7 +37,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                         <img
                             src={`https://images.igdb.com/igdb/image/upload/t_1080p/${game.artworks[0].image_id}.jpg`}
                             alt="Artwork background"
-                            className="w-full h-full object-cover opacity-30"
+                            className="w-full h-full object-cover opacity-50"
                         />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black" />
