@@ -10,8 +10,8 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
     return (
         <div key={index}
             className={`flex flex-col space-y-2 min-h-36 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border 
-                            ${review.game_score > 7 ? ' cardReviewGreen shadow-green-500/30 border-green-600' : ''}
-                                            ${review.game_score >= 8 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700' : ''}
+                            ${review.game_score >= 8 ? ' cardReviewGreen shadow-green-500/30 border-green-600' : ''}
+                                            ${review.game_score >= 4 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700' : ''}
                                             ${review.game_score < 4 ? ' cardReviewRed shadow-rose-500/30 border-rose-700' : ''}
                                             ${review.game_score === 'NS' ? 'bg-zinc-900/80 shadow-zinc-500/30 border-gray-400' : ''}
                                             `}>
@@ -27,8 +27,8 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                     <div className="flex items-center space-x-2">
                         <p className="font-bold">{gameName}</p>
                         <p className={`flex justify-center items-center rounded-full w-8 h-8 font-bold border
-                                        ${review.game_score > 7 ? 'text-green-400 border-green-600' : ''}
-                                                ${review.game_score >= 8 ? 'text-yellow-400 border-yellow-700' : ''}
+                                        ${review.game_score >= 8 ? 'text-green-400 border-green-600' : ''}
+                                                ${review.game_score >= 4 ? 'text-yellow-400 border-yellow-700' : ''}
                                                 ${review.game_score < 4 ? 'text-rose-400 border-rose-700' : ''}
                                                 ${review.game_score === 'NS' ? 'text-gray-300 border-gray-400' : ''}
                                         `}>
