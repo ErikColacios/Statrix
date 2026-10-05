@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Dialog } from "radix-ui";
 import { useSession } from "next-auth/react";
 import { deleteReview } from "@/actions/deleteReview";
+import ReviewCard from "./ReviewCard";
 
 
 export default function DeleteReviewModal({ review, reviews, setReviews }: any) {
@@ -44,20 +45,7 @@ export default function DeleteReviewModal({ review, reviews, setReviews }: any) 
 
             <p>Are you sure you want to delete this review?</p>
 
-            <div className={`flex flex-col overflow-scroll no-scrollbar space-y-2 h-32 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border 
-                ${review.game_score > 7 ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} >
-                <div className='relative flex items-center text-white'>
-                    <div className="flex items-center hover:text-green-400 ml-1 cursor-pointer">
-                        <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                            <img src={`/avatarImages/${review.avatar_image}`} className="h-full w-full object-cover" alt="User avatar" />
-                        </div>
-                        {review.user_name}
-                    </div>
-                </div>
-                <div className='h-full'>
-                    <p>{review.body}</p>
-                </div>
-            </div>
+            <ReviewCard review={review} index={0} gameName={review.game_name} userId={userId} handleReviewActions={() => {}} openReviewId={null} handleLikeReview={() => { }} setModalType={() => { }} setReviewClicked={() => { }} />
 
             <div className="flex items-center space-x-8">
                 <button onClick={handleDeleteReview} className="text-md sm:text-lg border-green-500 text-green-400 cursor-pointer hover:bg-green-900/30 rounded-xl px-5 py-2 md:px-6 md:py-3">Delete</button>
