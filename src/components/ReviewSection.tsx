@@ -107,14 +107,12 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                     <div className="flex space-x-1 text-sm">
                         <button
                             className={`px-4 pt-1 pb-1 rounded transition hover:bg-zinc-900 ${reviewModeSelected === ReviewMode.POPULAR ? 'bg-zinc-900' : 'bg-transparent'}`}
-                            onClick={() => loadReviews(ReviewMode.POPULAR)}
-                        >
+                            onClick={() => loadReviews(ReviewMode.POPULAR)}>
                             Popular
                         </button>
                         <button
                             className={`px-4 pt-1 pb-1 rounded transition hover:bg-zinc-900 ${reviewModeSelected === ReviewMode.RECENT ? 'bg-zinc-900' : 'bg-transparent'}`}
-                            onClick={() => loadReviews(ReviewMode.RECENT)}
-                        >
+                            onClick={() => loadReviews(ReviewMode.RECENT)}>
                             Recent
                         </button>
                         <Dialog.Trigger

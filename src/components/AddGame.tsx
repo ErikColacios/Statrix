@@ -22,7 +22,7 @@ export default function AddGame({ game }: Props) {
     const [starred, setStarred] = useState<boolean>(false)
     const [hoursPlayed, setHoursPlayed] = useState<number | undefined>(undefined)
     const [yearCompleted, setYearCompleted] = useState<string>("-")
-    const [score, setScore] = useState<number>(0)
+    const [score, setScore] = useState<string>("NS")
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
     const [scoreColor, setScoreColor] = useState<string>("none")
@@ -65,7 +65,7 @@ export default function AddGame({ game }: Props) {
 
     useEffect(() => {
         if (userGameInfo !== undefined) {
-            setScore(userGameInfo?.score)
+            setScore(userGameInfo?.score?.toString())
             setSelectedStatus(userGameInfo?.status)
             setStarred(userGameInfo?.favourite)
             setHoursPlayed(userGameInfo?.hours_played)
@@ -100,7 +100,7 @@ export default function AddGame({ game }: Props) {
 
     async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
         const valueScore = parseFloat(e.target.value)
-        setScore(valueScore);
+        setScore(valueScore.toString());
 
         if (valueScore >= 8) {
             setScoreColor("green")
@@ -109,7 +109,8 @@ export default function AddGame({ game }: Props) {
         } else if (valueScore < 4) {
             setScoreColor("red")
         } else if (valueScore === 0) {
-            setScoreColor("none")
+            setScoreColor("NS")
+            setScore("NS")
         }
 
     }
@@ -197,9 +198,9 @@ export default function AddGame({ game }: Props) {
                                             ${scoreColor === "green" ? " text-green-600" : ""}
                                             ${scoreColor === "yellow" ? " text-yellow-600" : ""}
                                             ${scoreColor === "red" ? " text-rose-600" : ""}
-                                            ${scoreColor === "none" ? "" : ""}
+                                            ${scoreColor === "NS" ? " text-gray-400" : ""}
                                             `}>{score}</span>
-                            {score == 0 && <p className="group-hover:hidden absolute ml-28 sm:left-15 text-xs">Drag to rate</p>}
+                            {score === "NS" && <p className="group-hover:hidden absolute ml-28 sm:left-15 text-xs">Drag to rate</p>}
 
                             <input min="0" max="10" value={score} className="w-1/2 rangeSlider" type="range" onChange={handleScoreChange}></input>
                             {scoreColor === "green" && <p className="text-green-600 text-sm w-16">Excellent</p>}

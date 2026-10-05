@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react";
-import { Dialog } from "radix-ui";
 import Link from "next/link";
+import { Dialog } from "radix-ui";
 import { GameStatus } from "@/enums/GameStatus";
 import StarButton from "./StarButton";
 import getUserVideogame from "@/actions/getUserVideogame";
@@ -29,7 +29,7 @@ export default function AddGameModal({ game }: Props) {
     const [hoursPlayed, setHoursPlayed] = useState<number | undefined>()
     const [yearCompleted, setYearCompleted] = useState<string>("-")
     const [score, setScore] = useState<number>(0)
-    const [scoreColor, setScoreColor] = useState<string>("none")
+    const [scoreColor, setScoreColor] = useState<string>("NS")
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
     const [nextSlide, setNextSlide] = useState<number>(0)
 
@@ -84,21 +84,22 @@ export default function AddGameModal({ game }: Props) {
 
     useEffect(() => {
         if (userGameInfo !== undefined) {
+
+            if (Number(userGameInfo?.score) === 0) {
+                setScoreColor("NS")
+            } else if (userGameInfo?.score >= 8) {
+                setScoreColor("green")
+            } else if (userGameInfo?.score >= 4) {
+                setScoreColor("yellow")
+            } else {
+                setScoreColor("red")
+            }
+
             setScore(userGameInfo?.score)
             setSelectedStatus(userGameInfo?.status)
             setStarred(userGameInfo?.favourite)
             setHoursPlayed(userGameInfo?.hours_played)
             setYearCompleted(userGameInfo?.year_completed)
-
-            if (userGameInfo?.score >= 8) {
-                setScoreColor("green")
-            } else if (userGameInfo?.score >= 4) {
-                setScoreColor("yellow")
-            } else if (userGameInfo?.score < 4) {
-                setScoreColor("red")
-            } else if (userGameInfo?.score == 0) {
-                setScoreColor("none")
-            }
         }
     }, [userGameInfo])
 
@@ -111,18 +112,17 @@ export default function AddGameModal({ game }: Props) {
 
     async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
         const valueScore = parseFloat(e.target.value)
-        setScore(valueScore);
+        setScore(valueScore)
 
-        if (valueScore >= 8) {
+        if (valueScore === 0) {
+            setScoreColor("NS")
+        } else if (valueScore >= 8) {
             setScoreColor("green")
         } else if (valueScore >= 4) {
             setScoreColor("yellow")
-        } else if (valueScore < 4) {
+        } else {
             setScoreColor("red")
-        } else if (valueScore === 0) {
-            setScoreColor("none")
         }
-
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -189,10 +189,11 @@ export default function AddGameModal({ game }: Props) {
 
     if (nextSlide === 0)
         return (
-            <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition bg-black/80
+            <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition
             ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
-            ${scoreColor === "yellow" ? " cardReviewYellow border-yellow-600" : ""}
-            ${scoreColor === "green" ? " cardReviewGreen border-green-600" : ""}
+            ${scoreColor === "yellow" ? "cardReviewYellow border-yellow-600" : ""}
+            ${scoreColor === "green" ? "cardReviewGreen border-green-600" : ""}
+            ${scoreColor === "NS" ? "!bg-black/80" : ""}
             `}>
                 <Dialog.Close className="absolute right-5 sm:right-10 top-15 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800" >
                     <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
@@ -230,9 +231,9 @@ export default function AddGameModal({ game }: Props) {
                                             ${scoreColor === "green" ? " text-green-600" : ""}
                                             ${scoreColor === "yellow" ? " text-yellow-600" : ""}
                                             ${scoreColor === "red" ? " text-rose-600" : ""}
-                                            ${scoreColor === "none" ? "" : ""}
-                                            `}>{score}</span>
-                                            {score == 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs">Drag to rate</p>}
+                                            ${scoreColor === "NS" ? " text-gray-400" : ""}`}>
+                                                {Number(score) === 0 ? "NS" : score}</span>
+                                            {score === 0 && <p className="group-hover:hidden absolute ml-8 sm:left-15 text-xs">Drag to rate</p>}
                                             <input min="0" max="10" value={score ? score : 0} className="w-52 sm:w-72 rangeSlider" type="range" onChange={handleScoreChange}></input>
                                         </div>
                                     </div>
