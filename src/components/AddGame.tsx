@@ -52,11 +52,9 @@ export default function AddGame({ game }: Props) {
         const fetchUserGame = async () => {
             if (isGameIGDB(game)) {
                 const userGame: UserGame = await getUserVideogame(game.id)
-                console.log(userGame)
                 setUserGameInfo(userGame)
             } else {
                 const userGame: UserGame = await getUserVideogame(game.game_id)
-                console.log(userGame)
                 setUserGameInfo(userGame)
             }
         }

@@ -37,8 +37,8 @@ export async function insertList(listName: string, listDescription:string, listV
         [listId, gameId, gameName, gameImageId, gameBaseImage, userId]
       );
       await client.query(
-        `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, game_name, game_image_id, game_base_image, status)
-                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, game_name, game_image_id, game_base_image, status, year_completed)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
                  ON CONFLICT (user_id, game_id) DO NOTHING`,
         [
           userId,
@@ -50,6 +50,7 @@ export async function insertList(listName: string, listDescription:string, listV
           gameImageId,
           gameBaseImage,
           GameStatus.PLAYING,
+          "-"
         ]
       );
     }

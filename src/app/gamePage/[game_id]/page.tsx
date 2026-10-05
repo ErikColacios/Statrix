@@ -161,7 +161,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                     </aside>
                 </section>
 
-                {/* SCREENSHOTS */}
+                {/* Screenshots */}
                 {game.screenshots?.length > 0 && (
                     <section className="mt-16">
                         <h2 className="text-xl font-semibold mb-5">Screenshots</h2>
@@ -169,7 +169,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                     </section>
                 )}
 
-                {/* REVIEWS */}
+                {/* Reviews */}
                 <section className="mt-16 pt-10 border-t border-white/10">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold">Reviews</h2>

@@ -119,8 +119,8 @@ export default function List({ params }: { params: { listId: string } }) {
                                                 <p className={`font-bold
                                             ${game.score >= 8 ? " text-green-600" : ""}
                                             ${game.score >= 4 && game.score < 8 ? " text-yellow-600" : ""}
-                                            ${game.score < 4 ? " text-rose-600" : ""}
-                                            `}>{game.score}</p>
+                                            ${game.score < 4 && game.score > 0 ? " text-rose-600" : ""}
+                                            `}>{Number(game.score) === 0 ? "NS" : game.score}</p>
                                             </div>
                                             <div className='flex items-center text-sm'>
                                                 <div className='flex text-gray-400 items-center'>

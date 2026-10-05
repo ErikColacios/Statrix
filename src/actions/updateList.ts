@@ -35,10 +35,10 @@ export default async function updateList(listId: string, newGamesAdded: GameIGDB
       // Insert into 'user_videogame' if not already present
       await client.query(
         `INSERT INTO user_videogame (
-                    user_id, game_id, score, hours_played, game_name, game_image_id, game_base_image, status
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                    user_id, game_id, score, hours_played, game_name, game_image_id, game_base_image, status, year_completed
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
                 ON CONFLICT (user_id, game_id) DO NOTHING`,
-        [userId, game.id, 0, 0, game.name, game.cover.image_id, game_base_image, GameStatus.PLAYING]
+        [userId, game.id, 0, 0, game.name, game.cover.image_id, game_base_image, GameStatus.PLAYING, "-"]
       );
     }
 

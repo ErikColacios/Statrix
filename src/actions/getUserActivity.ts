@@ -18,7 +18,7 @@ export async function getUserActivity(userName:string | undefined) {
              INNER JOIN users usr ON uga.user_id = usr.user_id
              INNER JOIN avatar_images avi ON usr.user_avatar_id = avi.avatar_image_id
              WHERE uga.user_name = $1
-             ORDER BY action_date DESC
+             ORDER BY action_date DESC, activity_id DESC
              LIMIT 10;`,
             [userName]
         );

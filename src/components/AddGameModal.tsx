@@ -81,7 +81,6 @@ export default function AddGameModal({ game }: Props) {
     }, [dropdownRef])
 
 
-
     useEffect(() => {
         if (userGameInfo !== undefined) {
 
@@ -108,7 +107,6 @@ export default function AddGameModal({ game }: Props) {
     function handleStarred() {
         setStarred(!starred)
     }
-
 
     async function handleScoreChange(e: React.ChangeEvent<HTMLInputElement>) {
         const valueScore = parseFloat(e.target.value)
@@ -178,7 +176,6 @@ export default function AddGameModal({ game }: Props) {
             status: selectedStatus,
             year_completed: yearCompleted
         }
-
         if (gameId) {
             await updateUserVideogame(userGameUpdated);
         }
