@@ -9,12 +9,12 @@ export default async function getUserGameReviews(userName:string) {
 
     try {
         const query = `
-            SELECT rev.user_id, rev.videogame_id, rev.videogame_name, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date, rev.game_base_image, COUNT(revlikes.review_id) AS likes
+            SELECT rev.user_id, rev.game_id, rev.game_name, rev.review_id, rev.user_name, rev.body, rev.review_date, rev.game_base_image, COUNT(revlikes.review_id) AS likes
             FROM reviews rev
             LEFT OUTER JOIN review_likes revlikes ON rev.review_id = revlikes.review_id
             INNER JOIN users usr ON usr.user_id = rev.user_id
             WHERE rev.user_name = $1
-            GROUP BY rev.user_id, rev.videogame_id, rev.videogame_name, rev.review_id, rev.user_name, rev.body, rev.recommended, rev.review_date, rev.game_base_image
+            GROUP BY rev.user_id, rev.game_id, rev.game_name, rev.review_id, rev.user_name, rev.body, rev.review_date, rev.game_base_image
             ORDER BY review_date DESC
             LIMIT 1`;
 
