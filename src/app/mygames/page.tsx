@@ -1,8 +1,8 @@
 "use client"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Game } from "@/types/Game"
 import getUserVideogameAll from '@/actions/getUserVideogameAll'
-import { Dialog } from "radix-ui"
+import { Dialog, Toast } from "radix-ui"
 import { useFormState } from "react-dom"
 import AddGameModal from "@/components/AddGameModal"
 import DeleteGameModal from "@/components/DeleteGameModal"
@@ -24,6 +24,12 @@ export default function MyGames() {
     const [completedGames, setCompletedGames] = useState<number>(0)
     const [onholdGames, setOnholdGames] = useState<number>(0)
     const [droppedGames, setDroppedGames] = useState<number>(0)
+
+    const timerRef = useRef(0)
+    const [openToast, setOpenToast] = useState(false)
+    useEffect(() => {
+        return () => clearTimeout(timerRef.current)
+    }, [])
 
     useEffect(() => {
         async function fetchUserVideogames() {
@@ -71,6 +77,8 @@ export default function MyGames() {
 
     return (
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20 pb-8'>
+            <Toast.Provider>
+
             <div className="flex flex-col md:flex-row  border-gray-500 pb-3 mb-4">
                 <div className="flex items-center space-x-4">
                     <h2 className='text-4xl font-bold md:text-5xl'>My games</h2>
@@ -124,7 +132,7 @@ export default function MyGames() {
                                 <Dialog.Title className="DialogTitle"></Dialog.Title>
                                 <Dialog.Description className="DialogDescription"></Dialog.Description>
                                 {modalType === "editGame" && (
-                                    <AddGameModal game={gameClicked} />
+                                    <AddGameModal game={gameClicked} timerRef={timerRef} openToast={openToast} setOpenToast={setOpenToast} />
                                 )}
                                 {modalType === "removeGame" && (
                                     <DeleteGameModal gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />
@@ -196,6 +204,19 @@ export default function MyGames() {
                     </Dialog.Root>
                 }
             </div>
+            
+                <Toast.Root className={`z-99 fixed animate-slide-left flex flex-col bottom-15 right-5 sm:right-15 text-white
+                    rounded shadow-green-500/30 border-green-600 p-2 cardReviewGreen`} open={openToast} onOpenChange={setOpenToast}>
+                    <Toast.Description>
+                        <div className="flex items-center space-x-2">
+                            <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
+                            <p>Game info updated successfully</p>
+                        </div>
+                    </Toast.Description>
+                    <Toast.Close />
+                </Toast.Root>
+            <Toast.Viewport />
+            </Toast.Provider>
         </div>
     )
 }

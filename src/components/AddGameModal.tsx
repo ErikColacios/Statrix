@@ -13,11 +13,13 @@ import { GameIGDB } from "@/types/GameIGDB";
 import { UserGame } from "@/types/UserGame";
 
 type Props = {
-    game: GameIGDB | Game | undefined
+    game: GameIGDB | Game | undefined,
+    timerRef:React.MutableRefObject<number>,
+    openToast: boolean,
+    setOpenToast: any
 };
 
-export default function AddGameModal({ game }: Props) {
-
+export default function AddGameModal({ game, timerRef, openToast, setOpenToast }: Props) {
     const years: number[] = []
     let currentYear = new Date().getFullYear()
 
@@ -33,7 +35,7 @@ export default function AddGameModal({ game }: Props) {
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
     const [nextSlide, setNextSlide] = useState<number>(0)
 
-    const [activity, setActivity] = useState<Activity[]>([])
+    //const [activity, setActivity] = useState<Activity[]>([])
 
     const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -186,12 +188,13 @@ export default function AddGameModal({ game }: Props) {
 
     if (nextSlide === 0)
         return (
-            <div id="modal" className={`w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition
+            <div id="modal" className={`relative w-full h-full flex flex-col justify-center sm:border border-gray-600 p-8 sm:p-8 text-white sm:rounded-2xl backdrop-blur-lg transition
             ${scoreColor === "red" ? " cardReviewRed border-rose-600" : ""}
             ${scoreColor === "yellow" ? "cardReviewYellow border-yellow-600" : ""}
             ${scoreColor === "green" ? "cardReviewGreen border-green-600" : ""}
             ${scoreColor === "NS" ? "!bg-black/80" : ""}
             `}>
+            
                 <Dialog.Close className="absolute right-5 sm:right-10 top-15 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800" >
                     <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
                 </Dialog.Close>
@@ -305,7 +308,11 @@ export default function AddGameModal({ game }: Props) {
 
                                 <div className="w-full flex space-x-2 mt-6">
                                     <Dialog.Close className="flex items-center justify-center w-full px-2 sm:px-6 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
-                                        onClick={handleSaveUserGame} >
+                                        onClick={() => {
+                                            setOpenToast(false)
+                                            window.clearTimeout(timerRef.current)
+                                            timerRef.current = window.setTimeout(() => { setOpenToast(true) }, 100)
+                                        }} >
                                         <img src="/staticImages/icon_confirmation.png" alt="Bookmark icon" className="w-3 h-3 mr-2" />
                                         Save
                                     </Dialog.Close>
@@ -319,6 +326,7 @@ export default function AddGameModal({ game }: Props) {
                         }
                     </div>
                 </div>
+
             </div>
         )
 }

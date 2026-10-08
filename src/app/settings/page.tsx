@@ -86,6 +86,7 @@ export default function Settings() {
 
         return { success: 'Settings updated successfully' }
     }
+    console.log("openToast", open)
 
     return userInfo.map((item: any, ident: number) => (
         <section className="relative w-full flex text-white justify-center py-20" key={ident}>
