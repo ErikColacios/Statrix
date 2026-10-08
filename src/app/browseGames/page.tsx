@@ -1,11 +1,11 @@
 "use client"
-import React from "react";
+import React, { useRef } from "react";
 import { fetchGamesIGDB } from '@/actions/fetchGamesIGDB'
 import { GameIGDB } from '@/types/GameIGDB'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import SkeletonBrowseGames from "../browseGames/skeleton";
-import { Dialog } from "radix-ui";
+import { Dialog, Toast } from "radix-ui";
 import AddGameModal from "@/components/AddGameModal";
 
 export default function BrowseGames() {
@@ -22,6 +22,12 @@ export default function BrowseGames() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
 
+  // Toast state
+  const timerRef = useRef(0)
+  const [openToast, setOpenToast] = useState(false)
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current)
+  }, [])
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -72,80 +78,148 @@ export default function BrowseGames() {
 
 
   return (
-    <section className='flex w-full bg-black text-white text-sm py-20'>
-      <Dialog.Root>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-          <Dialog.Content onCloseAutoFocus={(e) => { e.preventDefault() }} className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto sm:5/6 md:w-5/6 lg:w-3/5 2xl:w-2/5 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
-                data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
-            <Dialog.Title className="DialogTitle"></Dialog.Title>
-            <Dialog.Description className="DialogDescription"></Dialog.Description>
+      <section className="flex w-full bg-black text-white text-sm py-20">
+          <Toast.Provider>
+              <Dialog.Root>
+                  <Dialog.Portal>
+                      <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                      <Dialog.Content
+                          onCloseAutoFocus={e => {
+                              e.preventDefault()
+                          }}
+                          className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto sm:5/6 md:w-5/6 lg:w-3/5 2xl:w-2/5 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}
+                      >
+                          <Dialog.Title className="DialogTitle"></Dialog.Title>
+                          <Dialog.Description className="DialogDescription"></Dialog.Description>
 
-            {/* Add game modal */}
-            <AddGameModal game={gameClicked} />
-          </Dialog.Content>
-        </Dialog.Portal>
-        {/* Sidebar */}
-        <aside className='hidden sm:flex h-screen flex-col w-36 items-center'>
-          <p className="text-gray-200">Categories</p>
-          <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
-          <div className="flex flex-col mt-1 pb-4 text-gray-400">
-            <button className={genre !== 0 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(0)}>Trending</button>
-          </div>
-          <p className="text-gray-200">Genres</p>
-          <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
-          <div className="flex flex-col pt-1 text-gray-400 pb-4">
-            <button className={genre !== 5 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(5)}>Shooter</button>
-            <button className={genre !== 12 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(12)}>RPG</button>
-            <button className={genre !== 4 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(4)}>Fighting</button>
-            <button className={genre !== 10 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(10)}>Racing</button>
-            <button className={genre !== 14 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(14)}>Sport</button>
-            <button className={genre !== 13 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'} onClick={() => handleSetGenre(13)}>Simulator</button>
-          </div>
-        </aside>
+                          {/* Add game modal */}
+                          <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} />
+                      </Dialog.Content>
+                  </Dialog.Portal>
+                  {/* Sidebar */}
+                  <aside className="hidden sm:flex h-screen flex-col w-36 items-center">
+                      <p className="text-gray-200">Categories</p>
+                      <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
+                      <div className="flex flex-col mt-1 pb-4 text-gray-400">
+                          <button
+                              className={genre !== 0 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(0)}>
+                              Trending
+                          </button>
+                      </div>
+                      <p className="text-gray-200">Genres</p>
+                      <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
+                      <div className="flex flex-col pt-1 text-gray-400 pb-4">
+                          <button
+                              className={genre !== 5 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(5)}>
+                              Shooter
+                          </button>
+                          <button
+                              className={genre !== 12 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(12)}>
+                              RPG
+                          </button>
+                          <button
+                              className={genre !== 4 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(4)}
+                          >
+                              Fighting
+                          </button>
+                          <button
+                              className={genre !== 10 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(10)}>
+                              Racing
+                          </button>
+                          <button
+                              className={genre !== 14 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(14)}>
+                              Sport
+                          </button>
+                          <button
+                              className={genre !== 13 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
+                              onClick={() => handleSetGenre(13)}>
+                              Simulator
+                          </button>
+                      </div>
+                  </aside>
 
+                  <div className="flex flex-col w-full px-4 pb-24 md:px-4">
+                      <div className="pb-6">
+                          <h2 className="text-4xl font-bold md:text-5xl pb-2">Browse games</h2>
+                          <p className="text-gray-400">Search any game, rate it, start tracking your progress and add it to your list</p>
+                      </div>
 
-        <div className="flex flex-col w-full px-4 pb-24 md:px-4">
-          <div className="pb-6">
-            <h2 className='text-4xl font-bold md:text-5xl pb-2'>Browse games</h2>
-            <p className="text-gray-400">Search any game, rate it, start tracking your progress and add it to your list</p>
-          </div>
+                      {/* Search bar */}
+                      <form
+                          className="w-full md:w-96 mb-6 relative flex items-center border border-gray-400 rounded-md"
+                          action={formAction}>
+                          <input
+                              type="text"
+                              name="searchGame"
+                              id="searchGame"
+                              className="w-full bg-transparent outline-hidden pl-2"
+                              placeholder="Hollow Knight"/>
+                          <button className="rounded-sm p-1 ml-2" type="submit">
+                              <img src="/staticImages/icon_search.png" alt="Search" className="w-5" width={20} height={20} />
+                          </button>
+                      </form>
 
-          {/* Search bar */}
-          <form className='w-full md:w-96 mb-6 relative flex items-center border border-gray-400 rounded-md' action={formAction}>
-            <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2' placeholder='Hollow Knight' />
-            <button className='rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
-          </form>
-
-          {/* Games shown */}
-          {isLoading ? <SkeletonBrowseGames /> :
-            <div className='grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4'>
-              {gameItems.map((game, index: number) => (
-                <Dialog.Trigger key={index} onClick={() => setGameClicked(game)} className={`group relative flex flex-col justify-center items-center rounded-xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-105`} >
-                  <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} className='w-full h-full transition duration-300 rounded-xl group-hover:blur-xs group-hover:brightness-50' alt='Game cover' />
-                  <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
-                    <p className="hidden sm:contents">{game.name}</p>
+                      {/* Games shown */}
+                      {isLoading ? (
+                          <SkeletonBrowseGames />
+                      ) : (
+                          <div className="grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4">
+                              {gameItems.map((game, index: number) => (
+                                  <Dialog.Trigger
+                                      key={index}
+                                      onClick={() => setGameClicked(game)}
+                                      className={`group relative flex flex-col justify-center items-center rounded-xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-105`}>
+                                      <img
+                                          src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`}
+                                          className="w-full h-full transition duration-300 rounded-xl group-hover:blur-xs group-hover:brightness-50"
+                                          alt="Game cover"/>
+                                      <div className="absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block">
+                                          <p className="hidden sm:contents">{game.name}</p>
+                                      </div>
+                                      <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
+                                  </Dialog.Trigger>
+                              ))}
+                          </div>
+                      )}
+                      {gameItems.length !== 0 && (
+                          <div className="w-full flex justify-center text-gray-400 space-x-2 py-6">
+                              <button
+                                  className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                  disabled={responseOffset === 0}
+                                  onClick={() => handlePagination('previous')}>
+                                  Prev
+                              </button>
+                              <button
+                                  className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                  onClick={() => handlePagination('next')}>
+                                  Next
+                              </button>
+                          </div>
+                      )}
+                      {gameItems.length === 0 && !isLoading && (
+                          <div className="w-full flex justify-center text-gray-400">No games found with the current filters...</div>
+                      )}
                   </div>
-                  <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
-                </Dialog.Trigger>
-              ))}
-            </div>}
-          {gameItems.length !== 0 &&
-            <div className="w-full flex justify-center text-gray-400 space-x-2 py-6">
-              <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                disabled={responseOffset === 0}
-                onClick={() => handlePagination('previous')}>Prev</button>
-              <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                onClick={() => handlePagination('next')}>Next</button>
-            </div>
-          }
-          {gameItems.length === 0 && !isLoading &&
-            <div className="w-full flex justify-center text-gray-400">
-              No games found with the current filters...
-            </div>
-          }
-        </div>
-      </Dialog.Root>
-    </section>
+              </Dialog.Root>
+              <Toast.Root className={`z-99 fixed animate-slide-left flex flex-col bottom-15 right-5 sm:right-15 text-white
+              rounded shadow-green-500/30 border-green-600 p-2 cardReviewGreen`} open={openToast} onOpenChange={setOpenToast}>
+                  <Toast.Description>
+                      <div className="flex items-center space-x-2">
+                          <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
+                          <p>Game info updated successfully</p>
+                      </div>
+                  </Toast.Description>
+                  <Toast.Close/>
+              </Toast.Root>
+              <Toast.Viewport/>
+          </Toast.Provider>
+      </section>
   )
 }

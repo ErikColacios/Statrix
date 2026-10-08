@@ -1,7 +1,7 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Game } from '@/types/Game';
-import { Dialog } from "radix-ui";
+import { Dialog, Toast } from "radix-ui";
 import { getListContent } from '@/actions/getListContent';
 import AddGameModal from '@/components/AddGameModal';
 import SearchGameModal from '@/components/SearchGameModal';
@@ -20,6 +20,13 @@ export default function List({ params }: { params: { listId: string } }) {
     const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.GRID)
     const [isOwner, setIsOwner] = useState<boolean>(false)
 
+    // Toast state
+    const timerRef = useRef(0)
+    const [openToast, setOpenToast] = useState(false)
+    useEffect(() => {
+        return () => clearTimeout(timerRef.current)
+    }, [])
+
     useEffect(() => {
         const getListContentData = async () => {
             const content = await getListContent(listId)
@@ -37,6 +44,7 @@ export default function List({ params }: { params: { listId: string } }) {
 
     return (
         <>
+        <Toast.Provider>
             <Dialog.Root>
                 <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -46,7 +54,7 @@ export default function List({ params }: { params: { listId: string } }) {
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
                         {modalType === "editGame" && isOwner && (
-                            <AddGameModal game={gameClicked} />
+                            <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} />
                         )}
                         {modalType === "addGame" && isOwner && (
                             <SearchGameModal listId={listId} />
@@ -157,6 +165,18 @@ export default function List({ params }: { params: { listId: string } }) {
                     </div>
                 }
             </Dialog.Root>
+            <Toast.Root className={`z-99 fixed animate-slide-left flex flex-col bottom-15 right-5 sm:right-15 text-white
+              rounded shadow-green-500/30 border-green-600 p-2 cardReviewGreen`} open={openToast} onOpenChange={setOpenToast}>
+                  <Toast.Description>
+                      <div className="flex items-center space-x-2">
+                          <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
+                          <p>Game info updated successfully</p>
+                      </div>
+                  </Toast.Description>
+                  <Toast.Close/>
+              </Toast.Root>
+              <Toast.Viewport/>
+          </Toast.Provider>
         </>
     )
 }

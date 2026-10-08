@@ -25,6 +25,7 @@ export default function MyGames() {
     const [onholdGames, setOnholdGames] = useState<number>(0)
     const [droppedGames, setDroppedGames] = useState<number>(0)
 
+    // Toast state
     const timerRef = useRef(0)
     const [openToast, setOpenToast] = useState(false)
     useEffect(() => {

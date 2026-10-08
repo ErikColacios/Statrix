@@ -179,6 +179,10 @@ export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
         }
         if (gameId) {
             await updateUserVideogame(userGameUpdated);
+
+            setOpenToast(false)
+            window.clearTimeout(timerRef.current)
+            timerRef.current = window.setTimeout(() => { setOpenToast(true) }, 100)
         }
     }
 
@@ -261,7 +265,6 @@ export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
                                             }
                                         </div>
                                     </div>
-
                                 </div>
                                 <div className="flex space-x-4 mt-2 w-full">
                                     <div className="flex flex-col w-full">
@@ -307,11 +310,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
 
                                 <div className="w-full flex space-x-2 mt-6">
                                     <Dialog.Close className="flex items-center justify-center w-full px-2 sm:px-6 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
-                                        onClick={() => {
-                                            setOpenToast(false)
-                                            window.clearTimeout(timerRef.current)
-                                            timerRef.current = window.setTimeout(() => { setOpenToast(true) }, 100)
-                                        }} >
+                                        onClick={handleSaveUserGame} >
                                         <img src="/staticImages/icon_confirmation.png" alt="Bookmark icon" className="w-3 h-3 mr-2" />
                                         Save
                                     </Dialog.Close>
@@ -325,7 +324,6 @@ export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
                         }
                     </div>
                 </div>
-
             </div>
         )
 }
