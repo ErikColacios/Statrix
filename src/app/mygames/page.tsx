@@ -132,7 +132,7 @@ export default function MyGames() {
                                 <Dialog.Title className="DialogTitle"></Dialog.Title>
                                 <Dialog.Description className="DialogDescription"></Dialog.Description>
                                 {modalType === "editGame" && (
-                                    <AddGameModal game={gameClicked} timerRef={timerRef} openToast={openToast} setOpenToast={setOpenToast} />
+                                    <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} />
                                 )}
                                 {modalType === "removeGame" && (
                                     <DeleteGameModal gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />

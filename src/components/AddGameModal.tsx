@@ -15,11 +15,10 @@ import { UserGame } from "@/types/UserGame";
 type Props = {
     game: GameIGDB | Game | undefined,
     timerRef:React.MutableRefObject<number>,
-    openToast: boolean,
     setOpenToast: any
 };
 
-export default function AddGameModal({ game, timerRef, openToast, setOpenToast }: Props) {
+export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
     const years: number[] = []
     let currentYear = new Date().getFullYear()
 
