@@ -37,8 +37,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-5xl">
-
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95]">
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95]">
             Your gaming
             <span className="block bg-clip-text text-transparent bg-linear-to-r from-green-400 via-lime-400 to-green-500">
               identity.
@@ -49,12 +48,12 @@ export default function Home() {
             Track the games you play, build your lists, share your opinions and connect with people who love the same games you do.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-10">
-            <Link href="/signup" className="px-7 py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-400 hover:to-lime-400 font-semibold transition-all shadow-lg shadow-green-500/10">
+          <div className="flex sm:flex-row gap-4 mt-10">
+            <Link href="/signup" className="px-5 py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-400 hover:to-lime-400 font-semibold transition-all shadow-lg shadow-green-500/10">
               Start now
             </Link>
-            <Link href="/browseGames" className="px-7 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-green-500/30 transition-all">
-              Explore games
+            <Link href="/browseGames" className="px-5 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-green-500/30 transition-all">
+              BrowseGames
             </Link>
           </div>
         </div>
@@ -117,7 +116,7 @@ export default function Home() {
       </motion.section>
 
 
-      {/* LIBRARY */}
+      {/* LIBRARY */} 
       <motion.section {...fadeUp} className="py-28 lg:py-36 border-y border-white/5 bg-white/[0.015]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
@@ -148,12 +147,12 @@ export default function Home() {
               coverflowEffect={{ rotate: -15, stretch: 0, depth: 80, modifier: 1, slideShadows: true }}
               modules={[EffectCoverflow]}
               className="w-full">
-              <button onClick={() => swiperRef.current?.slidePrev()} className="absolute left-0 top-0 h-full w-1/4 z-20 cursor-pointer hover:bg-white/5 transition">
-                <span className="hidden lg:block text-4xl">‹</span>
+              <button onClick={() => swiperRef.current?.slidePrev()} className='md:w-1/4 h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/20 transition'>
+                <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
               </button>
 
-              <button onClick={() => swiperRef.current?.slideNext()} className="absolute right-0 top-0 h-full w-1/4 z-20 cursor-pointer hover:bg-white/5 transition">
-                <span className="hidden lg:block text-4xl">›</span>
+              <button onClick={() => swiperRef.current?.slideNext()} className='lg:w-1/4 h-full z-50 absolute right-0 top-0 p-2 hover:bg-black/20 transition'>
+                <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="2"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon> </g></svg>
               </button>
 
               <SwiperSlide className="p-4">
