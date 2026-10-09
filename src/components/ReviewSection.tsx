@@ -39,23 +39,23 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
     async function handleLikeReview(likeUnlike: string, reviewId: any) {
         if (likeUnlike === 'like') {
             const likeCountElement = document.getElementById('likeCount' + reviewId)
-            const likeButtonElement = document.getElementById('likeButton' + reviewId)
-            if (likeCountElement && likeButtonElement) {
+            const likeButtonImageElement = document.getElementById('likeButtonImage' + reviewId) as HTMLImageElement
+            if (likeCountElement && likeButtonImageElement) {
                 const currentLikeCount = parseInt(likeCountElement.textContent || '0')
                 likeCountElement.textContent = (currentLikeCount + 1).toString()
-                likeButtonElement.textContent = 'Unlike'
+                likeButtonImageElement.src = '/staticImages/icon_heart_red.png'
                 reviews.find(review => review.review_id === reviewId).liked_by_user = 1
             }
 
             await insertLikeReview(reviewId, gameId)
         } else if (likeUnlike === 'unlike') {
             const likeCountElement = document.getElementById('likeCount' + reviewId)
-            const likeButtonElement = document.getElementById('likeButton' + reviewId)
-            if (likeCountElement && likeButtonElement) {
+            const likeButtonImageElement = document.getElementById('likeButtonImage' + reviewId) as HTMLImageElement
+            if (likeCountElement && likeButtonImageElement) {
                 const currentLikeCount = parseInt(likeCountElement.textContent || '0')
                 if (currentLikeCount > 0) {
                     likeCountElement.textContent = (currentLikeCount - 1).toString()
-                    likeButtonElement.textContent = 'Like this!'
+                    likeButtonImageElement.src = '/staticImages/icon_heart_gray.png'
                     reviews.find(review => review.review_id === reviewId).liked_by_user = 0
                 }
             }

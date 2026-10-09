@@ -8,7 +8,7 @@ export default async function deleteLikeReview(reviewId: string, gameId:number) 
     const userId:string = session.user.id as string;
 
     await pool.query(
-      `DELETE FROM public.review_likes WHERE review_id = $1 AND user_id = $2 AND videogame_id=$3`,
+      `DELETE FROM public.review_likes WHERE review_id = $1 AND user_id = $2 AND game_id = $3`,
       [reviewId, userId, gameId]
     );
   } catch (error) {
