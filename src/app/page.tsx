@@ -53,7 +53,7 @@ export default function Home() {
               Start now
             </Link>
             <Link href="/browseGames" className="px-5 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-green-500/30 transition-all">
-              BrowseGames
+              Browse games
             </Link>
           </div>
         </div>
