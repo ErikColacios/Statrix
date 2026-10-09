@@ -39,12 +39,12 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-center text-center max-w-5xl">
           <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95]">
             Your gaming
-            <span className="block bg-clip-text text-transparent bg-linear-to-r from-green-400 via-lime-400 to-green-500">
+            <span className="block bg-clip-text text-transparent bg-linear-to-r from-green-400 via-lime-400 to-green-500 pb-2">
               identity.
             </span>
           </h1>
 
-          <p className="max-w-2xl mt-8 text-lg sm:text-xl text-gray-400 leading-relaxed">
+          <p className="max-w-2xl mt-6 text-lg sm:text-xl text-gray-400 leading-relaxed">
             Track the games you play, build your lists, share your opinions and connect with people who love the same games you do.
           </p>
 
@@ -117,7 +117,7 @@ export default function Home() {
 
 
       {/* LIBRARY */} 
-      <motion.section {...fadeUp} className="py-28 lg:py-36 border-y border-white/5 bg-white/[0.015]">
+      <motion.section {...fadeUp} className="py-28 lg:py-36">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <p className="text-green-400 text-sm uppercase tracking-[0.25em] font-semibold mb-4">
@@ -232,7 +232,7 @@ export default function Home() {
       </motion.section>
 
       {/* FEATURES */}
-      <motion.section {...fadeUp} className="border-y border-white/5 bg-white/[0.015] py-28 lg:py-36">
+      <motion.section {...fadeUp} className="py-28 lg:py-36">
 
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-14">
@@ -296,9 +296,7 @@ export default function Home() {
 
       {/* FINAL CTA */}
       <motion.section {...fadeUp} className="relative py-32 lg:py-44 px-6 overflow-hidden">
-
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.12),transparent_55%)] pointer-events-none" />
-
         <div className="relative max-w-4xl mx-auto text-center">
 
           <p className="text-green-400 text-sm uppercase tracking-[0.25em] font-semibold mb-5">
@@ -324,10 +322,8 @@ export default function Home() {
           </div>
 
           <img src="/logos/st2_white.png" alt="Statrix" className="w-48 sm:w-64 mx-auto mt-20 opacity-40" />
-
         </div>
       </motion.section>
-
 
       <Footer />
     </main>
