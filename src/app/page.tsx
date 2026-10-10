@@ -2,7 +2,6 @@
 import React, { useRef } from "react"
 import Link from "next/link"
 import List from "@/components/List"
-import Review from "@/components/Review"
 import ChatBox from "@/components/ChatBox"
 import Footer from "@/components/Footer"
 import dummies from "@/util/dummies"
@@ -14,6 +13,7 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 import { EffectCoverflow } from "swiper/modules"
 import UserVideogameMiniCard from "@/components/UserVideogameMiniCard"
+import ReviewCard from "@/components/ReviewCard"
 
 export default function Home() {
   const swiperRef = useRef<SwiperType | null>(null)
@@ -196,7 +196,6 @@ export default function Home() {
                 <p className="text-sm text-green-400">COMMUNITY REVIEWS</p>
                 <h3 className="text-2xl font-semibold mt-1">What players think</h3>
               </div>
-              <span className="text-gray-600">01 — 03</span>
             </div>
 
             <div className="space-y-4">
@@ -207,7 +206,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.2 }}>
-                  <Review review={review} index={index} />
+                  <ReviewCard review={review} index={index} gameName={review.gameName} userId={review.userId} handleReviewActions={() => {}} openReviewId={() => {}} handleLikeReview={() => {}} setModalType={null} setReviewClicked={null} />
                 </motion.div>
               ))}
             </div>
