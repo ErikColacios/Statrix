@@ -68,7 +68,7 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                                         {/* <button className="text-left p-1 hover:text-green-400">Edit review</button> */}
                                         <Dialog.Trigger
                                             onClick={() => {(setModalType('deleteReview'), setReviewClicked(review))}}
-                                            className="hover:text-green-400" >
+                                            className="hover:text-green-400">
                                             Delete review
                                         </Dialog.Trigger>
                                     </div>

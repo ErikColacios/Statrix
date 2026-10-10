@@ -32,7 +32,6 @@ export default function DeleteReviewModal({ review, reviews, gameName, setReview
             setError(error.message)
         }
     }
-    console.log(review)
 
     return (
         <div className="relative w-full md:w-200 flex flex-col border border-gray-500 space-y-8 mx-2 px-4 py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">

@@ -1,23 +1,41 @@
 'use server'
 import React from 'react'
+import getUserInfo from '@/actions/getUserInfo'
 import getGameInfoIGDB from '@/actions/getGameInfoIGDB'
 import getGlobalUserVideogame from '@/actions/getGlobalUserVideogame'
 import getGameReviews from '@/actions/getGameReviews'
-import { ReviewMode } from '@/enums/ReviewMode'
 import SliderImages from '@/components/SliderImages'
 import ReviewSection from '@/components/ReviewSection'
 import AddGame from '@/components/AddGame'
 import getSessionUser from '@/actions/getSessionUser'
+import { GameStatus } from '@/enums/GameStatus'
+import { ReviewMode } from '@/enums/ReviewMode'
+import Link from 'next/link'
 
 export default async function GamePage({ params }: { params: { list_id: string; game_id: number } }) {
     const session = await getSessionUser()
     const userId = session?.user.id as string | undefined
+    const userName = session?.user.name as string | undefined
 
+    const userInfo = await getUserInfo(userName)
     const gameInfo = await getGameInfoIGDB(params.game_id)
     const globalStats = await getGlobalUserVideogame(params.game_id)
     const gameReviews = await getGameReviews(params.game_id, ReviewMode.POPULAR)
 
     const game = gameInfo[0]
+
+    function handleStatusChange(status: GameStatus) {
+        switch (status) {
+            case GameStatus.PLAYING:
+                break;
+            case GameStatus.COMPLETED:
+                break;
+            case GameStatus.ON_HOLD:
+                break;
+            case GameStatus.DROPPED:
+                break;
+        }
+    }
 
     if (!game) {
         return (
@@ -34,11 +52,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                 {/* Background artwork */}
                 <div className="absolute inset-0">
                     {game.artworks?.[0] && (
-                        <img
-                            src={`https://images.igdb.com/igdb/image/upload/t_1080p/${game.artworks[0].image_id}.jpg`}
-                            alt="Artwork background"
-                            className="w-full h-full object-cover opacity-50"
-                        />
+                        <img src={`https://images.igdb.com/igdb/image/upload/t_1080p/${game.artworks[0].image_id}.jpg`} alt="Artwork background" className="w-full h-full object-cover opacity-50" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black" />
                 </div>
@@ -48,10 +62,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                     <div className="flex flex-col md:flex-row gap-8 items-start md:items-end">
                         {/* Cover */}
                         <div className="shrink-0">
-                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`}
-                                alt={`${game.name} cover`}
-                                className="w-40 sm:w-48 md:w-56 rounded-lg shadow-2xl"
-                            />
+                            <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`} alt={`${game.name} cover`} className="w-40 sm:w-48 md:w-56 rounded-lg shadow-2xl"/>
                         </div>
 
                         {/* Main information */}
@@ -85,14 +96,19 @@ export default async function GamePage({ params }: { params: { list_id: string; 
             {/* MAIN CONTENT */}
             <div className="max-w-6xl mx-auto px-4 pb-20">
                 {/* USER ACTIONS */}
-                {/* {userId && (
-                    <section className="relative -mt-2 mb-12 rounded-xl border border-white/10 bg-zinc-950/90 backdrop-blur p-4">
-                        <AddGame game={game} />
-                    </section>
-                )} */}
+                {userId && (
+                    <div className="flex flex-col">
+                        <div className="flex items-center space-x-2 text-xl mb-2">
+                            <img src={`/avatarImages/${userInfo[0]?.user_avatar}`} className="w-6 h-6 rounded-full mr-2" alt="User avatar" />
+                            <Link href={`/profile/${userName}`} className="font-semibold hover:text-green-400 cursor-pointer">{userName}</Link>
+                            <p className="text-gray-400"> status</p>
+                        </div>
+                        <AddGame game={game}/>
+                    </div>
+                )}
 
                 {/* About + Stats */}
-                <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
                     {/* About */}
                     <div className="lg:col-span-2">
                         <h2 className="text-xl font-semibold mb-4">About</h2>
