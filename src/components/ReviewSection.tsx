@@ -99,7 +99,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
                         {modalType === 'addReview' && <ReviewModal gameId={gameId} gameName={gameName} gameCover={coverImageId} />}
                         {modalType === 'deleteReview' && (
-                            <DeleteReviewModal review={reviewClicked} reviews={reviews} setReviews={setReviews} />
+                            <DeleteReviewModal review={reviewClicked} reviews={reviews} gameName={gameName} setReviews={setReviews} />
                         )}
                     </Dialog.Content>
                 </Dialog.Portal>

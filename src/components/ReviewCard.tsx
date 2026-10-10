@@ -13,7 +13,7 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                             ${review.game_score >= 8 ? ' cardReviewGreen shadow-green-500/30 border-green-600' : ''}
                             ${review.game_score >= 4 && review.game_score < 8 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700' : ''}
                             ${review.game_score < 4 && review.game_score > 0 ? ' cardReviewRed shadow-rose-500/30 border-rose-700' : ''}
-                            ${Number(review.game_score) === 0 ? 'bg-zinc-900/80 shadow-zinc-500/30 border-gray-400' : ''}
+                            ${Number(review.game_score) === 0 ? 'bg-zinc-900/80 shadow-zinc-500/30 border-gray-800' : ''}
                             `}>
             <div className="relative flex flex-col space-y-1">
                 <div className="flex flex-col space-x-2 sm:flex-row sm:items-center text-white">
@@ -67,11 +67,8 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                                     >
                                         {/* <button className="text-left p-1 hover:text-green-400">Edit review</button> */}
                                         <Dialog.Trigger
-                                            onClick={() => {
-                                                ;(setModalType('deleteReview'), setReviewClicked(review))
-                                            }}
-                                            className="hover:text-green-400"
-                                        >
+                                            onClick={() => {(setModalType('deleteReview'), setReviewClicked(review))}}
+                                            className="hover:text-green-400" >
                                             Delete review
                                         </Dialog.Trigger>
                                     </div>

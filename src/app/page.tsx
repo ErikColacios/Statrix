@@ -110,7 +110,7 @@ export default function Home() {
 
           <div className="relative">
             <div className="absolute -inset-4 bg-green-500/10 blur-3xl rounded-full" />
-            <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="relative w-full rounded-2xl border border-white/10 shadow-2xl" />
+            <img src="/staticImages/statrix_profile.jpg" alt="Statrix profile" className="relative w-full" />
           </div>
         </div>
       </motion.section>
@@ -155,16 +155,16 @@ export default function Home() {
                 <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="2"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "></polygon> </g></svg>
               </button>
 
-              <SwiperSlide className="p-4">
+              <SwiperSlide className="sm:p-4">
                 <List list={dummies.lists.list1} />
               </SwiperSlide>
-              <SwiperSlide className="p-4">
+              <SwiperSlide className="sm:p-4">
                 <List list={dummies.lists.list2} />
               </SwiperSlide>
-              <SwiperSlide className="p-4">
+              <SwiperSlide className="sm:p-4">
                 <List list={dummies.lists.list3} />
               </SwiperSlide>
-              <SwiperSlide className="p-4">
+              <SwiperSlide className="sm:p-4">
                 <List list={dummies.lists.list4} />
               </SwiperSlide>
             </Swiper>

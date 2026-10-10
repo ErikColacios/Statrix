@@ -26,18 +26,20 @@ export default async function Navbar() {
                     <Link href="/"><img src={`/logos/st2_white.png`} className="w-32 hidden sm:flex" alt="Statrix Logo" /></Link>
                     <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo small" /></Link>
                 </div>
-                <div className="flex flex-row space-x-4 md:space-x-8 text-xs md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
+                <div className="flex flex-row space-x-4 md:space-x-8 text-sm md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
                     <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
-                        <Link className="p-2 rounded-sm rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/browseGames"}>Games</Link>
+                        <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/browseGames"}>Browse</Link>
                         {userInfo.length > 0 &&
-                            <Link className="p-2 rounded-sm rounded-lg hover:bg-zinc-700 hover:text-green-400" href={"/friends"}>Friends</Link>}
+                            <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/friends"}>Friends</Link>}
 
                         {userInfo.length > 0 &&
                             <Notifications userId={userInfo[0].user_id} notificationCount={notificationCount} />}
 
                         {/* Log In button */}
                         {userInfo.length == 0 &&
-                            <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 w-32 rounded-sm rounded-lg py-1 text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">Log in</Link>}
+                            <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 px-4 py-1 rounded-sm text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">
+                                Log in
+                            </Link>}
 
                         {/* Profile button */}
                         {userInfo.length > 0 &&

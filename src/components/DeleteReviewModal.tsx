@@ -6,7 +6,7 @@ import { deleteReview } from "@/actions/deleteReview";
 import ReviewCard from "./ReviewCard";
 
 
-export default function DeleteReviewModal({ review, reviews, setReviews }: any) {
+export default function DeleteReviewModal({ review, reviews, gameName, setReviews }: any) {
 
     const session: any = useSession();
     const userId: string = session?.data?.user?.id as string;
@@ -32,6 +32,7 @@ export default function DeleteReviewModal({ review, reviews, setReviews }: any) 
             setError(error.message)
         }
     }
+    console.log(review)
 
     return (
         <div className="relative w-full md:w-200 flex flex-col border border-gray-500 space-y-8 mx-2 px-4 py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
@@ -45,7 +46,7 @@ export default function DeleteReviewModal({ review, reviews, setReviews }: any) 
 
             <p>Are you sure you want to delete this review?</p>
 
-            <ReviewCard review={review} index={0} gameName={review.game_name} userId={userId} handleReviewActions={() => {}} openReviewId={null} handleLikeReview={() => { }} setModalType={() => { }} setReviewClicked={() => { }} />
+            <ReviewCard review={review} index={0} gameName={gameName} userId={userId} handleReviewActions={() => {}} openReviewId={null} handleLikeReview={() => { }} setModalType={() => { }} setReviewClicked={() => { }} />
 
             <div className="flex items-center space-x-8">
                 <button onClick={handleDeleteReview} className="text-md sm:text-lg border-green-500 text-green-400 cursor-pointer hover:bg-green-900/30 rounded-xl px-5 py-2 md:px-6 md:py-3">Delete</button>
