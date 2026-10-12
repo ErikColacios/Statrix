@@ -22,11 +22,6 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
     const [selectedMode, setSelectedMode] = useState<ListMode>(ListMode.UNRANKED)
     const [isFeatured, setIsFeatured] = useState<boolean>(false)
 
-    // gameList.map((game:GameIGDB, index:number)=> {
-    //     game.order = index
-    // })
-
-
     async function createList() {
         const listNameElement: HTMLInputElement = document.getElementById('listName') as HTMLInputElement
         const listDescriptionElement: HTMLInputElement = document.getElementById('listDescription') as HTMLInputElement
@@ -53,10 +48,11 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
     return (
         <div className="w-full flex justify-center animate-slide-left">
             <div className="w-full xl:w-1/2 flex flex-col p-4 pt-20 sm:p-20 min-h-screen text-white">
-                <div className="flex items-center space-x-4 mt-8">
-                    <p className="text-3xl">List information</p>
+                <div className="flex flex-col sm:flex-row sm:items-center space-x-4 mt-8">
+                    <h3 className="text-3xl">List information</h3>
+
                     {error && <p className="text-red-500">{error}</p>}
-                    <div className="ml-auto text-sm flex space-x-4">
+                    <div className="sm:ml-auto text-sm flex space-x-2 mt-4 sm:mt-0">
                         <button onClick={() => setNextSlide(0)}
                             className="px-4 py-1 rounded-sm text-gray-400 border border-gray-400 hover:text-white hover:bg-zinc-800 transition">
                             Back
@@ -70,10 +66,7 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
                 <div className="flex flex-col mt-6">
                     <div className="flex flex-col">
                         <p className="text-sm text-gray-400">List name *</p>
-                        <input type="text"
-                            name="listName"
-                            id="listName"
-                            className="rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600"/>
+                        <input type="text" name="listName" id="listName" className="rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600"/>
                     </div>
 
                     <p className="text-sm text-gray-400 mt-4">List description</p>
@@ -85,21 +78,21 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
 
 
                     <p className='text-gray-400 mt-4'>Visibility</p>
-                    <section className='flex space-x-2 text-xl'>
+                    <section className='flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0 text-xl'>
                         <button onClick={() => setSelectedVisibility("public")}
-                            className={`${selectedVisibility === "public" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                            className={`${selectedVisibility === "public" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
                             <img src="/staticImages/icon_world.png" alt="Public icon" className='w-5 mb-1'/>
                             <p className="text-xl font-bold">Public</p>
                             <p className="text-sm text-gray-500 mt-1">Visible for anyone</p>
                         </button>
                         <button onClick={() => setSelectedVisibility("friends-only")}
-                            className={`${selectedVisibility === "friends-only" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                            className={`${selectedVisibility === "friends-only" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
                             <img src="/staticImages/icon_friends.png" alt="Friends icon" className='w-5 mb-1'/>
                             <p className="text-xl font-bold">Friends only</p>
                             <p className="text-sm text-gray-500 mt-1">Only your friends can see it</p>
                         </button>
                         <button onClick={() => setSelectedVisibility("private")}
-                            className={`${selectedVisibility === "private" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                            className={`${selectedVisibility === "private" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
                             <img src="/staticImages/icon_locked.png" alt="Private icon" className='w-5 mb-1'/>
                             <p className="text-xl font-bold">Private</p>
                             <p className="text-sm text-gray-500 mt-1">Only you can access this list</p>
@@ -122,11 +115,9 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
                         </button>
                     </section>
 
-                    <section className={`mt-4 grid gap-4 grid-cols-5`}>
-                        <DragDropProvider
-                            onDragEnd={event => {
+                    <section className={`mt-4 grid gap-4 grid-cols-3 sm:grid-cols-5`}>
+                        <DragDropProvider onDragEnd={event => {
                                 if (event.canceled) return;
-
                                 const { source } = event.operation
 
                                 if (isSortable(source)) {
