@@ -5,8 +5,9 @@ import getSessionUser from "./getSessionUser";
 import { pool } from "@/util/postgres";
 import { GameStatus } from "../enums/GameStatus";
 import { GameIGDB } from "@/types/GameIGDB";
+import { ListMode } from "@/enums/ListMode";
 
-export async function insertList(listName: string, listDescription:string, listVisibility:string | undefined, isFeatured:boolean, gameList: GameIGDB[]) {
+export async function insertList(listName: string, listDescription:string, listVisibility:string | undefined, isFeatured:boolean, gameList: GameIGDB[], listMode: ListMode ) {
   const client = await pool.connect();
   try {
     const session:any = await getSessionUser();
@@ -20,9 +21,9 @@ export async function insertList(listName: string, listDescription:string, listV
     await client.query("BEGIN");
 
     await client.query(
-      `INSERT INTO list (list_id, user_id, list_name, list_description, user_name, list_visibility, list_featured)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [listId, userId, listName, listDescription, userName, listVisibility, isFeatured]
+      `INSERT INTO list (list_id, user_id, list_name, list_description, user_name, list_visibility, list_featured, list_mode)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [listId, userId, listName, listDescription, userName, listVisibility, isFeatured, listMode]
     );
 
     for (const game of gameList) {
@@ -30,11 +31,12 @@ export async function insertList(listName: string, listDescription:string, listV
       const gameName = game.name;
       const gameImageId = game.cover.image_id;
       const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameImageId}.png`;
+      const order = game.order
 
       await client.query(
-        `INSERT INTO list_games (list_id, game_id, game_name, game_image_id, game_base_image, user_id)
-                VALUES ($1, $2, $3, $4, $5, $6)`,
-        [listId, gameId, gameName, gameImageId, gameBaseImage, userId]
+        `INSERT INTO list_games (list_id, game_id, game_name, game_image_id, game_base_image, user_id, rank_order)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [listId, gameId, gameName, gameImageId, gameBaseImage, userId, order]
       );
       await client.query(
         `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, game_name, game_image_id, game_base_image, status, year_completed)

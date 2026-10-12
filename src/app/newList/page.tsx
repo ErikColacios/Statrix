@@ -16,7 +16,6 @@ export default function NewList() {
   const [countGames, setCountGames] = useState(0)
   const [gameNameSearch, setGameNameSearch] = useState("")
   const [genre, setGenre] = useState(0)
-  const [showSidebar, setShowSidebar] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
 
@@ -120,7 +119,7 @@ export default function NewList() {
   }
 
   // When clicking the 'Next' button, we change the window to 'Edit list info'
-  if (nextSlide === 1) return (<EditListInfo setNextSlide={setNextSlide} gameList={gameList} />)
+  if (nextSlide === 1) return (<EditListInfo setNextSlide={setNextSlide} gameList={gameList} setGameList={setGameList} />)
 
   if (nextSlide === 0)
     return (
@@ -196,7 +195,11 @@ export default function NewList() {
                     <p className='text-gray-300 ml-1'>games</p>
                   </Dialog.Trigger>}
                 {/* Next slide button */}
-                <button onClick={() => setNextSlide(1)} className="w-1/2 sm:w-32 py-1 rounded-md bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                <button onClick={() => {
+                      gameList.map((game:GameIGDB, index:number)=> {
+                        game.order = index+1
+                    }),
+                  setNextSlide(1)}} className="w-1/2 sm:w-32 py-1 rounded-md bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                   Next
                 </button>
               </div>

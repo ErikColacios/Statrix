@@ -7,5 +7,6 @@ export type GameIGDB = {
         id: number,
         image_id:string
     }
-    rating:number
+    rating:number,
+    order:number
 }
