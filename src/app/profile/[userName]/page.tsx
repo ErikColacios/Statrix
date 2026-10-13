@@ -153,7 +153,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                     {/* Games playing - widget*/}
                                     <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
                                         <p className="text-green-600">Games playing</p>
-                                        <p className="text-6xl font-bold mt-1">{userGameStats.gamesPlayed}</p>
+                                        <p className="text-6xl font-bold mt-1">{userGameStats.gamesPlaying}</p>
                                     </div>
                                     {/* Completed games - widget*/}
                                     <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
