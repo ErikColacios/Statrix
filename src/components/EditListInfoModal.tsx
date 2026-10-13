@@ -63,13 +63,13 @@ export default function EditListInfoModal({ listId, listContent }: { listId: str
     }
 
     return (
-        <div className="w-full h-full sm:h-180 flex flex-col justify-center sm:border sm:border-gray-600 px-4 py-10 md:px-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
+        <div className="relative w-full overflow-scroll no-scrollbar h-full sm:h-[65vh] flex flex-col justify-center text-white sm:border sm:border-gray-600 px-4 py-10 md:px-10 sm:rounded-2xl bg-black/60 backdrop-blur-lg">
             <Dialog.Close className="absolute right-5 top-20 sm:right-10 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800">
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
-            <p className="text-3xl pt-46 sm:pt-0">Edit list info</p>
-
-            <div className="flex flex-col text-sm mt-8">
+            <div className="absolute inset-0 w-full flex flex-col text-sm p-4 md:p-8">
+                <h3 className="text-3xl mt-8 sm:mt-0 py-8">Edit list info</h3>
+                
                 <div className="flex flex-col">
                     <p className="text-sm text-gray-400">List name *</p>
                     <input type="text" name="listName" id="listName" className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600'
@@ -78,8 +78,11 @@ export default function EditListInfoModal({ listId, listContent }: { listId: str
 
 
                 <p className="text-sm text-gray-400 mt-4">List description</p>
-                <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none"
-                    defaultValue={listInfo.list_description} />
+                <div className='w-full'>
+                    <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none"
+                        defaultValue={listInfo.list_description} />
+                </div>
+               
 
                 <p className='text-gray-400 mt-4'>Visibility</p>
                 <section className='flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0 text-xl'>
@@ -119,7 +122,7 @@ export default function EditListInfoModal({ listId, listContent }: { listId: str
                     </button>
                 </section>
 
-                <div className='flex items-center mt-3'>
+                <div className='flex items-center mt-2 py-3 pb-21'>
                     {error && <div className="text-red-500">{error}</div>}
                     <button onClick={saveChanges} className="ml-auto px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                         Save changes
