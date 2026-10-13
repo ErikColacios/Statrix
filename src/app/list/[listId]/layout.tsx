@@ -79,11 +79,8 @@ export default async function ListLayout({ children, params }: { children: React
           <div className='flex flex-col sm:flex-row' key={index}>
             <div className='flex flex-col mt-8'>
               {/* List name */}
-              <div className="flex items-center space-x-8">
-                <p className="font-bold max-w-64 sm:max-w-full text-3xl md:text-4xl">{list.list_name}</p>
-                <span className={`${list.list_mode === ListMode.UNRANKED ? "bg-violet-500/10 text-violet-400 border border-violet-500/20" : "bg-orange-500/10 text-orange-400 border border-orange-500/20"} px-2 py-1 mt-1 text-xs rounded`}>
-                    {list.list_mode}
-                </span>
+              <div className="flex items-center space-x-6">
+                <p className="font-bold max-w-80 sm:max-w-full text-2xl sm:text-4xl">{list.list_name}</p>
 
                 {list.list_visibility === "public" &&
                   <div className='tooltip mt-1'>
@@ -108,14 +105,18 @@ export default async function ListLayout({ children, params }: { children: React
                 <div className={`w-8 h-8 overflow-hidden rounded-full`}>
                   <img src={`/avatarImages/${listInfo[0].avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
                 </div>
-                <div className='flex items-center space-x-5 text-sm sm:text-base'>
+                <div className='flex items-center space-x-4 text-sm sm:text-base'>
                   <Link href={`/profile/${listInfo[0].user_name}`} className='text-white hover:text-green-500 ml-2'>{listInfo[0].user_name}</Link>
                   {/* Creation date */}
-                  <p>Created {list.list_creationdate.toISOString().split('T')[0]}</p>
+                  <p>{list.list_creationdate.toISOString().split('T')[0]}</p>
                   <p>{listContent.length} games</p>
-
+                  <span className={`${list.list_mode === ListMode.UNRANKED ? "bg-violet-500/10 text-violet-400 border border-violet-500/20" : "bg-orange-500/10 text-orange-400 border border-orange-500/20"} px-2 py-1 mt-1 text-xs rounded`}>
+                    {list.list_mode}
+                </span>
                 </div>
+
               </div>
+              
               <p className='text-gray-400 mt-4'>{list.list_description}</p>
             </div>
           </div>

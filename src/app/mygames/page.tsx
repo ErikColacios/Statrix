@@ -85,10 +85,20 @@ export default function MyGames() {
                     <h2 className='text-4xl font-bold md:text-5xl'>My games</h2>
                     <p className='text-gray-400 text-base md:ml-8 mt-1'>{gameList?.length} game/s</p>
                 </div>
-                <form className='ml-auto w-full md:w-96 mt-4 md:mt-0 relative flex items-center border border-gray-400 rounded-xl' action={formAction}>
-                    <input type="text" name="searchGame" id="searchGame" className='w-full bg-transparent outline-hidden pl-2 py-1' placeholder='Half Life 2' />
-                    <button className='rounded-sm pr-2 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
-                </form>
+            <form className="relative ml-auto mt-4 flex w-full items-center rounded-xl border border-white/10 bg-zinc-900/70 transition-colors duration-200 focus-within:border-green-500/70 focus-within:ring-1 focus-within:ring-green-500/20 md:mt-0 md:w-96"
+                action={formAction}>
+                <input type="text"
+                    name="searchGame"
+                    id="searchGame"
+                    className="w-full min-w-0 bg-transparent py-2 pl-3 pr-2 text-sm text-white outline-none placeholder:text-gray-500"
+                    placeholder="Search your games..."
+                    aria-label="Search your games"/>
+                <button className="mr-1.5 flex shrink-0 items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-green-500/10 hover:text-green-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
+                    type="submit"
+                    aria-label="Search">
+                    <img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} />
+                </button>
+            </form>
             </div>
             <div className='flex flex-col space-y-4'>
                 {isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
@@ -144,53 +154,88 @@ export default function MyGames() {
                             <svg className="w-6 fill-green-500 group-hover:fill-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" /></svg>
                             Back
                         </button>
-                        {viewGameStatus === GameStatus.PLAYING && <div className="flex items-end text-2xl"><p className="text-blue-500 font-bold">Playing</p><p className="text-gray-400 text-base ml-auto">{playingGames} games</p></div>}
-                        {viewGameStatus === GameStatus.COMPLETED && <div className="flex items-end text-2xl"><p className="text-green-400 font-bold">Completed</p><p className="text-gray-400 text-base ml-auto">{completedGames} games</p></div>}
-                        {viewGameStatus === GameStatus.ON_HOLD && <div className="flex items-end text-2xl"><p className="text-purple-600 font-bold">On hold</p><p className="text-gray-400 text-base ml-auto">{onholdGames} games</p></div>}
-                        {viewGameStatus === GameStatus.DROPPED && <div className="flex items-end text-2xl"><p className="text-rose-600 font-bold">Dropped</p><p className="text-gray-400 text-base ml-auto">{droppedGames} games</p></div>}
 
+                        {/* Game status labels */}
+                        <div className="mt-4 flex items-center justify-between gap-3">
+                            {viewGameStatus === GameStatus.PLAYING && <p className="border border-blue-500/30 bg-blue-500/10 text-blue-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{playingGames} game/s playing</p>}
+                            {viewGameStatus === GameStatus.COMPLETED && <p className="border border-green-500/30 bg-green-500/10 text-green-400 rounded p-1 px-3 py-1.5 text-lg font-semibold" >{completedGames} game/s completed</p>}
+                            {viewGameStatus === GameStatus.ON_HOLD && <p className="border border-purple-500/30 bg-purple-500/10 text-purple-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{onholdGames} game/s on hold</p>}
+                            {viewGameStatus === GameStatus.DROPPED && <p className="border border-rose-500/30 bg-rose-500/10 text-rose-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{completedGames} game/s dropped</p>}
+                        </div>
                         {gameListFiltered?.map((game: Game, index: number) => (
-                            <div className="group relative rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
-                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full'>
-                                    <img src={game.game_base_image} className="w-20 sm:w-24 border-r border-gray-500" alt={'Game cover'} />
-                                    <div className='flex flex-col ml-3 sm:ml-10'>
-                                        <div className='flex'>
-                                            <p className="text-left text-lg sm:text-xl mr-4">{game.game_name}</p>
-                                            <div className='flex items-center sm:flex-row  mr-4 md:mr-12'>
-                                                <div>
-                                                    <svg className={game.favourite ? "hidden" : ""} width="20px" height="28px" viewBox="0 0 33.00 33.00" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#fcfcfc" strokeWidth="0.132"><title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" strokeWidth="0.858" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
-                                                    <svg className={game.favourite ? "" : "hidden"} width="20px" height="28px" viewBox="0 -0.5 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#000000" strokeWidth="0.132"></g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill="#ffffff"> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
-                                                </div>
+                            <div key={index}
+                                className="group relative isolate overflow-hidden rounded-xl border border-gray-700 bg-zinc-900 transition-all duration-300 hover:border-green-500">
+                                {/* Blurred background cover */}
+                                <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125"
+                                    style={{ backgroundImage: `url("${game.game_base_image}")` }}/>
+
+                                {/* Dark overlay */}
+                                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-zinc-950/95 via-zinc-950/85 to-zinc-950/65 transition-colors duration-300 group-hover:from-zinc-950/90 group-hover:via-zinc-950/75 group-hover:to-zinc-950/55" />
+
+                                {/* Game content */}
+                                <Dialog.Trigger
+                                    onClick={() => { setGameClicked(game), setModalType("editGame")}}
+                                    className="relative flex min-h-28 w-full items-center text-left">
+                                    {/* Cover thumbnail */}
+                                    <img src={game.game_base_image}
+                                        alt={`${game.game_name} cover`}
+                                        className={`h-full min-h-28 self-stretch border-r border-white/10 object-cover w-16 sm:w-24`}/>
+
+                                    {/* Information */}
+                                    <div className="min-w-0 flex-1 py-3 pl-3 pr-8 sm:pl-5 sm:pr-10">
+                                        <div className="flex min-w-0 items-center gap-2">
+
+                                            {/* Game name */}
+                                            <p className="truncate text-left text-lg font-semibold text-white sm:text-xl">
+                                                {game.game_name}
+                                            </p>
+
+                                            {/* Favourite */}
+                                            <div className="ml-auto shrink-0">
+                                                {game.favourite ? (
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" stroke="#22c55e" strokeWidth="1.5" aria-label="Favourite">
+                                                        <path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeOpacity="0.55" strokeWidth="1.5" aria-label="Not a favourite">
+                                                        <path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z" />
+                                                    </svg>
+                                                )}
                                             </div>
                                         </div>
-                                        <div className='flex space-x-4 text-sm mt-4'>
-                                            <div className='flex text-gray-400 items-center'>
-                                                <label className="mr-2">Score</label>
-                                                <p className={`font-bold
-                                            ${game.score >= 8 ? " text-green-600" : ""}
-                                            ${game.score >= 4 && game.score < 8 ? " text-yellow-600" : ""}
-                                            ${game.score < 4 && game.score > 0 ? " text-rose-600" : ""}
-                                            ${game.score === 0 ? "text-gray-400" : ""}
-                                            `}> {Number(game.score) === 0 ? "NS" : game.score} </p>
+
+                                        {/* Score and playtime */}
+                                        <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-gray-400">Score</span>
+                                                <span className={`font-bold ${
+                                                    game.score >= 8
+                                                        ? 'text-green-400'
+                                                        : game.score >= 4
+                                                            ? 'text-yellow-400'
+                                                            : game.score > 0
+                                                                ? 'text-rose-400'
+                                                                : 'text-gray-400'
+                                                }`}>
+                                                    {Number(game.score) === 0 ? 'NS' : game.score}
+                                                </span>
                                             </div>
-                                            <div className='flex items-center text-sm'>
-                                                <div className='flex text-gray-400 items-center'>
-                                                    <label className="mr-2">Playtime</label>
-                                                    <p className='text-white'>{game.hours_played} h</p>
-                                                </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-gray-400">Playtime</span>
+                                                <span className="font-medium text-white">
+                                                    {game.hours_played} h
+                                                </span>
                                             </div>
-                                            {viewGameStatus === GameStatus.COMPLETED &&
-                                                <div className='hidden sm:flex items-center text-sm'>
-                                                    <div className='flex text-gray-400 items-center'>
-                                                        <label className="mr-2">Year completed</label>
-                                                        <p className='text-white'>{game.year_completed}</p>
-                                                    </div>
-                                                </div>}
                                         </div>
                                     </div>
                                 </Dialog.Trigger>
-                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-2 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
-                                    <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+
+                                {/* Remove game */}
+                                <Dialog.Trigger onClick={() => { setGameClicked(game); setModalType("removeGame"); }}
+                                    aria-label={`Remove ${game.game_name}`}
+                                    className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/30 bg-black/40 opacity-100 transition hover:border-red-400 hover:bg-red-500/20 xl:opacity-0 xl:group-hover:opacity-100">
+                                    <svg width="10" height="12" viewBox="0 0 21 21" fill="none" stroke="white" strokeWidth="2"><path d="M4 4l13 13M17 4L4 17" /></svg>
                                 </Dialog.Trigger>
                             </div>
                         ))}

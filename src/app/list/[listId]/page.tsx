@@ -123,7 +123,7 @@ export default function List({ params }: { params: { listId: string } }) {
                                     {/* Cover thumbnail */}
                                     <img src={game.game_base_image}
                                         alt={`${game.game_name} cover`}
-                                        className={`h-full min-h-28 self-stretch border-r border-white/10 object-cover ${viewMode === ViewMode.LIST ? 'w-16' : 'w-16 sm:w-24'}`}/>
+                                        className={`h-full min-h-28 self-stretch border-r border-white/10 object-cover ${viewMode === ViewMode.LIST ? 'w-16 sm:w-21' : 'w-16 sm:w-24'}`}/>
 
                                     {/* Information */}
                                     <div className="min-w-0 flex-1 py-3 pl-3 pr-8 sm:pl-5 sm:pr-10">
