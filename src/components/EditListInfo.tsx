@@ -18,7 +18,7 @@ interface Props {
 export default function EditListInfo({ setNextSlide, gameList, setGameList }: Props) {
     const router = useRouter()
     const [error, setError] = useState<string | null>(null)
-    const [selectedVisibility, setSelectedVisibility] = useState<string | undefined>()
+    const [selectedVisibility, setSelectedVisibility] = useState<string>("private")
     const [selectedMode, setSelectedMode] = useState<ListMode>(ListMode.UNRANKED)
     const [isFeatured, setIsFeatured] = useState<boolean>(false)
 

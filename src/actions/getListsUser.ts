@@ -1,6 +1,7 @@
 "use server"
 import { pool } from "@/util/postgres";
 import { List } from "@/types/List";
+import { ListMode } from "@/enums/ListMode";
 
 /**
  * Retrieves all lists created by the user associated with the session.
@@ -17,7 +18,7 @@ export async function getListsUser(userId:string, searchFeatured:boolean): Promi
 
     try {
         const { rows } = await pool.query(
-            `SELECT list_id, list_name, list_creationdate
+            `SELECT list_id, list_name, list_creationdate, list_mode
              FROM list
              WHERE user_id = $1
             ${featuredCondition}
@@ -30,6 +31,7 @@ export async function getListsUser(userId:string, searchFeatured:boolean): Promi
             const list_id:string = rows[i].list_id;
             const list_name:string = rows[i].list_name;
             const list_creationdate:string = rows[i].list_creationdate;
+            const list_mode:ListMode = rows[i].list_mode;
             let covers:string[] = []
             
             const coversRes = await pool.query(
@@ -41,7 +43,7 @@ export async function getListsUser(userId:string, searchFeatured:boolean): Promi
                 [list_id]
             );
             covers = coversRes.rows
-            const list:List = {list_id, list_name, list_creationdate, covers}
+            const list:List = {list_id, list_name, list_creationdate, list_mode, covers}
             lists.push(list)
 
         }

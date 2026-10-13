@@ -2,7 +2,7 @@
 import { pool } from '@/util/postgres';
 import getSessionUser from './getSessionUser';
 
-export default async function updateListInfo(listId:string, listName:string, listDescription:string, listVisibility:string, listFeatured:boolean){
+export default async function updateListInfo(listId:string, listName:string, listDescription:string, listVisibility:string, listFeatured:boolean, listMode: string){
     const session = await getSessionUser()
     const userId = session.user.id
 
@@ -11,8 +11,8 @@ export default async function updateListInfo(listId:string, listName:string, lis
     }
 
     try {
-        await pool.query(`UPDATE list SET list_name = $1, list_description = $2, list_visibility = $3, list_featured = $4 WHERE list_id = $5 AND user_id = $6`,
-        [listName, listDescription, listVisibility, listFeatured, listId, userId])
+        await pool.query(`UPDATE list SET list_name = $1, list_description = $2, list_visibility = $3, list_featured = $4, list_mode = $5 WHERE list_id = $6 AND user_id = $7`,
+        [listName, listDescription, listVisibility, listFeatured, listMode, listId, userId, ])
 
         return { success: true, message: "List information updated." };
     } catch(error){

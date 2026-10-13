@@ -6,6 +6,7 @@ import { getListInfo } from '@/actions/getListInfo';
 import { useSession } from 'next-auth/react';
 import updateListInfo from '@/actions/updateListInfo';
 import { useRouter } from "next/navigation";
+import { ListMode } from '@/enums/ListMode';
 
 export default function EditListInfoModal({ listId }: { listId: string }) {
 
@@ -14,7 +15,8 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
     const userId: string = session?.data?.user?.id as string;
     const [listInfo, setListInfo] = useState<any>([])
     const [error, setError] = useState<string | null>(null)
-    const [selectedVisibility, setSelectedVisibility] = useState<string | null>();
+    const [selectedVisibility, setSelectedVisibility] = useState<string>("");
+    const [selectedMode, setSelectedMode] = useState<ListMode>(ListMode.UNRANKED)
     const [isFeatured, setIsFeatured] = useState<boolean>(false);
 
     useEffect(() => {
@@ -23,24 +25,23 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
             setListInfo(res[0])
             setSelectedVisibility(res[0].list_visibility)
             setIsFeatured(res[0].list_featured)
+            setSelectedMode(res[0].list_mode)
         }
 
         fetchListInfo()
     }, [])
 
-    async function saveChanges(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+    async function saveChanges() {
         try {
-            const formData = new FormData(e.currentTarget)
-            if (formData.get("listName") === "") {
+            const listNameElement: HTMLInputElement = document.getElementById('listName') as HTMLInputElement
+            const listDescriptionElement: HTMLInputElement = document.getElementById('listDescription') as HTMLInputElement
+            const listName: string = listNameElement.value
+            const listDescription: string = listDescriptionElement.value
+
+            if (listName === '') {
                 throw new Error('The list name cannot be empty')
             }
-            const listName = formData.get("listName") as string
-            const listDescription = formData.get("listDescription") as string
-
-            const listVisibility = formData.get("listVisibility") as string
-
-            await updateListInfo(listId, listName, listDescription, listVisibility, isFeatured)
+            await updateListInfo(listId, listName, listDescription, selectedVisibility, isFeatured, selectedMode)
             router.refresh()
 
             // We simulate that the user presses ESC to close the modal
@@ -59,13 +60,13 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
     }
 
     return (
-        <div className="w-full h-full sm:h-160 flex flex-col justify-center sm:border sm:border-gray-600 px-4 py-10 md:px-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
+        <div className="w-full h-full sm:h-180 flex flex-col justify-center sm:border sm:border-gray-600 px-4 py-10 md:px-10 text-white sm:rounded-2xl bg-black/60 backdrop-blur-lg">
             <Dialog.Close className="absolute right-5 top-20 sm:right-10 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800">
                 <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
             </Dialog.Close>
-            <p className="text-3xl pt-8">Edit list info</p>
+            <p className="text-3xl pt-46 sm:pt-0">Edit list info</p>
 
-            <form className="flex flex-col text-sm mt-8" onSubmit={saveChanges}>
+            <div className="flex flex-col text-sm mt-8">
                 <div className="flex flex-col">
                     <p className="text-sm text-gray-400">List name</p>
                     <input type="text" name="listName" id="listName" className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600'
@@ -77,53 +78,51 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
                 <textarea rows={7} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none"
                     defaultValue={listInfo.list_description} />
 
-                <fieldset className='flex flex-col space-y-1'>
-                    <label className="inline-flex items-center mt-4 mb-1">Visibility</label>
-                    <div className='flex flex-col space-x-5 items-start'>
-                        <div className='flex space-x-2'>
-                            <input type="radio" id="public" name="listVisibility" value="public" className='accent-green-600'
-                                checked={selectedVisibility === "public"} onChange={(e) => setSelectedVisibility(e.target.value)} />
-                            <label htmlFor="public" className=''>Public</label>
-                        </div>
-                        <p className='text-gray-400'>Everyone can see this list</p>
-                    </div>
-
-                    <div className='flex flex-col space-x-5 items-start'>
-                        <div className='flex space-x-2'>
-                            <input type="radio" id="friendsOnly" name="listVisibility" value="friendsOnly" className='accent-green-600'
-                                checked={selectedVisibility === "friendsOnly"} onChange={(e) => setSelectedVisibility(e.target.value)} />
-                            <label htmlFor="friendsOnly" className=''>Friends only</label>
-                        </div>
-                        <p className='text-gray-400'>Only friends can see this list</p>
-                    </div>
-
-                    <div className='flex flex-col space-x-5 items-start'>
-                        <div className='flex space-x-2'>
-                            <input type="radio" id="private" name="listVisibility" value="private" className='accent-green-600'
-                                checked={selectedVisibility === "private"} onChange={(e) => setSelectedVisibility(e.target.value)} />
-                            <label htmlFor="private">Private</label>
-                        </div>
-                        <p className='text-gray-400'>Only you can see this list</p>
-                    </div>
-
-                    <div className='flex flex-col pt-6'>
-                        <div className='flex space-x-6'>
-                            <label htmlFor="listFeatured" className="text-sm">Featured list</label>
-                            <input type="checkbox" name="listFeatured" id="listFeatured" className='accent-green-500' checked={isFeatured} onChange={() => setIsFeatured(!isFeatured)}/>
-                        </div>
-
-                        <p className='text-gray-400'>Mark this to display this list in your profile</p>
-                    </div>
-
-                </fieldset>
+                <p className='text-gray-400 mt-4'>Visibility</p>
+                <section className='flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0 text-xl'>
+                    <button onClick={() => setSelectedVisibility("public")}
+                        className={`${selectedVisibility === "public" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                        <img src="/staticImages/icon_world.png" alt="Public icon" className='w-5 mb-1'/>
+                        <p className="text-xl font-bold">Public</p>
+                        <p className="text-sm text-gray-500 mt-1">Visible for anyone</p>
+                    </button>
+                    <button onClick={() => setSelectedVisibility("friends-only")}
+                        className={`${selectedVisibility === "friends-only" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                        <img src="/staticImages/icon_friends.png" alt="Friends icon" className='w-5 mb-1'/>
+                        <p className="text-xl font-bold">Friends only</p>
+                        <p className="text-sm text-gray-500 mt-1">Only your friends can see it</p>
+                    </button>
+                    <button onClick={() => setSelectedVisibility("private")}
+                        className={`${selectedVisibility === "private" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                        <img src="/staticImages/icon_locked.png" alt="Private icon" className='w-5 mb-1'/>
+                        <p className="text-xl font-bold">Private</p>
+                        <p className="text-sm text-gray-500 mt-1">Only you can access this list</p>
+                    </button>
+                </section>
+                
+                <p className='text-gray-400 mt-4'>Mode</p>
+                <section className='flex space-x-2 text-xl'>
+                    <button onClick={() => setSelectedMode(ListMode.UNRANKED)} 
+                        className={`${selectedMode === ListMode.UNRANKED ? "bg-green-500/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                        <img src="/staticImages/icon_unordered-list.png" alt="Cup icon" className='w-5 mb-1'/>
+                        <p className="text-xl font-bold">Unranked</p>
+                        <p className="text-sm text-gray-500 mt-1">Unordered list</p>
+                    </button>
+                    <button onClick={() => setSelectedMode(ListMode.RANKED)} 
+                        className={`${selectedMode === ListMode.RANKED ? "bg-green-500/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
+                        <img src="/staticImages/icon_cup.png" alt="Cup icon" className='w-4 mb-1'/>
+                        <p className="text-xl font-bold">Ranked</p>
+                        <p className="text-sm text-gray-500 mt-1">Ranked list</p>
+                    </button>
+                </section>
 
                 <div className='flex items-center mt-3'>
                     {error && <div className="text-red-500">{error}</div>}
-                    <button type="submit" className="ml-auto px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                    <button onClick={saveChanges} className="ml-auto px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                         Save changes
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     )
 }
