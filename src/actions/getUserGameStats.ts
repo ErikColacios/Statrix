@@ -10,6 +10,7 @@ type TopGame = {
 };
 
 type UserGameStats = {
+  gamesAll: number,
   gamesCompleted:number,
   topGames: TopGame[];
   gamesPlayed: number;
@@ -24,7 +25,17 @@ export default async function getUserGameStats(userName: string | undefined): Pr
 
   try {
 
-        // Get total of games played
+    // Get all the games of the user's library
+    const gamesAllResult = await pool.query(
+      `SELECT COUNT(*)::int
+       FROM user_videogame uv
+       INNER JOIN users usr ON usr.user_id = uv.user_id
+       WHERE usr.user_name = $1`,
+      [userName]
+    );
+    const gamesAll: number = gamesAllResult.rows[0].count;
+
+    // Get total of games played
     const gamesCompletedResult = await pool.query(
       `SELECT COUNT(*)::int
        FROM user_videogame uv
@@ -72,6 +83,7 @@ export default async function getUserGameStats(userName: string | undefined): Pr
     const favGames: TopGame[] = favGamesResult.rows;
 
     return {
+      gamesAll,
       gamesCompleted,
       topGames,
       gamesPlayed,

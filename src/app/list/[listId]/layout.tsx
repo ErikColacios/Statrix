@@ -28,7 +28,6 @@ export default async function ListLayout({ children, params }: { children: React
   }
 
   const userId: string = session.user.id
-  const userName: string = session.user.name
 
   if (userId !== undefined) {
     listInfo = await getListInfo(listId)

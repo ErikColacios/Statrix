@@ -40,7 +40,7 @@ export default async function Profile({ params }: { params: { userName: string }
     if (params.userName == session?.user?.name) canEdit = true
 
     userGameStats = await getUserGameStats(params.userName)
-    userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
+    //userTotalHoursPlayed = await getUserTotalHoursPlayed(params.userName)
     userTotalReviews = await getUserTotalReviews(params.userName)
     userReviews = await getUserGameReviews(params.userName)
     favouriteGames = await getUserFavouriteGames(params.userName)
@@ -118,10 +118,10 @@ export default async function Profile({ params }: { params: { userName: string }
                             </div>
                             <div className="flex flex-col space-y-4 md:h-120 w-full lg:w-2/3 xl:w-160">
                                 <div className="flex space-x-4 h-1/3">
-                                    {/* Completed games - widget*/}
+                                    {/* All games - widget*/}
                                     <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
-                                        <p className="text-green-600">Completed games</p>
-                                        <p className="text-6xl font-bold mt-1">{userGameStats.gamesCompleted}</p>
+                                        <p className="text-green-600">All games</p>
+                                        <p className="text-6xl font-bold mt-1">{userGameStats.gamesAll}</p>
                                     </div>
                                     {/* Most played game - widget*/}
                                     <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
@@ -155,10 +155,10 @@ export default async function Profile({ params }: { params: { userName: string }
                                         <p className="text-green-600">Games playing</p>
                                         <p className="text-6xl font-bold mt-1">{userGameStats.gamesPlayed}</p>
                                     </div>
-                                    {/* Hours played - widget*/}
-                                    <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4 max-w-72">
-                                        <p className="text-green-600">Hours played</p>
-                                        <p className="text-6xl font-bold mt-1">{userTotalHoursPlayed}</p>
+                                    {/* Completed games - widget*/}
+                                    <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                                        <p className="text-green-600">Completed games</p>
+                                        <p className="text-6xl font-bold mt-1">{userGameStats.gamesCompleted}</p>
                                     </div>
                                 </div>
                             </div>

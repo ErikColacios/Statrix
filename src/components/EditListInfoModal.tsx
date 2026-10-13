@@ -71,7 +71,7 @@ export default function EditListInfoModal({ listId, listContent }: { listId: str
 
             <div className="flex flex-col text-sm mt-8">
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-400">List name</p>
+                    <p className="text-sm text-gray-400">List name *</p>
                     <input type="text" name="listName" id="listName" className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600'
                         defaultValue={listInfo.list_name} />
                 </div>
