@@ -60,7 +60,7 @@ export default function List({ params }: { params: { listId: string } }) {
                             <SearchGameModal listId={listId} />
                         )}
                         {modalType === "editListInfo" && isOwner && (
-                            <EditListInfoModal listId={listId} />
+                            <EditListInfoModal listId={listId} listContent={listContent} />
                         )}
                         {modalType === "deleteList" && isOwner && (
                             <DeleteListModal listId={listId} />
@@ -108,11 +108,12 @@ export default function List({ params }: { params: { listId: string } }) {
                     <div className={`mt-4 grid gap-4 ${viewMode === ViewMode.GRID ? 'lg:grid-cols-2' : viewMode === ViewMode.LIST ? 'grid-cols-1' : ''}`}>
                         {/* List content */}
                         {listContent.map((game: Game, index: number) => (
-                            <div className="group relative rounded-sm rounded-lg overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
+                            <div className="group relative rounded-xl overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
                                 <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full' disabled={!isOwner}>
                                     <img src={game.game_base_image} className={`border-r border-gray-500 ${viewMode === ViewMode.LIST ? 'w-16 ' : 'w-16 sm:w-24'}`} alt={'Game cover'} />
                                     <div className='flex flex-col ml-3 sm:ml-10'>
                                         <div className='flex'>
+                                        {game.rank_order !== null && <span className="mr-2 flex h-7 min-w-7 items-center justify-center rounded-md border border-white/10 bg-zinc-950/90 px-1.5 text-xs font-bold text-gray-200 shadow-lg">{game.rank_order+1}</span>}
                                             <p className="text-left text-lg sm:text-xl mr-4">{game.game_name}</p>
                                             <div className='flex items-center sm:flex-row mr-4 md:mr-12'>
                                                 <div>
@@ -156,6 +157,8 @@ export default function List({ params }: { params: { listId: string } }) {
                                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                                         <p>{game.game_name}</p>
                                     </div>
+                                    {game.rank_order !== null && <span className="absolute bottom-0 flex h-7 min-w-7 items-center justify-center rounded-md border border-green-500/30 bg-zinc-950/90 px-1.5 text-xs font-bold text-gray-200 shadow-lg">{game.rank_order+1}</span>}
+
                                 </Dialog.Trigger>
                                 <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-1 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
                                     <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>

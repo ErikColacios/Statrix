@@ -22,5 +22,6 @@ export type Game = {
     hours_played:number,
     favourite:boolean,
     status: GameStatus,
-    year_completed:string
+    year_completed:string,
+    rank_order:number | null
 }

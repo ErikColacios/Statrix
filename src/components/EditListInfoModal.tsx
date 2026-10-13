@@ -7,8 +7,10 @@ import { useSession } from 'next-auth/react';
 import updateListInfo from '@/actions/updateListInfo';
 import { useRouter } from "next/navigation";
 import { ListMode } from '@/enums/ListMode';
+import { GameIGDB } from '@/types/GameIGDB';
+import { Game } from '@/types/Game';
 
-export default function EditListInfoModal({ listId }: { listId: string }) {
+export default function EditListInfoModal({ listId, listContent }: { listId: string, listContent:Game[] }) {
 
     const router = useRouter()
     const session: any = useSession();
@@ -41,7 +43,8 @@ export default function EditListInfoModal({ listId }: { listId: string }) {
             if (listName === '') {
                 throw new Error('The list name cannot be empty')
             }
-            await updateListInfo(listId, listName, listDescription, selectedVisibility, isFeatured, selectedMode)
+
+            await updateListInfo(listId, listName, listDescription, selectedVisibility, isFeatured, selectedMode, listContent)
             router.refresh()
 
             // We simulate that the user presses ESC to close the modal

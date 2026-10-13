@@ -8,5 +8,5 @@ export type GameIGDB = {
         image_id:string
     }
     rating:number,
-    order:number
+    order:number | null
 }

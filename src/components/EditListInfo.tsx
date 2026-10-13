@@ -38,6 +38,10 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
                 gameList.map((game:GameIGDB, index:number)=> {
                     game.order = index
                 })
+            } else {
+                gameList.map((game:GameIGDB)=> {
+                    game.order = null
+                })
             }
 
             await insertList(listName, listDescription, selectedVisibility, isFeatured, gameList, selectedMode)
@@ -75,7 +79,6 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
                         id="listDescription"
                         maxLength={250}
                         className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none"/>
-
 
                     <p className='text-gray-400 mt-4'>Visibility</p>
                     <section className='flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0 text-xl'>
