@@ -9,6 +9,7 @@ import EditListInfoModal from '@/components/EditListInfoModal';
 import DeleteListModal from '@/components/DeleteListModal';
 import DeleteGameListModal from '@/components/DeleteGameListModal';
 import { deleteGameList } from '@/actions/deleteGameList';
+import { motion } from "framer-motion"
 import { ViewMode } from '@/enums/ViewMode';
 
 export default function List({ params }: { params: { listId: string } }) {
@@ -36,10 +37,17 @@ export default function List({ params }: { params: { listId: string } }) {
         getListContentData()
     }, [])
 
-
     function handleRemoveGame(listId: string, gameId: number | undefined) {
         setListContent(listContent.filter(game => game.game_id !== gameId))
         deleteGameList(listId, gameId)
+    }
+
+    // Fade up animation
+    const fadeUp = {
+        initial: { opacity: 0, y: 50 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.5 },
+        viewport: { once: true, amount: 0.2 }
     }
 
     return (
@@ -60,7 +68,7 @@ export default function List({ params }: { params: { listId: string } }) {
                             <SearchGameModal listId={listId} />
                         )}
                         {modalType === "editListInfo" && isOwner && (
-                            <EditListInfoModal listId={listId} listContent={listContent} />
+                            <EditListInfoModal listId={listId} listContent={listContent} setListContent={setListContent}/>
                         )}
                         {modalType === "deleteList" && isOwner && (
                             <DeleteListModal listId={listId} />
@@ -103,7 +111,7 @@ export default function List({ params }: { params: { listId: string } }) {
                 </div>
 
                 {(viewMode === ViewMode.LIST || viewMode === ViewMode.GRID) && (
-                    <div className={`mt-4 grid gap-4 ${viewMode === ViewMode.GRID ? 'lg:grid-cols-2' : 'grid-cols-1'}`}>
+                    <motion.section {...fadeUp} className={`mt-4 grid gap-4 ${viewMode === ViewMode.GRID ? 'lg:grid-cols-2' : 'grid-cols-1'}`}>
                         {listContent.map((game: Game, index: number) => (
                             <div key={index}
                                 className="group relative isolate overflow-hidden rounded-xl border border-gray-700 bg-zinc-900 transition-all duration-300 hover:border-green-500">
@@ -182,10 +190,7 @@ export default function List({ params }: { params: { listId: string } }) {
 
                                 {/* Remove game */}
                                 <Dialog.Trigger
-                                    onClick={() => {
-                                        setGameClicked(game);
-                                        setModalType("removeGame");
-                                    }}
+                                    onClick={() => {setGameClicked(game); setModalType("removeGame")}}
                                     aria-label={`Remove ${game.game_name}`}
                                     className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/30 bg-black/40 opacity-100 transition hover:border-red-400 hover:bg-red-500/20 xl:opacity-0 xl:group-hover:opacity-100">
                                     <svg width="10" height="12" viewBox="0 0 21 21" fill="none" stroke="white" strokeWidth="2">
@@ -194,7 +199,7 @@ export default function List({ params }: { params: { listId: string } }) {
                                 </Dialog.Trigger>
                             </div>
                         ))}
-                    </div>
+                    </motion.section>
                 )}
 
                 {listContent.length == 0 && <p className='text-gray-400'>This list is empty</p>}
@@ -209,10 +214,15 @@ export default function List({ params }: { params: { listId: string } }) {
                                         <p>{game.game_name}</p>
                                     </div>
                                     {game.rank_order !== null && <span className="absolute bottom-0 flex h-7 min-w-7 items-center justify-center rounded-md border border-green-500/30 bg-zinc-950/90 px-1.5 text-xs font-bold text-gray-200 shadow-lg">{game.rank_order+1}</span>}
-
                                 </Dialog.Trigger>
-                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-1 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
-                                    <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+                                {/* Remove game */}
+                                <Dialog.Trigger
+                                    onClick={() => {setGameClicked(game); setModalType("removeGame")}}
+                                    aria-label={`Remove ${game.game_name}`}
+                                    className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/30 bg-black/40 opacity-100 transition hover:border-red-400 hover:bg-red-500/20 xl:opacity-0 xl:group-hover:opacity-100">
+                                    <svg width="10" height="12" viewBox="0 0 21 21" fill="none" stroke="white" strokeWidth="2">
+                                        <path d="M4 4l13 13M17 4L4 17" />
+                                    </svg>
                                 </Dialog.Trigger>
                             </div>
                         ))}

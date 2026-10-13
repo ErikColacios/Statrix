@@ -19,7 +19,7 @@ export default async function updateListInfo(listId:string, listName:string, lis
 
         // If the list mode is ranked, we set the order rank of each game. If its unranked, we set every rank_order to null
         if (listMode === ListMode.RANKED) {
-            listContent.map((game:Game, index:number)=> {
+            listContent.map((game:Game, index:number) => {
                 pool.query(`UPDATE list_games SET rank_order = $1 WHERE list_id = $2 AND user_id = $3 AND game_id = $4`,
                 [index, listId, userId, game.game_id ])
             })

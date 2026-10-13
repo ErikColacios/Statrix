@@ -8,6 +8,7 @@ import AddGameModal from "@/components/AddGameModal"
 import DeleteGameModal from "@/components/DeleteGameModal"
 import { deleteUserVideogame } from "@/actions/deleteUserVideogame"
 import { GameStatus } from "@/enums/GameStatus"
+import { motion } from "framer-motion"
 import SkeletonMyGames from "./skeleton"
 
 export default function MyGames() {
@@ -73,6 +74,14 @@ export default function MyGames() {
     function handleRemoveGame(gameId: number | undefined) {
         setGameListFiltered(gameListFiltered?.filter(game => game.game_id !== gameId))
         deleteUserVideogame(gameId)
+    }
+
+    // Fade up animation
+    const fadeUp = {
+        initial: { opacity: 0, y: 50 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.5 },
+        viewport: { once: true, amount: 0.2 }
     }
 
 

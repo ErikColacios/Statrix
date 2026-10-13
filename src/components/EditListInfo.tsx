@@ -118,6 +118,7 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
                         </button>
                     </section>
 
+                    {/* Games */}
                     <section className={`mt-4 grid gap-4 grid-cols-3 sm:grid-cols-5`}>
                         <DragDropProvider onDragEnd={event => {
                                 if (event.canceled) return;

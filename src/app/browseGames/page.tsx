@@ -7,6 +7,7 @@ import { useFormState } from 'react-dom'
 import SkeletonBrowseGames from "../browseGames/skeleton";
 import { Dialog, Toast } from "radix-ui";
 import AddGameModal from "@/components/AddGameModal";
+import { motion } from "framer-motion"
 
 export default function BrowseGames() {
 
@@ -76,6 +77,13 @@ export default function BrowseGames() {
     }
   }
 
+    // Fade up animation
+    const fadeUp = {
+        initial: { opacity: 0, y: 50 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.5 },
+        viewport: { once: true, amount: 0.2 }
+    }
 
   return (
       <section className="flex w-full bg-black text-white text-sm py-20">
@@ -170,7 +178,7 @@ export default function BrowseGames() {
                       {isLoading ? (
                           <SkeletonBrowseGames />
                       ) : (
-                          <div className="grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4">
+                          <motion.section {...fadeUp} className="grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4">
                               {gameItems.map((game, index: number) => (
                                   <Dialog.Trigger
                                       key={index}
@@ -186,10 +194,10 @@ export default function BrowseGames() {
                                       <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
                                   </Dialog.Trigger>
                               ))}
-                          </div>
+                          </motion.section>
                       )}
                       {gameItems.length !== 0 && (
-                          <div className="w-full flex justify-center text-gray-400 space-x-2 py-6">
+                          <motion.section {...fadeUp} className="w-full flex justify-center text-gray-400 space-x-2 py-6">
                               <button
                                   className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
                                   disabled={responseOffset === 0}
@@ -201,7 +209,7 @@ export default function BrowseGames() {
                                   onClick={() => handlePagination('next')}>
                                   Next
                               </button>
-                          </div>
+                          </motion.section>
                       )}
                       {gameItems.length === 0 && !isLoading && (
                           <div className="w-full flex justify-center text-gray-400">No games found with the current filters...</div>
