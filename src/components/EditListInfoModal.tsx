@@ -12,7 +12,17 @@ import { isSortable } from '@dnd-kit/react/sortable'
 import SortableItem from './SortableItem'
 import { Game } from '@/types/Game'
 
-export default function EditListInfoModal({ listId, listContent, setListContent }: { listId: string, listContent:Game[], setListContent:any }) {
+type Props = {
+    listId: string,
+    listContent: Game[],
+    setListContent: any,
+    timerRef:React.MutableRefObject<number>,
+    setOpenToast: any,
+    setToastMessage: any
+};
+
+
+export default function EditListInfoModal({ listId, listContent, setListContent, timerRef, setOpenToast, setToastMessage }: Props) {
 
     const router = useRouter()
     const session: any = useSession();
@@ -47,6 +57,12 @@ export default function EditListInfoModal({ listId, listContent, setListContent 
 
             await updateListInfo(listId, listName, listDescription, selectedVisibility, isFeatured, selectedMode, listContent)
             router.refresh()
+
+            // Trigger Toast
+            setToastMessage("List info updated successfully")
+            setOpenToast(false)
+            window.clearTimeout(timerRef.current)
+            timerRef.current = window.setTimeout(() => { setOpenToast(true) }, 100)
 
             // We simulate that the user presses ESC to close the modal
             const escEvent = new KeyboardEvent('keydown', {

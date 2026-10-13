@@ -32,7 +32,7 @@ export default async function ListsGrid({ userLists }: Props) {
                                 <span className={`${list.list_mode === ListMode.UNRANKED ? "bg-violet-500/10 text-violet-400 border border-violet-500/20" : "bg-orange-500/10 text-orange-400 border border-orange-500/20"} ml-4 px-2 py-1 mt-1 text-xs rounded`}>
                                     {list.list_mode}
                                 </span>
-                                <p className="ml-auto ">Created: {list.list_creationdate.toISOString().split('T')[0]}</p>
+                                <p className="ml-auto ">{list.list_creationdate.toISOString().split('T')[0]}</p>
                             </div>
                         </div>
                     </div>

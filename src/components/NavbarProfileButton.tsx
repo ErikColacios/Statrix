@@ -43,7 +43,7 @@ export default function NavbarProfileButton({ avatarImage }: any) {
             </button>
 
             {dropdown && <div className="flex flex-col absolute bg-zinc-900/90 backdrop-blur-lg text-sm w-44 text-gray-200 
-                border border-green-500 rounded rounded-lg top-12 md:top-10 space-y-2 z-40 right-4 p-4">
+                border border-white/10 bg-zinc-900/40 backdrop-blur-lg rounded rounded-lg top-12 md:top-10 space-y-2 z-40 right-4 p-4">
                 <Link href={`/profile/${userName}`} className="flex items-center mb-3">
                     <div className="sm:left-0 w-10 h-10 border border-gray-600 rounded-full overflow-hidden">
                         <img src={`/avatarImages/${avatarImage}`} className="h-full w-full object-cover" alt="Avatar image" />

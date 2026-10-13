@@ -24,6 +24,7 @@ export default function List({ params }: { params: { listId: string } }) {
     // Toast state
     const timerRef = useRef(0)
     const [openToast, setOpenToast] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
     useEffect(() => {
         return () => clearTimeout(timerRef.current)
     }, [])
@@ -62,13 +63,13 @@ export default function List({ params }: { params: { listId: string } }) {
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
                         {modalType === "editGame" && isOwner && (
-                            <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} />
+                            <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage} />
                         )}
                         {modalType === "addGame" && isOwner && (
                             <SearchGameModal listId={listId} />
                         )}
                         {modalType === "editListInfo" && isOwner && (
-                            <EditListInfoModal listId={listId} listContent={listContent} setListContent={setListContent}/>
+                            <EditListInfoModal listId={listId} listContent={listContent} setListContent={setListContent} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage}/>
                         )}
                         {modalType === "deleteList" && isOwner && (
                             <DeleteListModal listId={listId} />
@@ -234,7 +235,7 @@ export default function List({ params }: { params: { listId: string } }) {
                   <Toast.Description>
                       <div className="flex items-center space-x-2">
                           <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
-                          <p>Game info updated successfully</p>
+                          <p>{toastMessage}</p>
                       </div>
                   </Toast.Description>
                   <Toast.Close/>

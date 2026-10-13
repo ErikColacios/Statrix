@@ -29,6 +29,7 @@ export default function MyGames() {
     // Toast state
     const timerRef = useRef(0)
     const [openToast, setOpenToast] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
     useEffect(() => {
         return () => clearTimeout(timerRef.current)
     }, [])
@@ -152,7 +153,7 @@ export default function MyGames() {
                                 <Dialog.Title className="DialogTitle"></Dialog.Title>
                                 <Dialog.Description className="DialogDescription"></Dialog.Description>
                                 {modalType === "editGame" && (
-                                    <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} />
+                                    <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage}/>
                                 )}
                                 {modalType === "removeGame" && (
                                     <DeleteGameModal gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />
@@ -265,7 +266,7 @@ export default function MyGames() {
                     <Toast.Description>
                         <div className="flex items-center space-x-2">
                             <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
-                            <p>Game info updated successfully</p>
+                            <p>{toastMessage}</p>
                         </div>
                     </Toast.Description>
                     <Toast.Close />

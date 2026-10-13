@@ -26,6 +26,7 @@ export default function BrowseGames() {
   // Toast state
   const timerRef = useRef(0)
   const [openToast, setOpenToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
   useEffect(() => {
     return () => clearTimeout(timerRef.current)
   }, [])
@@ -102,7 +103,7 @@ export default function BrowseGames() {
                           <Dialog.Description className="DialogDescription"></Dialog.Description>
 
                           {/* Add game modal */}
-                          <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} />
+                          <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage} />
                       </Dialog.Content>
                   </Dialog.Portal>
                   {/* Sidebar */}
@@ -221,7 +222,7 @@ export default function BrowseGames() {
                   <Toast.Description>
                       <div className="flex items-center space-x-2">
                           <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
-                          <p>Game info updated successfully</p>
+                          <p>{toastMessage}</p>
                       </div>
                   </Toast.Description>
                   <Toast.Close/>

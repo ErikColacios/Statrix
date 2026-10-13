@@ -13,12 +13,13 @@ import { GameIGDB } from "@/types/GameIGDB";
 import { UserGame } from "@/types/UserGame";
 
 type Props = {
-    game: GameIGDB | Game | undefined,
-    timerRef:React.MutableRefObject<number>,
-    setOpenToast: any
+    game: GameIGDB | Game | undefined;
+    timerRef: React.MutableRefObject<number>;
+    setOpenToast: React.Dispatch<React.SetStateAction<boolean>>;
+    setToastMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
+export default function AddGameModal({ game, timerRef, setOpenToast, setToastMessage }: Props) {
     const years: number[] = []
     let currentYear = new Date().getFullYear()
 
@@ -34,14 +35,11 @@ export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
     const [showDropdownYear, setShowDropdownYear] = useState<boolean>(false)
     const [nextSlide, setNextSlide] = useState<number>(0)
 
-    //const [activity, setActivity] = useState<Activity[]>([])
-
     const dropdownRef = useRef<HTMLDivElement>(null)
 
     function isGameIGDB(game: Game | GameIGDB): game is GameIGDB {
         return "id" in game && "name" in game
     }
-
     //if(isGameIGDB(game)){
     //console.log("Es de IGDB", game.cover.image_id)
     //}else {
@@ -179,7 +177,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast }: Props) {
         }
         if (gameId) {
             await updateUserVideogame(userGameUpdated);
-
+            setToastMessage("Game info updated successfully")
             setOpenToast(false)
             window.clearTimeout(timerRef.current)
             timerRef.current = window.setTimeout(() => { setOpenToast(true) }, 100)

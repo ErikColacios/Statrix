@@ -50,14 +50,15 @@ export default async function Profile({ params }: { params: { userName: string }
     return (
         <>
             {userInfo.map((item: any, index: number) => (
-                <section className="min-h-screen bg-black text-white py-16 flex flex-col items-center p-2" key={index}>
+                <section className="h-screen text-white py-16 flex flex-col items-center bg-cover bg-center" style={{ backgroundImage: `url(/staticImages/bg_abyss.jpg)` }} key={index}>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
                     <div className="flex flex-col">
                         <div className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-4 lg:flex-row">
-                            <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 border border-gray-600 bg-zinc-900 rounded-lg" >
+                            <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 rounded-lg border border-white/10 bg-zinc-900/40 backdrop-blur-lg" >
                                 {/* Profile - widget */}
                                 <div className="relative h-38 md:h-70 z-10">
-                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-gray-600 sm:w-full sm:h-62" />
-                                    <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 border border-gray-600 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0 sm:bottom-5">
+                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-white/10 sm:w-full sm:h-62" />
+                                    <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 border border-white/10 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0 sm:bottom-5">
                                         <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
                                     </div>
                                 </div>
@@ -116,25 +117,26 @@ export default async function Profile({ params }: { params: { userName: string }
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col space-y-4 md:h-120 w-full lg:w-2/3 xl:w-160">
+
+                            <div className="flex flex-col space-y-4 md:h-120 w-full lg:w-2/3 xl:w-160 z-10">
                                 <div className="flex space-x-4 h-1/3">
                                     {/* All games - widget*/}
-                                    <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                                    <div className="relative w-full overflow-hidden rounded-lg border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg">
                                         <p className="text-green-600">All games</p>
-                                        <p className="text-6xl font-bold mt-1">{userGameStats.gamesAll}</p>
+                                        <p className="mt-1 text-6xl font-bold">{userGameStats.gamesAll}</p>
                                     </div>
                                     {/* Most played game - widget*/}
-                                    <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                                    <div className="relative w-full overflow-hidden rounded-lg border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg">
                                         <p className="text-green-600">Most played game</p>
                                         <p className="text-xl sm:text-3xl font-bold mt-1">{userGameStats.topGames[0] ? userGameStats.topGames[0].game_name : "No played games yet..."}</p>
                                     </div>
                                 </div>
                                 {/* Last review - widget*/}
-                                <div className="flex space-x-4 border border-gray-600 bg-zinc-900 rounded-lg overflow-hidden h-1/3">
+                                <div className="flex space-x-4 border border-white/10 bg-zinc-900 rounded-lg overflow-hidden h-1/3">
                                     {userReviews.map((r: any, index: number) => (
                                         <Link href={'/gamePage/' + r.game_id} className="relative isolate w-full flex items-center p-4" key={index}>
-                                        <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125" 
-                                            style={{ backgroundImage: `url(${r.game_base_image})` }}/>
+                                            <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125" 
+                                                style={{ backgroundImage: `url(${r.game_base_image})` }}/>
 
                                             <div className="absolute w-full inset-0 bg-black/60" />
                                             <img src={r.game_base_image} className="w-20 h-24 z-10 mr-3" alt="Game reviewed" />
@@ -152,12 +154,12 @@ export default async function Profile({ params }: { params: { userName: string }
                                 </div>
                                 <div className="flex space-x-4 h-1/3">
                                     {/* Games playing - widget*/}
-                                    <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                                    <div className="relative w-full overflow-hidden rounded-lg border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg">
                                         <p className="text-green-600">Games playing</p>
                                         <p className="text-6xl font-bold mt-1">{userGameStats.gamesPlaying}</p>
                                     </div>
                                     {/* Completed games - widget*/}
-                                    <div className="w-full overflow-hidden border border-gray-600 bg-zinc-900 rounded-lg p-4">
+                                    <div className="relative w-full overflow-hidden rounded-lg border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg">
                                         <p className="text-green-600">Completed games</p>
                                         <p className="text-6xl font-bold mt-1">{userGameStats.gamesCompleted}</p>
                                     </div>
@@ -165,10 +167,10 @@ export default async function Profile({ params }: { params: { userName: string }
                             </div>
                         </div>
 
-                        <div className="flex flex-col md:flex-row md:space-x-4 w-full">
+                        <div className="flex flex-col md:flex-row md:space-x-4 w-full z-10">
                             {/* Fav games */}
                             <div className="flex flex-col sm:w-1/2">
-                                <p className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
+                                <p className="flex items-center mt-4 mb-2 text-base text-gray-400 pl-1">
                                     <img src="/staticImages/icon_star_gray.png" alt="Star icon" className="w-4 h-4 mr-1" />
                                     Favourite games</p>
                                 <FavouriteGames favouriteGames={favouriteGames} canEdit={canEdit}/>
@@ -177,7 +179,7 @@ export default async function Profile({ params }: { params: { userName: string }
 
                             {/* Activity */}
                             <div className="flex flex-col sm:w-1/2">
-                                <div className="flex items-center mt-4 mb-2 text-base text-zinc-400 pl-1">
+                                <div className="flex items-center mt-4 mb-2 text-base text-gray-400 pl-1">
                                     <img src="/staticImages/icon_activity_gray.png" alt="Activity icon" className="w-4 h-4 mr-1" />
                                     <p>Activity</p>
                                     <Link href={`/profile/${params.userName}/activity`} className="ml-auto text-green-500 hover:text-green-600">See all</Link>
@@ -188,9 +190,8 @@ export default async function Profile({ params }: { params: { userName: string }
                             </div>
                         </div>
 
-
                         {/* Featured lists */}
-                        <p className="flex items-center mt-4 mb-1 text-base text-zinc-400">
+                        <p className="flex items-center mt-4 mb-1 text-base text-gray-400 z-10">
                             <img src="/staticImages/icon_list.png" alt="List icon" className="w-5 h-5 mr-1" />
                             Featured lists</p>
                         <div className="grid md:grid-cols-3 gap-2 ">
