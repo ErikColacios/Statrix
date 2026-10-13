@@ -31,7 +31,7 @@ export default function List({ params }: { params: { listId: string } }) {
         const getListContentData = async () => {
             const content = await getListContent(listId)
             setListContent(content)
-            setIsOwner(content[0].isowner)
+            setIsOwner(content[0]?.isowner)
         }
         getListContentData()
     }, [])
@@ -83,7 +83,6 @@ export default function List({ params }: { params: { listId: string } }) {
                             <img src="/staticImages/icon_covers.png" alt="Covers icon" className="w-4" />
                         </button>
                     </div>
-
                     {isOwner &&
                         <div className='flex sm:flex-row space-x-2 sm:space-x-4 sm:ml-auto order-1 sm:order-2'>
                             <Dialog.Trigger onClick={() => { setModalType("addGame") }} className="px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
@@ -103,50 +102,102 @@ export default function List({ params }: { params: { listId: string } }) {
                     }
                 </div>
 
-
-                {(viewMode === ViewMode.LIST || viewMode === ViewMode.GRID) &&
-                    <div className={`mt-4 grid gap-4 ${viewMode === ViewMode.GRID ? 'lg:grid-cols-2' : viewMode === ViewMode.LIST ? 'grid-cols-1' : ''}`}>
-                        {/* List content */}
+                {(viewMode === ViewMode.LIST || viewMode === ViewMode.GRID) && (
+                    <div className={`mt-4 grid gap-4 ${viewMode === ViewMode.GRID ? 'lg:grid-cols-2' : 'grid-cols-1'}`}>
                         {listContent.map((game: Game, index: number) => (
-                            <div className="group relative rounded-xl overflow-hidden md:text-lg border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index}>
-                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("editGame") }} className='flex items-center w-full' disabled={!isOwner}>
-                                    <img src={game.game_base_image} className={`border-r border-gray-500 ${viewMode === ViewMode.LIST ? 'w-16 ' : 'w-16 sm:w-24'}`} alt={'Game cover'} />
-                                    <div className='flex flex-col ml-3 sm:ml-10'>
-                                        <div className='flex'>
-                                        {game.rank_order !== null && <span className="mr-2 flex h-7 min-w-7 items-center justify-center rounded-md border border-white/10 bg-zinc-950/90 px-1.5 text-xs font-bold text-gray-200 shadow-lg">{game.rank_order+1}</span>}
-                                            <p className="text-left text-lg sm:text-xl mr-4">{game.game_name}</p>
-                                            <div className='flex items-center sm:flex-row mr-4 md:mr-12'>
-                                                <div>
-                                                    <svg className={game.favourite ? "hidden" : ""} width="16px" viewBox="0 0 33.00 33.00" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#fcfcfc" strokeWidth="0.132"><title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" strokeWidth="0.858" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill=""> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
-                                                    <svg className={game.favourite ? "" : "hidden"} width="16px" viewBox="0 -0.5 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#000000" strokeWidth="0.132"></g><g id="SVGRepo_iconCarrier"> <title>star</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Vivid.JS" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Vivid-Icons" transform="translate(-903.000000, -411.000000)" fill="#ffffff"> <g id="Icons" transform="translate(37.000000, 169.000000)"> <g id="star" transform="translate(858.000000, 234.000000)"> <g transform="translate(7.000000, 8.000000)" id="Shape"> <polygon points="27.865 31.83 17.615 26.209 7.462 32.009 9.553 20.362 0.99 12.335 12.532 10.758 17.394 0 22.436 10.672 34 12.047 25.574 20.22"> </polygon> </g> </g> </g> </g> </g> </g></svg>
-                                                </div>
+                            <div key={index}
+                                className="group relative isolate overflow-hidden rounded-xl border border-gray-700 bg-zinc-900 transition-all duration-300 hover:border-green-500">
+                                {/* Blurred background cover */}
+                                <div
+                                    className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125"
+                                    style={{ backgroundImage: `url("${game.game_base_image}")` }}/>
+
+                                {/* Dark overlay */}
+                                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-zinc-950/95 via-zinc-950/85 to-zinc-950/65 transition-colors duration-300 group-hover:from-zinc-950/90 group-hover:via-zinc-950/75 group-hover:to-zinc-950/55" />
+
+                                {/* Game content */}
+                                <Dialog.Trigger
+                                    onClick={() => { setGameClicked(game), setModalType("editGame")}}
+                                    className="relative flex min-h-28 w-full items-center text-left"
+                                    disabled={!isOwner}>
+                                    {/* Cover thumbnail */}
+                                    <img src={game.game_base_image}
+                                        alt={`${game.game_name} cover`}
+                                        className={`h-full min-h-28 self-stretch border-r border-white/10 object-cover ${viewMode === ViewMode.LIST ? 'w-16' : 'w-16 sm:w-24'}`}/>
+
+                                    {/* Information */}
+                                    <div className="min-w-0 flex-1 py-3 pl-3 pr-8 sm:pl-5 sm:pr-10">
+                                        <div className="flex min-w-0 items-center gap-2">
+                                            {game.rank_order !== null && (
+                                                <span className="flex h-7 min-w-7 shrink-0 items-center justify-center rounded-md border border-white/15 bg-black/50 px-1.5 text-xs font-bold text-gray-200 shadow-lg backdrop-blur-sm">
+                                                    {game.rank_order + 1}
+                                                </span>
+                                            )}
+
+                                            {/* Game name */}
+                                            <p className="truncate text-left text-lg font-semibold text-white sm:text-xl">
+                                                {game.game_name}
+                                            </p>
+
+                                            {/* Favourite */}
+                                            <div className="ml-auto shrink-0">
+                                                {game.favourite ? (
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#22c55e" stroke="#22c55e" strokeWidth="1.5" aria-label="Favourite">
+                                                        <path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeOpacity="0.55" strokeWidth="1.5" aria-label="Not a favourite">
+                                                        <path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z" />
+                                                    </svg>
+                                                )}
                                             </div>
                                         </div>
-                                        <div className='flex space-x-4 text-sm mt-2'>
-                                            <div className='flex text-gray-400 items-center'>
-                                                <label className="mr-2">Score</label>
-                                                <p className={`font-bold
-                                            ${game.score >= 8 ? " text-green-600" : ""}
-                                            ${game.score >= 4 && game.score < 8 ? " text-yellow-600" : ""}
-                                            ${game.score < 4 && game.score > 0 ? " text-rose-600" : ""}
-                                            `}>{Number(game.score) === 0 ? "NS" : game.score}</p>
+
+                                        {/* Score and playtime */}
+                                        <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-gray-400">Score</span>
+                                                <span className={`font-bold ${
+                                                    game.score >= 8
+                                                        ? 'text-green-400'
+                                                        : game.score >= 4
+                                                            ? 'text-yellow-400'
+                                                            : game.score > 0
+                                                                ? 'text-rose-400'
+                                                                : 'text-gray-400'
+                                                }`}>
+                                                    {Number(game.score) === 0 ? 'NS' : game.score}
+                                                </span>
                                             </div>
-                                            <div className='flex items-center text-sm'>
-                                                <div className='flex text-gray-400 items-center'>
-                                                    <label className="mr-2">Playtime</label>
-                                                    <p className='text-white'>{game.hours_played} h</p>
-                                                </div>
+
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-gray-400">Playtime</span>
+                                                <span className="font-medium text-white">
+                                                    {game.hours_played} h
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 </Dialog.Trigger>
-                                <Dialog.Trigger onClick={() => { setGameClicked(game), setModalType("removeGame") }} className="flex items-center justify-center text-xs xl:hidden group-hover:flex absolute right-2 bottom-2 w-5 h-5 rounded-full border border-gray-400 transition hover:bg-zinc-900">
-                                    <svg width="8px" height="14px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
+
+                                {/* Remove game */}
+                                <Dialog.Trigger
+                                    onClick={() => {
+                                        setGameClicked(game);
+                                        setModalType("removeGame");
+                                    }}
+                                    aria-label={`Remove ${game.game_name}`}
+                                    className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/30 bg-black/40 opacity-100 transition hover:border-red-400 hover:bg-red-500/20 xl:opacity-0 xl:group-hover:opacity-100">
+                                    <svg width="10" height="12" viewBox="0 0 21 21" fill="none" stroke="white" strokeWidth="2">
+                                        <path d="M4 4l13 13M17 4L4 17" />
+                                    </svg>
                                 </Dialog.Trigger>
                             </div>
                         ))}
                     </div>
-                }
+                )}
+
+                {listContent.length == 0 && <p className='text-gray-400'>This list is empty</p>}
 
                 {viewMode === ViewMode.COVERS &&
                     <div className={`mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3`}>

@@ -57,7 +57,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                 {/* Profile - widget */}
                                 <div className="relative h-38 md:h-70 z-10">
                                     <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-gray-600 sm:w-full sm:h-62" />
-                                    <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0 sm:bottom-5">
+                                    <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 border border-gray-600 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0 sm:bottom-5">
                                         <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
                                     </div>
                                 </div>
@@ -132,9 +132,10 @@ export default async function Profile({ params }: { params: { userName: string }
                                 {/* Last review - widget*/}
                                 <div className="flex space-x-4 border border-gray-600 bg-zinc-900 rounded-lg overflow-hidden h-1/3">
                                     {userReviews.map((r: any, index: number) => (
-                                        <Link href={'/gamePage/' + r.game_id} className="relative w-full flex items-center bg-cover bg-center p-4 transition hover:opacity-70"
-                                            style={{ backgroundImage: `url(${r.game_base_image})` }}
-                                            key={index}>
+                                        <Link href={'/gamePage/' + r.game_id} className="relative isolate w-full flex items-center p-4" key={index}>
+                                        <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125" 
+                                            style={{ backgroundImage: `url(${r.game_base_image})` }}/>
+
                                             <div className="absolute w-full inset-0 bg-black/60" />
                                             <img src={r.game_base_image} className="w-20 h-24 z-10 mr-3" alt="Game reviewed" />
                                             <div className="flex flex-col z-10">
