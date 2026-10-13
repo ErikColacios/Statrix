@@ -21,7 +21,7 @@ export default async function Navbar() {
 
     return (
         <header className="flex flex-col">
-            <div className="flex justify-center items-center w-full bg-black/50 backdrop-blur-xs text-white fixed z-50 top p-4">
+            <div className="flex justify-center items-center w-full bg-black/50 backdrop-blur-xs text-white fixed z-99 top p-4">
                 <div className="absolute left-0 pl-4 md:pl-16">
                     <Link href="/"><img src={`/logos/st2_white.png`} className="w-32 hidden sm:flex" alt="Statrix Logo" /></Link>
                     <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo small" /></Link>

@@ -2,8 +2,8 @@ import React from "react"
 import { useSortable } from "@dnd-kit/react/sortable"
 import { ListMode } from "@/enums/ListMode"
 
-export default function SortableItem({ id, index, imageId, listMode }: any) {
-    const { ref } = useSortable({ id, index })
+export default function SortableItem({ id, index, imageId, listMode, disabled }: any) {
+    const { ref } = useSortable({ id, index, disabled })
 
     return (
         <div ref={ref} className="relative rounded-lg overflow-hidden border border-gray-600 cursor-pointer hover:border-green-500">

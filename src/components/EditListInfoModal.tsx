@@ -115,7 +115,7 @@ export default function EditListInfoModal({ listId, listContent, setListContent 
                 </section>
                 
                 <p className='text-gray-400 mt-4'>Mode</p>
-                <section className='flex space-x-2 text-xl'>
+                <section className='flex space-x-2 text-xl mb-4'>
                     <button onClick={() => setSelectedMode(ListMode.UNRANKED)} 
                         className={`${selectedMode === ListMode.UNRANKED ? "bg-green-500/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
                         <img src="/staticImages/icon_unordered-list.png" alt="Cup icon" className='w-5 mb-1'/>
@@ -130,12 +130,15 @@ export default function EditListInfoModal({ listId, listContent, setListContent 
                     </button>
                 </section>
 
+                {selectedMode !== ListMode.UNRANKED && <p className='ml-auto mb-1 text-gray-500 text-sm'>Drag and drop to order the games</p>}
+
                 {/* Games */}
-                <section className={`mt-4 grid gap-4 grid-cols-3 sm:grid-cols-5`}>
+                <section className={`grid gap-4 grid-cols-3 sm:grid-cols-5 pb-4`}>
                     <DragDropProvider onDragEnd={event => {
+                            if(selectedMode === ListMode.UNRANKED) return
                             if (event.canceled) return;
                             const { source } = event.operation
-
+                        
                             if (isSortable(source)) {
                                 const { initialIndex, index } = source
 
@@ -151,7 +154,7 @@ export default function EditListInfoModal({ listId, listContent, setListContent 
                         }}>
                         {/* List content */}
                         {listContent.map((game: Game, index: number) => (
-                            <SortableItem key={game.game_id} id={game.game_id} index={index} imageId={game.game_image_id} listMode={selectedMode}/>
+                            <SortableItem key={game.game_id} id={game.game_id} index={index} imageId={game.game_image_id} listMode={selectedMode} disabled={selectedMode === ListMode.UNRANKED}/>
                         ))}
                     </DragDropProvider>
                 </section>
