@@ -12,7 +12,7 @@ export default async function ListsGrid({ userLists }: Props) {
     return (
         <>
             {userLists.map((list: any, index: number) => (
-                <Link href={`/list/${list.list_id}`} key={index} className='flex flex-col bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 rounded-2xl overflow-hidden mb-4 md:mb-0'>
+                <Link href={`/list/${list.list_id}`} key={index} className='flex flex-col bg-zinc-900/70 border border-white/10 backdrop-blur-lg hover:bg-zinc-800 hover:border-green-500 rounded-2xl overflow-hidden mb-4 md:mb-0'>
                     <div className='relative flex w-full h-48 bg-black'>
                         {list.covers.map((cover: any, i: number) => (
                             <img key={i} src={cover.game_base_image} className='absolute w-36 h-48 rounded-tr-xl border border-gray-600'

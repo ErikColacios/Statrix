@@ -57,18 +57,24 @@ export default async function Profile({ params }: { params: { userName: string }
                             <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 rounded-lg border border-white/10 bg-zinc-900/40 backdrop-blur-lg" >
                                 {/* Profile - widget */}
                                 <div className="relative h-38 md:h-70 z-10">
-                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-white/10 sm:w-full sm:h-62" />
+                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-white/10 w-full sm:h-62" />
                                     <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 border border-white/10 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0 sm:bottom-5">
                                         <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
                                     </div>
                                 </div>
-                                <div className="flex flex-col sm:flex-row px-5 py-4">
+                                <div className="flex flex-col sm:flex-row px-4 sm:px-2 py-4">
                                     <div className="flex flex-col space-y-2 sm:items-center text-sm xl:px-4">
+                                        <div className="flex items-center space-x-2">
                                         <p className="text-4xl font-bold">{item.user_name.slice(0, 10)}</p>
+                                            {canEdit && <Link href={'/settings'} className="ml-auto sm:hidden flex items-center justify-center space-x-2 px-3 py-1 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                                <img src="/staticImages/icon_share.png" alt="Share icon" className="w-4"/><span>Share</span>
+                                            </Link>}
+                                        </div>
                                         <p className="text-gray-400">Joined {item.user_creationdate.toISOString().split('T')[0]}</p>
-                                        {canEdit && <Link href={'/settings'} className="w-1/2 sm:w-full text-center text-md text-white px-3 py-1 sm:px-6 sm:py-1 rounded-xl 
-                                bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                                            Settings</Link>}
+                                        {canEdit && <Link href={'/settings'} className="hidden sm:flex items-center justify-center space-x-2 px-3 py-1 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                                <img src="/staticImages/icon_share.png" alt="Share icon" className="w-4"/><span>Share</span>
+                                            </Link>}
+                                        
                                     </div>
                                     <div className="flex flex-col space-y-2 text-sm sm:w-2/3 mt-4 sm:ml-4 sm:mt-0">
                                         <p>{item.user_bio}</p>
@@ -132,7 +138,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                     </div>
                                 </div>
                                 {/* Last review - widget*/}
-                                <div className="flex space-x-4 border border-white/10 bg-zinc-900 rounded-lg overflow-hidden h-1/3">
+                                <div className="flex space-x-4 border border-white/10 bg-zinc-900/40 backdrop-blur-lg rounded-lg overflow-hidden h-1/3">
                                     {userReviews.map((r: any, index: number) => (
                                         <Link href={'/gamePage/' + r.game_id} className="relative isolate w-full flex items-center p-4" key={index}>
                                             <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125" 
@@ -154,7 +160,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                 </div>
                                 <div className="flex space-x-4 h-1/3">
                                     {/* Games playing - widget*/}
-                                    <div className="relative w-full overflow-hidden rounded-lg border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg">
+                                    <div className="relative w-full overflow-hidden rounded-lg p-4 border border-white/10 bg-zinc-900/40 backdrop-blur-lg">
                                         <p className="text-green-600">Games playing</p>
                                         <p className="text-6xl font-bold mt-1">{userGameStats.gamesPlaying}</p>
                                     </div>

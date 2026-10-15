@@ -25,7 +25,7 @@ export default async function ActivityWidget({ userActivity, canEdit }: Props) {
             ))}
 
             {userActivity.length === 0 && (
-                <div className='w-full h-36 flex items-center justify-center bg-zinc-900 border border-gray-600 rounded-lg text-white text-sm sm:text-base'>
+                <div className='w-full h-36 flex items-center justify-center border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg rounded-lg text-sm sm:text-base'>
                     <div className="flex flex-col text-center text-gray-400">
                         <p>(－_－) zzZ</p>
                         <p>No recent activity yet.</p>
