@@ -214,7 +214,7 @@ export default function List({ params }: { params: { listId: string } }) {
                                     <div className='absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block'>
                                         <p>{game.game_name}</p>
                                     </div>
-                                    {game.rank_order !== null && <span className="absolute bottom-0 flex h-7 min-w-7 items-center justify-center rounded-md border border-green-500/30 bg-zinc-950/90 px-1.5 text-xs font-bold text-gray-200 shadow-lg">{game.rank_order+1}</span>}
+                                    {game.rank_order !== null && <span className="absolute bottom-0 left-0 flex h-7 min-w-7 items-center justify-center rounded-md border border-green-500/30 bg-zinc-950/90 px-1.5 text-xs font-bold text-gray-200 shadow-lg">{game.rank_order+1}</span>}
                                 </Dialog.Trigger>
                                 {/* Remove game */}
                                 <Dialog.Trigger
