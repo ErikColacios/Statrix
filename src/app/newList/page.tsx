@@ -7,7 +7,9 @@ import { useFormState } from 'react-dom'
 import EditListInfo from "@/components/EditListInfo";
 import { GameIGDB } from "@/types/GameIGDB";
 import SkeletonNewList from "./skeleton";
-import { Dialog } from "radix-ui";
+import { Dialog, Toast } from "radix-ui";
+import { motion } from "framer-motion"
+
 
 export default function NewList() {
 
@@ -23,13 +25,19 @@ export default function NewList() {
   const [showModal, setShowModal] = useState(false)
   const [modalTrigger, setModalTrigger] = useState(0)
 
-  // Custom alert
-  const [alert, setAlert] = useState(<></>)
-
   const [responseOffset, setResponseOffset] = useState<number>(0)
-  const [responseLimit, setResponseLimit] = useState<number>(64)
+  const [responseLimit, setResponseLimit] = useState<number>(63)
 
   const [nextSlide, setNextSlide] = useState<number>(0)
+
+  // Toast state
+  const timerRef = useRef(0)
+  const [openToast, setOpenToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
+  
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current)
+  }, [])
 
 
   useEffect(() => {
@@ -65,10 +73,12 @@ export default function NewList() {
 
       for (let i = 0; i < listLength; i++) {
         if (gameList[i].name === game.name) {
-          setModalTrigger(t => t + 1)
           gameFound = true;
           setShowModal(true)
-          setAlert(<CustomModal key={modalTrigger} title='hola' text='The game is already in the list' type='alert' action={{ actionName: "displayAlert", parameters: { showModal } }} closeModal={() => setShowModal(false)} />)
+          setToastMessage("The game is already in the list")
+          setOpenToast(false)
+          window.clearTimeout(timerRef.current)
+          timerRef.current = window.setTimeout(() => { setOpenToast(true) }, 100)
           break;
         }
       }
@@ -118,12 +128,21 @@ export default function NewList() {
     }
   }
 
+    // Fade up animation
+    const fadeUp = {
+        initial: { opacity: 0, y: 50 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.3 },
+        viewport: { once: true, amount: 0.05 }
+    }
+
   // When clicking the 'Next' button, we change the window to 'Edit list info'
   if (nextSlide === 1) return (<EditListInfo setNextSlide={setNextSlide} gameList={gameList} setGameList={setGameList} />)
 
   if (nextSlide === 0)
     return (
       <section className='flex w-full min-h-screen bg-black text-white text-sm py-20'>
+        <Toast.Provider>
         <Dialog.Root>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -153,7 +172,6 @@ export default function NewList() {
               </div>
             </Dialog.Content>
           </Dialog.Portal>
-          {alert}
           {/* Sidebar */}
           <aside className='hidden sm:flex h-screen flex-col w-36 items-center'>
             <p className="text-gray-200">Categories</p>
@@ -207,7 +225,7 @@ export default function NewList() {
 
             {/* Games shown */}
             {isLoading ? <SkeletonNewList /> :
-              <div className='grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-6'>
+              <motion.section {...fadeUp} className='grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-6'>
                 {gameItems.map((game: GameIGDB, index: number) => (
                   <div key={index} >
                     <div className={`${gameList.includes(game) ? 'border border-3 border-green-500 ' : ''} group relative flex flex-col justify-center items-center overflow-hidden rounded-xl cursor-pointer lg:w-48 lg:h-64 transition hover:scale-105`} onClick={() => handleSetGameList(game)}>
@@ -223,7 +241,7 @@ export default function NewList() {
                   </div>
 
                 ))}
-              </div>}
+              </motion.section>}
             {gameItems.length !== 0 &&
               <div className="w-full flex justify-center text-gray-400 space-x-2 py-6">
                 <button className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
@@ -240,6 +258,18 @@ export default function NewList() {
             }
           </section>
         </Dialog.Root>
+          <Toast.Root className={`z-99 fixed animate-slide-left flex flex-col bottom-15 right-5 sm:right-15 text-white
+              rounded shadow-rose-500/30 border-rose-600 p-2 cardReviewRed`} open={openToast} onOpenChange={setOpenToast}>
+                  <Toast.Description>
+                      <div className="flex items-center space-x-2">
+                          <img src="/staticImages/icon_error_circle.png" alt="Success icon" className="w-5 h-5" />
+                          <p>{toastMessage}</p>
+                      </div>
+                  </Toast.Description>
+                  <Toast.Close/>
+              </Toast.Root>
+              <Toast.Viewport/>
+          </Toast.Provider>
       </section>
     )
 }

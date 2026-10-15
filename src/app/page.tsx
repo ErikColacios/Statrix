@@ -38,9 +38,9 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-5xl">
           <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95]">
-            Your gaming
+            Never stop
             <span className="block bg-clip-text text-transparent bg-linear-to-r from-green-400 via-lime-400 to-green-500 pb-2">
-              identity.
+              playing
             </span>
           </h1>
 

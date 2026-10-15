@@ -18,7 +18,7 @@ export default function BrowseGames() {
   const [genre, setGenre] = useState(0)
 
   const [responseOffset, setResponseOffset] = useState<number>(0)
-  const [responseLimit, setResponseLimit] = useState<number>(64)
+  const [responseLimit, setResponseLimit] = useState<number>(63)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchForm, formAction] = useFormState<any, FormData>(handleSearchGame, undefined)
@@ -82,8 +82,8 @@ export default function BrowseGames() {
     const fadeUp = {
         initial: { opacity: 0, y: 50 },
         whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.5 },
-        viewport: { once: true, amount: 0.2 }
+        transition: { duration: 0.3 },
+        viewport: { once: true, amount: 0.05 }
     }
 
   return (
@@ -97,8 +97,7 @@ export default function BrowseGames() {
                               e.preventDefault()
                           }}
                           className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto sm:5/6 md:w-5/6 lg:w-3/5 2xl:w-2/5 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
-                data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}
-                      >
+                data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                           <Dialog.Title className="DialogTitle"></Dialog.Title>
                           <Dialog.Description className="DialogDescription"></Dialog.Description>
 

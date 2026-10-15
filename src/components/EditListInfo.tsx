@@ -52,7 +52,7 @@ export default function EditListInfo({ setNextSlide, gameList, setGameList }: Pr
     return (
         <div className="w-full flex justify-center animate-slide-left">
             <div className="w-full xl:w-1/2 flex flex-col p-4 pt-20 sm:p-20 min-h-screen text-white">
-                <div className="flex flex-col sm:flex-row sm:items-center space-x-4 mt-8">
+                <div className="flex flex-col sm:flex-row sm:items-center space-x-4 mt-4">
                     <h3 className="text-3xl">List information</h3>
 
                     {error && <p className="text-red-500">{error}</p>}
