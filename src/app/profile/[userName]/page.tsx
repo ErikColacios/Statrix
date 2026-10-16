@@ -67,12 +67,14 @@ export default async function Profile({ params }: { params: { userName: string }
                                         <div className="flex items-center space-x-2">
                                         <p className="text-4xl font-bold">{item.user_name.slice(0, 10)}</p>
                                             {canEdit && <Link href={'/settings'} className="ml-auto sm:hidden flex items-center justify-center space-x-2 px-3 py-1 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                                                <img src="/staticImages/icon_share.png" alt="Share icon" className="w-4"/><span>Share</span>
+                                                {/* <img src="/staticImages/icon_share.png" alt="Share icon" className="w-4"/> */}
+                                                <span>Settings</span>
                                             </Link>}
                                         </div>
                                         <p className="text-gray-400">Joined {item.user_creationdate.toISOString().split('T')[0]}</p>
                                         {canEdit && <Link href={'/settings'} className="hidden sm:flex items-center justify-center space-x-2 px-3 py-1 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                                                <img src="/staticImages/icon_share.png" alt="Share icon" className="w-4"/><span>Share</span>
+                                                {/* <img src="/staticImages/icon_share.png" alt="Share icon" className="w-4"/> */}
+                                                <span>Settings</span>
                                             </Link>}
                                         
                                     </div>

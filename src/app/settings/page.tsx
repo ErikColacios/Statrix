@@ -55,6 +55,28 @@ export default function Settings() {
         router.push('/api/steam/login')
     }
 
+    async function handleInputAvatar(e:React.ChangeEvent<HTMLInputElement>){
+        if(e.target === null) return
+
+        const file:File | undefined = e.target.files?.[0]
+        const maxSize:number = 1500000
+        if (!file) return;
+
+        const imageTypes:string[] = ["image/jpeg", "image/png", "image/webp"]
+        console.log(file)
+        // Image type must be jpeg, png or webp
+        if (imageTypes.includes(file.type)){
+            console.log("Correct type")
+
+            // Max size 1.5 MB
+            if(file.size < maxSize){
+                
+            } else {
+                console.log("The image is too heavy")
+            }
+        }
+    }
+
     async function handleUpdateUser(prevState: { error?: string; success?: string }, formData: FormData) {
         // In case this is a Google user
         if (userInfo[0].user_google_id) {
@@ -86,7 +108,6 @@ export default function Settings() {
 
         return { success: 'Settings updated successfully' }
     }
-    console.log("openToast", open)
 
     return userInfo.map((item: any, ident: number) => (
         <section className="relative w-full flex text-white justify-center py-20" key={ident}>
@@ -123,15 +144,19 @@ export default function Settings() {
                             </Dialog.Trigger>
 
                             {/* Avatar image */}
-                            <Dialog.Trigger asChild onClick={() => setChooseMode('avatar')}>
-                                <div className="bg-black ml-2 absolute top-15 w-28 h-28 sm:w-48 sm:h-48 rounded-full overflow-hidden outline-solid outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer">
-                                    <img
-                                        src={'/avatarImages/' + selectedAvatar.avatar_image}
-                                        className="h-full w-full object-cover transition hover:opacity-70"
-                                        alt="Avatar image"
-                                    />
-                                </div>
-                            </Dialog.Trigger>
+                            <label className="bg-black ml-2 absolute top-15 w-28 h-28 sm:w-48 sm:h-48 rounded-full overflow-hidden outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer group">
+                                <img
+                                    src={'/avatarImages/' + selectedAvatar.avatar_image}
+                                    className="h-full w-full object-cover transition group-hover:opacity-70"
+                                    alt="Choose avatar"
+                                />
+                                <input type="file"
+                                    accept="image/png,image/jpeg,image/webp"
+                                    className="hidden"
+                                    id='avatar'
+                                    onChange={(e) => handleInputAvatar(e)}
+                                />
+                            </label>
 
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
                                 <div className="ml-auto flex items-center space-x-4">
