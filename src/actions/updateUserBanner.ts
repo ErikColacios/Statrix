@@ -10,10 +10,10 @@ const MAX_DIMENSION = 4096;
 export default async function updateUserBanner(formData: FormData) {
     const session: any = await getSessionUser()
     const userId: string = session.user.id as string
-    const allowedFormats:string[] = ["jpeg", "png", "webp"];
+    const allowedFormatsLong:string[] = ["image/jpeg", "image/png", "image/webp"];
 
     const selectedBanner: File = formData.get('bannerFile') as File
-    if (!allowedFormats.includes(selectedBanner.type)) {
+    if (!allowedFormatsLong.includes(selectedBanner.type)) {
         return;
     }
 
@@ -25,6 +25,7 @@ export default async function updateUserBanner(formData: FormData) {
 
     // We validate the image
     const metadata = await image.metadata();
+    const allowedFormats:string[] = ["jpeg", "png", "webp"];
     if (!metadata.format || !allowedFormats.includes(metadata.format)) {
         return { success: false, message: "Only JPEG, PNG and WebP images are supported." }
     }
