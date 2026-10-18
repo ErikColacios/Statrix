@@ -19,8 +19,10 @@ export default function Settings() {
     const [state, formAction] = useFormState<{ error?: string; success?: string }, FormData>(handleUpdateUser, { success: "Settings updated successfully", error: undefined })
     const [chooseMode, setChooseMode] = useState<'avatar' | 'banner' | 'deleteUser' | 'disconnectSteam'>('avatar')
 
-    const [selectedAvatar, setSelectedAvatar] = useState<Avatar>({ avatar_id: 0, avatar_image: '', avatar_image_name: '' })
-    const [selectedBanner, setSelectedBanner] = useState<Banner>({ banner_id: 0, banner_image: '', banner_image_name: '' })
+    const [selectedAvatar, setSelectedAvatar] = useState<File>()
+    const [avatarUrl, setAvatarUrl] = useState<string>("")
+    const [selectedBanner, setSelectedBanner] = useState<File>()
+    const [bannerUrl, setBannerUrl] = useState<string>("")
 
     // Toast notification state
     const [open, setOpen] = useState(false)
@@ -35,16 +37,8 @@ export default function Settings() {
             if (session) {
                 const userInfo = await getUserInfo(session.user.name)
                 setUserInfo(userInfo)
-                setSelectedAvatar({
-                    avatar_id: userInfo[0].avatar_image_id,
-                    avatar_image: userInfo[0].avatar_image,
-                    avatar_image_name: userInfo[0].avatar_image_name,
-                })
-                setSelectedBanner({
-                    banner_id: userInfo[0].banner_image_id,
-                    banner_image: userInfo[0].banner_image,
-                    banner_image_name: userInfo[0].banner_image_name,
-                })
+                setAvatarUrl(userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg")
+                setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/banner_default.jpg")
             }
         }
         getUserInfoSession()
@@ -55,29 +49,79 @@ export default function Settings() {
         router.push('/api/steam/login')
     }
 
-    async function handleInputAvatar(e:React.ChangeEvent<HTMLInputElement>){
-        if(e.target === null) return
+    // Check that the image is jpeg, png or webp
+    function validateImage(file: File | undefined) {
+        if (!file) return false
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size >= 1500000) {
+            console.log("Image must be JPG, PNG or WebP and smaller than 1.5 MB")
+            return false
+        }
+        return true
+    }
 
-        const file:File | undefined = e.target.files?.[0]
-        const maxSize:number = 1500000
-        if (!file) return;
-
-        const imageTypes:string[] = ["image/jpeg", "image/png", "image/webp"]
-        console.log(file)
-        // Image type must be jpeg, png or webp
-        if (imageTypes.includes(file.type)){
-            console.log("Correct type")
-
-            // Max size 1.5 MB
-            if(file.size < maxSize){
-                
-            } else {
-                console.log("The image is too heavy")
-            }
+    function handleInputAvatar(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0]
+        if (validateImage(file)){
+            setSelectedAvatar(file)
         }
     }
 
+    function handleInputBanner(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0]
+        if (validateImage(file)){
+            setSelectedBanner(file)
+        }
+    }
+
+    // Display the selected Avatar to the img before saving
+    useEffect(() => {
+        let fileReader: FileReader
+        let isCancel: boolean = false
+
+        if (selectedAvatar) {
+            fileReader = new FileReader()
+            fileReader.onload = (e:any) => {
+                const { result } = e.target
+                if (result && !isCancel) {
+                    setAvatarUrl(result)
+                }
+            }
+            fileReader.readAsDataURL(selectedAvatar)
+        }
+        return () => {
+            isCancel = true
+            if (fileReader && fileReader.readyState === 1) {
+                fileReader.abort()
+            }
+        }
+    }, [selectedAvatar])
+
+    // Display the selected Banner to the img before saving
+    useEffect(() => {
+        let fileReader: FileReader
+        let isCancel: boolean = false
+
+        if (selectedBanner) {
+            fileReader = new FileReader()
+            fileReader.onload = (e:any) => {
+                const { result } = e.target
+                if (result && !isCancel) {
+                    setBannerUrl(result)
+                }
+            }
+            fileReader.readAsDataURL(selectedBanner)
+        }
+        return () => {
+            isCancel = true
+            if (fileReader && fileReader.readyState === 1) {
+                fileReader.abort()
+            }
+        }
+    }, [selectedBanner])
+
+    // Save the new user settings
     async function handleUpdateUser(prevState: { error?: string; success?: string }, formData: FormData) {
+        
         // In case this is a Google user
         if (userInfo[0].user_google_id) {
             formData.set('userEmail', userInfo[0].user_email)
@@ -103,8 +147,8 @@ export default function Settings() {
         }
 
         // Finally we update the avatar and banner images
-        updateUserAvatar(selectedAvatar.avatar_id, selectedAvatar.avatar_image)
-        updateUserBanner(selectedBanner.banner_id, selectedBanner.banner_image)
+        updateUserAvatar(formData)
+        updateUserBanner(formData)
 
         return { success: 'Settings updated successfully' }
     }
@@ -119,43 +163,38 @@ export default function Settings() {
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
                         <Dialog.Content
                             className={`fixed w-full p-2 md:w-4/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl
-                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}
-                        >
+                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                             <SettingsModals
                                 chooseMode={chooseMode}
-                                selectedAvatar={selectedAvatar}
-                                setSelectedAvatar={setSelectedAvatar}
-                                selectedBanner={selectedBanner}
-                                setSelectedBanner={setSelectedBanner}
                             />
                         </Dialog.Content>
                     </Dialog.Portal>
-                    <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80">
+                    <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80 rounded-lg">
                         <form className="w-full relative rounded-sm outline-gray-700" action={formAction}>
                             {/* Banner image */}
-                            <Dialog.Trigger asChild onClick={() => setChooseMode('banner')}>
-                                <div className="w-full">
-                                    <img
-                                        src={'/bannerImages/' + selectedBanner.banner_image}
-                                        className="w-full md:h-62 outline-solid outline-1 outline-gray-700 transition hover:outline-green-600 hover:opacity-70 cursor-pointer"
-                                        alt="Banner image"
-                                    />
-                                </div>
-                            </Dialog.Trigger>
+                            <label className="w-full h-40 md:h-62 overflow-hidden rounded-lg outline outline-1 outline-gray-700 transition hover:outline-green-600 hover:opacity-70 cursor-pointer block">
+                                <img
+                                    src={bannerUrl}
+                                    className="w-full h-full object-cover"
+                                    alt="Banner image"/>
+                                <input
+                                    type="file"
+                                    accept="image/png,image/jpeg,image/webp"
+                                    className="hidden"
+                                    name="bannerFile"
+                                    onChange={(e) => handleInputBanner(e)}/>
+                            </label>
 
                             {/* Avatar image */}
                             <label className="bg-black ml-2 absolute top-15 w-28 h-28 sm:w-48 sm:h-48 rounded-full overflow-hidden outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer group">
-                                <img
-                                    src={'/avatarImages/' + selectedAvatar.avatar_image}
-                                    className="h-full w-full object-cover transition group-hover:opacity-70"
-                                    alt="Choose avatar"
-                                />
+                                <img id='avatar'
+                                    src={avatarUrl}
+                                    className="h-full w-full object-cover transition group-hover:opacity-70"/>
                                 <input type="file"
                                     accept="image/png,image/jpeg,image/webp"
                                     className="hidden"
-                                    id='avatar'
-                                    onChange={(e) => handleInputAvatar(e)}
-                                />
+                                    name='avatarFile'
+                                    onChange={(e) => handleInputAvatar(e)}/>
                             </label>
 
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
@@ -171,48 +210,44 @@ export default function Settings() {
                                     </button>
                                 </div>
                                 <div>
-                                    <p className="text-lg text-gray-400">User name</p>
+                                    <p className="text-gray-400">User name</p>
                                     <input
                                         type="text"
                                         name="userName"
                                         maxLength={16}
                                         className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
-                                        defaultValue={item.user_name}
-                                    />
+                                        defaultValue={item.user_name}/>
                                 </div>
                                 <div>
-                                    <p className="text-lg text-gray-400">Bio</p>
+                                    <p className="text-gray-400">Bio</p>
                                     <textarea
                                         rows={4}
                                         name="userBio"
                                         maxLength={200}
                                         className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none"
-                                        defaultValue={item.user_bio}
-                                    />
+                                        defaultValue={item.user_bio}/>
                                 </div>
                                 <div>
-                                    <p className="text-lg text-gray-400">Email</p>
+                                    <p className="text-gray-400">Email</p>
                                     <input
                                         type="userEmail"
                                         name="userEmail"
                                         maxLength={35}
                                         className="w-full rounded-lg p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
-                                        defaultValue={item.user_email}
-                                    />
+                                        defaultValue={item.user_email}/>
                                 </div>
                                 <div>
-                                    <p className="text-lg text-gray-400">Location</p>
+                                    <p className="text-gray-400">Location</p>
                                     <input
                                         type="text"
                                         name="userLocation"
                                         maxLength={35}
                                         className="w-full rounded-lg p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
-                                        defaultValue={item.user_location}
-                                    />
+                                        defaultValue={item.user_location}/>
                                 </div>
 
-                                <h3 className="text-xl font-bold text-gray-400 mt-4">Social links</h3>
-                                <div className="flex items-center space-x-2 text-lg">
+                                <h3 className="font-bold text-gray-400 mt-4">Social links</h3>
+                                <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_steam_gray.png" alt="Steam icon" className="w-8 h-8" />
                                     <p className="hidden sm:flex w-32">Steam</p>
                                     <input
@@ -221,36 +256,33 @@ export default function Settings() {
                                         maxLength={50}
                                         className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
                                         defaultValue={item.user_steam_url}
-                                        placeholder="steamcommunity.com/id/yourSteamProfile"
-                                    />
+                                        placeholder="steamcommunity.com/id/yourSteamProfile"/>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_twitch_gray.png" alt="Twitch icon" className="w-8 h-8" />
-                                    <p className="hidden sm:flex w-32 text-lg">Twitch</p>
+                                    <p className="hidden sm:flex w-32">Twitch</p>
                                     <input
                                         type="text"
                                         name="userTwitch"
                                         maxLength={50}
                                         className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
                                         defaultValue={item.user_twitch}
-                                        placeholder="twitch.tv/yourTwitchChannel"
-                                    />
+                                        placeholder="twitch.tv/yourTwitchChannel"/>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_x_gray.png" alt="X icon" className="w-8 h-8" />
-                                    <p className="hidden sm:flex w-32 text-lg">X Account</p>
+                                    <p className="hidden sm:flex w-32">X Account</p>
                                     <input
                                         type="text"
                                         name="userX"
                                         maxLength={50}
                                         className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
                                         defaultValue={item.user_x}
-                                        placeholder="x.com/your-X-user"
-                                    />
+                                        placeholder="x.com/your-X-user"/>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <img src="/staticImages/icon_web_gray.png" alt="Web icon" className="w-8 h-8" />
-                                    <p className="hidden sm:flex w-32 text-lg">Web Page</p>
+                                    <p className="hidden sm:flex w-32">Web Page</p>
                                     <input
                                         type="text"
                                         name="userWebpage"
@@ -265,7 +297,7 @@ export default function Settings() {
                                 <div className="flex space-x-4 items-center">
                                     <img src="/staticImages/icon_steam_gray.png" alt="Steam icon" className="w-8 h-8" />
                                     <div className="flex flex-col">
-                                        <p className="hidden sm:flex w-32 text-lg">Steam</p>
+                                        <p className="hidden sm:flex w-32">Steam</p>
                                         <p className="text-gray-400 text-sm">Connect your Steam account to import your games</p>
                                     </div>
 
@@ -288,50 +320,26 @@ export default function Settings() {
                                         <div className="flex ml-auto items-center space-x-2" id="steamConnected">
                                             <Link
                                                 href="/importSteamGames"
-                                                className="flex space-x-1 items-center text-white px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300"
-                                            >
-                                                <svg
-                                                    width="18px"
-                                                    height="18px"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                                                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                                                    <g id="SVGRepo_iconCarrier">
-                                                        {' '}
-                                                        <path
-                                                            d="M12 14L11.2929 14.7071L12 15.4142L12.7071 14.7071L12 14ZM13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44771 11 5L13 5ZM6.29289 9.70711L11.2929 14.7071L12.7071 13.2929L7.70711 8.29289L6.29289 9.70711ZM12.7071 14.7071L17.7071 9.70711L16.2929 8.29289L11.2929 13.2929L12.7071 14.7071ZM13 14L13 5L11 5L11 14L13 14Z"
-                                                            fill="#ffffff"
-                                                        ></path>{' '}
-                                                        <path
-                                                            d="M5 16L5 17C5 18.1046 5.89543 19 7 19L17 19C18.1046 19 19 18.1046 19 17V16"
-                                                            stroke="#ffffff"
-                                                            strokeWidth="2"
-                                                        ></path>{' '}
-                                                    </g>
-                                                </svg>
+                                                className="flex space-x-1 items-center text-white px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
+                                                <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{' '}<path d="M12 14L11.2929 14.7071L12 15.4142L12.7071 14.7071L12 14ZM13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44771 11 5L13 5ZM6.29289 9.70711L11.2929 14.7071L12.7071 13.2929L7.70711 8.29289L6.29289 9.70711ZM12.7071 14.7071L17.7071 9.70711L16.2929 8.29289L11.2929 13.2929L12.7071 14.7071ZM13 14L13 5L11 5L11 14L13 14Z" fill="#ffffff"></path>{' '}<path d="M5 16L5 17C5 18.1046 5.89543 19 7 19L17 19C18.1046 19 19 18.1046 19 17V16" stroke="#ffffff" strokeWidth="2"></path>{' '}                                                    </g></svg>
                                                 <p>Import</p>
                                             </Link>
                                             <Dialog.Trigger
                                                 asChild
                                                 onClick={() => setChooseMode('disconnectSteam')}
-                                                className="ml-auto flex items-center space-x-1 rounded-sm text-gray-400 cursor-pointer border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
-                                            >
+                                                className="ml-auto flex items-center space-x-1 rounded-sm text-gray-400 cursor-pointer border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
                                                 <p>Disconnect</p>
                                             </Dialog.Trigger>
                                         </div>
                                     )}
                                 </div>
 
-                                <h3 className="text-xl font-bold text-red-700 mt-8">Danger zone</h3>
-                                <div className="">
-                                    <p className="text-gray-400">Was created {item.user_creationdate.toLocaleDateString()}</p>
-                                </div>
-                                <div className="mb-8">
+                                {/* Danger zone */}
+                                <h3 className="font-bold text-red-500 mt-8">Danger zone</h3>
+                                <p className="text-gray-400 text-sm">Was created {item.user_creationdate.toLocaleDateString()}</p>
+                                <div className="mb-8 bg-red-500/10 px-3 py-4 border border-red-400/50 rounded-lg">
                                     <Dialog.Trigger onClick={() => setChooseMode('deleteUser')}>
-                                        <span className="rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
+                                        <span className="rounded-sm text-red-500 border border-red-400/50 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
                                             Delete account
                                         </span>
                                     </Dialog.Trigger>

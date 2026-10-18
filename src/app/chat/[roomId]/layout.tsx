@@ -31,7 +31,7 @@ export default async function ChatLayout({ children }: { children: React.ReactNo
                     <div className="mx-4 py-2 mb-2 rounded-sm bg-zinc-800 hover:bg-zinc-700" key={ident}>
                         <Link href={`/chat/${item.room_id}`} className="flex items-center">
                             <div className="ml-2 w-8 h-8 rounded-full overflow-hidden">
-                                <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
+                                <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt='Avatar image' />
                             </div>
                             <p className="text-sm sm:text-base text-white ml-3">{item.user_name}</p>
                         </Link>

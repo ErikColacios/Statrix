@@ -11,12 +11,13 @@ export const metadata: Metadata = {
 export default async function NewUserLayout({children}: {children: React.ReactNode}) {
 
     const session:any = await getSessionUser()
+    console.log(session?.user)
     if (!session?.user.isNewUser){
         redirect("/")
     }
 
     return (
-     <div className="h-screen flex flex-col items-center justify-center text-white p-4 md:p-12">
+     <div className="h-screen flex flex-col items-center justify-center">
           { children }
       </div>
     )

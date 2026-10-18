@@ -43,7 +43,8 @@ export default async function Navbar() {
 
                         {/* Profile button */}
                         {userInfo.length > 0 &&
-                            <NavbarProfileButton avatarImage={userInfo[0].avatar_image} />}
+                            <NavbarProfileButton avatarImage={userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} />}
+                            
                     </div>
             </div>
         </header>

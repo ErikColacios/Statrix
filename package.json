@@ -12,6 +12,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1152.0",
     "@dnd-kit/collision": "^0.5.0",
     "@dnd-kit/helpers": "^0.5.0",
     "@dnd-kit/react": "^0.5.0",
@@ -27,6 +28,7 @@
     "net": "^1.0.2",
     "next": "^14.2.33",
     "next-auth": "^4.24.14",
+    "node": "^26.12.0",
     "pg": "^8.16.0",
     "radix-ui": "^1.4.2",
     "react": "^18.3.1",

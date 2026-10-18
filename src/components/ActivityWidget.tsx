@@ -10,6 +10,15 @@ type Props = {
 export default async function ActivityWidget({ userActivity, canEdit }: Props) {
     return (
         <div className="flex flex-col space-y-2">
+            {userActivity.length === 0 && (
+                <div className='w-full h-36 flex items-center justify-center border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg rounded-lg text-sm sm:text-base'>
+                    <div className="flex flex-col text-center text-gray-400">
+                        <p>(－_－) zzZ</p>
+                        <p>No recent activity yet.</p>
+                        {canEdit && <Link href={`/browseGames`} className="text-white font-bold hover:text-green-500">Go add some games!</Link>}
+                    </div>
+                </div>
+            )}
             {userActivity.map((activity: Activity, index: number) => (
                 <div className='w-full flex items-center bg-zinc-900 border border-white/10 bg-zinc-900/40 backdrop-blur-lg overflow-hidden rounded-lg text-white text-sm sm:text-base' key={index}>
                     <img src={activity.game_base_image} className="w-16 h-18" alt="Game cover" />
@@ -24,15 +33,6 @@ export default async function ActivityWidget({ userActivity, canEdit }: Props) {
                 </div>
             ))}
 
-            {userActivity.length === 0 && (
-                <div className='w-full h-36 flex items-center justify-center border border-white/10 bg-zinc-900/40 p-4 backdrop-blur-lg rounded-lg text-sm sm:text-base'>
-                    <div className="flex flex-col text-center text-gray-400">
-                        <p>(－_－) zzZ</p>
-                        <p>No recent activity yet.</p>
-                        {canEdit && <Link href={`/browseGames`} className="text-white font-bold hover:text-green-500">Go add some games!</Link>}
-                    </div>
-                </div>
-            )}
         </div>
     )
 }

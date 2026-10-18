@@ -57,9 +57,9 @@ export default async function Profile({ params }: { params: { userName: string }
                             <div className="h-full flex flex-col md:h-120 lg:w-2/3 xl:w-160 rounded-lg border border-white/10 bg-zinc-900/40 backdrop-blur-lg" >
                                 {/* Profile - widget */}
                                 <div className="relative h-38 md:h-70 z-10">
-                                    <img src={"/bannerImages/" + item.banner_image} alt="Banner image" className="rounded-t-lg border-b border-white/10 w-full sm:h-62" />
+                                    <img src={userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/fallout_workshop.jpg"}  alt="Banner image" className="rounded-t-lg border-b border-white/10 w-full sm:h-62" />
                                     <div className="w-28 h-28 md:w-36 md:h-36 xl:w-48 xl:h-48 border border-white/10 rounded-full overflow-hidden ml-4 sm:ml-6 md:ml-2 absolute bottom-0 sm:bottom-5">
-                                        <img src={"/avatarImages/" + item.avatar_image} className="h-full w-full object-cover" alt="Avatar image" />
+                                        <img src={userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image" />
                                     </div>
                                 </div>
                                 <div className="flex flex-col sm:flex-row px-4 sm:px-2 py-4">

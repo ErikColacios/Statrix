@@ -9,17 +9,17 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
 
     return (
         <div key={index}
-            className={`flex flex-col space-y-2 min-h-36 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border 
+            className={`flex flex-col space-y-2 min-h-36 p-4 mb-8 rounded-lg bg-zinc-900/80 shadow-lg border border-white/10
                             ${review.game_score >= 8 ? ' cardReviewGreen shadow-green-500/30 border-green-600' : ''}
-                            ${review.game_score >= 4 && review.game_score < 8 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700' : ''}
+                            ${review.game_score >= 4 && review.game_score < 8 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700/80' : ''}
                             ${review.game_score < 4 && review.game_score > 0 ? ' cardReviewRed shadow-rose-500/30 border-rose-700' : ''}
-                            ${Number(review.game_score) === 0 ? 'bg-zinc-900/80 shadow-zinc-500/30 border-gray-800' : ''}
+                            ${Number(review.game_score) === 0 ? 'bg-zinc-900/80 shadow-zinc-500/30 border-white/10' : ''}
                             `}>
             <div className="relative flex flex-col space-y-1">
                 <div className="flex flex-col space-x-2 sm:flex-row sm:items-center text-white">
                     <Link href={`/profile/${review.user_name}`} className="flex items-center hover:text-green-400 cursor-pointer">
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                            <img src={`/avatarImages/${review.avatar_image}`} className="h-full w-full object-cover" alt="User avatar" />
+                            <img src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="User avatar" />
                         </div>
                         <p className="font-bold">{review.user_name}</p>
                         <p className="ml-2 text-gray-400">reviewed </p>
@@ -28,9 +28,9 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                         <p className="font-bold">{gameName}</p>
                         <p className={`flex justify-center items-center rounded-full w-8 h-8 font-bold border
                                         ${review.game_score >= 8 ? 'text-green-400 border-green-600' : ''}
-                                                ${review.game_score >= 4 && review.game_score < 8 ? 'text-yellow-400 border-yellow-700' : ''}
+                                                ${review.game_score >= 4 && review.game_score < 8 ? 'text-yellow-400 border-yellow-700/80' : ''}
                                                 ${review.game_score < 4 && review.game_score > 0 ? 'text-rose-400 border-rose-700' : ''}
-                                                ${Number(review.game_score) === 0 ? 'text-gray-300 border-gray-400' : ''}
+                                                ${Number(review.game_score) === 0 ? 'text-gray-300 border-white/10' : ''}
                                         `}>
                             {Number(review.game_score) === 0 ? "NS" : review.game_score}
                         </p>

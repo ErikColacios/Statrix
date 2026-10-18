@@ -199,7 +199,7 @@ export default function Chat({ params }: { params: { roomId: string } }) {
               <Link href={`/profile/${friend.user_name}`}>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <img src={`/avatarImages/${friend.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
+                  <img src={friend.user_avatar ? `https://media.statrix.app/avatars/${friend.user_id}/${friend.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
                 </div>
                 <p className="text-white ml-4 hover:text-green-500">{friend.user_name}</p>
               </div>

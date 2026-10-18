@@ -46,10 +46,10 @@
   }
 
   const reviews = [
-    { user_name: "BeefyGuy", avatar_image: "solid_snake.jpg", gameName: "BioShock Infinite", review_date: new Date("2026-06-15"), game_score: 9, likes: 12, body: "This game is amazing! The graphics are stunning and the gameplay is smooth. I highly recommend it to anyone who loves action-adventure games." },
-    { user_name: "Pr3datoR", avatar_image: "/link.jpg", gameName: "Sonic Frontiers", review_date: new Date("2026-06-12"), game_score: 3, likes: 2, body: "I found this game to be very repetitive and boring and the story is meh. Not worth buying imo" },
-    { user_name: "Selfpttrn", avatar_image: "master_chief.jpg", gameName: "Hogwarts Legacy", review_date: new Date("2026-06-14"), game_score: 6, likes: 3, body: "I was a bit disappointed with this game. The art direction is pretty solid but the story breaks everything to me, and the exploration is almost nonexistent." },
-    { user_name: "Daxter", avatar_image: "/sonic.jpg", gameName: "Red Dead Redemption 2", review_date: new Date("2026-06-13"), game_score: 8, likes: 8, body: "This game exceeded my expectations. The open world is vast and immersive, and the side quests are engaging. I can't wait for GTA VI" },
+    { user_name: "BeefyGuy", user_avatar: "/avatarImages/solid_snake.jpg", gameName: "BioShock Infinite", review_date: new Date("2026-06-15"), game_score: 9, likes: 12, body: "This game is amazing! The graphics are stunning and the gameplay is smooth. I highly recommend it to anyone who loves action-adventure games." },
+    { user_name: "Pr3datoR", user_avatar: "/avatarImages/link.jpg", gameName: "Sonic Frontiers", review_date: new Date("2026-06-12"), game_score: 3, likes: 2, body: "I found this game to be very repetitive and boring and the story is meh. Not worth buying imo" },
+    { user_name: "Selfpttrn", user_avatar: "/avatarImages/master_chief.jpg", gameName: "Hogwarts Legacy", review_date: new Date("2026-06-14"), game_score: 6, likes: 3, body: "I was a bit disappointed with this game. The art direction is pretty solid but the story breaks everything to me, and the exploration is almost nonexistent." },
+    { user_name: "Daxter", user_avatar: "/avatarImages/sonic.jpg", gameName: "Red Dead Redemption 2", review_date: new Date("2026-06-13"), game_score: 8, likes: 8, body: "This game exceeded my expectations. The open world is vast and immersive, and the side quests are engaging. I can't wait for GTA VI" },
   ]
 
   const messages = [

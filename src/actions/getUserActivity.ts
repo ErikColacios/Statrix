@@ -13,10 +13,9 @@ export async function getUserActivity(userName:string | undefined) {
 
     try {
         const res = await pool.query(
-            `SELECT usr.user_id, usr.user_name, uga.game_id, uga.activity_id, uga.game_name, uga.game_base_image, uga.action, uga.action_date, avi.avatar_image
+            `SELECT usr.user_id, usr.user_name, uga.game_id, uga.activity_id, uga.game_name, uga.game_base_image, uga.action, uga.action_date
              FROM user_game_activity uga
              INNER JOIN users usr ON uga.user_id = usr.user_id
-             INNER JOIN avatar_images avi ON usr.user_avatar_id = avi.avatar_image_id
              WHERE uga.user_name = $1
              ORDER BY action_date DESC, activity_id DESC
              LIMIT 10;`,

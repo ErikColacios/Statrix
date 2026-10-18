@@ -38,7 +38,7 @@ export default function NavbarProfileButton({ avatarImage }: any) {
         <div ref={dropdownRef}>
             <button onClick={() => setDropdown(!dropdown)} className="relative flex items-center rounded-sm rounded-2xl py-1 mr-2 md:mr-4 cursor-pointer">
                 <div className={`sm:left-0 w-8 h-8 overflow-hidden rounded-full border border-gray-600 ${dropdown && 'border-green-500'}`}>
-                    <img src={`/avatarImages/${avatarImage}`} className="h-full w-full object-cover" alt="Avatar image" />
+                    <img src={avatarImage} className="h-full w-full object-cover" alt="Avatar image" />
                 </div>
             </button>
 
@@ -46,7 +46,7 @@ export default function NavbarProfileButton({ avatarImage }: any) {
                 border border-white/10 bg-zinc-900/40 backdrop-blur-lg rounded rounded-lg top-12 md:top-10 space-y-2 z-40 right-4 p-4">
                 <Link href={`/profile/${userName}`} className="flex items-center mb-3">
                     <div className="sm:left-0 w-10 h-10 border border-gray-600 rounded-full overflow-hidden">
-                        <img src={`/avatarImages/${avatarImage}`} className="h-full w-full object-cover" alt="Avatar image" />
+                        <img src={avatarImage} className="h-full w-full object-cover" alt="Avatar image" />
                     </div>
                     <b className="ml-2 hover:text-green-400">{userName.slice(0,10)}</b>
                 </Link>

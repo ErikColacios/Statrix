@@ -175,8 +175,8 @@ export default function AddGame({ game }: Props) {
                     onClick={() => handleStatusChange(GameStatus.PLAYING)}
                     className={
                         selectedStatus === GameStatus.PLAYING
-                            ? 'flex items-center justify-center bg-linear-to-r from-teal-300 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                            : 'flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                            ? 'flex items-center justify-center bg-linear-to-r from-teal-300 to-blue-500 rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                            : 'flex items-center justify-center rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
                     }>
                     <img src="/staticImages/icon_controller.png" alt="Controller icon" className="w-4 mr-2" />
                     {GameStatus.PLAYING}
@@ -186,10 +186,9 @@ export default function AddGame({ game }: Props) {
                     onClick={() => handleStatusChange(GameStatus.COMPLETED)}
                     className={
                         selectedStatus === GameStatus.COMPLETED
-                            ? 'flex items-center justify-center  bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                            : 'flex items-center justify-center  rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                    }
-                >
+                            ? 'flex items-center justify-center  bg-linear-to-r from-green-500 to-lime-500 rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                            : 'flex items-center justify-center  rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                    }>
                     <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
                     {GameStatus.COMPLETED}
                 </button>
@@ -197,10 +196,9 @@ export default function AddGame({ game }: Props) {
                     onClick={() => handleStatusChange(GameStatus.ON_HOLD)}
                     className={
                         selectedStatus === GameStatus.ON_HOLD
-                            ? 'flex items-center justify-center bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                            : 'flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                    }
-                >
+                            ? 'flex items-center justify-center bg-linear-to-r from-indigo-600 to-blue-500 rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                            : 'flex items-center justify-center rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                    }>
                     <img src="/staticImages/icon_clock.png" alt="Clock icon" className="w-4 h-4 mr-2" />
                     {GameStatus.ON_HOLD}
                 </button>
@@ -209,10 +207,9 @@ export default function AddGame({ game }: Props) {
                     onClick={() => handleStatusChange(GameStatus.DROPPED)}
                     className={
                         selectedStatus === GameStatus.DROPPED
-                            ? 'flex items-center justify-center bg-linear-to-r from-rose-600 to-fuchsia-900 rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                            : 'flex items-center justify-center rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
-                    }
-                >
+                            ? 'flex items-center justify-center bg-linear-to-r from-rose-600 to-fuchsia-900 rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                            : 'flex items-center justify-center rounded-sm border border-white/10 px-2 py-1 transition hover:text-white hover:bg-zinc-800'
+                    }>
                     <img src="/staticImages/icon_skull.png" alt="Skull icon" className="w-4 h-4 mr-2" />
                     {GameStatus.DROPPED}
                 </button>

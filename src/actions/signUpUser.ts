@@ -14,7 +14,6 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
     const userEmail = formData.get("emailSignUp") as string;
     const userPasswordPlain = formData.get("passwordSignUp") as string;
     const userBio:string = "Welcome to my profile!"
-    const userLists:number = 0
     const userLocation:string = "No mans land"
 
     try {
@@ -32,9 +31,9 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
 
             await pool.query(
                 `INSERT INTO users (
-                    user_id, user_name, user_email, user_password,user_lists, user_bio, user_location)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-                [userId, userName, userEmail, hashedPassword, userLists, userBio, userLocation]
+                    user_id, user_name, user_email, user_password, user_bio, user_location)
+                VALUES ($1, $2, $3, $4, $5, $6)`,
+                [userId, userName, userEmail, hashedPassword, userBio, userLocation]
             );
 
             // If the user is created, we send him an email to verificate his account

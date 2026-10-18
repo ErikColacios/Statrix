@@ -1,7 +1,5 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import getAvatarImages from "../actions/getAvatarImages";
-import getBannerImages from "../actions/getBannerImages";
 import { Dialog } from "radix-ui";
 import { deleteUser } from "@/actions/deleteUser";
 import { logOutUser } from "@/actions/logOutUser";
@@ -10,13 +8,9 @@ import updateUserSteamId from "@/actions/updateUserSteamId";
 
 interface SettingsModalsProps {
   chooseMode?: "avatar" | "banner" | "deleteUser" | "disconnectSteam";
-  selectedAvatar: Avatar;
-  selectedBanner: Banner;
-  setSelectedAvatar: any;
-  setSelectedBanner: any;
 }
 
-export default function SettingsModals({ chooseMode, selectedAvatar, selectedBanner, setSelectedAvatar, setSelectedBanner }: SettingsModalsProps) {
+export default function SettingsModals({ chooseMode }: SettingsModalsProps) {
 
   // Avatar images
   const [avatarImages, setAvatarImages] = useState([])
@@ -26,59 +20,36 @@ export default function SettingsModals({ chooseMode, selectedAvatar, selectedBan
 
   const [errorMessage, setErrorMessage] = useState("")
 
-  // Fetch avatar images or banner images (depending on the choose mode)
-  useEffect(() => {
 
-    async function getAvatarImgs() {
-      let avatarImgs: any = []
-      avatarImgs = await getAvatarImages()
-      setAvatarImages(avatarImgs)
-    }
+  // function handleSelectAvatar(avatar_image_id: number, avatar_image: string, avatar_image_name: string) {
 
-    async function getBannerImgs() {
-      let bannerImgs: any = []
-      bannerImgs = await getBannerImages()
-      setBannerImages(bannerImgs)
-    }
+  //   // First we remove the previous avatar div outlined
+  //   let avatarDivPrevious: HTMLDivElement = document.getElementById(`avatar${selectedAvatar.avatar_id}`) as HTMLDivElement
+  //   avatarDivPrevious.style.outline = "none"
 
-    if (chooseMode === "avatar") {
-      getAvatarImgs()
+  //   // Then we select the new avatar div and we outline it
+  //   setSelectedAvatar({ avatar_id: avatar_image_id, avatar_image: avatar_image, avatar_image_name: avatar_image_name })
 
-    } else if (chooseMode === "banner") {
-      getBannerImgs()
-    }
-  }, [])
+  //   let avatarDiv: HTMLDivElement = document.getElementById(`avatar${avatar_image_id}`) as HTMLDivElement
+  //   if (avatarDiv != null) {
+  //     avatarDiv.style.outline = "5px solid #00ff3c"
+  //   }
+  // }
 
+  // function handleSelectBanner(banner_image_id: number, banner_image: string, banner_image_name: string) {
 
-  function handleSelectAvatar(avatar_image_id: number, avatar_image: string, avatar_image_name: string) {
+  //   // First we remove the previous banner div outlined
+  //   let bannerDivPrevious: HTMLDivElement = document.getElementById(`banner${selectedBanner.banner_id}`) as HTMLDivElement
+  //   bannerDivPrevious.style.outline = "none"
 
-    // First we remove the previous avatar div outlined
-    let avatarDivPrevious: HTMLDivElement = document.getElementById(`avatar${selectedAvatar.avatar_id}`) as HTMLDivElement
-    avatarDivPrevious.style.outline = "none"
+  //   // Then we select the new banner div and we outline it
+  //   setSelectedBanner({ banner_id: banner_image_id, banner_image: banner_image, banner_image_name: banner_image_name })
 
-    // Then we select the new avatar div and we outline it
-    setSelectedAvatar({ avatar_id: avatar_image_id, avatar_image: avatar_image, avatar_image_name: avatar_image_name })
-
-    let avatarDiv: HTMLDivElement = document.getElementById(`avatar${avatar_image_id}`) as HTMLDivElement
-    if (avatarDiv != null) {
-      avatarDiv.style.outline = "5px solid #00ff3c"
-    }
-  }
-
-  function handleSelectBanner(banner_image_id: number, banner_image: string, banner_image_name: string) {
-
-    // First we remove the previous banner div outlined
-    let bannerDivPrevious: HTMLDivElement = document.getElementById(`banner${selectedBanner.banner_id}`) as HTMLDivElement
-    bannerDivPrevious.style.outline = "none"
-
-    // Then we select the new banner div and we outline it
-    setSelectedBanner({ banner_id: banner_image_id, banner_image: banner_image, banner_image_name: banner_image_name })
-
-    let bannerDiv: HTMLDivElement = document.getElementById(`banner${banner_image_id}`) as HTMLDivElement
-    if (bannerDiv != null) {
-      bannerDiv.style.outline = "5px solid #00ff3c"
-    }
-  }
+  //   let bannerDiv: HTMLDivElement = document.getElementById(`banner${banner_image_id}`) as HTMLDivElement
+  //   if (bannerDiv != null) {
+  //     bannerDiv.style.outline = "5px solid #00ff3c"
+  //   }
+  // }
 
 
   async function handleDeleteAccount() {
@@ -104,60 +75,9 @@ export default function SettingsModals({ chooseMode, selectedAvatar, selectedBan
   }
 
 
-  if (chooseMode === "avatar") {
-    return (
-      <div className="flex w-full h-[75vh] md:h-[65vh] flex-col overflow-scroll no-scrollbar border border-gray-500 px-4 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
-        <div className="flex items-center text-sm md:text-base py-6 sm:py-8">
-          <p className="text-green-600 mr-2">Current avatar:</p>
-          <p>{selectedAvatar.avatar_image_name}</p>
-          <Dialog.Close className="absolute right-4 px-6 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-            Save
-          </Dialog.Close>
-        </div>
 
-        {/* Avatar images */}
-        <div className="flex flex-col ">
-          <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-12 mt-8">
-            {avatarImages.map((item: any, ident: number) => (
-              <div key={ident} className="flex flex-col items-center text-sm">
-                <div className="w-24 h-24 sm:w-32 sm:h-32 xl:w-48 xl:h-48 rounded-full overflow-hidden hover:outline-solid hover:outline-green-600" id={"avatar" + item.avatar_image_id} onClick={() => handleSelectAvatar(item.avatar_image_id, item.avatar_image, item.avatar_image_name)}>
-                  <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
-                </div>
-                <p className="mt-2">{item.avatar_image_name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
 
-  } else if (chooseMode === "banner") {
-    return (
-      <div className="flex w-full h-[75vh] flex-col overflow-scroll no-scrollbar border border-gray-500 px-4 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
-        <div className="flex items-center text-sm md:text-base py-6 sm:py-8">
-          <p className="text-green-600 mr-2">Current banner:</p>
-          <p>{selectedBanner.banner_image_name}</p>
-          <Dialog.Close className="absolute right-4 px-6 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-            Save
-          </Dialog.Close>
-        </div>
-
-        {/* Banner images */}
-        <div className="flex flex-col p-2 sm:p-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6  mt-8">
-            {bannerImages.map((item: any, ident: number) => (
-              <div key={ident} className="flex flex-col items-center text-sm">
-                <div className="w-full h-26 sm:w-92 sm:h-32   hover:outline-solid hover:outline-green-600" id={"banner" + item.banner_image_id} onClick={() => handleSelectBanner(item.banner_image_id, item.banner_image, item.banner_image_name)}>
-                  <img src={`/bannerImages/${item.banner_image}`} className="h-full w-full object-cover" alt="Banner image" />
-                </div>
-                <p className="mt-2">{item.banner_image_name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  } else if (chooseMode === "deleteUser") {
+  if (chooseMode === "deleteUser") {
     return (
       <div className="flex flex-col items-center justify-center text-center border border-gray-600 space-y-4 px-4 py-12 md:px-10 blur-none text-white rounded-2xl bg-black/70 backdrop-blur-lg">
         <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded-sm transition hover:bg-gray-800" >

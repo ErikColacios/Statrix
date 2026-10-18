@@ -99,7 +99,7 @@ export default async function GamePage({ params }: { params: { list_id: string; 
                 {userId && (
                     <div className="flex flex-col">
                         <div className="flex items-center space-x-2 text-xl mb-2">
-                            <img src={`/avatarImages/${userInfo[0]?.user_avatar}`} className="w-6 h-6 rounded-full mr-2" alt="User avatar" />
+                            <img src={userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} className="w-6 h-6 rounded-full mr-2" alt="User avatar" />
                             <Link href={`/profile/${userName}`} className="font-semibold hover:text-green-400 cursor-pointer">{userName}</Link>
                             <p className="text-gray-400"> status</p>
                         </div>

@@ -13,7 +13,7 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 import { EffectCoverflow } from "swiper/modules"
 import UserVideogameMiniCard from "@/components/UserVideogameMiniCard"
-import ReviewCard from "@/components/ReviewCard"
+import Review from "@/components/Review"
 
 export default function Home() {
   const swiperRef = useRef<SwiperType | null>(null)
@@ -206,7 +206,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.2 }}>
-                  <ReviewCard review={review} index={index} gameName={review.gameName} userId={review.userId} handleReviewActions={() => {}} openReviewId={() => {}} handleLikeReview={() => {}} setModalType={null} setReviewClicked={null} />
+                  <Review review={review} index={index}/>
                 </motion.div>
               ))}
             </div>

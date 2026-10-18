@@ -27,6 +27,8 @@ export default function SliderImages({ screenshots }: Props) {
                 {screenshots[1] && <SwiperSlide><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${screenshots[1].image_id}.png`} className='xl:h-78 w-full' alt='Slide 2' /></SwiperSlide>}
                 {screenshots[2] && <SwiperSlide><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${screenshots[2].image_id}.png`} className='xl:h-78 w-full' alt='Slide 3' /></SwiperSlide>}
                 {screenshots[3] && <SwiperSlide><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${screenshots[3].image_id}.png`} className='xl:h-78 w-full' alt='Slide 4' /></SwiperSlide>}
+                {screenshots[4] && <SwiperSlide><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${screenshots[4].image_id}.png`} className='xl:h-78 w-full' alt='Slide 5' /></SwiperSlide>}
+                {screenshots[5] && <SwiperSlide><img src={`https://images.igdb.com/igdb/image/upload/t_720p/${screenshots[5].image_id}.png`} className='xl:h-78 w-full' alt='Slide 6' /></SwiperSlide>}
             </Swiper>
             </>
         )

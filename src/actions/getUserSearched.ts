@@ -13,7 +13,6 @@ export default async function getUserSearched(userSearched: string) {
 
     try {
         const query = `SELECT * FROM users usr
-        INNER JOIN avatar_images avi ON usr.user_avatar_id = avi.avatar_image_id
         LEFT OUTER JOIN user_friendships uf ON 
             (uf.requester_id = usr.user_id AND uf.addressee_id = $1)
             OR (uf.requester_id = $1 AND uf.addressee_id = usr.user_id)

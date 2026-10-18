@@ -2,36 +2,57 @@ import React from "react"
 
 export default function Review({ review, index }: any) {
 
-    return (
-        <div className={`flex flex-col no-scrollbar space-y-2 h-40 sm:h-32 p-4 mb-8 rounded-lg bg-black/50 shadow-lg border text-sm 
-            ${review.recommended ? "cardReviewGreen shadow-green-500/30 border-green-600" : "cardReviewRed shadow-rose-500/30 border-rose-700"}`} key={index}>
-            <div className='relative flex items-center text-white'>
-                {review.recommended ?
-                    <svg className="pr-2" width="25px" height="15px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>like [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -760.000000)" fill="#15cc67ff"><g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M203,620 L207.200006,620 L207.200006,608 L203,608 L203,620 Z M223.924431,611.355 L222.100579,617.89 C221.799228,619.131 220.638976,620 219.302324,620 L209.300009,620 L209.300009,608.021 L211.104962,601.825 C211.274012,600.775 212.223214,600 213.339366,600 C214.587817,600 215.600019,600.964 215.600019,602.153 L215.600019,608 L221.126177,608 C222.97313,608 224.340232,609.641 223.924431,611.355 L223.924431,611.355 Z" id="like-[#ffffff]"> </path> </g> </g> </g> </g></svg>
-                    :
-                    <svg className="pr-2" width="25px" height="15px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>dislike [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -760.000000)" fill="#e02020ff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M139.800374,612 L144.00037,612 L144.00037,600 L139.800374,600 L139.800374,612 Z M127.698085,600 L137.700376,600 L137.700376,611.979 L135.894378,618.174 C135.725328,619.224 134.776129,620 133.66103,620 C132.412581,620 131.400381,619.036 131.400381,617.847 L131.400381,612 L125.873186,612 C124.026238,612 122.659139,610.358 123.074939,608.644 L124.899837,602.109 C125.200137,600.868 126.360386,600 127.698085,600 L127.698085,600 Z" id="dislike-[#ffffff]"> </path> </g> </g> </g> </g></svg>
-                }
-                {/* User reviewer button */}
-                <div className="flex items-center hover:text-green-400 ml-1 cursor-pointer">
-                    <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                        <img src={review.avatarImage} className="h-full w-full object-cover" alt="User avatar" />
-                    </div>
-                    {review.userName}
-                    <span className="text-xs text-gray-300 ml-3 sm:ml-4">{review.reviewDate}</span>
-                </div>
-                {/* Like button */}
-                <div className="flex items-center ml-auto pr-2 text-xs">
-                    <svg width="20px" height="10px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>like [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -760.000000)" fill="#ffffffff"><g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M203,620 L207.200006,620 L207.200006,608 L203,608 L203,620 Z M223.924431,611.355 L222.100579,617.89 C221.799228,619.131 220.638976,620 219.302324,620 L209.300009,620 L209.300009,608.021 L211.104962,601.825 C211.274012,600.775 212.223214,600 213.339366,600 C214.587817,600 215.600019,600.964 215.600019,602.153 L215.600019,608 L221.126177,608 C222.97313,608 224.340232,609.641 223.924431,611.355 L223.924431,611.355 Z" id="like-[#ffffff]"> </path> </g> </g> </g> </g></svg>
-                    <span>{review.likes}</span>
+    // Date formatter
+    const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' })
 
-                    {/* Review actions button */}
-                    <button className="flex items-center transition bg-gray-800 hover:bg-gray-600 ml-1 p-1 rounded-sm">
-                        Like!
-                    </button>
+    return (
+        <div key={index}
+            className={`flex flex-col space-y-2 min-h-36 p-4 mb-8 rounded-lg bg-zinc-900/80 shadow-lg border border-white/10
+                            ${review.game_score >= 8 ? ' cardReviewGreen shadow-green-500/30 border-green-600' : ''}
+                            ${review.game_score >= 4 && review.game_score < 8 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700/80' : ''}
+                            ${review.game_score < 4 && review.game_score > 0 ? ' cardReviewRed shadow-rose-500/30 border-rose-700' : ''}
+                            ${Number(review.game_score) === 0 ? 'bg-zinc-900/80 shadow-zinc-500/30 border-white/10' : ''}
+                            `}>
+            <div className="relative flex flex-col space-y-1">
+                <div className="flex flex-col space-x-2 sm:flex-row sm:items-center text-white">
+                    <div className="flex items-center hover:text-green-400 cursor-pointer">
+                        <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
+                            <img src={review.user_avatar} className="h-full w-full object-cover" alt="User avatar" />
+                        </div>
+                        <p className="font-bold">{review.user_name}</p>
+                        <p className="ml-2 text-gray-400">reviewed </p>
+                    </div>
+                    <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+                        <p className="font-bold">{review.game_name}</p>
+                        <p className={`flex justify-center items-center rounded-full w-8 h-8 font-bold border
+                                        ${review.game_score >= 8 ? 'text-green-400 border-green-600' : ''}
+                                                ${review.game_score >= 4 && review.game_score < 8 ? 'text-yellow-400 border-yellow-700/80' : ''}
+                                                ${review.game_score < 4 && review.game_score > 0 ? 'text-rose-400 border-rose-700' : ''}
+                                                ${Number(review.game_score) === 0 ? 'text-gray-300 border-white/10' : ''}
+                                        `}>
+                            {Number(review.game_score) === 0 ? "NS" : review.game_score}
+                        </p>
+                    </div>
+
+                    <div className="absolute right-0 mt-1 flex items-center space-x-2 text-sm">
+                        <div className="flex space-x-2 items-center text-white">
+                            {/* Like button */}
+                            <div className="flex items-center ml-auto pr-2 text-xs">
+                                <button id={'likeButton' + review.review_id}>
+                                    <img id={'likeButtonImage' + review.review_id} src={`/staticImages/${review.liked_by_user == 1 ? 'icon_heart_red.png' : 'icon_heart_gray.png'}`} alt="Liked icon" className="w-4 h-4 mr-1" />
+                                </button>
+                                <span className="text-gray-400" id={'likeCount' + review.review_id}>
+                                    {review.likes}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <span className="text-sm text-gray-400" suppressHydrationWarning>
+                    {formatter.format(review.review_date)}
+                </span>
             </div>
-            <span className='h-px w-full bg-gray-600'></span>
-            <div className='h-full'>
+            <div className="max-h-64 overflow-hidden no-scrollbar py-2">
                 <p>{review.body}</p>
             </div>
         </div>

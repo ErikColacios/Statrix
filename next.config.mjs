@@ -18,9 +18,16 @@ const nextConfig = {
   },
 
   images: {
-    domains: ['images.igdb.com']
-  },
-
+    domains: ['images.igdb.com'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.statrix.app",
+        pathname: "/**",
+      },
+    ]
+  }
+  
 };
 
 export default nextConfig;

@@ -105,7 +105,7 @@ export default function Friends() {
                             <div key={index} className='relative flex items-center p-2 mb-4 h-16 space-x-4 border border-gray-600 bg-zinc-900 rounded-lg'>
                                 <Link href={`/profile/${item.user_name}`} className='flex items-center'>
                                     <div className="w-10 h-10 rounded-full overflow-hidden">
-                                        <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
+                                        <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt='Avatar image' />
                                     </div>
                                     {/* User name */}
                                     <p className='ml-4 text-lg hover:text-green-400'>{item.user_name}</p>

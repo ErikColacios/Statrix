@@ -93,8 +93,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                     <Dialog.Overlay className="fixed inset-0 bg-black/50" />
                     <Dialog.Content
                         className={`fixed z-50 flex justify-center w-full md:w-200 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl 
-                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}
-                    >
+                        data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
                         {modalType === 'addReview' && <ReviewModal gameId={gameId} gameName={gameName} gameCover={coverImageId} />}

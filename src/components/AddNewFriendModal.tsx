@@ -60,7 +60,7 @@ export default function AddNewFriendModal() {
                 {usersFound.map((item: any, index: number) => (
                     <div key={index} className='relative flex items-center mb-4 p-2 h-18 space-x-4 border border-gray-600 bg-gray-800/50 rounded-lg'>
                         <div className="w-12 h-12 rounded-full overflow-hidden">
-                            <img src={`/avatarImages/${item.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image" />
+                            <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image" />
                         </div>
                         <Link href={`/profile/${item.user_name}`} className='text-lg hover:text-green-400'>{item.user_name}</Link>
                         <div className='flex items-center pl-8 space-x-10 text-base text-gray-400'>

@@ -76,14 +76,14 @@ export default function Notifications({ userId, notificationCount }: Props) {
                     {notifications.map((notification: any, index: number) => (
                         <div key={index} className='flex p-2 mb-4 h-14 border border-gray-600 bg-zinc-800 rounded-lg'>
                             <div className="w-10 h-10 rounded-full overflow-hidden">
-                                <img src={`/avatarImages/${notification.avatar_image}`} className="h-full w-full object-cover" alt="Avatar image"/>
+                                <img src={notification.user_avatar ? `https://media.statrix.app/avatars/${notification.user_id}/${notification.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
                             </div>
                             <div className="ml-3 flex flex-col">
                                 <p>New friend request!</p>
                                 <Link href={`/profile/${notification.user_name}`} className='font-bold hover:text-green-400'>{notification.user_name}</Link>
                             </div>
                             <button onClick={() => acceptFriendRequest(notification.requester_id, index)}
-                                className='m-auto w-16 text-sm p-1 rounded-full border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
+                                className='m-auto w-16 text-sm p-1 rounded-lg border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
                         </div>
                     ))}
 
