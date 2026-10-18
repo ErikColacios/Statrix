@@ -38,7 +38,7 @@ export default function Settings() {
                 const userInfo = await getUserInfo(session.user.name)
                 setUserInfo(userInfo)
                 setAvatarUrl(userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg")
-                setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/banner_default.jpg")
+                setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/fallout_workshop.jpg")
             }
         }
         getUserInfoSession()
@@ -169,33 +169,25 @@ export default function Settings() {
                             />
                         </Dialog.Content>
                     </Dialog.Portal>
-                    <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80 rounded-lg">
+                    <div className="w-full md:w-4/5 lg:w-3/5 2xl:w-2/5 flex flex-col bg-gray-800 bg-zinc-900/80 rounded-lg overflow-hidden">
                         <form className="w-full relative rounded-sm outline-gray-700" action={formAction}>
-                            {/* Banner image */}
-                            <label className="w-full h-40 md:h-62 overflow-hidden rounded-lg outline outline-1 outline-gray-700 transition hover:outline-green-600 hover:opacity-70 cursor-pointer block">
-                                <img
-                                    src={bannerUrl}
-                                    className="w-full h-full object-cover"
-                                    alt="Banner image"/>
-                                <input
-                                    type="file"
-                                    accept="image/png,image/jpeg,image/webp"
-                                    className="hidden"
-                                    name="bannerFile"
-                                    onChange={(e) => handleInputBanner(e)}/>
-                            </label>
-
-                            {/* Avatar image */}
-                            <label className="bg-black ml-2 absolute top-15 w-28 h-28 sm:w-48 sm:h-48 rounded-full overflow-hidden outline outline-1 outline-gray-700 hover:outline-green-600 cursor-pointer group">
-                                <img id='avatar'
-                                    src={avatarUrl}
-                                    className="h-full w-full object-cover transition group-hover:opacity-70"/>
-                                <input type="file"
-                                    accept="image/png,image/jpeg,image/webp"
-                                    className="hidden"
-                                    name='avatarFile'
-                                    onChange={(e) => handleInputAvatar(e)}/>
-                            </label>
+                            <div className="relative h-40 w-full sm:h-56">
+                                {/* Banner image */}
+                                <img src={bannerUrl} className="h-full w-full object-cover" alt="Profile banner preview" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/25 to-black/10" />
+                                <label className="absolute right-4 top-4 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/15 bg-black/50 px-3 py-2 text-sm text-white backdrop-blur transition hover:border-green-400/60 hover:bg-black/70">
+                                    <span aria-hidden="true">✦</span> Change banner
+                                    <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" name="bannerFile" onChange={handleInputBanner} />
+                                </label>
+                                <div className="absolute bottom-0 left-6 translate-y-1/2 sm:left-6">
+                                {/* Avatar image */}
+                                    <label className="group relative block h-28 w-28 cursor-pointer overflow-hidden rounded-full border-4 border-zinc-900 bg-zinc-800 shadow-xl sm:h-32 sm:w-32">
+                                        <img src={avatarUrl} alt="Profile avatar preview" className="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:opacity-60" />
+                                        <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold opacity-0 transition group-hover:opacity-100">Change</span>
+                                        <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" name="avatarFile" onChange={handleInputAvatar} />
+                                    </label>
+                                </div>
+                            </div>
 
                             <div className="flex flex-col gap-4 w-full px-4 pt-16 sm:pt-8">
                                 <div className="ml-auto flex items-center space-x-4">
@@ -215,7 +207,8 @@ export default function Settings() {
                                         type="text"
                                         name="userName"
                                         maxLength={16}
-                                        className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        placeholder='Your username'
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_name}/>
                                 </div>
                                 <div>
@@ -224,7 +217,8 @@ export default function Settings() {
                                         rows={4}
                                         name="userBio"
                                         maxLength={200}
-                                        className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-700 resize-none"
+                                        placeholder='Explain something about you'
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15 resize-none"
                                         defaultValue={item.user_bio}/>
                                 </div>
                                 <div>
@@ -233,7 +227,8 @@ export default function Settings() {
                                         type="userEmail"
                                         name="userEmail"
                                         maxLength={35}
-                                        className="w-full rounded-lg p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        placeholder='Your email'
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_email}/>
                                 </div>
                                 <div>
@@ -242,7 +237,8 @@ export default function Settings() {
                                         type="text"
                                         name="userLocation"
                                         maxLength={35}
-                                        className="w-full rounded-lg p-1 bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        placeholder='Where are you from?'
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_location}/>
                                 </div>
 
@@ -254,7 +250,7 @@ export default function Settings() {
                                         type="text"
                                         name="userSteam"
                                         maxLength={50}
-                                        className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_steam_url}
                                         placeholder="steamcommunity.com/id/yourSteamProfile"/>
                                 </div>
@@ -265,7 +261,7 @@ export default function Settings() {
                                         type="text"
                                         name="userTwitch"
                                         maxLength={50}
-                                        className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_twitch}
                                         placeholder="twitch.tv/yourTwitchChannel"/>
                                 </div>
@@ -276,7 +272,7 @@ export default function Settings() {
                                         type="text"
                                         name="userX"
                                         maxLength={50}
-                                        className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_x}
                                         placeholder="x.com/your-X-user"/>
                                 </div>
@@ -287,7 +283,7 @@ export default function Settings() {
                                         type="text"
                                         name="userWebpage"
                                         maxLength={50}
-                                        className="w-full p-1 rounded-lg bg-gray-800 outline-hidden border border border-gray-700 focus:border-green-600"
+                                        className="w-full rounded-lg border border-white/10 bg-zinc-950/80 p-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-500 focus:ring-2 focus:ring-green-500/15"
                                         defaultValue={item.user_webpage}
                                         placeholder="your-site.com"
                                     />
@@ -303,23 +299,16 @@ export default function Settings() {
 
                                     {/* Connect Steam account */}
                                     {!userInfo[0].user_steam_id && (
-                                        <button
-                                            onClick={handleConnectSteam}
+                                        <button onClick={handleConnectSteam}
                                             className="ml-auto flex items-center space-x-1 rounded-sm text-gray-400 border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800">
-                                            <svg width="16px" height="16px"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                stroke="#ffffff"
-                                            ><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{' '}<path d="M9.16488 17.6505C8.92513 17.8743 8.73958 18.0241 8.54996 18.1336C7.62175 18.6695 6.47816 18.6695 5.54996 18.1336C5.20791 17.9361 4.87912 17.6073 4.22153 16.9498C3.56394 16.2922 3.23514 15.9634 3.03767 15.6213C2.50177 14.6931 2.50177 13.5495 3.03767 12.6213C3.23514 12.2793 3.56394 11.9505 4.22153 11.2929L7.04996 8.46448C7.70755 7.80689 8.03634 7.47809 8.37838 7.28062C9.30659 6.74472 10.4502 6.74472 11.3784 7.28061C11.7204 7.47809 12.0492 7.80689 12.7068 8.46448C13.3644 9.12207 13.6932 9.45086 13.8907 9.7929C14.4266 10.7211 14.4266 11.8647 13.8907 12.7929C13.7812 12.9825 13.6314 13.1681 13.4075 13.4078M10.5919 10.5922C10.368 10.8319 10.2182 11.0175 10.1087 11.2071C9.57284 12.1353 9.57284 13.2789 10.1087 14.2071C10.3062 14.5492 10.635 14.878 11.2926 15.5355C11.9502 16.1931 12.279 16.5219 12.621 16.7194C13.5492 17.2553 14.6928 17.2553 15.621 16.7194C15.9631 16.5219 16.2919 16.1931 16.9495 15.5355L19.7779 12.7071C20.4355 12.0495 20.7643 11.7207 20.9617 11.3787C21.4976 10.4505 21.4976 9.30689 20.9617 8.37869C20.7643 8.03665 20.4355 7.70785 19.7779 7.05026C19.1203 6.39267 18.7915 6.06388 18.4495 5.8664C17.5212 5.3305 16.3777 5.3305 15.4495 5.8664C15.2598 5.97588 15.0743 6.12571 14.8345 6.34955" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"></path>{' '}</g></svg>
+                                            <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{' '}<path d="M9.16488 17.6505C8.92513 17.8743 8.73958 18.0241 8.54996 18.1336C7.62175 18.6695 6.47816 18.6695 5.54996 18.1336C5.20791 17.9361 4.87912 17.6073 4.22153 16.9498C3.56394 16.2922 3.23514 15.9634 3.03767 15.6213C2.50177 14.6931 2.50177 13.5495 3.03767 12.6213C3.23514 12.2793 3.56394 11.9505 4.22153 11.2929L7.04996 8.46448C7.70755 7.80689 8.03634 7.47809 8.37838 7.28062C9.30659 6.74472 10.4502 6.74472 11.3784 7.28061C11.7204 7.47809 12.0492 7.80689 12.7068 8.46448C13.3644 9.12207 13.6932 9.45086 13.8907 9.7929C14.4266 10.7211 14.4266 11.8647 13.8907 12.7929C13.7812 12.9825 13.6314 13.1681 13.4075 13.4078M10.5919 10.5922C10.368 10.8319 10.2182 11.0175 10.1087 11.2071C9.57284 12.1353 9.57284 13.2789 10.1087 14.2071C10.3062 14.5492 10.635 14.878 11.2926 15.5355C11.9502 16.1931 12.279 16.5219 12.621 16.7194C13.5492 17.2553 14.6928 17.2553 15.621 16.7194C15.9631 16.5219 16.2919 16.1931 16.9495 15.5355L19.7779 12.7071C20.4355 12.0495 20.7643 11.7207 20.9617 11.3787C21.4976 10.4505 21.4976 9.30689 20.9617 8.37869C20.7643 8.03665 20.4355 7.70785 19.7779 7.05026C19.1203 6.39267 18.7915 6.06388 18.4495 5.8664C17.5212 5.3305 16.3777 5.3305 15.4495 5.8664C15.2598 5.97588 15.0743 6.12571 14.8345 6.34955" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"></path>{' '}</g></svg>
                                             <p>Connect</p>
                                         </button>
                                     )}
                                     {/* Import Steam games */}
                                     {userInfo[0].user_steam_id && (
                                         <div className="flex ml-auto items-center space-x-2" id="steamConnected">
-                                            <Link
-                                                href="/importSteamGames"
+                                            <Link href="/importSteamGames"
                                                 className="flex space-x-1 items-center text-white px-2 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
                                                 <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{' '}<path d="M12 14L11.2929 14.7071L12 15.4142L12.7071 14.7071L12 14ZM13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44771 11 5L13 5ZM6.29289 9.70711L11.2929 14.7071L12.7071 13.2929L7.70711 8.29289L6.29289 9.70711ZM12.7071 14.7071L17.7071 9.70711L16.2929 8.29289L11.2929 13.2929L12.7071 14.7071ZM13 14L13 5L11 5L11 14L13 14Z" fill="#ffffff"></path>{' '}<path d="M5 16L5 17C5 18.1046 5.89543 19 7 19L17 19C18.1046 19 19 18.1046 19 17V16" stroke="#ffffff" strokeWidth="2"></path>{' '}                                                    </g></svg>
                                                 <p>Import</p>
