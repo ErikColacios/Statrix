@@ -14,6 +14,12 @@ export default async function updateUserAvatar(formData: FormData) {
     const allowedFormats:string[] = ["jpeg", "png", "webp"];
 
     const selectedAvatar: File = formData.get('avatarFile') as File
+
+      console.log("[avatar] Archivo recibido:", selectedAvatar instanceof File
+        ? { name: selectedAvatar.name, size: selectedAvatar.size, type: selectedAvatar.type }
+        : selectedAvatar
+    );
+
     if (!allowedFormats.includes(selectedAvatar.type)) {
         return;
     }
