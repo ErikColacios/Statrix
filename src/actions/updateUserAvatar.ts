@@ -15,22 +15,14 @@ export default async function updateUserAvatar(formData: FormData) {
 
     const selectedAvatar: File = formData.get('avatarFile') as File
 
-      console.log("[avatar] Archivo recibido:", selectedAvatar instanceof File
-        ? { name: selectedAvatar.name, size: selectedAvatar.size, type: selectedAvatar.type }
-        : selectedAvatar
-    );
-
-    console.log("TIPO ARCHIVO: ",selectedAvatar.type)
     if (!allowedFormatsLong.includes(selectedAvatar.type)) {
         return;
     }
-    console.log("[avatar] 1. Archivo recibido");
 
     const imageBuffer = Buffer.from(await selectedAvatar.arrayBuffer())
     const image = sharp(imageBuffer, {
         limitInputPixels: 40_000_000
     })
-
 
     // We validate the image
     const metadata = await image.metadata();
@@ -61,8 +53,6 @@ export default async function updateUserAvatar(formData: FormData) {
         })
         .webp({ quality: 80 })
         .toBuffer();
-
-    console.log("[avatar] 2. Imagen procesada");
 
     // Check bucket name
     const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME!
@@ -103,9 +93,6 @@ export default async function updateUserAvatar(formData: FormData) {
         })
         await s3.send(putObject)
 
-    console.log("[avatar] 3. Imagen subida a R2");
-
-
         // Then we update the user_avatar field in the 'users' table
         await pool.query(
             `UPDATE users
@@ -121,8 +108,6 @@ export default async function updateUserAvatar(formData: FormData) {
                 Key: oldAvatarKey,
             }));
         }
-
-        console.log("[avatar] 4. Base de datos actualizada");
 
         return 'User avatar updated successfully!'
     } catch (error) {

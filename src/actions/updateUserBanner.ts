@@ -17,7 +17,6 @@ export default async function updateUserBanner(formData: FormData) {
         return;
     }
 
-
     const imageBuffer = Buffer.from(await selectedBanner.arrayBuffer())
     const image = sharp(imageBuffer, {
         limitInputPixels: 40_000_000
