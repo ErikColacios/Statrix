@@ -11,7 +11,7 @@ const MAX_DIMENSION = 4096;
 export default async function updateUserAvatar(formData: FormData) {
     const session: any = await getSessionUser()
     const userId: string = session.user.id as string
-    const allowedFormats:string[] = ["jpeg", "png", "webp"];
+    const allowedFormatsLong:string[] = ["image/jpeg", "image/png", "image/webp"];
 
     const selectedAvatar: File = formData.get('avatarFile') as File
 
@@ -21,7 +21,7 @@ export default async function updateUserAvatar(formData: FormData) {
     );
 
     console.log("TIPO ARCHIVO: ",selectedAvatar.type)
-    if (!allowedFormats.includes(selectedAvatar.type)) {
+    if (!allowedFormatsLong.includes(selectedAvatar.type)) {
         return;
     }
     console.log("[avatar] 1. Archivo recibido");
@@ -34,6 +34,8 @@ export default async function updateUserAvatar(formData: FormData) {
 
     // We validate the image
     const metadata = await image.metadata();
+    const allowedFormats:string[] = ["jpeg", "png", "webp"];
+
     if (!metadata.format || !allowedFormats.includes(metadata.format)) {
         return { success: false, message: "Only JPEG, PNG and WebP images are supported." }
     }
