@@ -2,27 +2,54 @@
 import { pool } from '@/util/postgres'
 import getSessionUser from './getSessionUser'
 import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import sharp from "sharp"
 import { randomUUID } from 'crypto'
+
+//const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const MAX_DIMENSION = 4096;
 
 export default async function updateUserAvatar(formData: FormData) {
     const session: any = await getSessionUser()
     const userId: string = session.user.id as string
-    const imageTypes:string[] = ["image/jpeg", "image/png", "image/webp"]
+    const allowedFormats:string[] = ["jpeg", "png", "webp"];
 
     const selectedAvatar: File = formData.get('avatarFile') as File
-    if (!imageTypes.includes(selectedAvatar.type)) {
+    if (!allowedFormats.includes(selectedAvatar.type)) {
         return;
     }
 
-    const arrayBuffer = await selectedAvatar.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
+    const imageBuffer = Buffer.from(await selectedAvatar.arrayBuffer())
+    const image = sharp(imageBuffer, {
+        limitInputPixels: 40_000_000
+    })
+
+    // We validate the image
+    const metadata = await image.metadata();
+    if (!metadata.format || !allowedFormats.includes(metadata.format)) {
+        return { success: false, message: "Only JPEG, PNG and WebP images are supported." }
+    }
+
+    if (!metadata.width || !metadata.height || metadata.width > MAX_DIMENSION || metadata.height > MAX_DIMENSION) {
+        return { success: false, message: "The image dimensions are too large." }
+    }
 
     if (!userId) {
         return { success: false, message: 'You must be logged in.' }
     }
+
     if (!selectedAvatar) {
         return { success: false, message: 'No avatar selected.' }
     }
+
+    // We resize the validated image
+    const processedImage = await image
+        .rotate()
+        .resize(512, 512, {
+            fit: "cover",
+            position: "centre",
+        })
+        .webp({ quality: 80 })
+        .toBuffer();
 
     // Check bucket name
     const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME!
@@ -48,7 +75,6 @@ export default async function updateUserAvatar(formData: FormData) {
         const res = await pool.query(`SELECT user_avatar FROM users WHERE user_id = $1`, [userId])
         const oldAvatarImage = res.rows[0].user_avatar
         const oldAvatarKey = `avatars/${userId}/${oldAvatarImage}`
-        console.log(oldAvatarKey)
 
         // We create the image key (the image name inside Cloudflare) and we upload it there
         const avatarId = randomUUID() + '.webp'
@@ -57,9 +83,9 @@ export default async function updateUserAvatar(formData: FormData) {
         const putObject = new PutObjectCommand({
             Bucket: R2_BUCKET_NAME!,
             Key: imageKey,
-            Body: buffer,
-            ContentType: selectedAvatar.type,
-            ContentLength: buffer.length,
+            Body: processedImage,
+            ContentType: "image/webp",
+            ContentLength: processedImage.length,
         })
         await s3.send(putObject)
 

@@ -16,7 +16,7 @@ import updateUserBanner from '@/actions/updateUserBanner'
 export default function Settings() {
     const router = useRouter()
     const [userInfo, setUserInfo] = useState<any[]>([])
-    const [state, formAction] = useFormState<{ error?: string; success?: string }, FormData>(handleUpdateUser, { success: "Settings updated successfully", error: undefined })
+    const [state, formAction] = useFormState<{ error?: string; success?: string }, FormData>(handleUpdateUser, { success: undefined, error: undefined })
     const [chooseMode, setChooseMode] = useState<'avatar' | 'banner' | 'deleteUser' | 'disconnectSteam'>('avatar')
 
     const [selectedAvatar, setSelectedAvatar] = useState<File>()
@@ -54,6 +54,7 @@ export default function Settings() {
         if (!file) return false
         if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size >= 1500000) {
             console.log("Image must be JPG, PNG or WebP and smaller than 1.5 MB")
+            
             return false
         }
         return true
@@ -63,6 +64,10 @@ export default function Settings() {
         const file = e.target.files?.[0]
         if (validateImage(file)){
             setSelectedAvatar(file)
+        } else {
+            window.clearTimeout(timerRef.current)
+            timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
+            state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
         }
     }
 

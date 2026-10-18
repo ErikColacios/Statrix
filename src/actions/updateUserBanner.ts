@@ -2,20 +2,36 @@
 import { pool } from '@/util/postgres'
 import getSessionUser from './getSessionUser'
 import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import sharp from "sharp"
 import { randomUUID } from 'crypto'
+
+const MAX_DIMENSION = 4096;
 
 export default async function updateUserBanner(formData: FormData) {
     const session: any = await getSessionUser()
     const userId: string = session.user.id as string
-    const imageTypes:string[] = ["image/jpeg", "image/png", "image/webp"]
+    const allowedFormats:string[] = ["jpeg", "png", "webp"];
 
     const selectedBanner: File = formData.get('bannerFile') as File
-    if (!imageTypes.includes(selectedBanner.type)) {
+    if (!allowedFormats.includes(selectedBanner.type)) {
         return;
     }
 
-    const arrayBuffer = await selectedBanner.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
+
+    const imageBuffer = Buffer.from(await selectedBanner.arrayBuffer())
+    const image = sharp(imageBuffer, {
+        limitInputPixels: 40_000_000
+    })
+
+    // We validate the image
+    const metadata = await image.metadata();
+    if (!metadata.format || !allowedFormats.includes(metadata.format)) {
+        return { success: false, message: "Only JPEG, PNG and WebP images are supported." }
+    }
+
+    if (!metadata.width || !metadata.height || metadata.width > MAX_DIMENSION || metadata.height > MAX_DIMENSION) {
+        return { success: false, message: "The image dimensions are too large." }
+    }
 
     if (!userId) {
         return { success: false, message: 'You must be logged in.' }
@@ -23,6 +39,16 @@ export default async function updateUserBanner(formData: FormData) {
     if (!selectedBanner) {
         return { success: false, message: 'No banner selected.' }
     }
+
+    // We resize the validated image
+    const processedImage = await image
+        .rotate()
+        .resize(1920, 640, {
+            fit: "cover",
+            position: "centre",
+        })
+        .webp({ quality: 80 })
+        .toBuffer();
 
     // Check bucket name
     const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME!
@@ -48,7 +74,6 @@ export default async function updateUserBanner(formData: FormData) {
         const res = await pool.query(`SELECT user_banner FROM users WHERE user_id = $1`, [userId])
         const oldBannerImage = res.rows[0].user_banner
         const oldBannerKey = `banners/${userId}/${oldBannerImage}`
-        console.log(oldBannerKey)
 
         // We create the image key (the image name inside Cloudflare) and we upload it there
         const bannerId = randomUUID() + '.webp'
@@ -57,9 +82,9 @@ export default async function updateUserBanner(formData: FormData) {
         const putObject = new PutObjectCommand({
             Bucket: R2_BUCKET_NAME!,
             Key: imageKey,
-            Body: buffer,
-            ContentType: selectedBanner.type,
-            ContentLength: buffer.length,
+            Body: processedImage,
+            ContentType: "image/webp",
+            ContentLength: processedImage.length,
         })
         await s3.send(putObject)
 
