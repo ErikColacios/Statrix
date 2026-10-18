@@ -20,6 +20,7 @@ export default async function updateUserAvatar(formData: FormData) {
         : selectedAvatar
     );
 
+    console.log("TIPO ARCHIVO: ",selectedAvatar.type)
     if (!allowedFormats.includes(selectedAvatar.type)) {
         return;
     }
