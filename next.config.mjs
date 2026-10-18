@@ -16,7 +16,11 @@ const nextConfig = {
       }
     ];
   },
-
+  experimental: {
+    serverActions: {
+        bodySizeLimit: "12mb",
+    },
+  },
   images: {
     domains: ['images.igdb.com'],
     remotePatterns: [
