@@ -106,6 +106,11 @@ export default function EditListInfoModal({ listId, listContent, setListContent,
                     <textarea rows={5} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none"
                         defaultValue={listInfo.list_description} />
                 </div>
+
+                <div className='w-full flex items-center space-x-2 text-sm text-gray-400 mt-4'>
+                    <label>Featured list</label>
+                    <input type="checkbox" name="listFeatured" id="listFeatured" className="accent-green-500" checked={isFeatured}  onChange={(e) => setIsFeatured(e.target.checked)} />
+                </div>
                
 
                 <p className='text-gray-400 mt-4'>Visibility</p>
