@@ -31,8 +31,6 @@ export default async function ListLayout({ children, params }: { children: React
 
   if (userId !== undefined) {
     listInfo = await getListInfo(listId)
-  console.log(listInfo)
-
     listContent = await getListContent(listId)
 
     if (listInfo.length === 0) {

@@ -1,17 +1,16 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import updateUserName from "@/actions/updateUserName"
 import { useSession } from "next-auth/react"
 import { useFormState } from "react-dom"
 import { useRouter } from "next/navigation"
 import updateUserBanner from "@/actions/updateUserBanner"
 import updateUserAvatar from "@/actions/updateUserAvatar"
-import { Toast } from "radix-ui"
 
 export default function NewUser() {
     const router = useRouter()
     const session: any = useSession()
-    const [state, formAction] = useFormState<any, FormData>(handleUpdateUser, undefined)
+    const [state, formAction] = useFormState<any, FormData>(handleUpdateUser, { success: undefined, error: undefined })
 
     const [selectedAvatar, setSelectedAvatar] = useState<File>()
     const [avatarUrl, setAvatarUrl] = useState("/avatarImages/avatar_default.jpg")
@@ -19,12 +18,6 @@ export default function NewUser() {
     const [selectedBanner, setSelectedBanner] = useState<File>()
     const [bannerUrl, setBannerUrl] = useState("/bannerImages/fallout_workshop.jpg")
 
-    // Toast notification state
-    const [open, setOpen] = useState(false)
-    const timerRef = useRef(0)
-    useEffect(() => {
-        return () => clearTimeout(timerRef.current)
-    }, [])
 
     function validateImage(file: File | undefined) {
         if (!file) return false
@@ -40,8 +33,6 @@ export default function NewUser() {
         if (validateImage(file)){
             setSelectedAvatar(file)
         } else {
-            window.clearTimeout(timerRef.current)
-            timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
             state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
             const avatarFile = document.getElementById("avatarFile") as HTMLInputElement
             avatarFile.value = ""
@@ -53,8 +44,6 @@ export default function NewUser() {
         if (validateImage(file)){
             setSelectedBanner(file)
         } else {
-            window.clearTimeout(timerRef.current)
-            timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
             state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
             const bannerFile = document.getElementById("bannerFile") as HTMLInputElement
             bannerFile.value = ""
@@ -90,26 +79,29 @@ export default function NewUser() {
     }, [selectedBanner])
 
     // Save the user settings
-    async function handleUpdateUser(prevState: any, formData: FormData) {
+    async function handleUpdateUser(prevState: { error?: string; success?: string }, formData: FormData) {
         const userName = formData.get("usernameLogIn") as string
         if (!userName.trim()) return { error: "User name cannot be empty" }
         if (userName.includes(" ")) return { error: "User name cannot contain white spaces" }
         if (!session.data?.user?.id) return { error: "Your session could not be verified. Please try again." }
 
         const response = await updateUserName(formData, session.data.user.id)
-        if (response.error) return { error: response.error }
+        if (response?.error) {
+            return { error: response?.error }
+        } else {
+            // Finally we update the avatar and banner images
+            await updateUserAvatar(formData)
+            await updateUserBanner(formData)
 
-        // Finally we update the avatar and banner images
-        updateUserAvatar(formData)
-        updateUserBanner(formData)
-
-        router.push("/")
-        return { success: true }
+            // And update the session name
+            await session.update({ name: userName })
+            router.push("/")
+            return { success: true }
+        }
     }
 
     return (
         <main className="relative flex min-h-[calc(100vh-4rem)] w-full items-center justify-center overflow-hidden px-4 py-10 text-white">
-            <Toast.Provider>
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
                 <div className="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-green-500/10 blur-3xl" />
                 <div className="absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-lime-500/5 blur-3xl" />
@@ -150,35 +142,11 @@ export default function NewUser() {
 
                         <div className="flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
                             <p className="text-xs leading-5 text-zinc-500">JPG, PNG or WebP · Max. 1.5 MB per image</p>
-                            <button
-                                onClick={() => {
-                                    setOpen(false)
-                                    window.clearTimeout(timerRef.current)
-                                    timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
-                                }}
-                            type="submit" className="text-sm text-white px-4 py-2 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Create profile</button>
+                            <button type="submit" className="text-sm text-white px-4 py-2 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Create profile</button>
                         </div>
                     </div>
                 </div>
             </form>
-            <Toast.Root className={`animate-slide-left flex flex-col fixed top-15 right-5 sm:right-15 text-white rounded shadow-green-500/30 border-green-600 p-2 
-                    ${state?.error ? 'cardReviewRed' : state?.success ? 'cardReviewGreen' : ''}`} open={open} onOpenChange={setOpen}>
-                    <Toast.Description asChild>
-                        <div className="text-sm">
-                            {/* Error message */}
-                            {state?.error && <div className="flex items-center space-x-2">
-                                <img src="/staticImages/icon_error_circle.png" alt="Error icon" className="w-5 h-5" />
-                                <p>{state.error}</p></div>}
-                            {/* Success message */}
-                            {state?.success && <div className="flex items-center space-x-2">
-                                <img src="/staticImages/icon_tick_circle.png" alt="Success icon" className="w-5 h-5" />
-                                <p>{state.success}</p></div>}
-                        </div>
-                    </Toast.Description>
-                    <Toast.Close />
-                </Toast.Root>
-                <Toast.Viewport />
-            </Toast.Provider>
         </main>
     )
 }

@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 export default async function NewUserLayout({children}: {children: React.ReactNode}) {
 
     const session:any = await getSessionUser()
-    console.log(session?.user)
     if (!session?.user.isNewUser){
         redirect("/")
     }

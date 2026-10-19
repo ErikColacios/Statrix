@@ -46,7 +46,6 @@ export async function deleteList(listId: string) {
 
     // If everything went right, we commit the transaction
     await client.query("COMMIT");
-    console.log(`List ${listId} deleted successfully.`);
     redirectPath = "/mylists";
   } catch (error) {
     // If an error happened, we rollack the transaction
