@@ -68,6 +68,8 @@ export default function Settings() {
             window.clearTimeout(timerRef.current)
             timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
             state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
+            const avatarFile = document.getElementById("avatarFile") as HTMLInputElement
+            avatarFile.value = ""
         }
     }
 
@@ -75,6 +77,12 @@ export default function Settings() {
         const file = e.target.files?.[0]
         if (validateImage(file)){
             setSelectedBanner(file)
+        } else {
+            window.clearTimeout(timerRef.current)
+            timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
+            state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
+            const bannerFile = document.getElementById("bannerFile") as HTMLInputElement
+            bannerFile.value = ""
         }
     }
 
@@ -182,14 +190,14 @@ export default function Settings() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/25 to-black/10" />
                                 <label className="absolute right-4 top-4 inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/15 bg-black/50 px-3 py-2 text-sm text-white backdrop-blur transition hover:border-green-400/60 hover:bg-black/70">
                                     <span aria-hidden="true">✦</span> Change banner
-                                    <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" name="bannerFile" onChange={handleInputBanner} />
+                                    <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" id="bannerFile" name="bannerFile" onChange={handleInputBanner} />
                                 </label>
                                 <div className="absolute bottom-0 left-6 translate-y-1/2 sm:left-6">
                                 {/* Avatar image */}
                                     <label className="group relative block h-28 w-28 cursor-pointer overflow-hidden rounded-full border-4 border-zinc-900 bg-zinc-800 shadow-xl sm:h-32 sm:w-32">
                                         <img src={avatarUrl} alt="Profile avatar preview" className="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:opacity-60" />
                                         <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold opacity-0 transition group-hover:opacity-100">Change</span>
-                                        <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" name="avatarFile" onChange={handleInputAvatar} />
+                                        <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" id="avatarFile" name="avatarFile" onChange={handleInputAvatar} />
                                     </label>
                                 </div>
                             </div>
