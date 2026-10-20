@@ -23,7 +23,7 @@ export default function Review({ review, index }: any) {
                         <p className="ml-2 text-gray-400">reviewed </p>
                     </div>
                     <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-                        <p className="font-bold">{review.game_name}</p>
+                        <p className="font-bold">{review.gameName}</p>
                         <p className={`flex justify-center items-center rounded-full w-8 h-8 font-bold border
                                         ${review.game_score >= 8 ? 'text-green-400 border-green-600' : ''}
                                                 ${review.game_score >= 4 && review.game_score < 8 ? 'text-yellow-400 border-yellow-700/80' : ''}

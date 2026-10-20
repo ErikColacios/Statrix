@@ -14,35 +14,35 @@
   ]
 
   const list1 = {
-    listName: "Pure cinema", listGames: 23, listCreationDate: "2026-06-24", listMode: "Unranked", covers: [{ gameBaseImage: "/staticImages/game_covers/cover_cyberpunk2077.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_need_for_speed_mw.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_hollow_knight_silksong.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_red_dead_redemption2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_death_stranding2.jpg" }]
+    listName: "Pure cinema", listGames: 23, listCreationDate: "2026-06-24", listMode: "Unranked", covers: [{ gameBaseImage: "/staticImages/gameCovers/cover_cyberpunk2077.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_need_for_speed_mw.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_hollow_knight_silksong.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_red_dead_redemption2.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_death_stranding2.jpg" }]
   }
 
   const list2 = {
-    listName: "Horror", listGames: 16, listCreationDate: "2026-05-03", listMode: "Ranked",  covers: [{ gameBaseImage: "/staticImages/game_covers/cover_resident_evil5.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_silent_hill2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_alien_isolation.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_outlast2.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_subnautica.jpg" }]
+    listName: "Horror", listGames: 16, listCreationDate: "2026-05-03", listMode: "Ranked",  covers: [{ gameBaseImage: "/staticImages/gameCovers/cover_resident_evil5.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_silent_hill2.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_alien_isolation.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_outlast2.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_subnautica.jpg" }]
   }
 
   const list3 = {
-    listName: "Fav RPGs", listGames: 9, listCreationDate: "2026-06-12", listMode: "Unranked",  covers: [{gameBaseImage: "/staticImages/game_covers/cover_dragon_quest3.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_monster_hunter_world.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_fallout_new_vegas.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_expedition33.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_baldurs_gate3.jpg" }]
+    listName: "Fav RPGs", listGames: 9, listCreationDate: "2026-06-12", listMode: "Unranked",  covers: [{gameBaseImage: "/staticImages/gameCovers/cover_dragon_quest3.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_monster_hunter_world.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_fallout_new_vegas.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_expedition33.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_baldurs_gate3.jpg" }]
   }
 
   const list4 = {
-    listName: "Nostalgia", listGames: 9, listCreationDate: "2026-07-17", listMode: "Ranked",  covers: [{gameBaseImage: "/staticImages/game_covers/cover_pokemon_emerald.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_daxter.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_casper_spirit_dimensions.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_harry_potter3.jpg" },
-    { gameBaseImage: "/staticImages/game_covers/cover_ratchet_and_clank3.jpg" }]
+    listName: "Nostalgia", listGames: 9, listCreationDate: "2026-07-17", listMode: "Ranked",  covers: [{gameBaseImage: "/staticImages/gameCovers/cover_pokemon_emerald.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_daxter.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_casper_spirit_dimensions.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_harry_potter3.jpg" },
+    { gameBaseImage: "/staticImages/gameCovers/cover_ratchet_and_clank3.jpg" }]
   }
 
   const reviews = [

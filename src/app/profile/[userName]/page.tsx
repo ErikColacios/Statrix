@@ -50,7 +50,7 @@ export default async function Profile({ params }: { params: { userName: string }
     return (
         <>
             {userInfo.map((item: any, index: number) => (
-                <section className="h-screen text-white py-16 flex flex-col items-center bg-cover bg-center" style={{ backgroundImage: `url(/staticImages/bg_abyss.jpg)` }} key={index}>
+                <section className="h-screen text-white py-16 flex flex-col items-center bg-cover bg-center" key={index}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
                     <div className="flex flex-col">
                         <div className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-4 lg:flex-row">
@@ -144,7 +144,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                     {userReviews.map((r: any, index: number) => (
                                         <Link href={'/gamePage/' + r.game_id} className="relative isolate w-full flex items-center p-4" key={index}>
                                             <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125" 
-                                                style={{ backgroundImage: `url(${r.game_base_image})` }}/>
+                                                style={{ backgroundImage: `url(${r.game_base_image})` }} />
 
                                             <div className="absolute w-full inset-0 bg-black/60" />
                                             <img src={r.game_base_image} className="w-20 h-24 z-10 mr-3" alt="Game reviewed" />
