@@ -15,8 +15,16 @@ export default async function updateUserAvatar(formData: FormData) {
 
     const selectedAvatar: File = formData.get('avatarFile') as File
 
+    if (!userId) {
+        return { success: false, message: 'You must be logged in.' }
+    }
+
+    if (!selectedAvatar) {
+        return { success: false, message: 'No avatar selected.' }
+    }
+
     if (!allowedFormatsLong.includes(selectedAvatar.type)) {
-        return;
+        return { success: false, message: "Only JPEG, PNG and WebP images are supported." }
     }
 
     const imageBuffer = Buffer.from(await selectedAvatar.arrayBuffer())
@@ -34,14 +42,6 @@ export default async function updateUserAvatar(formData: FormData) {
 
     if (!metadata.width || !metadata.height || metadata.width > MAX_DIMENSION || metadata.height > MAX_DIMENSION) {
         return { success: false, message: "The image dimensions are too large." }
-    }
-
-    if (!userId) {
-        return { success: false, message: 'You must be logged in.' }
-    }
-
-    if (!selectedAvatar) {
-        return { success: false, message: 'No avatar selected.' }
     }
 
     // We resize the validated image
