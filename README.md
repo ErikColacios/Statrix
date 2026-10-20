@@ -1,171 +1,77 @@
-# 🎮 Statrix
+<p align="center">
+  <a href="https://statrix.app">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="public/logos/st2_white.png">
+      <img src="public/logos/st2_black.png" alt="Statrix" width="420">
+    </picture>
+  </a>
+</p>
 
-Statrix is a web platform where gamers **share their gaming journey**, connect with friends, and explore a large database of video games.
+<h3 align="center">Your gaming journey, all in one place.</h3>
 
-🌐 Live at **[statrix.app](https://statrix.app)**
+<p align="center">
+  Track every game you play, share your opinions, build lists and connect with friends who love the same games as you.
+</p>
 
-With Statrix you can:
-
-- Build a **public gaming profile** with a custom avatar and banner.
-- Browse and search a **video game database** (powered by [IGDB](https://www.igdb.com/)).
-- **Rate, review, and favorite** games, and track their status in your library.
-- **Import your Steam library**.
-- Create **custom game lists** (drag-and-drop ordering) to show off your backlog or recommendations.
-- Add **friends**, see their activity, and **chat** with them in real time.
-
----
-
-## 🚀 Tech Stack
-
-| Area | Technology |
-| --- | --- |
-| Framework | **Next.js 14** (App Router, Server Actions), **React 18**, **TypeScript** |
-| Styling | **Tailwind CSS 4**, Radix UI, Motion, Swiper |
-| Auth | **NextAuth** (email/password with bcrypt, Google OAuth), Steam login |
-| Database | **PostgreSQL** (`pg`) |
-| Real-time chat | **Socket.IO** + Express (separate service in `src/chat`) |
-| Storage | **Cloudflare R2** (S3 API) for user-uploaded avatars and banners, processed with `sharp` |
-| Email | **Resend** + React Email (account verification, password reset) |
-| Testing | Jest + React Testing Library |
-| Deployment | Docker Compose, nginx, Let's Encrypt (certbot), GitHub Actions |
+<p align="center">
+  <a href="https://statrix.app"><strong>🌐 Visit statrix.app →</strong></a>
+</p>
 
 ---
 
-## 📁 Project Structure
+## 🎮 What is Statrix?
 
-```
-src/
-├── app/          # Next.js App Router pages (profile, gamePage, browseGames, mylists, chat, …)
-│   └── api/      # Route handlers: NextAuth, Steam login/callback
-├── actions/      # Server Actions (DB queries, IGDB calls, uploads, emails)
-├── components/   # Reusable React components
-├── chat/         # Standalone Socket.IO chat server (own package.json)
-├── enums/        # Shared enums (GameStatus, FriendshipStatus, ListMode, …)
-├── types/        # TypeScript types
-└── util/         # Postgres pool, auth config, helpers
-public/           # Static assets (preset avatars, banners, icons, logos)
-nginx/            # nginx reverse-proxy config (HTTPS + WebSocket proxy)
-```
+Statrix is a home for gamers. It is where you keep the story of every game you have played, are playing, or plan to play next, and share it with others.
+
+Whether you finish a game a week or are still working through a backlog from ten years ago, Statrix gives you a profile that shows who you are as a player.
 
 ---
 
-## ⚡ Getting Started
+## ✨ Features
 
-### Prerequisites
+### 👤 A profile that shows who you are as a player
+Show off your gaming identity with a custom avatar, banner and bio. Your profile shows your stats at a glance: completed games, games in progress, hours played, your most played game and your latest review.
 
-- **Node.js 22+** and npm
-- A **PostgreSQL** database (the schema is not included in this repo)
-- API credentials for the services listed below
+<p align="center"><img src="public/staticImages/statrix_profile.jpg" alt="Statrix profile" width="800"></p>
 
-### 1. Clone and install
+### 🔍 Explore a huge game database
+Search and browse thousands of games, from the latest releases to classics you grew up with. Each game has its own page with covers, details and what the community thinks about it.
 
-```bash
-git clone https://github.com/ErikColacios/VideogameList.git statrix
-cd statrix
-npm install
-```
+<p align="center"><img src="public/staticImages/statrix_games.jpg" alt="Browse games" width="800"></p>
 
-### 2. Configure environment variables
+### ⭐ Rate, review and favorite
+Give every game the score it deserves, write a review and mark your all-time favorites. You can also read and like reviews from other players.
 
-Create a `.env` file in the project root (it is git-ignored):
+<p align="center">
+  <img src="public/staticImages/statrix_rate.jpg" alt="Rate games" width="400">
+  <img src="public/staticImages/statrix_reviews.jpg" alt="Reviews" width="400">
+</p>
 
-```env
-# Next / NextAuth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=
-NODE_ENV=development
+### 📋 Create your own lists
+Make lists for anything: your backlog, your top 10 RPGs, games to play with friends. Drag and drop to put them in the order you want, then share them.
 
-# PostgreSQL
-POSTGRES_HOST=
-POSTGRES_PORT=5432
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-POSTGRES_DATABASE=
+<p align="center"><img src="public/staticImages/statrix_lists.jpg" alt="Game lists" width="800"></p>
 
-# IGDB API (Twitch developer credentials)
-CLIENT_ID=
-BEARER=
-BASE_URL=
+### 🕹️ Import your Steam library
+Connect your Steam account and bring in your games and hours played in just a few clicks. No need to add everything by hand.
 
-# Google OAuth
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
+### 👥 Friends and real-time chat
+Add friends, follow what they are playing and talk to them in real time without leaving Statrix.
 
-# Resend (transactional email)
-RESEND_API_KEY=
-
-# Steam Web API
-STEAM_API_KEY=
-
-# Cloudflare R2 (avatar/banner uploads)
-R2_ACCOUNT_ID=
-R2_BUCKET_NAME=
-R2_ACCESS_KEY=
-R2_SECRET_KEY=
-R2_TOKEN_VALUE=
-R2_CDN_URL=
-```
-
-| Service | Where to get credentials |
-| --- | --- |
-| IGDB | [IGDB API docs](https://api-docs.igdb.com/#getting-started): register a Twitch app to get a Client ID and an access token (`BEARER`). |
-| Google OAuth | [Google Cloud Console](https://console.cloud.google.com/apis/credentials). Add `http://localhost:3000/api/auth/callback/google` as a redirect URI. |
-| Resend | [resend.com](https://resend.com) |
-| Steam | [steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey) |
-| Cloudflare R2 | Cloudflare dashboard → R2 → Manage API tokens |
-
-### 3. Run in development
-
-```bash
-# Next.js app → http://localhost:3000
-npm run dev
-
-# Chat server (in a second terminal) → port 4000
-npm run chat
-```
-
-> **Note:** The chat client connects to `/socket.io` on the same origin as the website. In production nginx forwards that path to the chat service. Locally the Next.js dev server does not proxy `/socket.io`, so the chat only works if you put a reverse proxy in front of both servers.
+<p align="center"><img src="public/staticImages/statrix_chat.jpg" alt="Chat" width="800"></p>
 
 ---
 
-## 📜 Available Scripts
+## 🚀 Get started
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the Next.js dev server |
-| `npm run build` | Create a production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | Run ESLint |
-| `npm run chat` | Start the chat server in watch mode (`tsx`) |
-| `npm test` | Run Jest tests |
-| `npm run test:watch` | Run Jest in watch mode |
+1. Go to **[statrix.app](https://statrix.app)**.
+2. Sign up with your email or Google account.
+3. Add your first games, or import them from Steam.
+4. Invite your friends and start sharing your journey.
 
 ---
 
-## 🐳 Deployment
-
-Production runs on a VPS with **Docker Compose**:
-
-| Service | Description |
-| --- | --- |
-| `web` | Next.js app (`Dockerfile.web`), port 3000 |
-| `chat` | Socket.IO server (`Dockerfile.chat`), port 4000 |
-| `nginx` | Reverse proxy on ports 80/443. Handles HTTPS, forwards `/socket.io/` to `chat` and everything else to `web` |
-| `certbot` | Let's Encrypt certificates (`letsencrypt/`, `certbot/`) |
-
-```bash
-docker compose up --build -d
-```
-
-### Continuous deployment
-
-Every push to `main` triggers [`.github/workflows/auto-deploy.yml`](.github/workflows/auto-deploy.yml). It connects to the VPS over SSH, pulls the latest code, and rebuilds the containers. It needs these repository secrets: `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY`, `VPS_PORT`.
-
-> ⚠️ Pushing to `main` deploys to production.
-
----
-
-## 🙏 Credits
-
-- Game data provided by [IGDB](https://www.igdb.com/).
-- Built by [Erik Colacios](https://github.com/ErikColacios).
+<p align="center">
+  Game data provided by <a href="https://www.igdb.com/">IGDB</a>.<br>
+  Made with ❤️ by <a href="https://github.com/ErikColacios">Erik Colacios</a>
+</p>
