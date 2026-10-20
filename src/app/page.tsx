@@ -29,7 +29,7 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white overflow-hidden">
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden bg-cover" style={{ backgroundImage: `url("/staticImages/background2.png")` }}>
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden bg-cover" >
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-green-500/10 blur-[140px] rounded-full" />
