@@ -30,7 +30,7 @@ export default function ShareCardButton({ userName, className }: Props) {
             .then((blob) => {
                 objectUrl = URL.createObjectURL(blob)
                 setPreviewUrl(objectUrl)
-                setFile(new File([blob], `statrix-${userName}.png`, { type: "image/png" }))
+                setFile(new File([blob], `statrix-${userName}.jpg`, { type: "image/jpeg" }))
             })
             .catch(() => setError(true))
 
@@ -66,7 +66,7 @@ export default function ShareCardButton({ userName, className }: Props) {
         if (!previewUrl) return
         const link = document.createElement("a")
         link.href = previewUrl
-        link.download = `statrix-${userName}.png`
+        link.download = `statrix-${userName}.jpg`
         link.click()
     }
 

@@ -11,6 +11,8 @@ import { getUserTotalHoursPlayed } from "@/actions/getUserTotalHoursPlayed";
 
 const WIDTH = 1080;
 const HEIGHT = 1920;
+const BANNER_HEIGHT = 560;
+const AVATAR_SIZE = 240;
 const GREEN = "#22c55e";
 
 // satori doesn't support woff2, so the fonts are stored as woff
@@ -19,7 +21,7 @@ let fontsPromise: Promise<Buffer[]> | null = null;
 
 function loadFonts() {
     fontsPromise ??= Promise.all([
-        readFile(path.join(FONTS_DIR, "ArchivoBlack-Regular.woff")),
+        readFile(path.join(FONTS_DIR, "Inter-Bold.woff")),
         readFile(path.join(FONTS_DIR, "Inter-SemiBold.woff")),
     ]);
     return fontsPromise;
@@ -43,6 +45,12 @@ async function imageToDataUri(url: string, width: number, height: number, blurre
     }
 }
 
+// Same as imageToDataUri, but for an image of the public folder
+async function localImageToDataUri(filePath: string, width: number, height: number): Promise<string> {
+    const buffer = await sharp(path.join(process.cwd(), filePath)).resize(width, height, { fit: "cover" }).jpeg({ quality: 85 }).toBuffer();
+    return `data:image/jpeg;base64,${buffer.toString("base64")}`;
+}
+
 // Smaller IGDB size for the covers, the stored one is t_720p
 function toCoverUrl(url: string) {
     return url.replace("t_720p", "t_cover_big").replace(/\.png$/, ".jpg");
@@ -53,7 +61,7 @@ function formatNumber(n: number) {
 }
 
 /**
- * Generates the shareable stats card (1080x1920 PNG, stories format) of the logged user.
+ * Generates the shareable stats card (1080x1920 JPEG, stories format) of the logged user.
  * @returns The image as a base64 data URI
  */
 export default async function getUserShareCard(): Promise<{ success: boolean, message: string, image?: string }> {
@@ -79,9 +87,13 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
         const avatarUrl = user.user_avatar
             ? `https://media.statrix.app/avatars/${user.user_id}/${user.user_avatar}`
             : null;
+        const bannerUrl = user.user_banner
+            ? `https://media.statrix.app/banners/${user.user_id}/${user.user_banner}`
+            : null;
 
-        const [avatar, background, covers, logo, [archivoBlack, inter]] = await Promise.all([
+        const [avatar, banner, background, covers, logo, [interBold, inter]] = await Promise.all([
             avatarUrl ? imageToDataUri(avatarUrl, 300, 300) : null,
+            bannerUrl ? imageToDataUri(bannerUrl, WIDTH, BANNER_HEIGHT) : null,
             topGames[0] ? imageToDataUri(toCoverUrl(topGames[0].game_base_image), 270, 480, true) : null,
             Promise.all(topGames.map((g) => imageToDataUri(toCoverUrl(g.game_base_image), 264, 352))),
             readFile(path.join(process.cwd(), "public/logos/st2_white.png")),
@@ -91,6 +103,8 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
         const avatarDefault = await readFile(path.join(process.cwd(), "public/avatarImages/avatar_default.jpg"));
         const avatarSrc = avatar ?? `data:image/jpeg;base64,${avatarDefault.toString("base64")}`;
         const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+        // Same default banner as the profile page
+        const bannerSrc = banner ?? await localImageToDataUri("public/bannerImages/fallout_workshop.jpg", WIDTH, BANNER_HEIGHT);
 
         const statBoxes = [
             { label: "Games", value: stats.gamesAll },
@@ -106,25 +120,28 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
                     <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: HEIGHT, display: "flex", backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 45%, #000 85%)" }} />
                     <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: HEIGHT, display: "flex", backgroundImage: "radial-gradient(circle at 50% 100%, rgba(34,197,94,0.25), transparent 50%)" }} />
 
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", padding: "100px 80px 90px" }}>
-                        <img alt="" src={logoSrc} width={300} height={70} style={{ objectFit: "contain" }} />
+                    {/* Banner: darker at the top for the logo, fading into the background at the bottom */}
+                    <img alt="" src={bannerSrc} width={WIDTH} height={BANNER_HEIGHT} style={{ position: "absolute", top: 0, left: 0, objectFit: "cover", maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)" }} />
+                    <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: BANNER_HEIGHT, display: "flex", backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 100%)" }} />
+                    <img alt="" src={logoSrc} width={300} height={70} style={{ position: "absolute", top: 70, left: (WIDTH - 300) / 2, objectFit: "contain" }} />
 
-                        {/* User */}
-                        <img alt="" src={avatarSrc} width={240} height={240} style={{ marginTop: 80, borderRadius: 9999, border: `6px solid ${GREEN}`, objectFit: "cover" }} />
-                        <div style={{ marginTop: 32, fontSize: 84, fontFamily: "Archivo Black", lineHeight: 1 }}>{user.user_name}</div>
-                        <div style={{ marginTop: 16, fontSize: 34, color: "#a1a1aa" }}>My gaming stats</div>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", padding: "0 80px 70px" }}>
+                        {/* User: the avatar overlaps the bottom edge of the banner */}
+                        <img alt="" src={avatarSrc} width={AVATAR_SIZE} height={AVATAR_SIZE} style={{ marginTop: BANNER_HEIGHT - AVATAR_SIZE / 2, borderRadius: 9999, border: `6px solid ${GREEN}`, boxShadow: "0 10px 40px rgba(0,0,0,0.6)", objectFit: "cover" }} />
+                        <div style={{ marginTop: 28, fontSize: 84, fontWeight: 900, lineHeight: 1 }}>{user.user_name}</div>
+                        <div style={{ marginTop: 14, fontSize: 34, color: "#a1a1aa" }}>My gaming stats</div>
 
                         {/* Hours played */}
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 70 }}>
-                            <div style={{ fontSize: 190, fontFamily: "Archivo Black", color: GREEN, lineHeight: 1 }}>{formatNumber(totalHours ? Number(totalHours) : 0)}</div>
-                            <div style={{ fontSize: 40, marginTop: 12, letterSpacing: 6, textTransform: "uppercase" }}>hours played</div>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 50 }}>
+                            <div style={{ fontSize: 120, fontWeight: 900, color: GREEN, lineHeight: 1 }}>{formatNumber(totalHours ? Number(totalHours) : 0)}</div>
+                            <div style={{ fontSize: 40, marginTop: 24, letterSpacing: 6, textTransform: "uppercase" }}>hours played</div>
                         </div>
 
                         {/* Stat boxes */}
-                        <div style={{ display: "flex", width: "100%", marginTop: 70, gap: 24 }}>
+                        <div style={{ display: "flex", width: "100%", marginTop: 50, gap: 24 }}>
                             {statBoxes.map((box) => (
                                 <div key={box.label} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "30px 0", borderRadius: 28, border: "2px solid rgba(255,255,255,0.12)", backgroundColor: "rgba(24,24,27,0.6)" }}>
-                                    <div style={{ fontSize: 72, fontFamily: "Archivo Black", lineHeight: 1 }}>{formatNumber(box.value)}</div>
+                                    <div style={{ fontSize: 72, fontWeight: 700, lineHeight: 1 }}>{formatNumber(box.value)}</div>
                                     <div style={{ fontSize: 30, marginTop: 12, color: GREEN }}>{box.label}</div>
                                 </div>
                             ))}
@@ -132,7 +149,7 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
 
                         {/* Most played games */}
                         {topGames.length > 0 && (
-                            <div style={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 70 }}>
+                            <div style={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 50 }}>
                                 <div style={{ fontSize: 34, color: "#a1a1aa", marginBottom: 24 }}>Most played</div>
                                 <div style={{ display: "flex", gap: 20 }}>
                                     {topGames.map((game, i) => (
@@ -149,7 +166,7 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
 
                         {/* Footer */}
                         <div style={{ display: "flex", marginTop: "auto", fontSize: 36, color: "#d4d4d8" }}>
-                            Track your games at&nbsp;<span style={{ color: GREEN, fontFamily: "Archivo Black" }}>statrix.app</span>
+                            Track your games at&nbsp;<span style={{ color: GREEN, fontWeight: 700 }}>statrix.app</span>
                         </div>
                     </div>
                 </div>
@@ -158,15 +175,15 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
                 width: WIDTH,
                 height: HEIGHT,
                 fonts: [
-                    { name: "Archivo Black", data: archivoBlack, weight: 400 },
+                    { name: "Inter", data: interBold, weight: 700 },
                     { name: "Inter", data: inter, weight: 600 },
                 ],
             }
         );
 
-        const png = await sharp(Buffer.from(svg)).png().toBuffer();
+        const jpeg = await sharp(Buffer.from(svg)).jpeg({ quality: 90 }).toBuffer();
 
-        return { success: true, message: "Card generated.", image: `data:image/png;base64,${png.toString("base64")}` };
+        return { success: true, message: "Card generated.", image: `data:image/jpeg;base64,${jpeg.toString("base64")}` };
     } catch (error) {
         console.error("Error generating share card:", error);
         return { success: false, message: "Error generating share card." };
