@@ -29,14 +29,15 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white overflow-hidden">
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden bg-cover" >
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden bg-cover"
+       style={{ backgroundImage: `url(/staticImages/background_hero.jpg)` }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-green-500/10 blur-[140px] rounded-full" />
           <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-lime-500/5 blur-[100px] rounded-full" />
         </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-5xl" >
+        <motion.section {...fadeUp} className="relative z-10 flex flex-col items-center text-center max-w-5xl" >
           <h1 className="text-6xl sm:text-8xl font-bold tracking-tight leading-[0.95]">
             Never stop
             <span className="block bg-clip-text text-transparent bg-linear-to-r from-green-400 via-lime-400 to-green-500 pb-2">
@@ -56,16 +57,16 @@ export default function Home() {
               Browse games
             </Link>
           </div>
-        </div>
+        </motion.section>
 
         {/* Game cards marquee */}
-        <div className="relative z-10 w-full max-w-6xl mt-20 overflow-hidden mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <motion.section {...fadeUp} className="relative z-10 w-full max-w-6xl mt-20 overflow-hidden mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex gap-6 w-max marquee-track-x [animation:marquee-x_35s_linear_infinite]">
             {dummies.userVideogames?.map((uv: any, index: number) => (
               <UserVideogameMiniCard userVideogames={uv} key={index} />
             ))}
           </div>
-        </div>
+        </motion.section>
 
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none" />
       </section>

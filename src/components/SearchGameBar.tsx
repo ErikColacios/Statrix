@@ -67,23 +67,32 @@ export default function SearchGameBar({ addNewGame }: any) {
         <div className="w-full">
             <div className="flex relative">
                 <div className="flex flex-col w-full text-sm">
-                    <form className="flex relative items-center mb-4" onSubmit={handleSetGameNameSearch}>
-                        <input className='w-full rounded-lg p-2 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600' type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3"/>
-                        <button className='absolute right-0 rounded-sm p-1 ml-2' type='submit'><img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} /></button>
-                        <div className="loader-small absolute right-5 mr-3 hidden" id="loader"></div>
+                    <form className="flex relative items-center" onSubmit={handleSetGameNameSearch}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 text-zinc-400 pointer-events-none"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                        <input className="w-full h-11 rounded-xl pl-10 pr-24 bg-white/5 border border-white/10 outline-hidden placeholder:text-zinc-500 transition focus:border-green-500 focus:bg-white/10" type="text" name="gameSearchBar" id="gameSearchBar" placeholder="Baldur's gate 3"/>
+                        <div className="loader-small absolute right-24 hidden" id="loader"></div>
+                        <button className="absolute right-1.5 h-8 px-3 rounded-lg text-xs font-semibold bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300" type="submit">Search</button>
                     </form>
-                    <div className="h-96 overflow-auto no-scrollbar mb-4" id="gameListSearch" ref={ref}>
-                        {gameItems.map((item: any, index: number) => (
-                            <div className="flex items-center rounded-lg p-2 mb-1 cursor-pointer border border-gray-500 bg-zinc-900 hover:bg-zinc-800 hover:border-green-500" key={index} 
-                            onClick={() => addNewGame(item)}>
-                                <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className='w-8 md:w-12 mr-4' alt='Game cover' />
-                                <div className="flex flex-col">
-                                    <p>{item.name}</p>
-                                    <p className="text-gray-400">{item.release_dates ? item.release_dates[0].human : "Uknown"}</p>
+                    <p className="text-xs text-zinc-500 mt-2 mb-3">Type at least 3 characters and press Enter. Click a game to add it.</p>
+
+                    {/* The display of this container is toggled from the search and click outside handlers */}
+                    <div className="max-h-72 sm:max-h-80 overflow-auto no-scrollbar mb-4 rounded-xl" id="gameListSearch" ref={ref}>
+                        <div className="flex flex-col gap-1">
+                            {gameItems.map((item: any, index: number) => (
+                                <div className="group flex items-center gap-3 rounded-xl p-2 cursor-pointer border border-white/10 bg-white/5 transition hover:bg-white/10 hover:border-green-500/60" key={index}
+                                onClick={() => addNewGame(item)}>
+                                    <img src={`https://images.igdb.com/igdb/image/upload/t_720p/${item.cover.image_id}.png`} className="w-9 md:w-11 aspect-3/4 object-cover rounded-md ring-1 ring-white/10" alt="Game cover" />
+                                    <div className="flex flex-col min-w-0">
+                                        <p className="font-medium truncate">{item.name}</p>
+                                        <p className="text-xs text-zinc-400">{item.release_dates ? item.release_dates[0].human : "Unknown"}</p>
+                                    </div>
+                                    <span className="ml-auto shrink-0 flex items-center justify-center w-8 h-8 rounded-full text-zinc-400 border border-white/10 transition group-hover:text-white group-hover:border-transparent group-hover:bg-linear-to-r group-hover:from-green-500 group-hover:to-lime-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
+                                    </span>
                                 </div>
-                            </div>
-                        ))
-                        }
+                            ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
