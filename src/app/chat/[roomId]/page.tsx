@@ -191,51 +191,52 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
   return (
     <div className="flex w-full md:w-1/2 h-6/7">
-      <div className="w-full ">
-        <div className="relative w-full h-full flex flex-col mb-4 border border-gray-600 rounded-2xl sm:rounded-none sm:rounded-e-2xl overflow-hidden">
-          {/* Friend info */}
-          {friendUser.map((friend: any, friendIdent: number) => (
-            <div className="w-full bg-zinc-900 border-b border-gray-600 text-xl p-4" key={friendIdent}>
-              <Link href={`/profile/${friend.user_name}`}>
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <img src={friend.user_avatar ? `https://media.statrix.app/avatars/${friend.user_id}/${friend.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
-                </div>
-                <p className="text-white ml-4 hover:text-green-500">{friend.user_name}</p>
+      <div className="relative w-full h-full flex flex-col rounded-2xl sm:rounded-none sm:rounded-e-2xl border border-white/10 sm:border-l-0 bg-zinc-900/60 backdrop-blur-xl overflow-hidden shadow-2xl">
+        {/* Friend info */}
+        {friendUser.map((friend: any, friendIdent: number) => (
+          <div className="w-full flex items-center px-4 sm:px-5 py-3 border-b border-white/10 bg-white/[0.03]" key={friendIdent}>
+            <Link href={`/profile/${friend.user_name}`} className="group flex items-center gap-3 min-w-0">
+              <div className="shrink-0 w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/10 transition group-hover:ring-green-500/60">
+                <img src={friend.user_avatar ? `https://media.statrix.app/avatars/${friend.user_id}/${friend.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
               </div>
-              </Link>
-            </div>
-          ))}
+              <div className="min-w-0">
+                <p className="font-semibold truncate transition group-hover:text-green-400">{friend.user_name}</p>
+                <p className="text-xs text-zinc-400">View profile</p>
+              </div>
+            </Link>
+          </div>
+        ))}
 
-          {/* Messages */}
-          <div className="w-full h-full flex flex-col flex-col-reverse overflow-scroll no-scrollbar bg-zinc-900 p-4" ref={messagesTopRef} onScroll={handleScrollChat}>
+        {/* Messages */}
+        <div className="relative flex-1 min-h-0">
+          <div className="w-full h-full flex flex-col-reverse overflow-y-auto no-scrollbar p-4 sm:p-6" ref={messagesTopRef} onScroll={handleScrollChat}>
 
             {/* This div indicates the end of the chat */}
             <div ref={messagesEndRef} />
 
             {/* Typing */}
-            {typingUser !== sessionUser?.userName && typingUser !== '' && <p className="animate-pulse p-1 w-full hidden text-gray-300" id="typing">{typingUser} is typing...</p>}
+            {typingUser !== sessionUser?.userName && typingUser !== '' &&
+              <p className="hidden w-fit mt-1 px-3 py-2 rounded-2xl rounded-es-md bg-white/5 border border-white/10 text-xs text-zinc-300 animate-pulse" id="typing">{typingUser} is typing...</p>}
 
-            {messages.map((message: any, messageIdent: number) => (
-                  <div className="w-full" key={messageIdent} ref={messageIdent === messages.length - 1 ? lastMessageRef : null}>
-                    <div className={`border bg-zinc-800 w-64 rounded mb-4 p-2 ${message.senderId != sessionUser?.userId
-                      ? 'border-zinc-600 rounded-e-2xl rounded-es-2xl'
-                      : 'border-green-600 rounded-s-2xl rounded-br-2xl float-right'}`}>
-                      {/* <b className="mr-4">{message.messageId}</b> */}
-                      <div className="flex items-center">
-                        <b>{message.senderName}</b>
-                        {/* <p className="text-xs text-gray-400 ml-4">{message?.created_at.toLocaleDateString()+' ' + message?.created_at.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}</p> */}
-                        <p className="text-xs text-gray-400 ml-4">{message.created_at.toString()}</p>
-
-                      </div>
-                      <p>{message.text}</p>
+            {messages.map((message: any, messageIdent: number) => {
+              const isOwnMessage: boolean = message.senderId == sessionUser?.userId
+              return (
+                <div className={`w-full flex mb-3 ${isOwnMessage ? "justify-end" : "justify-start"}`} key={messageIdent} ref={messageIdent === messages.length - 1 ? lastMessageRef : null}>
+                  <div className={`max-w-[80%] sm:max-w-sm px-4 py-2.5 border shadow-sm ${isOwnMessage
+                    ? 'bg-green-600/20 border-green-500/30 rounded-2xl rounded-br-md'
+                    : 'bg-white/5 border-white/10 rounded-2xl rounded-es-md'}`}>
+                    <div className="flex items-baseline gap-3">
+                      <p className={`text-xs font-semibold ${isOwnMessage ? "text-green-300" : "text-zinc-200"}`}>{message.senderName}</p>
+                      <p className="ml-auto text-[11px] text-zinc-500">{message.created_at.toString()}</p>
                     </div>
+                    <p className="mt-0.5 break-words">{message.text}</p>
                   </div>
-            ))}
+                </div>
+              )
+            })}
 
             {messages.length == 0 && (
-              <div className="flex flex-col text-center justify-center w-full h-full text-gray-400">
-                {/* <p>(๑'ᵕ'๑)⸝*</p> */}
+              <div className="flex flex-col items-center justify-center gap-3 text-center w-full h-full text-zinc-400">
                 <p>Be the first to start a conversation!</p>
               </div>
             )}
@@ -243,24 +244,26 @@ export default function Chat({ params }: { params: { roomId: string } }) {
 
           </div>
 
-          <button ref={scrollBottomButton} className="hidden absolute bottom-3 right-3 rounded-full bg-zinc-700/80 hover:bg-zinc-600/80 border border-gray-600" onClick={scrollToBottom}>
-            <svg width="42px" height="42px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.0006 10.9409L9.53062 8.46979L8.46973 9.53021L12.0006 13.0626L15.5315 9.53021L14.4706 8.46979L12.0006 10.9409Z" fill="#b0b0b0"></path> <path fillRule="evenodd" clipRule="evenodd" d="M12.0006 14.9409L9.53062 12.4698L8.46973 13.5302L12.0006 17.0626L15.5315 13.5302L14.4706 12.4698L12.0006 14.9409Z" fill="#b0b0b0"></path> </g></svg>
+          <button ref={scrollBottomButton} aria-label="Scroll to bottom" className="hidden absolute bottom-3 right-3 p-2 rounded-full bg-zinc-800/90 backdrop-blur-sm border border-white/10 text-zinc-300 shadow-lg transition hover:text-white hover:bg-zinc-700/90" onClick={scrollToBottom}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m7 6 5 5 5-5" /><path d="m7 13 5 5 5-5" /></svg>
           </button>
         </div>
 
-        <div className="w-full">
-          <form className="relative flex" onSubmit={(e) => handleSubmit(e)}>
+        {/* Message input */}
+        <div className="w-full p-3 sm:p-4 border-t border-white/10 bg-white/[0.03]">
+          <form className="flex items-center gap-2" onSubmit={(e) => handleSubmit(e)}>
             <input
               type="text"
               name="message"
               id="message"
-              className="w-full p-3 outline-hidden bg-zinc-800 rounded-xl"
+              className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/10 outline-hidden placeholder:text-zinc-500 transition focus:border-green-500 focus:bg-white/10"
               placeholder="Type a message"
               onChange={(e) => handleTyping(e.target.value)}
               value={input}
+              autoComplete="off"
             />
-            <button className="absolute right-0 h-full px-4 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300" type="submit">
-              <svg fill="#ffffff" width="23px" height="23px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>send</title> <path d="M0 16l12 4 4 12 16-32zM14.016 18.016l12-12-10.016 17.984z"></path> </g></svg>
+            <button aria-label="Send message" className="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 shadow-lg shadow-green-900/40 transition duration-300" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></svg>
             </button>
           </form>
         </div>

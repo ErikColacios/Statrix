@@ -34,25 +34,52 @@ export default function DeleteReviewModal({ review, reviews, gameName, setReview
     }
 
     return (
-        <div className="relative w-full md:w-200 flex flex-col border border-gray-500 space-y-8 mx-2 px-4 py-10 md:px-10 blur-none text-white rounded-2xl bg-black/60 backdrop-blur-lg">
-            <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded-sm cursor-pointer transition hover:bg-gray-800" >
-                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
-            </Dialog.Close>
-            <div className="flex items-center space-x-2">
-                <svg width="54px" height="54px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="17" r="1" fill="#ffffff"></circle> <path d="M12 10L12 14" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
-                <h2 className="text-3xl mt-3">Warning</h2>
+        <div className="relative w-[calc(100%-1rem)] md:w-full border border-rose-500/30 rounded-2xl bg-zinc-950 text-white shadow-2xl">
+
+            {/* Subtle red glow backdrop */}
+            <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none" aria-hidden="true">
+                <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-rose-600/15 blur-3xl" />
             </div>
 
-            <p>Are you sure you want to delete this review?</p>
+            <Dialog.Close aria-label="Close" className="absolute z-10 right-4 top-4 p-2 rounded-full text-zinc-400 transition hover:text-white hover:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            </Dialog.Close>
 
-            <ReviewCard review={review} index={0} gameName={gameName} userId={userId} handleReviewActions={() => {}} openReviewId={null} handleLikeReview={() => { }} setModalType={() => { }} setReviewClicked={() => { }} />
+            <div className="relative flex flex-col gap-6 px-4 py-8 md:p-10">
+                {/* Header */}
+                <div className="flex items-center gap-4 pr-10">
+                    <div className="flex shrink-0 items-center justify-center w-12 h-12 rounded-full bg-rose-500/15 text-rose-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" /><path d="M12 10v4" /><path d="M12 17h.01" /></svg>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl md:text-3xl font-bold leading-tight">Delete review</h2>
+                        <p className="text-sm text-zinc-400">Are you sure you want to delete this review?</p>
+                    </div>
+                </div>
 
-            <div className="flex items-center space-x-8">
-                <button onClick={handleDeleteReview} className="text-md sm:text-lg border-green-500 text-green-400 cursor-pointer hover:bg-green-900/30 rounded-xl px-5 py-2 md:px-6 md:py-3">Delete</button>
-                <Dialog.Close className="text-md sm:text-lg text-white px-5 py-2 md:px-6 md:py-3 rounded-xl cursor-pointer bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                    Cancel
-                </Dialog.Close>
-                {error && <div className="text-red-500">{error}</div>}
+                {/* Review preview */}
+                <div className="p-2">
+                    <ReviewCard review={review} index={0} gameName={gameName} userId={userId} handleReviewActions={() => {}} openReviewId={null} handleLikeReview={() => { }} setModalType={() => { }} setReviewClicked={() => { }} />
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    {error &&
+                        <p className="flex items-center gap-2 text-sm text-rose-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 8v4" /><path d="M12 16h.01" /></svg>
+                            {error}
+                        </p>
+                    }
+                    <div className="sm:ml-auto flex gap-3">
+                        <Dialog.Close className="flex-1 sm:flex-none flex items-center justify-center h-11 px-6 rounded-xl font-medium bg-white/5 border border-white/15 cursor-pointer transition hover:bg-white/10">
+                            Cancel
+                        </Dialog.Close>
+                        <button onClick={handleDeleteReview} className="flex-1 sm:flex-none flex items-center justify-center gap-2 h-11 px-6 rounded-xl font-semibold bg-rose-600 hover:bg-rose-700 shadow-lg shadow-rose-900/40 cursor-pointer transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                            Delete
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     )

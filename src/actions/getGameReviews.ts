@@ -13,13 +13,13 @@ export default async function getGameReviews(gameId:number, reviewMode:ReviewMod
 
     try {
         const query = `
-            SELECT rev.user_id, rev.game_id, rev.review_id, rev.user_name, rev.body, rev.review_date, rev.game_score, COUNT(revlikes.review_id) AS likes
+            SELECT rev.user_id, rev.game_id, rev.review_id, rev.user_name, rev.body, rev.review_date, rev.game_score, usr.user_avatar, COUNT(revlikes.review_id) AS likes
             ${userId ? ",MAX(CASE WHEN revlikes.user_id = $1 THEN 1 ELSE 0 END) AS liked_by_user" : ",$1"}
             FROM reviews rev
             LEFT OUTER JOIN review_likes revlikes ON rev.review_id = revlikes.review_id
             LEFT OUTER JOIN users usr ON usr.user_id = rev.user_id
             WHERE rev.game_id = $2
-            GROUP BY rev.user_id, rev.game_id, rev.review_id, rev.user_name, rev.body, rev.review_date, rev.game_score
+            GROUP BY rev.user_id, rev.game_id, rev.review_id, rev.user_name, rev.body, rev.review_date, rev.game_score, usr.user_avatar
             ${reviewMode === ReviewMode.POPULAR ? "ORDER BY likes DESC": "ORDER BY review_date DESC"}
              LIMIT 10`;
 

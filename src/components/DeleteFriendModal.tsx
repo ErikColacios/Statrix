@@ -27,29 +27,50 @@ export default function DeleteFriendModal({ friend, usersFound, setUsersFound }:
     }
 
     return (
-        <div className="flex flex-col items-center justify-center text-center h-[45vh] border border-gray-600 space-y-4 px-4 md:px-10 text-white rounded-2xl bg-black/60 backdrop-blur-lg">
-            <Dialog.Close className="mt-8 absolute top-0 right-10 p-2 rounded-sm transition hover:bg-gray-800" >
-                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
-            </Dialog.Close>
-            <svg width="54px" height="54px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="17" r="1" fill="#ffffff"></circle> <path d="M12 10L12 14" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
-            <h2 className="text-3xl">Warning</h2>
-            <p>Are you sure you want to delete this friend?</p>
+        <div className="relative w-full h-full sm:h-auto flex flex-col justify-center sm:border border-rose-500/30 sm:rounded-2xl bg-zinc-950 text-white shadow-2xl">
 
-            {/* Deleting friend box */}
-            <div className='flex items-center justify-center mb-4 w-1/2 h-16'>
-                <div className='flex items-center'>
-                    <div className="w-10 h-10 rounded-sm rounded-full overflow-hidden">
-                        <img src={`/avatarImages/${friend.avatar_image}`} className="h-full w-full object-cover" alt='Avatar image' />
-                    </div>
-                    <p className='ml-4 text-lg'>{friend.user_name}</p>
-                </div>
+            {/* Subtle red glow backdrop */}
+            <div className="absolute inset-0 overflow-hidden sm:rounded-2xl pointer-events-none" aria-hidden="true">
+                <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-rose-600/15 blur-3xl" />
             </div>
 
-            <div className="flex space-x-8">
-                <button onClick={deleteFriend} className="text-md sm:text-lg border-green-500 text-green-400 hover:bg-green-900/30 rounded-xl px-6 py-3">Delete</button>
-                <Dialog.Close className="text-md sm:text-lg text-white px-6 py-3 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                    Cancel
-                </Dialog.Close>
+            <Dialog.Close aria-label="Close" className="absolute z-10 right-4 top-15 sm:top-4 p-2 rounded-full text-zinc-400 transition hover:text-white hover:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            </Dialog.Close>
+
+            <div className="relative flex flex-col gap-6 px-4 py-8 md:p-10">
+                {/* Header */}
+                <div className="flex items-center gap-4 pr-10">
+                    <div className="flex shrink-0 items-center justify-center w-12 h-12 rounded-full bg-rose-500/15 text-rose-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" /><path d="M12 10v4" /><path d="M12 17h.01" /></svg>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl md:text-3xl font-bold leading-tight">Remove friend</h2>
+                        <p className="text-sm text-zinc-400">Are you sure you want to delete this friend?</p>
+                    </div>
+                </div>
+
+                {/* Deleting friend box */}
+                <div className="flex items-center gap-4 p-3 sm:px-4 rounded-2xl border border-white/10 bg-white/5">
+                    <div className="shrink-0 w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/10">
+                        <img src={friend.user_avatar ? `https://media.statrix.app/avatars/${friend.user_id}/${friend.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt='Avatar image' />
+                    </div>
+                    <div className="min-w-0">
+                        <p className="font-semibold truncate">{friend.user_name}</p>
+                        <p className="text-xs text-zinc-400">Friend</p>
+                    </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3 sm:justify-end">
+                    <Dialog.Close className="flex-1 sm:flex-none flex items-center justify-center h-11 px-6 rounded-xl font-medium bg-white/5 border border-white/15 cursor-pointer transition hover:bg-white/10">
+                        Cancel
+                    </Dialog.Close>
+                    <button onClick={deleteFriend} className="flex-1 sm:flex-none flex items-center justify-center gap-2 h-11 px-6 rounded-xl font-semibold bg-rose-600 hover:bg-rose-700 shadow-lg shadow-rose-900/40 cursor-pointer transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 11h-6" /></svg>
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     )

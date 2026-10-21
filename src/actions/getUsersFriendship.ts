@@ -13,7 +13,7 @@ export default async function getUsersFriendship(userSearchMode: FriendshipStatu
 
   try {
     // Get the requests that this user has RECEIVED
-    const query1 = `SELECT usr.user_id, usr.user_name, uf.status, uf.created_at, uf.updated_at, uf.requester_id, uf.requester_name, usr.user_creationdate
+    const query1 = `SELECT usr.user_id, usr.user_name, uf.status, uf.created_at, uf.updated_at, uf.requester_id, uf.requester_name, usr.user_creationdate, usr.user_avatar
         FROM users usr
         INNER JOIN user_friendships uf ON uf.requester_id = usr.user_id
         WHERE uf.addressee_id = $1 AND uf.status = $2`;
@@ -21,7 +21,7 @@ export default async function getUsersFriendship(userSearchMode: FriendshipStatu
     const receivedRequests = await pool.query(query1, [userId, userSearchMode]);
 
     // Get the requests that this user has SENT
-    const query2 = `SELECT usr.user_id, usr.user_name, uf.status, uf.created_at, uf.updated_at, uf.requester_id, uf.requester_name, usr.user_creationdate
+    const query2 = `SELECT usr.user_id, usr.user_name, uf.status, uf.created_at, uf.updated_at, uf.requester_id, uf.requester_name, usr.user_creationdate, usr.user_avatar
         FROM users usr
         INNER JOIN user_friendships uf ON uf.addressee_id = usr.user_id
         WHERE uf.requester_id = $1 AND uf.status = $2`;

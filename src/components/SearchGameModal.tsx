@@ -58,7 +58,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
                     {/* Games added */}
                     <div className="flex items-center gap-2 pt-4 mb-3 border-t border-white/10">
                         <p className={labelClass}>Games added</p>
-                        <span className={`min-w-6 h-6 px-2 flex items-center justify-center rounded-full text-xs font-semibold tabular-nums transition
+                        <span className={`min-w-6 h-6 px-2 flex items-center justify-center rounded-full text-xs font-semibold transition
                             ${gamesAdded.length > 0 ? "bg-green-500/20 text-green-400" : "bg-white/5 text-zinc-400"}`}>
                             {gamesAdded.length}
                         </span>

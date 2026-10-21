@@ -6,6 +6,7 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
     
     // Date formatter
     const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' })
+    console.log(review)
 
     return (
         <div key={index}
@@ -63,8 +64,7 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                                     <div
                                         data-review-dropdown={review.review_id}
                                         id={'reviewActions' + review.review_id}
-                                        className="w-24 top-6 right-5 absolute bg-zinc-800 p-2 rounded-sm"
-                                    >
+                                        className="w-24 top-6 right-5 absolute bg-zinc-800 p-2 rounded-sm">
                                         {/* <button className="text-left p-1 hover:text-green-400">Edit review</button> */}
                                         <Dialog.Trigger
                                             onClick={() => {(setModalType('deleteReview'), setReviewClicked(review))}}

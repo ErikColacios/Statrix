@@ -254,7 +254,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
                                     <p className={labelClass}>Score</p>
                                     <div className="relative flex items-center justify-center sm:justify-start gap-3 group">
                                         <span id={'scoreText'}
-                                            className={`flex shrink-0 items-center justify-center w-12 h-12 rounded-full bg-zinc-900/80 border-2 text-xl font-bold tabular-nums transition-colors duration-300 ${accent.border} ${accent.text}`}>
+                                            className={`flex shrink-0 items-center justify-center w-12 h-12 rounded-full bg-zinc-900/80 border-2 text-xl font-bold transition-colors duration-300 ${accent.border} ${accent.text}`}>
                                             {Number(score) === 0 ? "NS" : score}</span>
                                         {score === 0 && <p className="group-hover:hidden absolute left-16 sm:left-17 text-xs text-zinc-400 pointer-events-none">Drag to rate</p>}
                                         <input min="0" max="10" value={score ? score : 0} className="w-full max-w-72 sm:max-w-none rangeSlider" type="range" onChange={handleScoreChange}></input>
@@ -265,7 +265,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
                                 <div className="grid grid-cols-2 gap-3 w-full text-left">
                                     <div className="flex flex-col gap-2">
                                         <label htmlFor="hoursPlayed" className={labelClass}>Hours played</label>
-                                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className="h-10 w-full rounded-lg px-3 bg-white/5 border border-white/10 outline-hidden transition focus:border-green-500 focus:bg-white/10 tabular-nums" min={0}
+                                        <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className="h-10 w-full rounded-lg px-3 bg-white/5 border border-white/10 outline-hidden transition focus:border-green-500 focus:bg-white/10" min={0}
                                             value={hoursPlayed ? hoursPlayed : 0} />
                                     </div>
                                     <div className="relative flex flex-col gap-2">
