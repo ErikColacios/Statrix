@@ -85,6 +85,23 @@ export default function MyGames() {
         viewport: { once: true, amount: 0.2 }
     }
 
+    // Data for the status filter cards
+    const totalGames: number = gameList?.length ?? 0
+    const statusCards = [
+        { status: GameStatus.PLAYING, count: playingGames, icon: "/staticImages/icon_controller.png", iconClass: "w-6", gradient: "from-teal-500 to-blue-500", glow: "bg-blue-500/20", hoverBorder: "hover:border-blue-500/60", dot: "bg-blue-500" },
+        { status: GameStatus.COMPLETED, count: completedGames, icon: "/staticImages/icon_confirmation.png", iconClass: "w-4", gradient: "from-green-500 to-lime-500", glow: "bg-green-500/20", hoverBorder: "hover:border-green-500/60", dot: "bg-green-500" },
+        { status: GameStatus.ON_HOLD, count: onholdGames, icon: "/staticImages/icon_clock.png", iconClass: "w-5 h-5", gradient: "from-indigo-600 to-blue-500", glow: "bg-indigo-500/20", hoverBorder: "hover:border-indigo-500/60", dot: "bg-indigo-500" },
+        { status: GameStatus.DROPPED, count: droppedGames, icon: "/staticImages/icon_skull.png", iconClass: "w-5 h-5", gradient: "from-red-600 to-orange-700", glow: "bg-rose-500/20", hoverBorder: "hover:border-rose-500/60", dot: "bg-rose-500" },
+    ]
+
+    function getStatusCovers(status: GameStatus, amount: number): string[] {
+        return (gameList ?? []).filter((game: Game) => game.status === status).slice(0, amount).map((game: Game) => game.game_base_image)
+    }
+
+    function getPercentage(count: number): number {
+        return totalGames > 0 ? Math.round((count / totalGames) * 100) : 0
+    }
+
 
     return (
         <div className='w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20 pb-8'>
@@ -113,33 +130,91 @@ export default function MyGames() {
             <div className='flex flex-col space-y-4'>
                 {isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="md:col-span-2 h-24 flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8"
+                        {/* All the games */}
+                        <button className="group md:col-span-2 relative isolate overflow-hidden text-left rounded-3xl border border-white/10 bg-zinc-900/60 p-6 sm:p-8 transition duration-300 hover:border-white/25 hover:-translate-y-0.5"
                             onClick={() => { setViewGameStatus("All"), setGameListFiltered(gameList) }} >
-                            <p className="text-3xl font-bold text-zinc-400">All the games</p>
-                        </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.PLAYING), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.PLAYING)) }}>
-                            <img src="/staticImages/icon_controller_gray.png" alt="Controller icon" className="bg-blue-500 bg-clip-text w-8 mr-2" />
-                            <p className="text-3xl font-bold text-zinc-400">Playing</p>
-                            <p className="ml-auto text-lg text-gray-400">{playingGames} games</p>
-                        </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.COMPLETED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.COMPLETED)) }}>
-                            <div className="flex items-center">
-                                <img src="/staticImages/icon_confirmation_gray.png" alt="Confirmation icon" className="w-5 mr-2" />
-                                <p className="text-3xl font-bold text-zinc-400">Completed</p>
+                            {/* Covers mosaic */}
+                            <div className="absolute inset-y-0 right-0 -z-20 w-full sm:w-2/3 grid grid-cols-4 sm:grid-cols-6 gap-1 opacity-40 transition duration-500 group-hover:opacity-60 group-hover:scale-105" aria-hidden="true">
+                                {(gameList ?? []).slice(0, 12).map((game: Game, index: number) => (
+                                    <img key={index} src={game.game_base_image} alt="" className="w-full h-full object-cover" />
+                                ))}
                             </div>
-                            <p className="ml-auto text-lg text-gray-400">{completedGames} games</p>
+                            <div className="absolute inset-0 -z-10 bg-linear-to-r from-zinc-950 via-zinc-950/90 to-zinc-950/40" />
 
-                        </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.ON_HOLD), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.ON_HOLD)) }}>
-                            <img src="/staticImages/icon_clock_gray.png" alt="Clock icon" className="w-8 h-8 mr-2" />
-                            <p className="text-3xl font-bold text-zinc-400">On hold</p>
-                            <p className="ml-auto text-lg text-gray-400">{onholdGames} games</p>
-                        </div>
-                        <div className="flex items-end bg-zinc-900 border border-gray-600 hover:bg-zinc-800 hover:border-green-500 cursor-pointer rounded-2xl px-5 sm:px-8 pt-26 pb-8" onClick={() => { setViewGameStatus(GameStatus.DROPPED), setGameListFiltered(gameList?.filter((game: Game) => game.status === GameStatus.DROPPED)) }}>
-                            <img src="/staticImages/icon_skull_gray.png" alt="Skull icon" className="w-8 h-8 mr-2" />
-                            <p className="text-3xl font-bold text-zinc-400">Dropped</p>
-                            <p className="ml-auto text-lg text-gray-400">{droppedGames} games</p>
-                        </div>
+                            <div className="flex items-start gap-4">
+                                <div>
+                                    <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Library</p>
+                                    <p className="text-3xl sm:text-4xl font-bold mt-1">All the games</p>
+                                    <p className="text-zinc-400 mt-1">{totalGames} {totalGames === 1 ? "game" : "games"}</p>
+                                </div>
+                                <span className="ml-auto flex items-center justify-center w-11 h-11 rounded-full border border-white/15 bg-white/5 text-zinc-300 transition group-hover:bg-white group-hover:text-zinc-950">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                                </span>
+                            </div>
+
+                            {/* Status distribution */}
+                            <div className="mt-8 max-w-xl">
+                                <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/10">
+                                    {statusCards.map((card) => (
+                                        <div key={card.status} className={`h-full bg-linear-to-r ${card.gradient}`} style={{ width: `${getPercentage(card.count)}%` }} />
+                                    ))}
+                                </div>
+                                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-zinc-400">
+                                    {statusCards.map((card) => (
+                                        <div key={card.status} className="flex items-center gap-1.5">
+                                            <span className={`w-2 h-2 rounded-full ${card.dot}`} />
+                                            {card.status} <span className="text-zinc-200 font-medium">{card.count}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </button>
+
+                        {/* One card per game status */}
+                        {statusCards.map((card) => {
+                            const covers: string[] = getStatusCovers(card.status, 3)
+                            const percentage: number = getPercentage(card.count)
+
+                            return (
+                                <button key={card.status}
+                                    className={`group relative isolate overflow-hidden text-left rounded-3xl border border-white/10 bg-zinc-900/60 p-6 transition duration-300 hover:-translate-y-0.5 ${card.hoverBorder}`}
+                                    onClick={() => { setViewGameStatus(card.status), setGameListFiltered(gameList?.filter((game: Game) => game.status === card.status)) }}>
+                                    {/* Colored glow */}
+                                    <div className={`absolute -top-16 -right-16 -z-10 w-56 h-56 rounded-full blur-3xl opacity-60 transition duration-500 group-hover:opacity-100 ${card.glow}`} aria-hidden="true" />
+
+                                    <div className="flex items-start">
+                                        <span className={`flex items-center justify-center w-12 h-12 rounded-2xl bg-linear-to-br shadow-lg ${card.gradient}`}>
+                                            <img src={card.icon} alt="" className={card.iconClass} />
+                                        </span>
+
+                                        {/* Fanned covers */}
+                                        <div className="ml-auto flex pr-2 pt-1" aria-hidden="true">
+                                            {covers.map((cover: string, index: number) => (
+                                                <img key={index} src={cover} alt=""
+                                                    className={`w-12 sm:w-14 aspect-3/4 object-cover rounded-lg ring-2 ring-zinc-900 shadow-xl -ml-5 first:ml-0 transition duration-300
+                                                    ${index === 0 ? "-rotate-6 group-hover:-rotate-12 group-hover:-translate-x-1" : ""}
+                                                    ${index === 1 ? "-translate-y-1 group-hover:-translate-y-2" : ""}
+                                                    ${index === 2 ? "rotate-6 group-hover:rotate-12 group-hover:translate-x-1" : ""}`} />
+                                            ))}
+                                            {covers.length === 0 &&
+                                                <div className="w-12 sm:w-14 aspect-3/4 rounded-lg border border-dashed border-white/20" />
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <p className="text-2xl sm:text-3xl font-bold mt-6">{card.status}</p>
+                                    <div className="mt-1 flex items-baseline gap-2 text-sm">
+                                        <span className="text-zinc-200 font-medium">{card.count} {card.count === 1 ? "game" : "games"}</span>
+                                        <span className="text-zinc-500">· {percentage}% of your library</span>
+                                    </div>
+
+                                    {/* Share of the library */}
+                                    <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                                        <div className={`h-full rounded-full bg-linear-to-r transition-all duration-700 ${card.gradient}`} style={{ width: `${percentage}%` }} />
+                                    </div>
+                                </button>
+                            )
+                        })}
                     </section>
                 }
 
@@ -166,11 +241,11 @@ export default function MyGames() {
                         </button>
 
                         {/* Game status labels */}
-                        <div className="mt-4 flex items-center justify-between gap-3">
-                            {viewGameStatus === GameStatus.PLAYING && <p className="border border-blue-500/30 bg-blue-500/10 text-blue-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{playingGames} game/s playing</p>}
-                            {viewGameStatus === GameStatus.COMPLETED && <p className="border border-green-500/30 bg-green-500/10 text-green-400 rounded p-1 px-3 py-1.5 text-lg font-semibold" >{completedGames} game/s completed</p>}
-                            {viewGameStatus === GameStatus.ON_HOLD && <p className="border border-purple-500/30 bg-purple-500/10 text-purple-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{onholdGames} game/s on hold</p>}
-                            {viewGameStatus === GameStatus.DROPPED && <p className="border border-rose-500/30 bg-rose-500/10 text-rose-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{completedGames} game/s dropped</p>}
+                        <div className="flex items-center justify-between gap-3">
+                            {viewGameStatus === GameStatus.PLAYING && <p className="bg-blue-500/10 text-blue-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{playingGames} game/s playing</p>}
+                            {viewGameStatus === GameStatus.COMPLETED && <p className="bg-green-500/10 text-green-400 rounded p-1 px-3 py-1.5 text-lg font-semibold" >{completedGames} game/s completed</p>}
+                            {viewGameStatus === GameStatus.ON_HOLD && <p className="bg-purple-500/10 text-purple-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{onholdGames} game/s on hold</p>}
+                            {viewGameStatus === GameStatus.DROPPED && <p className="bg-rose-500/10 text-rose-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{completedGames} game/s dropped</p>}
                         </div>
                         {gameListFiltered?.map((game: Game, index: number) => (
                             <div key={index}

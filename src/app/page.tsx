@@ -31,7 +31,7 @@ export default function Home() {
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 overflow-hidden bg-cover"
        style={{ backgroundImage: `url(/staticImages/background_hero.jpg)` }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-green-500/10 blur-[140px] rounded-full" />
           <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-lime-500/5 blur-[100px] rounded-full" />
