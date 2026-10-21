@@ -17,7 +17,7 @@ export default function Review({ review, index }: any) {
                 <div className="flex flex-col space-x-2 sm:flex-row sm:items-center text-white">
                     <div className="flex items-center hover:text-green-400 cursor-pointer">
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                            <img src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="User avatar" />
+                            <img src={review.user_avatar} className="h-full w-full object-cover" alt="User avatar" />
                         </div>
                         <p className="font-bold">{review.user_name}</p>
                         <p className="ml-2 text-gray-400">reviewed </p>
