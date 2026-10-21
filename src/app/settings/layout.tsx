@@ -11,8 +11,9 @@ export const metadata: Metadata = {
 export default async function SettingsLayout({ children }: { children: React.ReactNode }) {
 
   const session:any = await getSessionUser()
+  console.log(session.user)
   
-  if (!session) {
+  if (!session.user) {
     return (
       redirect("/")
     )

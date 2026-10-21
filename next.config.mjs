@@ -20,6 +20,8 @@ const nextConfig = {
     serverActions: {
         bodySizeLimit: "12mb",
     },
+    // satori loads WebAssembly, which webpack can't bundle (used in getUserShareCard)
+    serverComponentsExternalPackages: ["satori"],
   },
   images: {
     domains: ['images.igdb.com'],
