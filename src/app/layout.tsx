@@ -18,7 +18,6 @@ export default async function RootLayout({children}: Readonly<{children: React.R
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link rel="icon" href="/logos/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"></link>
       </head>
       <body className='bg-black relative'>
         <Provider>

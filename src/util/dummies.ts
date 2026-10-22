@@ -64,10 +64,32 @@
   ]
 
   const lists = {list1, list2, list3, list4}
-  
+
+  const profile = {
+    userName: "MiaXX", creationDate: "2026-02-14", avatarImage: "/avatarImages/hornet.jpg", bannerImage: "/bannerImages/persona5.jpg",
+    bio: "RPG addict and soulslike survivor. Currently stuck on Silksong's last boss, send help.",
+    webpage: "miaxx.gg", location: "Barcelona", friends: 32, lists: 4, reviews: 12,
+    stats: { gamesAll: 184, gamesPlaying: 6, gamesCompleted: 71, mostPlayed: "Elden Ring" },
+    lastReview: { gameName: "Silent Hill 2", gameImage: "/staticImages/gameCovers/cover_silent_hill2.jpg", body: "The most unsettling game I have ever played. The fog, the sound design, James... a masterpiece from start to finish." },
+    favouriteGames: [
+      { gameName: "Elden Ring", gameImage: "/staticImages/gameCovers/cover_elden_ring.jpg" },
+      { gameName: "Hollow Knight: Silksong", gameImage: "/staticImages/gameCovers/cover_hollow_knight_silksong.jpg" },
+      { gameName: "Baldur's Gate 3", gameImage: "/staticImages/gameCovers/cover_baldurs_gate3.jpg" },
+      { gameName: "Clair Obscur: Expedition 33", gameImage: "/staticImages/gameCovers/cover_expedition33.jpg" },
+      { gameName: "Pokémon Emerald", gameImage: "/staticImages/gameCovers/cover_pokemon_emerald.jpg" },
+    ],
+    activity: [
+      { action: "completed", gameName: "Hollow Knight: Silksong", gameImage: "/staticImages/gameCovers/cover_hollow_knight_silksong.jpg", date: "21/10/2026" },
+      { action: "rated", gameName: "Silent Hill 2", gameImage: "/staticImages/gameCovers/cover_silent_hill2.jpg", date: "19/10/2026" },
+      { action: "started playing", gameName: "Death Stranding 2", gameImage: "/staticImages/gameCovers/cover_death_stranding2.jpg", date: "17/10/2026" },
+    ],
+    featuredLists: [list3, list2, list4],
+  }
+
   export default {
   userVideogames,
   lists,
   reviews,
-  messages
+  messages,
+  profile
 }   

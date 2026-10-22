@@ -10,6 +10,51 @@
   --animate-slide-right: slide-right 0.2s ease-in forwards;
   --animate-slide-bottom: slide-bottom 0.5s ease-in forwards;
   --animate-element-appear: element-appear 0.3s forwards;
+  --animate-flare-rotate: flare-rotate 4s linear infinite;
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-glow-pulse: glow-pulse 6s ease-in-out infinite;
+
+  /* Landing page */
+  --color-void: #08090b;
+  --color-canvas: #0d0e11;
+  --color-card: #111214;
+  --color-elevated: #1a1c21;
+  --color-edge: #2a2d34;
+  --color-smoke: #95979e;
+  --color-snow: #ffffff;
+  --text-display: clamp(2.75rem, 0.9rem + 7.6vw, 5.25rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.035em;
+  --text-display-lg: clamp(2.5rem, 1.2rem + 4.2vw, 4.5rem);
+  --text-display-lg--line-height: 0.95;
+  --text-display-lg--letter-spacing: -0.033em;
+  --text-display-md: clamp(2.25rem, 1.4rem + 3.6vw, 3.5rem);
+  --text-display-md--line-height: 0.98;
+  --text-display-md--letter-spacing: -0.03em;
+}
+
+@utility headline-sheen {
+  background-image: linear-gradient(to bottom right, #ffffff 28%, #d6ffe1 68%, #efffc4 100%);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  margin-bottom: -0.2em;
+  padding-bottom: 0.2em;
+}
+
+@keyframes flare-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.06); }
 }
 
 /*
