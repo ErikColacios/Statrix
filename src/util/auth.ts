@@ -83,14 +83,17 @@ export const authOptions: AuthOptions = {
     async signIn({ user, account }:any) {
       if (account?.provider === "google") {
         let userResult = await logInUserGoogle(user.id, user.email)
-        if (userResult){
-          user.id = userResult.userId
-          user.name = userResult.userName
-          user.isNewUser = false
+        // If the Google login failed (DB error, etc.) we don't let the user in
+        if (!userResult) {
+          return false
+        }
 
-          if(userResult.isNewUser) {
-            user.isNewUser = true
-          }
+        user.id = userResult.userId
+        user.name = userResult.userName
+        user.isNewUser = false
+
+        if(userResult.isNewUser) {
+          user.isNewUser = true
         }
       }
       return true

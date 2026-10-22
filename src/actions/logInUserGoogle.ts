@@ -6,33 +6,39 @@ export async function logInUserGoogle(userGoogleId:string, userEmail:string) {
 
     let isNewUser = false;
 
-    const res = await pool.query(
-        `SELECT user_id, user_name, user_password FROM users WHERE user_email = $1 AND user_google_id = $2`,
-        [userEmail, userGoogleId]
-    )
-
-    if (res.rows.length !== 1) {
-        // If the user doesn't exist, we create a new user with the email as the username and a random password
-        isNewUser = true;
-        const userId = uuid();
-        const userName:string = 'User'+userGoogleId;
-        const userBio:string = "Welcome to my profile!"
-        const userLocation:string = "No mans land"
-
-        await pool.query(
-        `INSERT INTO users (
-            user_id, user_name, user_email, user_bio, user_location, user_google_id
+    try {
+        const res = await pool.query(
+            `SELECT user_id, user_name, user_password FROM users WHERE user_email = $1 AND user_google_id = $2`,
+            [userEmail, userGoogleId]
         )
-        VALUES ($1, $2, $3, $4, $5, $6)`,
-        [userId, userName, userEmail, userBio, userLocation, userGoogleId]
-        );
 
-        return { userId, userName, isNewUser }
+        if (res.rows.length !== 1) {
+            // If the user doesn't exist, we create a new user with the email as the username and a random password
+            isNewUser = true;
+            const userId = uuid();
+            const userName:string = 'User'+userGoogleId;
+            const userBio:string = "Welcome to my profile!"
+            const userLocation:string = "No mans land"
 
-    } else {
-        // If it already exists, we just return the user data (id and name)
-        const userIdLogged = res.rows[0].user_id
-        const userNameLogged = res.rows[0].user_name
-        return {userId: userIdLogged, userName: userNameLogged, isNewUser: isNewUser}
+            await pool.query(
+            `INSERT INTO users (
+                user_id, user_name, user_email, user_bio, user_location, user_google_id
+            )
+            VALUES ($1, $2, $3, $4, $5, $6)`,
+            [userId, userName, userEmail, userBio, userLocation, userGoogleId]
+            );
+
+            return { userId, userName, isNewUser }
+
+        } else {
+            // If it already exists, we just return the user data (id and name)
+            const userIdLogged = res.rows[0].user_id
+            const userNameLogged = res.rows[0].user_name
+            return {userId: userIdLogged, userName: userNameLogged, isNewUser: isNewUser}
+        }
+    } catch (error) {
+        // If something fails we return null, so the signIn callback can reject the login
+        console.error("Error logging in with Google:", error);
+        return null;
     }
 }
