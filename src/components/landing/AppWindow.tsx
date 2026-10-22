@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
 const modes = [
-    { label: "Games", url: "statrix.app/mygames", image: "/staticImages/statrix_games.jpg", icon: "/staticImages/icon_controller.png" },
+    { label: "Browse", url: "statrix.app/mygames", image: "/staticImages/statrix_games.jpg", icon: "/staticImages/icon_controller.png" },
     { label: "Rate", url: "statrix.app/browseGames", image: "/staticImages/statrix_rate.jpg", icon: "/staticImages/icon_star_gray.png" },
     { label: "Lists", url: "statrix.app/mylists", image: "/staticImages/statrix_lists.jpg", icon: "/staticImages/icon_list.png" },
     { label: "Reviews", url: "statrix.app/gamePage", image: "/staticImages/statrix_reviews.jpg", icon: "/staticImages/icon_heart_gray.png" },
@@ -59,17 +59,6 @@ export default function AppWindow() {
                 </div>
 
                 <div className="flex">
-                    {/* Side rail */}
-                    <div className="hidden sm:flex flex-col items-center gap-2 border-r border-edge bg-void/60 p-2">
-                        <img src="/logos/st1_white.png" alt="" className="mb-2 h-7 w-7 object-contain opacity-80" />
-                        {modes.map((mode, index) => (
-                            <button key={mode.label} onClick={() => selectMode(index)} aria-label={mode.label}
-                                className={`flex h-9 w-9 items-center justify-center rounded-lg border transition ${active === index ? "border-green-500/50 bg-green-500/10" : "border-transparent hover:bg-white/5"}`}>
-                                <img src={mode.icon} alt="" className={`h-4 w-4 object-contain ${active === index ? "opacity-100" : "opacity-50"}`} />
-                            </button>
-                        ))}
-                    </div>
-
                     {/* Pane */}
                     <div className="relative flex-1 aspect-[777/400] bg-black">
                         <AnimatePresence initial={false}>
@@ -85,7 +74,7 @@ export default function AppWindow() {
             {/* Floating activity toast */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.5 }}
                 className="hidden md:flex absolute -bottom-6 right-8 z-20 items-center gap-3 rounded-xl border border-edge bg-elevated/90 py-2.5 pl-2.5 pr-5 shadow-2xl backdrop-blur">
-                <img src="/avatarImages/sora.jpg" alt="" className="h-9 w-9 rounded-full object-cover" />
+                <img src="/avatarImages/doom_slayer.jpg" alt="" className="h-9 w-9 rounded-full object-cover" />
                 <div className="text-sm">
                     <p className="text-snow"><span className="font-semibold">DrStorm</span> <span className="text-smoke">started playing</span></p>
                     <p className="text-smoke">Kingdom Hearts 3 · <span className="text-green-400">2m</span></p>
