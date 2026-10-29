@@ -79,7 +79,6 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/80 to-void/30" />
           <div className="absolute inset-0 bg-[radial-gradient(48%_42%_at_50%_62%,rgba(34,197,94,0.16),transparent_72%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(36%_32%_at_22%_14%,rgba(163,230,53,0.10),transparent_70%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
         </div>
 
         <div className="mx-auto max-w-6xl">
@@ -217,10 +216,10 @@ export default function Home() {
             effect="coverflow"
             centeredSlides
             loop={false}
-            coverflowEffect={{ rotate: -15, stretch: 0, depth: 80, modifier: 1, slideShadows: true }}
+            coverflowEffect={{ rotate: -15, stretch: 0, depth: 80, modifier: 1, slideShadows: false }}
             modules={[EffectCoverflow]}
             className="w-full">
-            <button onClick={() => swiperRef.current?.slidePrev()} className='md:w-1/4 h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/20 transition'>
+            <button onClick={() => swiperRef.current?.slidePrev()} className=' md:w-1/4 h-full z-50 absolute left-0 top-0 p-2 hover:bg-black/20 transition'>
               <svg className="lg:hidden" fill="#ffffff" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 42 42" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fillRule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>
             </button>
 

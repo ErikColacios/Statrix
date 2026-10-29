@@ -30,16 +30,12 @@ export default function AppWindow() {
 
     return (
         <div className="relative">
-            <div className="relative overflow-hidden rounded-xl border border-edge bg-card shadow-[0_40px_120px_-30px_rgba(34,197,94,0.35)]">
-                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-10 h-2 bg-gradient-to-b from-white/20 via-green-300/5 to-transparent mix-blend-screen" />
+            <div className="relative overflow-hidden rounded-xl border border-edge shadow-[0_40px_120px_-30px_rgba(34,197,94,0.35)]">
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-10 h-2" />
 
                 {/* Title bar */}
                 <div className="relative flex items-center gap-3 border-b border-edge bg-elevated/60 px-3 py-2.5 sm:px-4">
-                    <div className="hidden sm:flex gap-1.5">
-                        <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-                        <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-                        <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-                    </div>
+
 
                     <div role="tablist" aria-label="Statrix views" className="mx-auto flex overflow-x-auto no-scrollbar rounded-full border border-edge bg-void/80 p-1">
                         {modes.map((mode, index) => (

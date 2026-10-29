@@ -17,9 +17,10 @@ type Props = {
     timerRef: React.MutableRefObject<number>;
     setOpenToast: React.Dispatch<React.SetStateAction<boolean>>;
     setToastMessage: React.Dispatch<React.SetStateAction<string>>;
+    onSave?: (userGame: UserGame) => void; // Called after the game is saved, so the parent page can update its data
 };
 
-export default function AddGameModal({ game, timerRef, setOpenToast, setToastMessage }: Props) {
+export default function AddGameModal({ game, timerRef, setOpenToast, setToastMessage, onSave }: Props) {
     const years: number[] = []
     let currentYear = new Date().getFullYear()
 
@@ -176,7 +177,8 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
             year_completed: yearCompleted
         }
         if (gameId) {
-            await updateUserVideogame(userGameUpdated);
+            const response = await updateUserVideogame(userGameUpdated)
+            if (response.success) onSave?.(userGameUpdated)
             setToastMessage("Game info updated successfully")
             setOpenToast(false)
             window.clearTimeout(timerRef.current)

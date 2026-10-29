@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
 import { Game } from '@/types/Game';
+import { UserGame } from '@/types/UserGame';
 import { Dialog, Toast } from "radix-ui";
 import { getListContent } from '@/actions/getListContent';
 import AddGameModal from '@/components/AddGameModal';
@@ -36,11 +37,19 @@ export default function List({ params }: { params: { listId: string } }) {
             setIsOwner(content[0]?.isowner)
         }
         getListContentData()
-    }, [])
+        
+    }, [toastMessage])
 
     function handleRemoveGame(listId: string, gameId: number | undefined) {
         setListContent(listContent.filter(game => game.game_id !== gameId))
         deleteGameList(listId, gameId)
+    }
+
+    // Reflects the changes saved in AddGameModal without fetching the list again
+    function handleGameUpdated(userGame: UserGame) {
+        setListContent(prev => prev.map(game => game.game_id === userGame.game_id
+            ? { ...game, score: userGame.score, hours_played: userGame.hours_played ?? 0, favourite: userGame.favourite, status: userGame.status ?? game.status, year_completed: userGame.year_completed }
+            : game))
     }
 
     // Fade up animation
@@ -63,7 +72,7 @@ export default function List({ params }: { params: { listId: string } }) {
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
                         {modalType === "editGame" && isOwner && (
-                            <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage} />
+                            <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage} onSave={handleGameUpdated} />
                         )}
                         {modalType === "addGame" && isOwner && (
                             <SearchGameModal listId={listId} />

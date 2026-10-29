@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react"
 import { Game } from "@/types/Game"
+import { UserGame } from "@/types/UserGame"
 import getUserVideogameAll from '@/actions/getUserVideogameAll'
 import { Dialog, Toast } from "radix-ui"
 import { useFormState } from "react-dom"
@@ -40,15 +41,34 @@ export default function MyGames() {
             let userGames: any[] = await getUserVideogameAll()
             setGameList(userGames)
             setGameListFiltered(userGames)
-            setPlayingGames(userGames.filter((game: Game) => game.status === GameStatus.PLAYING).length)
-            setCompletedGames(userGames.filter((game: Game) => game.status === GameStatus.COMPLETED).length)
-            setOnholdGames(userGames.filter((game: Game) => game.status === GameStatus.ON_HOLD).length)
-            setDroppedGames(userGames.filter((game: Game) => game.status === GameStatus.DROPPED).length)
+            updateStatusCounters(userGames)
             setIsLoading(false)
         }
 
         fetchUserVideogames()
     }, [])
+
+    function updateStatusCounters(games: Game[]) {
+        setPlayingGames(games.filter((game: Game) => game.status === GameStatus.PLAYING).length)
+        setCompletedGames(games.filter((game: Game) => game.status === GameStatus.COMPLETED).length)
+        setOnholdGames(games.filter((game: Game) => game.status === GameStatus.ON_HOLD).length)
+        setDroppedGames(games.filter((game: Game) => game.status === GameStatus.DROPPED).length)
+    }
+
+    // Reflects the changes saved in AddGameModal without fetching the games again
+    function handleGameUpdated(userGame: UserGame) {
+        const applyChanges = (game: Game): Game => game.game_id === userGame.game_id
+            ? { ...game, score: userGame.score, hours_played: userGame.hours_played ?? 0, favourite: userGame.favourite, status: userGame.status ?? game.status, year_completed: userGame.year_completed }
+            : game
+
+        const updatedGames: Game[] = (gameList ?? []).map(applyChanges)
+        setGameList(updatedGames)
+        updateStatusCounters(updatedGames)
+
+        // If a status filter is active, the game disappears from the view when its status changes
+        setGameListFiltered(prev => (prev ?? []).map(applyChanges)
+            .filter((game: Game) => viewGameStatus === "All" || viewGameStatus === GameStatus.NONE || game.status === viewGameStatus))
+    }
 
 
     function handleSearchGame() {
@@ -72,8 +92,12 @@ export default function MyGames() {
         setGameListFiltered(filteredGames)
     }
 
+    // First removes the game from the ui, then updates the list in the server
     function handleRemoveGame(gameId: number | undefined) {
+        const updatedGames: Game[] = (gameList ?? []).filter(game => game.game_id !== gameId)
+        setGameList(updatedGames)
         setGameListFiltered(gameListFiltered?.filter(game => game.game_id !== gameId))
+        updateStatusCounters(updatedGames)
         deleteUserVideogame(gameId)
     }
 
@@ -228,7 +252,7 @@ export default function MyGames() {
                                 <Dialog.Title className="DialogTitle"></Dialog.Title>
                                 <Dialog.Description className="DialogDescription"></Dialog.Description>
                                 {modalType === "editGame" && (
-                                    <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage}/>
+                                    <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage} onSave={handleGameUpdated}/>
                                 )}
                                 {modalType === "removeGame" && (
                                     <DeleteGameModal gameId={gameClicked?.game_id} gameName={gameClicked?.game_name} gameBaseImage={gameClicked?.game_base_image} handleRemoveGame={handleRemoveGame} />
@@ -245,7 +269,7 @@ export default function MyGames() {
                             {viewGameStatus === GameStatus.PLAYING && <p className="bg-blue-500/10 text-blue-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{playingGames} game/s playing</p>}
                             {viewGameStatus === GameStatus.COMPLETED && <p className="bg-green-500/10 text-green-400 rounded p-1 px-3 py-1.5 text-lg font-semibold" >{completedGames} game/s completed</p>}
                             {viewGameStatus === GameStatus.ON_HOLD && <p className="bg-purple-500/10 text-purple-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{onholdGames} game/s on hold</p>}
-                            {viewGameStatus === GameStatus.DROPPED && <p className="bg-rose-500/10 text-rose-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{completedGames} game/s dropped</p>}
+                            {viewGameStatus === GameStatus.DROPPED && <p className="bg-rose-500/10 text-rose-400 rounded p-1 px-3 py-1.5 text-lg font-semibold">{droppedGames} game/s dropped</p>}
                         </div>
                         {gameListFiltered?.map((game: Game, index: number) => (
                             <div key={index}
