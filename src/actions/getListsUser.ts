@@ -39,6 +39,7 @@ export async function getListsUser(userId:string, searchFeatured:boolean): Promi
                     (SELECT COUNT(*) FROM list_games WHERE list_id = $1) as total_games
                 FROM list_games
                 WHERE list_id= $1
+                ORDER BY rank_order
                 LIMIT 5`,
                 [list_id]
             );

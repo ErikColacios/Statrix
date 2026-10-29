@@ -28,7 +28,9 @@ export default async function Navbar() {
                 </div>
                 <div className="flex flex-row space-x-4 md:space-x-8 text-sm md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
                     <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
-                        <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/browseGames"}>Browse</Link>
+                        {userInfo.length > 0 &&
+                            <Link className="hidden sm:block p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/community"}>Community</Link>}
+                        <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/browseGames"}>Games</Link>
                         {userInfo.length > 0 &&
                             <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/friends"}>Friends</Link>}
 

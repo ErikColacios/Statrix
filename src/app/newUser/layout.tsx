@@ -12,7 +12,7 @@ export default async function NewUserLayout({children}: {children: React.ReactNo
 
     const session:any = await getSessionUser()
     if (!session?.user.isNewUser){
-        redirect("/")
+        redirect("/community")
     }
 
     return (

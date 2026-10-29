@@ -95,7 +95,7 @@ export default function NewUser() {
 
             // And update the session name
             await session.update({ name: userName })
-            router.push("/")
+            router.push("/community")
             return { success: true }
         }
     }

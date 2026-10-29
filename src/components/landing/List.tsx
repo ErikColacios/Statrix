@@ -19,6 +19,7 @@ export default function List({ list }: any) {
             <div className="flex items-center p-6">
                 <div className="flex flex-col w-full ">
                     <p className="text-2xl text-gray-200">{list.listName}</p>
+                    {list.userName && <p className="text-sm text-gray-400">by <span className="font-bold text-gray-200">{list.userName}</span></p>}
                     <div className="flex items-center text-sm text-gray-400 pt-2">
                         <p>Games: {list.listGames}</p>
                         <span

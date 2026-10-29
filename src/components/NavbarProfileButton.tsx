@@ -50,6 +50,11 @@ export default function NavbarProfileButton({ avatarImage }: any) {
                     </div>
                     <b className="ml-2 hover:text-green-400">{userName.slice(0,10)}</b>
                 </Link>
+                {/* On mobile the Community link doesn't fit in the navbar, so it lives here */}
+                <Link href="/community" className="flex items-center hover:text-green-400 sm:hidden">
+                    <svg className="mr-1" width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 19V17C16 15.3431 14.6569 14 13 14H6C4.34315 14 3 15.3431 3 17V19M21 19V17C21 15.6938 20.1652 14.5826 19 14.1707M16 4.1707C17.1652 4.58254 18 5.69378 18 7C18 8.30622 17.1652 9.41746 16 9.8293M13 7C13 8.65685 11.6569 10 10 10C8.34315 10 7 8.65685 7 7C7 5.34315 8.34315 4 10 4C11.6569 4 13 5.34315 13 7Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    Community
+                </Link>
                 <Link href="/mygames" className="flex items-center hover:text-green-400">
                     <svg className="mr-1" width="17px" height="16px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M0 13L3 14L6 11H10L13 14L16 13L15.248 4.7284C15.1076 3.18316 13.812 2 12.2604 2H3.73964C2.18803 2 0.89244 3.18316 0.751964 4.72839L0 13ZM12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6ZM12 8C12 8.55228 11.5523 9 11 9C10.4477 9 10 8.55228 10 8C10 7.44772 10.4477 7 11 7C11.5523 7 12 7.44772 12 8ZM5 8C6.10457 8 7 7.10457 7 6C7 4.89543 6.10457 4 5 4C3.89543 4 3 4.89543 3 6C3 7.10457 3.89543 8 5 8Z" fill="#ffffff"></path> </g></svg>
                     My games
