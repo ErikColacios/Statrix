@@ -28,7 +28,10 @@ export async function insertReview(
           VALUES ($1, $2, $3, $4, $5, $6, $7);`,
       [userId, gameId, userName, gameName, reviewBody, gameBaseImage, gameScore],
     );
+
+    return { success: true, message: "Review posted successfully" };
   } catch (error) {
     console.error("Error inserting review:", error);
+    return { success: false, message: "There was an error posting the review." };
   }
 }

@@ -96,7 +96,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                         data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                         <Dialog.Title className="DialogTitle"></Dialog.Title>
                         <Dialog.Description className="DialogDescription"></Dialog.Description>
-                        {modalType === 'addReview' && <ReviewModal gameId={gameId} gameName={gameName} gameCover={coverImageId} />}
+                        {modalType === 'addReview' && <ReviewModal gameId={gameId} gameName={gameName} gameCover={coverImageId} onReviewInserted={() => loadReviews(reviewModeSelected)} />}
                         {modalType === 'deleteReview' && (
                             <DeleteReviewModal review={reviewClicked} reviews={reviews} gameName={gameName} setReviews={setReviews} />
                         )}
@@ -127,7 +127,7 @@ export default function ReviewSection({ gameReviews, gameId, gameName, coverImag
                         <ReviewCard key={index} review={review} index={index} gameName={gameName} userId={userId} handleReviewActions={handleReviewActions}
                             openReviewId={openReviewId} handleLikeReview={handleLikeReview} setModalType={setModalType} setReviewClicked={setReviewClicked} />
                     ))}
-                    {!gameReviews.length && (
+                    {!reviews?.length && (
                         <div className="flex flex-col justify-center items-center rounded text-center text-gray-400 text-sm p-2 h-36 border border-gray-600">
                             <p>No reviews of this game yet.</p>
                             <p>Add the first one!</p>

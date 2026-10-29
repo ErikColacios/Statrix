@@ -9,9 +9,10 @@ type Props = {
     gameId: number
     gameName: string
     gameCover: string
+    onReviewInserted?: () => void // Called after the review is posted, so the parent can reload the reviews
 }
 
-export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
+export default function ReviewModal({ gameId, gameName, gameCover, onReviewInserted }: Props) {
 
     const session: any = useSession()
     const userId: string = session?.data?.user?.id as string
@@ -24,7 +25,12 @@ export default function ReviewModal({ gameId, gameName, gameCover }: Props) {
             setError('Please enter a review')
         } else {
             setError('')
-            await insertReview(gameId, gameName, reviewBody, gameCover)
+            const response = await insertReview(gameId, gameName, reviewBody, gameCover)
+            if (!response.success) {
+                setError(response.message)
+                return
+            }
+            onReviewInserted?.()
 
             // We simulate that the user presses ESC to close the modal
             const escEvent = new KeyboardEvent('keydown', {
