@@ -12,7 +12,7 @@ export default async function Community() {
     return (
         <div className="w-full sm:w-5/6 2xl:w-3/5 px-4 pt-20 pb-8">
             <section className="relative pt-10 pb-4">
-                <h2 className="max-w-[14ch] text-display-md font-semibold text-balance">Activity</h2>
+                <h2 className="max-w-[14ch] text-4xl font-semibold text-balance">Activity</h2>
                 <p className="mt-4 max-w-[56ch] text-lg text-smoke text-pretty">
                     Check the latest moves of players like you in the community.
                 </p>
@@ -63,7 +63,7 @@ export default async function Community() {
             </CardSlider>
 
             <section className="relative pt-10 pb-4">
-                <h2 className="max-w-[14ch] text-display-md font-semibold text-balance">New Lists</h2>
+                <h2 className="max-w-[14ch] text-4xl font-semibold text-balance">New Lists</h2>
                 <p className="mt-4 max-w-[56ch] text-lg text-smoke text-pretty">
                     Some fresh lists for you to take a look.
                 </p>

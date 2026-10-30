@@ -116,18 +116,18 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
             (
                 <div style={{ width: WIDTH, height: HEIGHT, display: "flex", position: "relative", backgroundColor: "#000", color: "#fff", fontFamily: "Inter" }}>
                     {/* Background: blurred cover of the most played game */}
-                    {background && <img alt="" src={background} width={WIDTH} height={HEIGHT} style={{ position: "absolute", top: 0, left: 0, objectFit: "cover" }} />}
-                    <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: HEIGHT, display: "flex", backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 45%, #000 85%)" }} />
-                    <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: HEIGHT, display: "flex", backgroundImage: "radial-gradient(circle at 50% 100%, rgba(34,197,94,0.25), transparent 50%)" }} />
+                    {/* {background && <img alt="" src={background} width={WIDTH} height={HEIGHT} style={{ position: "absolute", top: 0, left: 0, objectFit: "cover" }} />} */}
+                    {/* <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: HEIGHT, display: "flex", backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 45%, #000 85%)" }} /> */}
+                    {/* <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: HEIGHT, display: "flex", backgroundImage: "radial-gradient(circle at 50% 100%, rgba(34,197,94,0.25), transparent 50%)" }} /> */}
 
                     {/* Banner: darker at the top for the logo, fading into the background at the bottom */}
                     <img alt="" src={bannerSrc} width={WIDTH} height={BANNER_HEIGHT} style={{ position: "absolute", top: 0, left: 0, objectFit: "cover", maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)" }} />
-                    <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: BANNER_HEIGHT, display: "flex", backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 100%)" }} />
+                    {/* <div style={{ position: "absolute", top: 0, left: 0, width: WIDTH, height: BANNER_HEIGHT, display: "flex", backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 100%)" }} /> */}
                     <img alt="" src={logoSrc} width={300} height={70} style={{ position: "absolute", top: 70, left: (WIDTH - 300) / 2, objectFit: "contain" }} />
 
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", padding: "0 80px 70px" }}>
                         {/* User: the avatar overlaps the bottom edge of the banner */}
-                        <img alt="" src={avatarSrc} width={AVATAR_SIZE} height={AVATAR_SIZE} style={{ marginTop: BANNER_HEIGHT - AVATAR_SIZE / 2, borderRadius: 9999, border: `6px solid ${GREEN}`, boxShadow: "0 10px 40px rgba(0,0,0,0.6)", objectFit: "cover" }} />
+                        <img alt="" src={avatarSrc} width={AVATAR_SIZE} height={AVATAR_SIZE} style={{ marginTop: BANNER_HEIGHT - AVATAR_SIZE / 2, borderRadius: 9999, border: `4px solid ${GREEN}`, boxShadow: "0 10px 40px rgba(0,0,0,0.6)", objectFit: "cover" }} />
                         <div style={{ marginTop: 28, fontSize: 84, fontWeight: 900, lineHeight: 1 }}>{user.user_name}</div>
                         <div style={{ marginTop: 14, fontSize: 34, color: "#a1a1aa" }}>My gaming stats</div>
 

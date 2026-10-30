@@ -62,7 +62,7 @@ export default function ShareCardButton({ userName, className }: Props) {
         }
     }
 
-    const handleDownload = () => {
+    function handleDownload () {
         if (!previewUrl) return
         const link = document.createElement("a")
         link.href = previewUrl
