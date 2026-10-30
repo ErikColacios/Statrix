@@ -104,7 +104,7 @@ export default async function getUserShareCard(): Promise<{ success: boolean, me
         const avatarSrc = avatar ?? `data:image/jpeg;base64,${avatarDefault.toString("base64")}`;
         const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
         // Same default banner as the profile page
-        const bannerSrc = banner ?? await localImageToDataUri("public/bannerImages/fallout_workshop.jpg", WIDTH, BANNER_HEIGHT);
+        const bannerSrc = banner ?? await localImageToDataUri("public/bannerImages/banner_default.jpg", WIDTH, BANNER_HEIGHT);
 
         const statBoxes = [
             { label: "Games", value: stats.gamesAll },

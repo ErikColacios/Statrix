@@ -16,7 +16,7 @@ export default function NewUser() {
     const [avatarUrl, setAvatarUrl] = useState("/avatarImages/avatar_default.jpg")
 
     const [selectedBanner, setSelectedBanner] = useState<File>()
-    const [bannerUrl, setBannerUrl] = useState("/bannerImages/fallout_workshop.jpg")
+    const [bannerUrl, setBannerUrl] = useState("/bannerImages/banner_default.jpg")
 
 
     function validateImage(file: File | undefined) {
@@ -69,7 +69,9 @@ export default function NewUser() {
         let cancelled = false
         const reader = new FileReader()
         reader.onload = (e) => {
-            if (e.target?.result && !cancelled) setBannerUrl(String(e.target.result))
+            if (e.target?.result && !cancelled) {
+                setBannerUrl(String(e.target.result))
+            }
         }
         reader.readAsDataURL(selectedBanner)
         return () => {
@@ -90,7 +92,9 @@ export default function NewUser() {
             return { error: response?.error }
         } else {
             // Finally we update the avatar and banner images
-            await updateUserAvatar(formData)
+            if(avatarUrl !== undefined) {
+                await updateUserAvatar(formData)
+            }
             await updateUserBanner(formData)
 
             // And update the session name

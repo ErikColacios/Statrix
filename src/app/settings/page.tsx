@@ -38,7 +38,7 @@ export default function Settings() {
                 const userInfo = await getUserInfo(session.user.name)
                 setUserInfo(userInfo)
                 setAvatarUrl(userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg")
-                setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/fallout_workshop.jpg")
+                setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/banner_default.jpg")
             }
         }
         getUserInfoSession()

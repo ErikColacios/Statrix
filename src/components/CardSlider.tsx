@@ -24,6 +24,7 @@ export default function CardSlider({ children, slideClassName = "w-56! sm:w-60!"
             mousewheel={{ forceToAxis: true }}
             grabCursor
             className="-mx-4!">
+                <div className="hidden sm:block absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-canvas to-transparent z-10 pointer-events-none" />
             {React.Children.map(children, (child) => (
                 <SwiperSlide className={slideClassName}>{child}</SwiperSlide>
             ))}

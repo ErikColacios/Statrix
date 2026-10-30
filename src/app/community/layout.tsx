@@ -15,6 +15,7 @@ export default async function CommunityLayout({ children }: { children: React.Re
         return redirect('/login')
     }
 
+    console.log(session)
     if (session?.user.isNewUser) {
         redirect('/newUser')
     }
