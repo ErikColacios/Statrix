@@ -92,9 +92,10 @@ export default function NewUser() {
             return { error: response?.error }
         } else {
             // Finally we update the avatar and banner images
-            if(avatarUrl !== undefined) {
-                await updateUserAvatar(formData)
-            }
+            formData.delete("avatarFile")
+            formData.delete("bannerFile")
+
+            await updateUserAvatar(formData)
             await updateUserBanner(formData)
 
             // And update the session name

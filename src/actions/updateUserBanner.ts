@@ -13,6 +13,11 @@ export default async function updateUserBanner(formData: FormData) {
     const allowedFormatsLong:string[] = ["image/jpeg", "image/png", "image/webp"];
 
     const selectedBanner: File = formData.get('bannerFile') as File
+
+    if (!selectedBanner) {
+        return { success: false, message: 'No banner selected.' }
+    }
+
     if (!allowedFormatsLong.includes(selectedBanner.type)) {
         return;
     }

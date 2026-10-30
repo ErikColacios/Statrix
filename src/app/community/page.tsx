@@ -62,12 +62,13 @@ export default async function Community() {
                 ))}
             </CardSlider>
 
-            {popular.lists.length === 0 && <p className="text-gray-400">No public lists yet.</p>}
             <section className="relative pt-10 pb-4">
                 <h2 className="max-w-[14ch] text-display-md font-semibold text-balance">New Lists</h2>
                 <p className="mt-4 max-w-[56ch] text-lg text-smoke text-pretty">
                     Some fresh lists for you to take a look.
                 </p>
+                {popular.lists.length === 0 && <p className="text-gray-400 mt-8">No public lists yet.</p>}
+
             </section>
 
             <CardSlider slideClassName="w-80! sm:w-md! lg:w-lg!">
