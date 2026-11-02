@@ -9,6 +9,18 @@ import { Dialog, Toast } from "radix-ui";
 import AddGameModal from "@/components/AddGameModal";
 import { motion } from "framer-motion"
 
+// IGDB ids. Horror is a theme in IGDB, not a genre, so it filters by theme instead
+const genres = [
+  { name: "Trending", genre: 0, theme: 0 },
+  { name: "Shooter", genre: 5, theme: 0 },
+  { name: "RPG", genre: 12, theme: 0 },
+  { name: "Horror", genre: 0, theme: 19 },
+  { name: "Fighting", genre: 4, theme: 0 },
+  { name: "Racing", genre: 10, theme: 0 },
+  { name: "Sport", genre: 14, theme: 0 },
+  { name: "Simulator", genre: 13, theme: 0 },
+]
+
 export default function BrowseGames() {
 
   const [gameItems, setGameItems] = useState<GameIGDB[]>([])
@@ -16,6 +28,7 @@ export default function BrowseGames() {
 
   const [gameNameSearch, setGameNameSearch] = useState("")
   const [genre, setGenre] = useState(0)
+  const [theme, setTheme] = useState(0)
 
   const [responseOffset, setResponseOffset] = useState<number>(0)
   const [responseLimit, setResponseLimit] = useState<number>(63)
@@ -36,7 +49,7 @@ export default function BrowseGames() {
       try {
         // While we fetch the covers, we display the loading animation, then we remove it
         setIsLoading(true)
-        const covers: GameIGDB[] = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit)
+        const covers: GameIGDB[] = await fetchGamesIGDB(gameNameSearch, genre, responseOffset, responseLimit, theme)
         if (covers) {
           setGameItems(covers)
           setIsLoading(false)
@@ -46,7 +59,7 @@ export default function BrowseGames() {
       }
     }
     fetchGames()
-  }, [gameNameSearch, genre, responseLimit])
+  }, [gameNameSearch, genre, theme, responseLimit])
 
 
 
@@ -60,10 +73,20 @@ export default function BrowseGames() {
   }
 
   /**
-   * Changes the genre
+   * Clears the search input and goes back to the selected genre
    */
-  function handleSetGenre(genreId: number) {
+  function handleClearSearch() {
+    const searchGame: HTMLInputElement = document.getElementById("searchGame") as HTMLInputElement
+    searchGame.value = ""
+    setGameNameSearch("")
+  }
+
+  /**
+   * Changes the genre (or the theme, for categories like horror)
+   */
+  function handleSetGenre(genreId: number, themeId: number = 0) {
     setGenre(genreId)
+    setTheme(themeId)
     setGameNameSearch("")
   }
 
@@ -78,6 +101,9 @@ export default function BrowseGames() {
     }
   }
 
+  const currentPage: number = Math.round(responseOffset / 64) + 1
+  const currentGenreName: string = genres.find((g) => g.genre === genre && g.theme === theme)?.name ?? "Trending"
+
     // Fade up animation
     const fadeUp = {
         initial: { opacity: 0, y: 50 },
@@ -87,7 +113,13 @@ export default function BrowseGames() {
     }
 
   return (
-      <section className="flex w-full bg-black text-white text-sm py-20">
+      <section className="relative isolate w-full min-h-screen bg-void text-snow text-sm">
+          {/* Background glows */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[34rem]">
+              <div className="absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(34,197,94,0.16),transparent_72%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(30%_40%_at_15%_20%,rgba(163,230,53,0.08),transparent_70%)]" />
+          </div>
+
           <Toast.Provider>
               <Dialog.Root>
                   <Dialog.Portal>
@@ -96,7 +128,7 @@ export default function BrowseGames() {
                           onCloseAutoFocus={e => {
                               e.preventDefault()
                           }}
-                          className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto sm:5/6 md:w-5/6 lg:w-3/5 2xl:w-2/5 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl 
+                          className={`fixed flex justify-center left-1/2 w-full h-full sm:h-auto sm:5/6 md:w-5/6 lg:w-3/5 2xl:w-2/5 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl
                 data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms]`}>
                           <Dialog.Title className="DialogTitle"></Dialog.Title>
                           <Dialog.Description className="DialogDescription"></Dialog.Description>
@@ -105,114 +137,109 @@ export default function BrowseGames() {
                           <AddGameModal game={gameClicked} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage} />
                       </Dialog.Content>
                   </Dialog.Portal>
-                  {/* Sidebar */}
-                  <aside className="hidden sm:flex h-screen flex-col w-36 items-center">
-                      <p className="text-gray-200">Categories</p>
-                      <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
-                      <div className="flex flex-col mt-1 pb-4 text-gray-400">
-                          <button
-                              className={genre !== 0 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(0)}>
-                              Trending
-                          </button>
-                      </div>
-                      <p className="text-gray-200">Genres</p>
-                      <span className="bg-gray-400 w-[80%] h-px mt-1"></span>
-                      <div className="flex flex-col pt-1 text-gray-400 pb-4">
-                          <button
-                              className={genre !== 5 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(5)}>
-                              Shooter
-                          </button>
-                          <button
-                              className={genre !== 12 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(12)}>
-                              RPG
-                          </button>
-                          <button
-                              className={genre !== 4 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(4)}
-                          >
-                              Fighting
-                          </button>
-                          <button
-                              className={genre !== 10 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(10)}>
-                              Racing
-                          </button>
-                          <button
-                              className={genre !== 14 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(14)}>
-                              Sport
-                          </button>
-                          <button
-                              className={genre !== 13 ? `text-left hover:text-green-500` : 'text-left text-green-500 font-bold'}
-                              onClick={() => handleSetGenre(13)}>
-                              Simulator
-                          </button>
-                      </div>
-                  </aside>
 
-                  <div className="flex flex-col w-full px-4 pb-24 md:px-4">
-                      <div className="pb-6">
-                          <h2 className="text-4xl font-bold md:text-5xl pb-2">Browse games</h2>
-                          <p className="text-gray-400">Search any game, rate it, start tracking your progress and add it to your list</p>
+                  <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 pt-28 pb-24 md:pt-32">
+                      {/* Header */}
+                      <div className="flex flex-col items-center text-center">
+                          <p className="text-sm font-semibold text-green-400">Browse games</p>
+                          <h1 className="mt-4 text-display-md font-semibold text-balance headline-sheen">Find your next game.</h1>
+                          <p className="mt-4 max-w-[52ch] text-base text-smoke text-pretty">Search any game, rate it, start tracking your progress and add it to your lists.</p>
+
+                          {/* Search bar */}
+                          <form action={formAction}
+                              className="mt-8 flex h-14 w-full max-w-xl items-center gap-2 rounded-full border border-white/10 bg-white/5 pl-5 pr-1.5 shadow-[0_20px_60px_-25px_rgba(34,197,94,0.45)] backdrop-blur transition focus-within:border-green-500 focus-within:bg-white/10">
+                              <img src="/staticImages/icon_search.png" alt="Search" className="w-5 shrink-0 opacity-60" width={20} height={20} />
+                              <input
+                                  type="text"
+                                  name="searchGame"
+                                  id="searchGame"
+                                  autoComplete="off"
+                                  aria-label="Search games"
+                                  className="h-full w-full min-w-0 bg-transparent text-base text-snow outline-hidden placeholder:text-zinc-500"
+                                  placeholder="Hollow Knight, Elden Ring, Hades..."/>
+                              {gameNameSearch !== "" &&
+                                  <button type="button" onClick={handleClearSearch} aria-label="Clear search"
+                                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-white/10 hover:text-white">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                  </button>}
+                              <button type="submit"
+                                  className="h-11 shrink-0 rounded-full bg-linear-to-r from-green-400 to-lime-400 px-5 font-semibold text-white transition duration-300 hover:from-green-300 hover:to-lime-300">
+                                  Search
+                              </button>
+                          </form>
+
+                          {/* Genres */}
+                          <div className="mt-6 flex w-full max-w-full gap-2 overflow-x-auto no-scrollbar pb-1 sm:flex-wrap sm:justify-center">
+                              {genres.map((g) => (
+                                  <button key={g.name} onClick={() => handleSetGenre(g.genre, g.theme)}
+                                      className={`shrink-0 rounded-full border px-4 py-1.5 font-medium transition
+                                      ${genre === g.genre && theme === g.theme && gameNameSearch === ""
+                                          ? "border-transparent bg-linear-to-r from-green-400 to-lime-400 text-white shadow-[0_0_30px_-8px_rgba(34,197,94,0.7)]"
+                                          : "border-edge bg-white/[0.03] text-smoke hover:border-green-500/40 hover:text-snow"}`}>
+                                      {g.name}
+                                  </button>
+                              ))}
+                          </div>
                       </div>
 
-                      {/* Search bar */}
-                      <form
-                          className="w-full md:w-96 mb-6 relative flex items-center border border-gray-400 rounded-md"
-                          action={formAction}>
-                          <input
-                              type="text"
-                              name="searchGame"
-                              id="searchGame"
-                              className="w-full bg-transparent outline-hidden pl-2"
-                              placeholder="Hollow Knight"/>
-                          <button className="rounded-sm p-1 ml-2" type="submit">
-                              <img src="/staticImages/icon_search.png" alt="Search" className="w-5" width={20} height={20} />
-                          </button>
-                      </form>
+                      {/* Results header */}
+                      <div className="mt-14 mb-5 flex items-end justify-between gap-4 border-b border-edge pb-4">
+                          <div className="min-w-0">
+                              <p className="text-xs font-medium uppercase tracking-wider text-smoke">{gameNameSearch !== "" ? "Search results" : "Category"}</p>
+                              <h2 className="mt-1 truncate text-2xl font-semibold">{gameNameSearch !== "" ? `“${gameNameSearch}”` : currentGenreName}</h2>
+                          </div>
+                          {gameItems.length !== 0 && !isLoading && <p className="shrink-0 text-smoke">Page {currentPage}</p>}
+                      </div>
 
                       {/* Games shown */}
                       {isLoading ? (
                           <SkeletonBrowseGames />
                       ) : (
-                          <motion.section {...fadeUp} className="grid justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8 gap-4">
+                          <motion.section {...fadeUp} className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 sm:gap-4">
                               {gameItems.map((game, index: number) => (
-                                  <Dialog.Trigger
-                                      key={index}
-                                      onClick={() => setGameClicked(game)}
-                                      className={`group relative flex flex-col justify-center items-center rounded-xl overflow-hidden cursor-pointer lg:w-48 lg:h-64 transition hover:scale-105`}>
-                                      <img
-                                          src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`}
-                                          className="w-full h-full transition duration-300 rounded-xl group-hover:blur-xs group-hover:brightness-50"
-                                          alt="Game cover"/>
-                                      <div className="absolute text-center mt-8 hidden transition delay-400 ease-in-out group-hover:-translate-y-6 group-hover:block">
-                                          <p className="hidden sm:contents">{game.name}</p>
-                                      </div>
-                                      <p className="h-12 pt-1 sm:hidden text-sm">{game.name}</p>
-                                  </Dialog.Trigger>
+                                  <div key={index} className="flex flex-col">
+                                      <Dialog.Trigger
+                                          onClick={() => setGameClicked(game)}
+                                          aria-label={game.name}
+                                          className="group relative block w-full aspect-[3/4] overflow-hidden rounded-xl border border-edge bg-card cursor-pointer transition duration-300 hover:-translate-y-1 hover:border-green-500/60 hover:shadow-[0_20px_40px_-15px_rgba(34,197,94,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500">
+                                          <img
+                                              src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png`}
+                                              className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                              loading="lazy"
+                                              alt="Game cover"/>
+                                          <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/30 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                                          <div className="absolute inset-x-0 bottom-0 hidden translate-y-2 p-3 text-left opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:block">
+                                              <p className="line-clamp-2 font-semibold leading-tight">{game.name}</p>
+                                          </div>
+                                      </Dialog.Trigger>
+                                      <p className="mt-1.5 line-clamp-2 text-xs text-smoke sm:hidden">{game.name}</p>
+                                  </div>
                               ))}
                           </motion.section>
                       )}
-                      {gameItems.length !== 0 && (
-                          <motion.section {...fadeUp} className="w-full flex justify-center text-gray-400 space-x-2 py-6">
+                      {gameItems.length !== 0 && !isLoading && (
+                          <motion.section {...fadeUp} className="w-full flex items-center justify-center gap-3 pt-12">
                               <button
-                                  className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                  className="flex h-10 items-center gap-1 rounded-full border border-edge bg-white/[0.03] px-4 font-medium text-smoke transition hover:border-green-500/40 hover:text-snow disabled:pointer-events-none disabled:opacity-40"
                                   disabled={responseOffset === 0}
                                   onClick={() => handlePagination('previous')}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                                   Prev
                               </button>
+                              <span className="flex h-10 min-w-10 items-center justify-center rounded-full border border-green-500/40 bg-green-500/10 px-3 font-semibold text-green-400">{currentPage}</span>
                               <button
-                                  className="rounded-sm border border-gray-400 px-2 py-1 transition hover:text-white hover:bg-zinc-800"
+                                  className="flex h-10 items-center gap-1 rounded-full border border-edge bg-white/[0.03] px-4 font-medium text-smoke transition hover:border-green-500/40 hover:text-snow"
                                   onClick={() => handlePagination('next')}>
                                   Next
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                               </button>
                           </motion.section>
                       )}
                       {gameItems.length === 0 && !isLoading && (
-                          <div className="w-full flex justify-center text-gray-400">No games found with the current filters...</div>
+                          <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-edge bg-white/[0.02] px-4 py-16 text-center">
+                              <p className="text-lg font-semibold">No games found</p>
+                              <p className="text-smoke">Try another name or pick a different category.</p>
+                          </div>
                       )}
                   </div>
               </Dialog.Root>

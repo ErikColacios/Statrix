@@ -8,13 +8,16 @@ import { GameIGDB } from "@/types/GameIGDB";
  * @param gameGenre
  * @param responseOffset
  * @param responseLimit
+ * @param gameTheme IGDB theme id (e.g. 19 = Horror). Some categories, like horror, are themes in IGDB and not genres
  * @returns
  */
-export async function fetchGamesIGDB(gameName: string,  gameGenre: number, responseOffset: number, responseLimit: number) {
+export async function fetchGamesIGDB(gameName: string,  gameGenre: number, responseOffset: number, responseLimit: number, gameTheme: number = 0) {
   let condition = "";
 
   if (gameName) {
     condition = `; search "${gameName}"`;
+  } else if (gameTheme && gameTheme != 0) {
+    condition = `& themes=${gameTheme}`;
   } else if (gameGenre && gameGenre != 0) {
     condition = `& genres=${gameGenre}`;
   }
@@ -109,7 +112,7 @@ export async function fetchGamesIGDB(gameName: string,  gameGenre: number, respo
     return games;
   }
 
-  if (gameName !== "" || gameGenre !== 0) {
+  if (gameName !== "" || gameGenre !== 0 || gameTheme !== 0) {
     return await getGamesBySearch();
   } else {
     return await getPopularGames();

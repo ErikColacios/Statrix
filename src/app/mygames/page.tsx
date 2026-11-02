@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react"
+import Link from "next/link"
 import { Game } from "@/types/Game"
 import { UserGame } from "@/types/UserGame"
 import getUserVideogameAll from '@/actions/getUserVideogameAll'
@@ -136,7 +137,11 @@ export default function MyGames() {
                     <h2 className='text-4xl font-bold md:text-5xl'>My games</h2>
                     <p className='text-gray-400 text-base md:ml-8 mt-1'>{gameList?.length} game/s</p>
                 </div>
-            <form className="relative ml-auto mt-4 flex w-full items-center rounded-xl border border-white/10 bg-zinc-900/70 transition-colors duration-200 focus-within:border-green-500/70 focus-within:ring-1 focus-within:ring-green-500/20 md:mt-0 md:w-96"
+            <div className="ml-auto mt-4 flex w-full items-center gap-2 md:mt-0 md:w-auto">
+            <Link href="/browseGames" className="flex shrink-0 items-center justify-center gap-1 h-10 px-4 rounded-xl text-sm font-semibold bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 shadow-lg shadow-green-900/40 transition duration-300">
+                <span className="text-base leading-none">+</span> Add games
+            </Link>
+            <form className="relative flex w-full items-center rounded-xl border border-white/10 bg-zinc-900/70 transition-colors duration-200 focus-within:border-green-500/70 focus-within:ring-1 focus-within:ring-green-500/20 md:w-96"
                 action={formAction}>
                 <input type="text"
                     name="searchGame"
@@ -150,6 +155,7 @@ export default function MyGames() {
                     <img src="/staticImages/icon_search.png" alt="Search" className='w-5' width={20} height={20} />
                 </button>
             </form>
+            </div>
             </div>
             <div className='flex flex-col space-y-4'>
                 {isLoading ? <SkeletonMyGames /> : viewGameStatus === GameStatus.NONE &&
