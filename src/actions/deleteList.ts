@@ -28,15 +28,11 @@ export async function deleteList(listId: string) {
       throw new Error("No list found.");
     }
 
-    // Delete the list games
-    const deleteListGamesRes = await client.query(
-      `DELETE FROM list_games WHERE list_id = $1  AND user_id = $2 RETURNING *`,
+    // Delete the list games (an empty list has none, so no rows deleted is not an error)
+    await client.query(
+      `DELETE FROM list_games WHERE list_id = $1  AND user_id = $2`,
       [listId, userId]
     );
-
-    if (deleteListGamesRes.rowCount === 0) {
-      throw new Error("No games found in the list.");
-    }
 
     // Update the number of lists of this user
     await client.query(

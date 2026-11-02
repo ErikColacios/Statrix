@@ -4,6 +4,8 @@ import { Game } from '@/types/Game';
 import { UserGame } from '@/types/UserGame';
 import { Dialog, Toast } from "radix-ui";
 import { getListContent } from '@/actions/getListContent';
+import { getListInfo } from '@/actions/getListInfo';
+import getSessionUser from '@/actions/getSessionUser';
 import AddGameModal from '@/components/AddGameModal';
 import SearchGameModal from '@/components/SearchGameModal';
 import EditListInfoModal from '@/components/EditListInfoModal';
@@ -12,10 +14,12 @@ import DeleteGameListModal from '@/components/DeleteGameListModal';
 import { deleteGameList } from '@/actions/deleteGameList';
 import { motion } from "framer-motion"
 import { ViewMode } from '@/enums/ViewMode';
+import { useRouter } from 'next/navigation';
 
 export default function List({ params }: { params: { listId: string } }) {
 
     let listId = params.listId;
+    const router = useRouter()
     const [listContent, setListContent] = useState<Game[]>([])
     const [gameClicked, setGameClicked] = useState<Game>()
     const [modalType, setModalType] = useState<string>("")
@@ -34,15 +38,20 @@ export default function List({ params }: { params: { listId: string } }) {
         const getListContentData = async () => {
             const content = await getListContent(listId)
             setListContent(content)
-            setIsOwner(content[0]?.isowner)
+
+            // The owner is checked with the list info, so it also works when the list has no games
+            const session: any = await getSessionUser()
+            const listInfo: any = await getListInfo(listId)
+            setIsOwner(String(listInfo?.[0]?.user_id) === String(session?.user?.id))
         }
         getListContentData()
         
     }, [toastMessage])
 
-    function handleRemoveGame(listId: string, gameId: number | undefined) {
+    async function handleRemoveGame(listId: string, gameId: number | undefined) {
         setListContent(listContent.filter(game => game.game_id !== gameId))
-        deleteGameList(listId, gameId)
+        await deleteGameList(listId, gameId)
+        router.refresh() // Re-renders the layout so the games counter is updated
     }
 
     // Reflects the changes saved in AddGameModal without fetching the list again
@@ -199,14 +208,16 @@ export default function List({ params }: { params: { listId: string } }) {
                                 </Dialog.Trigger>
 
                                 {/* Remove game */}
-                                <Dialog.Trigger
-                                    onClick={() => {setGameClicked(game); setModalType("removeGame")}}
-                                    aria-label={`Remove ${game.game_name}`}
-                                    className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/30 bg-black/40 opacity-100 transition hover:border-red-400 hover:bg-red-500/20 xl:opacity-0 xl:group-hover:opacity-100">
-                                    <svg width="10" height="12" viewBox="0 0 21 21" fill="none" stroke="white" strokeWidth="2">
-                                        <path d="M4 4l13 13M17 4L4 17" />
-                                    </svg>
-                                </Dialog.Trigger>
+                                {isOwner && 
+                                    <Dialog.Trigger
+                                        onClick={() => {setGameClicked(game); setModalType("removeGame")}}
+                                        aria-label={`Remove ${game.game_name}`}
+                                        className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full border border-white/30 bg-black/40 opacity-100 transition hover:border-red-400 hover:bg-red-500/20 xl:opacity-0 xl:group-hover:opacity-100">
+                                        <svg width="10" height="12" viewBox="0 0 21 21" fill="none" stroke="white" strokeWidth="2">
+                                            <path d="M4 4l13 13M17 4L4 17" />
+                                        </svg>
+                                    </Dialog.Trigger>
+                                }
                             </div>
                         ))}
                     </motion.section>
