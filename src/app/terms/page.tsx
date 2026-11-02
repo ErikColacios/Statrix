@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function TermsPage() {
     return (
-        <section className="relative text-gray-300 py-20 w-full">
+        <section className="relative text-gray-300 pt-20 pb-40 sm:pb-20 w-full">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-4xl text-white font-bold my-4">Terms of use</h1>
                 <p className="py-4 text-white">Last update: August 14, 2026</p>
@@ -199,7 +199,7 @@ export default function TermsPage() {
                 {/* Section 17 */}
                 <h2 className="text-2xl text-white font-bold my-4">17. Contact</h2>
                 <p>If you have questions regarding these Terms of use, the operation of Statrix, or your account, you can contact us at:</p>
-                <p className="py-2 text-white">contact@statrix.com</p>
+                <p className="py-2 text-white">contact@statrix.app</p>
             </div>
             <Footer />
         </section>

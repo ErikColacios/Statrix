@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function PrivacyPolicyPage() {
     return (
-        <section className="relative text-gray-300 py-20 w-full">
+        <section className="relative text-gray-300 pt-20 pb-40 sm:pb-20 w-full">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-4xl text-white font-bold my-4">Privacy Policy</h1>
                 <p className="py-4 text-white">Last update: August 13, 2026</p>

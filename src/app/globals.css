@@ -77,6 +77,27 @@
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
+  /* Green scrollbar (Firefox and Chrome/Edge 121+) */
+  * {
+    scrollbar-color: var(--color-green-500) var(--color-void);
+  }
+  /* Green scrollbar (Safari and older Chromium) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-green-500);
+    border-radius: 9999px;
+    border: 2px solid var(--color-void);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-green-400);
+  }
 }
 
 @utility no-scrollbar {
