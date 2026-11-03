@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import getUserGameReviews from "@/actions/getUserGameReviews";
 import getUserGameStats from "@/actions/getUserGameStats";
 import getUserInfo from "@/actions/getUserInfo";
@@ -16,6 +17,38 @@ import { Game } from "@/types/Game";
 import ActivityWidget from "@/components/ActivityWidget";
 import { getUserActivity } from "@/actions/getUserActivity";
 import ShareCardButton from "@/components/ShareCardButton";
+
+// Title, description and Open Graph data of the profile, so a shared link shows the user.
+// The image comes from ./opengraph-image.tsx
+export async function generateMetadata({ params }: { params: { userName: string } }): Promise<Metadata> {
+    const userInfo = await getUserInfo(params.userName).catch(() => [])
+    if (userInfo.length === 0) return { title: "Profile - Statrix" }
+
+    const user = userInfo[0]
+    const stats = await getUserGameStats(params.userName)
+    const title = `${user.user_name} - Statrix`
+    const description = `${user.user_name} has tracked ${stats.gamesAll} ${stats.gamesAll === 1 ? "game" : "games"} and completed ${stats.gamesCompleted} on Statrix.${user.user_bio ? ` "${user.user_bio}"` : ""}`
+
+    return {
+        title,
+        description,
+        alternates: { canonical: `/profile/${user.user_name}` },
+        openGraph: {
+            type: "profile",
+            username: user.user_name,
+            url: `/profile/${user.user_name}`,
+            siteName: "Statrix",
+            locale: "en_US",
+            title,
+            description,
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+        },
+    }
+}
 
 export default async function Profile({ params }: { params: { userName: string } }) {
 
