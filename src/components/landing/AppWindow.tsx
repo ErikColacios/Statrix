@@ -40,7 +40,7 @@ export default function AppWindow() {
                     <div role="tablist" aria-label="Statrix views" className="mx-auto flex overflow-x-auto no-scrollbar rounded-full border border-edge bg-void/80 p-1">
                         {modes.map((mode, index) => (
                             <button key={mode.label} role="tab" aria-selected={active === index} onClick={() => selectMode(index)}
-                                className={`relative rounded-full px-3 py-1 text-xs sm:text-sm transition-colors ${active === index ? "text-black" : "text-smoke hover:text-snow"}`}>
+                                className={`relative rounded-full px-3 py-1 text-xs sm:text-sm transition-colors ${active === index ? "text-snow" : "text-smoke hover:text-snow"}`}>
                                 {active === index &&
                                     <motion.span layoutId="mode-pill" className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-lime-400"
                                         transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
