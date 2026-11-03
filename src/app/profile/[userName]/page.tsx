@@ -25,9 +25,9 @@ export async function generateMetadata({ params }: { params: { userName: string 
     if (userInfo.length === 0) return { title: "Profile - Statrix" }
 
     const user = userInfo[0]
-    const stats = await getUserGameStats(params.userName)
+    //const stats = await getUserGameStats(params.userName)
     const title = `${user.user_name} - Statrix`
-    const description = `${user.user_name} has tracked ${stats.gamesAll} ${stats.gamesAll === 1 ? "game" : "games"} and completed ${stats.gamesCompleted} on Statrix.${user.user_bio ? ` "${user.user_bio}"` : ""}`
+    const description = `${user.user_bio ? ` "${user.user_bio}"` : ""}`
 
     return {
         title,
