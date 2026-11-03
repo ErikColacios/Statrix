@@ -5,10 +5,24 @@ import Navbar from '@/components/Navbar';
 import Provider from "@/util/provider";
 
 export const metadata: Metadata = {
-  title: "Statrix",
+  // Turns relative URLs (like the Open Graph image) into absolute ones, which social networks need
+  metadataBase: new URL("https://statrix.app"),
+  title: "Statrix: Social Game Tracker. Log, Rate & Review your Games",
   description: "Showcase your gaming identity",
-  icons: "/logos/favicon.ico"
-};
+  icons: "/logos/favicon.ico",
+  // Defaults for every page. A page that sets its own openGraph replaces this whole object, it isn't merged.
+  // The image comes from src/app/opengraph-image.tsx
+  openGraph: {
+    title: "Statrix: Social Game Tracker. Log, Rate & Review your Games",
+    description: "Showcase your gaming identity",
+    siteName: "Statrix",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+}
 
 export default async function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
 

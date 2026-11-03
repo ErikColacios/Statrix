@@ -66,7 +66,7 @@
   const lists = {list1, list2, list3, list4}
 
   const profile = {
-    userName: "MiaXX", creationDate: "2026-02-14", avatarImage: "/avatarImages/hornet.jpg", bannerImage: "/bannerImages/persona5.jpg",
+    userName: "MiaXX", creationDate: "2026-02-14", avatarImage: "/avatarImages/sonic.jpg", bannerImage: "/bannerImages/rapture.jpg",
     bio: "RPG addict and soulslike survivor. Currently stuck on Silksong's last boss, send help.",
     webpage: "miaxx.gg", location: "Barcelona", friends: 32, lists: 4, reviews: 12,
     stats: { gamesAll: 184, gamesPlaying: 6, gamesCompleted: 71, mostPlayed: "Elden Ring" },
