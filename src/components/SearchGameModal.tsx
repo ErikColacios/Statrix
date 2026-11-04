@@ -13,12 +13,9 @@ export default function SearchGameModal({ listId }: { listId: string }) {
     let [gamesAdded, setGamesAdded] = useState<GameIGDB[]>([])
 
     async function addNewGame(game: GameIGDB) {
-        for (let i = 0; i < gamesAdded.length; i++) {
-            if (gamesAdded[i].name === game.name) {
-                console.log(gamesAdded[i].name, game.name)
-                return;
-            }
-        }
+        // Compared by id and not by name, there are different games with the same name (e.g. remakes)
+        if (gamesAdded.some(added => added.id === game.id)) return
+
         setGamesAdded([...gamesAdded, game])
     }
 
@@ -76,8 +73,8 @@ export default function SearchGameModal({ listId }: { listId: string }) {
                     }
 
                     <div className="flex-1 min-h-0 no-scrollbar overflow-y-auto grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-7 content-start gap-3 sm:gap-4 py-2">
-                        {gamesAdded.map((game: GameIGDB, index: number) => (
-                            <div key={index} className="group relative aspect-3/4 rounded-xl overflow-hidden ring-1 ring-white/10 shadow-lg animate-element-appear">
+                        {gamesAdded.map((game: GameIGDB) => (
+                            <div key={game.id}className="group relative aspect-3/4 rounded-xl overflow-hidden ring-1 ring-white/10 shadow-lg animate-element-appear">
                                 <img src={game.cover.image_id ? `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png` : ""}
                                 className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-50"
                                 alt="Game cover"/>

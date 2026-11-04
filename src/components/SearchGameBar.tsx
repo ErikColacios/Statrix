@@ -30,18 +30,24 @@ export default function SearchGameBar({ addNewGame }: any) {
         }
     }
 
+    // Id of the last search. If an older search answers later, its results are ignored
+    const lastSearchId = useRef<number>(0)
+
     async function fetchVideogames(gameName: string) {
         let loader: HTMLDivElement = document.getElementById("loader") as HTMLDivElement
+        const searchId = ++lastSearchId.current
 
         try {
             const covers:GameIGDB[] = await fetchGamesIGDB(gameName, 0, 0, 20)
+            if (searchId !== lastSearchId.current) return
+
             if (covers) {
                 setGameItems(covers)
                 loader.style.display = "none"
-                console.log(covers)
             }
         } catch (error) {
             console.log(error)
+            if (searchId === lastSearchId.current) loader.style.display = "none"
         }
     }
 

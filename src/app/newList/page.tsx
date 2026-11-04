@@ -83,7 +83,8 @@ export default function NewList() {
     } else {
 
       for (let i = 0; i < listLength; i++) {
-        if (gameList[i].name === game.name) {
+        // Compared by id and not by name, there are different games with the same name (e.g. remakes)
+        if (gameList[i].id === game.id) {
           gameFound = true;
           setShowModal(true)
           setToastMessage("The game is already in the list")
