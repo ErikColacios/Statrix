@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import NavbarProfileButton from "./NavbarProfileButton";
+import NavbarLinks from "./NavbarLinks";
+import NavbarMobileMenu from "./NavbarMobileMenu";
 import getUserInfo from "../actions/getUserInfo";
 import Notifications from "./Notifications";
 import getNotificationCount from "../actions/getNotificationCount";
@@ -19,36 +21,54 @@ export default async function Navbar() {
         notificationCount = await getNotificationCount() // We fetch the notification count
     }
 
+    const user = userInfo.length > 0
+        ? {
+            userId: userInfo[0].user_id as string,
+            userName: userInfo[0].user_name as string,
+            avatarImage: userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg",
+        }
+        : null
+
     return (
-        <header className="flex flex-col">
-            <div className="flex justify-center items-center w-full bg-black/50 backdrop-blur-xs text-white fixed z-99 top p-4">
-                <div className="absolute left-0 pl-4 md:pl-16">
-                    <Link href="/"><img src={`/logos/st2_white.png`} className="w-32 hidden sm:flex" alt="Statrix Logo" /></Link>
-                    <Link href="/"><img src={`/logos/st1_white.png`} className="w-10 sm:hidden" alt="Statrix Logo small" /></Link>
+        <header className="pointer-events-none fixed inset-x-0 top-0 z-99 px-3 pt-3 sm:px-4 md:p-0">
+            {/* Floating bar on mobile, full width bar attached to the top on desktop. It is relative so the dropdowns can be positioned against it */}
+            <nav className="pointer-events-auto relative mx-auto flex h-14 max-w-6xl items-center gap-2 rounded-2xl border border-white/10 bg-zinc-950/70 pl-4 pr-2 text-sm text-white shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl
+                md:h-16 md:max-w-none md:rounded-none md:border-x-0 md:border-t-0 md:px-8 md:shadow-none lg:px-16">
+                <Link href="/" className="shrink-0">
+                    <img src="/logos/st2_white.png" className="hidden h-7 w-auto sm:block" alt="Statrix Logo" />
+                    <img src="/logos/st1_white.png" className="h-8 w-auto sm:hidden" alt="Statrix Logo small" />
+                </Link>
+
+                {/* Desktop links, centered in the bar */}
+                <div className="absolute left-1/2 hidden -translate-x-1/2 md:block">
+                    <NavbarLinks isLogged={!!user} />
                 </div>
-                <div className="flex flex-row space-x-4 md:space-x-8 text-sm md:text-base pr-20 md:pr-0 pt-2 pb-2"></div>
-                    <div className="flex items-center space-x-3 md:space-x-6 pr-2 absolute right-0">
-                        <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/browseGames"}>Games</Link>
-                        {userInfo.length > 0 &&
-                            <Link className="hidden sm:block p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/community"}>Community</Link>}
-                        {userInfo.length > 0 &&
-                            <Link className="p-1 rounded-sm hover:bg-zinc-800 hover:text-green-400" href={"/friends"}>Friends</Link>}
 
-                        {userInfo.length > 0 &&
-                            <Notifications userId={userInfo[0].user_id} notificationCount={notificationCount} />}
+                <div className="ml-auto flex items-center gap-1">
+                    {user &&
+                        <>
+                            <Notifications userId={user.userId} notificationCount={notificationCount} />
+                            <div className="ml-1 hidden md:block">
+                                <NavbarProfileButton avatarImage={user.avatarImage} userName={user.userName} />
+                            </div>
+                        </>}
 
-                        {/* Log In button */}
-                        {userInfo.length == 0 &&
-                            <Link href="/login" className="relative flex justify-center items-center text-sm bg-zinc-900 border border-green-500 px-4 py-1 rounded-sm text-center mr-2 md:mr-4 transition hover:bg-green-500 hover:text-black">
+                    {/* Log in and sign up buttons, on mobile they are inside the menu */}
+                    {!user &&
+                        <div className="hidden items-center gap-2 md:flex">
+                            <Link href="/login" className="flex h-9 items-center rounded-lg px-3 font-medium text-zinc-300 transition hover:bg-white/5 hover:text-white">
                                 Log in
-                            </Link>}
+                            </Link>
+                            <Link href="/signup" className="flex h-9 items-center rounded-lg bg-linear-to-r from-green-500 to-lime-500 px-4 font-semibold transition duration-300 hover:from-green-500 hover:to-lime-600">
+                                Sign up
+                            </Link>
+                        </div>}
 
-                        {/* Profile button */}
-                        {userInfo.length > 0 &&
-                            <NavbarProfileButton avatarImage={userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} />}
-                            
+                    <div className="md:hidden">
+                        <NavbarMobileMenu user={user ? { userName: user.userName, avatarImage: user.avatarImage } : null} />
                     </div>
-            </div>
+                </div>
+            </nav>
         </header>
     )
 }

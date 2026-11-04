@@ -62,33 +62,32 @@ export default function Notifications({ userId, notificationCount }: Props) {
 
 
     return (
-        <div ref={dropdownRef}>
-            <button className={`relative rounded-full p-2 hover:bg-zinc-800 cursor-pointer ${dropdown && "bg-zinc-900"}`} onClick={() => setDropdown(!dropdown)}>
+        // On mobile the dropdown is positioned against the navbar (full width), on desktop against the bell
+        <div ref={dropdownRef} className="md:relative">
+            <button aria-label="Notifications" aria-expanded={dropdown} onClick={() => setDropdown(!dropdown)}
+                className={`relative flex h-9 w-9 items-center justify-center rounded-lg transition hover:bg-white/5 hover:text-white ${dropdown ? "bg-white/10 text-white" : "text-zinc-300"}`}>
                 {notificationCount != 0 &&
-                    <span id="notificationCount" className="text-[10px] text-white absolute w-4 h-4 rounded-full bg-red-600">{notificationCount}</span>}
-                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9.00195 17H5.60636C4.34793 17 3.71872 17 3.58633 16.9023C3.4376 16.7925 3.40126 16.7277 3.38515 16.5436C3.37082 16.3797 3.75646 15.7486 4.52776 14.4866C5.32411 13.1835 6.00031 11.2862 6.00031 8.6C6.00031 7.11479 6.63245 5.69041 7.75766 4.6402C8.88288 3.59 10.409 3 12.0003 3C13.5916 3 15.1177 3.59 16.2429 4.6402C17.3682 5.69041 18.0003 7.11479 18.0003 8.6C18.0003 11.2862 18.6765 13.1835 19.4729 14.4866C20.2441 15.7486 20.6298 16.3797 20.6155 16.5436C20.5994 16.7277 20.563 16.7925 20.4143 16.9023C20.2819 17 19.6527 17 18.3943 17H15.0003M9.00195 17L9.00031 18C9.00031 19.6569 10.3435 21 12.0003 21C13.6572 21 15.0003 19.6569 15.0003 18V17M9.00195 17H15.0003" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
+                    <span id="notificationCount" className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white ring-2 ring-zinc-950">{notificationCount}</span>}
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
             </button>
 
             {dropdown &&
-                <div className="absolute overflow-scroll no-scrollbar flex flex-col space-y-2 p-2 bg-zinc-900 
-                text-sm w-80 h-80 text-gray-200 border border-zinc-600 rounded rounded-lg top-12 md:top-10 right-0 sm:right-20 z-30">
-                    <p className="text-base ml-2">Notifications</p>
+                <div className="absolute inset-x-0 md:inset-x-auto md:right-0 top-full mt-2 md:mt-3 md:w-80 max-h-96 overflow-y-auto no-scrollbar flex flex-col gap-2 rounded-2xl border border-white/10 bg-zinc-950/95 p-2 text-sm text-zinc-200 shadow-2xl animate-element-appear">
+                    <p className="px-2 pt-1 font-semibold text-white">Notifications</p>
                     {notifications.map((notification: any, index: number) => (
-                        <div key={index} className='flex p-2 mb-4 h-14 border border-gray-600 bg-zinc-800 rounded-lg'>
-                            <div className="w-10 h-10 rounded-full overflow-hidden">
-                                <img src={notification.user_avatar ? `https://media.statrix.app/avatars/${notification.user_id}/${notification.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
-                            </div>
-                            <div className="ml-3 flex flex-col">
-                                <p>New friend request!</p>
-                                <Link href={`/profile/${notification.user_name}`} className='font-bold hover:text-green-400'>{notification.user_name}</Link>
+                        <div key={index} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-2">
+                            <img src={notification.user_avatar ? `https://media.statrix.app/avatars/${notification.user_id}/${notification.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-10 w-10 shrink-0 rounded-full object-cover" alt="Avatar image"/>
+                            <div className="flex min-w-0 flex-col">
+                                <p className="text-xs text-zinc-400">New friend request</p>
+                                <Link href={`/profile/${notification.user_name}`} className="truncate font-semibold hover:text-green-400">{notification.user_name}</Link>
                             </div>
                             <button onClick={() => acceptFriendRequest(notification.requester_id, index)}
-                                className='m-auto w-16 text-sm p-1 rounded-lg border border-green-500 hover:bg-green-500 hover:text-black'>Accept</button>
+                                className="ml-auto shrink-0 rounded-lg bg-linear-to-r from-green-500 to-lime-500 px-3 py-1.5 text-xs font-semibold text-white transition duration-300 hover:from-green-500 hover:to-lime-600">Accept</button>
                         </div>
                     ))}
 
                     {notifications.length === 0 &&
-                        <div className='flex flex-col items-center justify-center text-center mb-4 h-64 text-gray-400 rounded-lg'>
+                        <div className="flex h-40 flex-col items-center justify-center text-center text-zinc-400">
                             <p>(－_－) zzZ</p>
                             <p>Nothing to check here by now</p>
                         </div>}
