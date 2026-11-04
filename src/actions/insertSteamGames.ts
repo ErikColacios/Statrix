@@ -20,7 +20,13 @@ export default async function insertSteamGames(steamGame: any) {
       
       //console.log(steamGame.name)
       if (gameIGDB && gameIGDB.cover && gameIGDB.cover.image_id) {
+
+        // Steam returns the playtime in minutes, so we convert it to hours and round it to the nearest whole number.
+        const hoursPlayed: number = Math.round((Number(steamGame.playtime_forever) || 0) / 60);
+
+        // We construct the base image URL for the game using the IGDB cover image ID.
         const gameBaseImage = `https://images.igdb.com/igdb/image/upload/t_720p/${gameIGDB.cover.image_id}.png`;
+
 
         await pool.query(
           `INSERT INTO user_videogame (user_id, game_id, favourite, score, hours_played, year_completed, game_name, game_image_id, game_base_image, status)
@@ -30,7 +36,7 @@ export default async function insertSteamGames(steamGame: any) {
             gameIGDB.id,
             false,
             0,
-            0,
+            hoursPlayed,
             "-",
             gameIGDB.name,
             gameIGDB.cover.image_id,
