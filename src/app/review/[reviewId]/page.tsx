@@ -37,17 +37,28 @@ function cardClasses(score: number) {
     return 'bg-zinc-900/80 shadow-zinc-500/30 border-white/10'
 }
 
-export default async function Review({ params }: { params: { reviewId: string } }) {
+type Props = {
+    params: { reviewId: string },
+    searchParams: { from?: string }
+}
+
+export default async function Review({ params, searchParams }: Props) {
 
     const [review, session] = await Promise.all([getReview(params.reviewId), getSessionUser()])
     if (!review) notFound()
+
+    // The back button returns to where the user came from (?from=profile), the game page by default.
+    // Only known values are accepted, so the URL can't be used to redirect to another site
+    const back = searchParams.from === 'profile'
+        ? { href: `/profile/${review.user_name}`, label: `Back to ${review.user_name}'s profile` }
+        : { href: `/gamePage/${review.game_id}`, label: `Back to ${review.game_name}` }
 
     const score = Number(review.game_score)
     const reviewDate = new Date(review.review_date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
 
     return (
         <div className='w-full sm:w-5/6 lg:w-3/5 2xl:w-2/5 px-4 pt-20 pb-8'>
-            <BackLink href={`/gamePage/${review.game_id}`}>Back to {review.game_name}</BackLink>
+            <BackLink href={back.href}>{back.label}</BackLink>
 
             <article className={`mt-6 rounded-lg border bg-zinc-900/80 shadow-lg p-4 sm:p-6 ${cardClasses(score)}`}>
                 <div className="flex gap-4 sm:gap-6">

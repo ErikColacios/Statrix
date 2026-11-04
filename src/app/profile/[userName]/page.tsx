@@ -182,7 +182,7 @@ export default async function Profile({ params }: { params: { userName: string }
                                 {/* Last review - widget*/}
                                 <div className="flex space-x-4 border border-white/10 bg-zinc-900/40 backdrop-blur-lg rounded-lg overflow-hidden h-1/3">
                                     {userReviews.map((r: any, index: number) => (
-                                        <Link href={'/gamePage/' + r.game_id} className="relative isolate w-full flex items-center p-4" key={index}>
+                                        <Link href={`/review/${r.review_id}?from=profile`} className="relative isolate w-full flex items-center p-4" key={index}>
                                             <div className="absolute inset-0 -z-20 scale-110 bg-cover bg-center blur-xl transition-transform duration-500 group-hover:scale-125" 
                                                 style={{ backgroundImage: `url(${r.game_base_image})` }} />
 
