@@ -6,11 +6,10 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
     
     // Date formatter
     const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' })
-    console.log(review)
 
     return (
         <div key={index}
-            className={`flex flex-col space-y-2 min-h-36 p-4 mb-8 rounded-lg bg-zinc-900/80 shadow-lg border border-white/10
+            className={`relative flex flex-col space-y-2 min-h-36 p-4 mb-8 rounded-lg bg-zinc-900/80 shadow-lg border border-white/10 transition hover:brightness-125
                             ${review.game_score >= 8 ? ' cardReviewGreen shadow-green-500/30 border-green-600' : ''}
                             ${review.game_score >= 4 && review.game_score < 8 ? ' cardReviewYellow shadow-yellow-500/30 border-yellow-700/80' : ''}
                             ${review.game_score < 4 && review.game_score > 0 ? ' cardReviewRed shadow-rose-500/30 border-rose-700' : ''}
@@ -18,7 +17,7 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                             `}>
             <div className="relative flex flex-col space-y-1">
                 <div className="flex flex-col space-x-2 sm:flex-row sm:items-center text-white">
-                    <Link href={`/profile/${review.user_name}`} className="flex items-center hover:text-green-400 cursor-pointer">
+                    <Link href={`/profile/${review.user_name}`} className="relative z-10 flex items-center hover:text-green-400 cursor-pointer">
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
                             <img src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="User avatar" />
                         </div>
@@ -37,7 +36,7 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                         </p>
                     </div>
 
-                    <div className="absolute right-0 mt-1 flex items-center space-x-2 text-sm">
+                    <div className="absolute right-0 z-10 mt-1 flex items-center space-x-2 text-sm">
                         {/* Review actions button */}
                         {review.user_id === userId &&
                             <div data-review-button={review.review_id} onClick={() => handleReviewActions(review.review_id)}>
@@ -81,9 +80,13 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                     {formatter.format(review.review_date)}
                 </span>
             </div>
-            <div className="max-h-64 overflow-hidden no-scrollbar py-2">
+            {/* pt-2 instead of py-2: space-y-2 already adds the bottom margin now that this is not the last child */}
+            <div className="max-h-64 overflow-hidden no-scrollbar pt-2">
                 <p>{review.body}</p>
             </div>
+
+            {/* Covers the whole card to open the review page. The profile link and the actions have z-10 to stay clickable */}
+            <Link href={`/review/${review.review_id}`} className="absolute inset-0 rounded-lg" aria-label={`Open ${review.user_name}'s review`} />
         </div>
     )
 }
