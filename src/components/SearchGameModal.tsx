@@ -27,8 +27,6 @@ export default function SearchGameModal({ listId }: { listId: string }) {
         updateList(listId, gamesAdded)
     }
 
-    const labelClass = "text-xs font-medium uppercase tracking-wider text-zinc-400"
-
     return (
         <div className="relative w-full h-full sm:h-160 md:h-180 flex flex-col sm:border border-white/15 sm:rounded-2xl bg-zinc-950 text-white shadow-2xl">
 
@@ -54,7 +52,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
                     {/* Games added */}
                     <div className="flex items-center gap-2 pt-4 mb-3 border-t border-white/10">
-                        <p className={labelClass}>Games added</p>
+                        <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Games added</p>
                         <span className={`min-w-6 h-6 px-2 flex items-center justify-center rounded-full text-xs font-semibold transition
                             ${gamesAdded.length > 0 ? "bg-green-500/20 text-green-400" : "bg-white/5 text-zinc-400"}`}>
                             {gamesAdded.length}
@@ -74,7 +72,7 @@ export default function SearchGameModal({ listId }: { listId: string }) {
 
                     <div className="flex-1 min-h-0 no-scrollbar overflow-y-auto grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-7 content-start gap-3 sm:gap-4 py-2">
                         {gamesAdded.map((game: GameIGDB) => (
-                            <div key={game.id}className="group relative aspect-3/4 rounded-xl overflow-hidden ring-1 ring-white/10 shadow-lg animate-element-appear">
+                            <div key={game.id} className="group relative aspect-3/4 rounded-xl overflow-hidden ring-1 ring-white/10 shadow-lg animate-element-appear">
                                 <img src={game.cover.image_id ? `https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.png` : ""}
                                 className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-hover:brightness-50"
                                 alt="Game cover"/>

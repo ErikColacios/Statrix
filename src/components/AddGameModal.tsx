@@ -140,6 +140,8 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
 
     function handleStatusChange(status: GameStatus) {
         setSelectedStatus(status)
+        // The year completed is hidden when the status is not completed, so its dropdown can't stay open
+        if (status !== GameStatus.COMPLETED) setShowDropdownYear(false)
 
         switch (status) {
             case GameStatus.PLAYING:
@@ -174,7 +176,8 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
             score: Number(score),
             hours_played: hoursPlayed,
             status: selectedStatus,
-            year_completed: yearCompleted
+            // Only completed games have a year completed. The state is kept, so it comes back if the user selects completed again
+            year_completed: selectedStatus === GameStatus.COMPLETED ? yearCompleted : "-"
         }
         if (gameId) {
             const response = await updateUserVideogame(userGameUpdated)
@@ -270,7 +273,8 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
                                         <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className="h-10 w-full rounded-lg px-3 bg-white/5 border border-white/10 outline-hidden transition focus:border-green-500 focus:bg-white/10" min={0}
                                             value={hoursPlayed ? hoursPlayed : 0} />
                                     </div>
-                                    <div className="relative flex flex-col gap-2">
+                                    {selectedStatus === GameStatus.COMPLETED &&
+                                    <div className="relative flex flex-col gap-2 animate-element-appear">
                                         <p className={labelClass}>Year completed</p>
                                         <button onClick={() => setShowDropdownYear(!showDropdownYear)}
                                             className={`h-10 w-full flex items-center justify-between rounded-lg px-3 bg-white/5 border outline-hidden transition hover:bg-white/10 ${showDropdownYear ? "border-green-500" : "border-white/10"}`}>
@@ -288,7 +292,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
                                                 ))}
                                             </div>
                                         }
-                                    </div>
+                                    </div>}
                                 </div>
 
                                 {/* Status */}

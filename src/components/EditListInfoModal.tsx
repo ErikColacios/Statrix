@@ -1,15 +1,14 @@
 'use client'
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from 'radix-ui';
 import { getListInfo } from '@/actions/getListInfo';
-import { useSession } from 'next-auth/react';
 import updateListInfo from '@/actions/updateListInfo';
 import { useRouter } from "next/navigation";
 import { ListMode } from '@/enums/ListMode';
 import { DragDropProvider } from '@dnd-kit/react'
 import { isSortable } from '@dnd-kit/react/sortable'
 import SortableItem from './SortableItem'
+import ListInfoFields from './ListInfoFields'
 import { Game } from '@/types/Game'
 
 type Props = {
@@ -21,13 +20,14 @@ type Props = {
     setToastMessage: any
 };
 
-
 export default function EditListInfoModal({ listId, listContent, setListContent, timerRef, setOpenToast, setToastMessage }: Props) {
 
     const router = useRouter()
-    const session: any = useSession();
-    const [listInfo, setListInfo] = useState<any>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isSaving, setIsSaving] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
+    const [listName, setListName] = useState<string>("")
+    const [listDescription, setListDescription] = useState<string>("")
     const [selectedVisibility, setSelectedVisibility] = useState<string>("");
     const [selectedMode, setSelectedMode] = useState<ListMode>(ListMode.UNRANKED)
     const [isFeatured, setIsFeatured] = useState<boolean>(false);
@@ -35,27 +35,27 @@ export default function EditListInfoModal({ listId, listContent, setListContent,
     useEffect(() => {
         const fetchListInfo = async () => {
             const res = await getListInfo(listId)
-            setListInfo(res[0])
+            setListName(res[0].list_name ?? "")
+            setListDescription(res[0].list_description ?? "")
             setSelectedVisibility(res[0].list_visibility)
             setIsFeatured(res[0].list_featured)
             setSelectedMode(res[0].list_mode)
+            setIsLoading(false)
         }
 
         fetchListInfo()
     }, [])
 
     async function saveChanges() {
+        if (listName.trim() === '') {
+            setError('The list name cannot be empty')
+            return
+        }
+
         try {
-            const listNameElement: HTMLInputElement = document.getElementById('listName') as HTMLInputElement
-            const listDescriptionElement: HTMLInputElement = document.getElementById('listDescription') as HTMLInputElement
-            const listName: string = listNameElement.value
-            const listDescription: string = listDescriptionElement.value
-
-            if (listName === '') {
-                throw new Error('The list name cannot be empty')
-            }
-
-            await updateListInfo(listId, listName, listDescription, selectedVisibility, isFeatured, selectedMode, listContent)
+            setError(null)
+            setIsSaving(true)
+            await updateListInfo(listId, listName.trim(), listDescription, selectedVisibility, isFeatured, selectedMode, listContent)
             router.refresh()
 
             // Trigger Toast
@@ -76,110 +76,96 @@ export default function EditListInfoModal({ listId, listContent, setListContent,
             document.dispatchEvent(escEvent);
         } catch (error: any) {
             setError(error.message)
+        } finally {
+            setIsSaving(false)
         }
     }
 
     return (
-        <div className="relative w-full overflow-scroll no-scrollbar h-full sm:h-[85vh] flex flex-col justify-center text-white sm:border sm:border-gray-600 px-4 py-10 md:px-10 sm:rounded-2xl bg-black/60 backdrop-blur-lg">
-            <Dialog.Close className="z-10 absolute right-5 top-20 sm:right-10 sm:top-10 p-2 rounded-sm transition hover:bg-gray-800">
-                <svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>close [#ffffff]</title><g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="close-[#ffffff]" points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"> </polygon> </g> </g> </g> </g></svg>
-            </Dialog.Close>
-            <div className="absolute inset-0 w-full flex flex-col text-sm p-4 md:p-8">
-                <h3 className="text-3xl mt-14 sm:mt-0 py-4">Edit list info</h3>
+        <div className="relative w-full h-full sm:h-[85vh] flex flex-col sm:border border-white/15 sm:rounded-2xl bg-zinc-950 text-white shadow-2xl">
 
-                <div className='ml-auto flex items-center space-x-6'>
-                    {error && <div className="text-red-500">{error}</div>}
-                    <button onClick={saveChanges} className="px-4 py-1 rounded-sm bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">
-                        Save changes
-                    </button>
-                </div>
-                
-                <div className="flex flex-col">
-                    <p className="text-sm text-gray-400">List name *</p>
-                    <input type="text" name="listName" id="listName" className='rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-600'
-                        defaultValue={listInfo.list_name} />
-                </div>
-
-
-                <p className="text-sm text-gray-400 mt-4">List description</p>
-                <div className='w-full'>
-                    <textarea rows={5} name="listDescription" id='listDescription' maxLength={250} className="w-full rounded-sm p-1 bg-gray-800 outline-hidden border border-gray-700 focus:border-green-700 resize-none"
-                        defaultValue={listInfo.list_description} />
-                </div>
-
-                <div className='w-full flex items-center space-x-2 text-sm text-gray-400 mt-4'>
-                    <label>Featured list</label>
-                    <input type="checkbox" name="listFeatured" id="listFeatured" className="accent-green-500" checked={isFeatured}  onChange={(e) => setIsFeatured(e.target.checked)} />
-                </div>
-               
-
-                <p className='text-gray-400 mt-4'>Visibility</p>
-                <section className='flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0 text-xl'>
-                    <button onClick={() => setSelectedVisibility("public")}
-                        className={`${selectedVisibility === "public" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
-                        <img src="/staticImages/icon_world.png" alt="Public icon" className='w-5 mb-1'/>
-                        <p className="text-xl font-bold">Public</p>
-                        <p className="text-sm text-gray-500 mt-1">Visible for anyone</p>
-                    </button>
-                    <button onClick={() => setSelectedVisibility("friends-only")}
-                        className={`${selectedVisibility === "friends-only" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
-                        <img src="/staticImages/icon_friends.png" alt="Friends icon" className='w-5 mb-1'/>
-                        <p className="text-xl font-bold">Friends only</p>
-                        <p className="text-sm text-gray-500 mt-1">Only your friends can see it</p>
-                    </button>
-                    <button onClick={() => setSelectedVisibility("private")}
-                        className={`${selectedVisibility === "private" ? "bg-green-600/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center sm:w-48 border rounded-xl p-4 transition hover:border-green-600`}>
-                        <img src="/staticImages/icon_locked.png" alt="Private icon" className='w-5 mb-1'/>
-                        <p className="text-xl font-bold">Private</p>
-                        <p className="text-sm text-gray-500 mt-1">Only you can access this list</p>
-                    </button>
-                </section>
-                
-                <p className='text-gray-400 mt-4'>Mode</p>
-                <section className='flex space-x-2 text-xl mb-4'>
-                    <button onClick={() => setSelectedMode(ListMode.UNRANKED)} 
-                        className={`${selectedMode === ListMode.UNRANKED ? "bg-green-500/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
-                        <img src="/staticImages/icon_unordered-list.png" alt="Cup icon" className='w-5 mb-1'/>
-                        <p className="text-xl font-bold">Unranked</p>
-                        <p className="text-sm text-gray-500 mt-1">Unordered list</p>
-                    </button>
-                    <button onClick={() => setSelectedMode(ListMode.RANKED)} 
-                        className={`${selectedMode === ListMode.RANKED ? "bg-green-500/20 border-green-600" : "bg-white/[0.03] border-white/10"} flex flex-col items-center w-48 border rounded-xl p-4 transition hover:border-green-600`}>
-                        <img src="/staticImages/icon_cup.png" alt="Cup icon" className='w-4 mb-1'/>
-                        <p className="text-xl font-bold">Ranked</p>
-                        <p className="text-sm text-gray-500 mt-1">Ranked list</p>
-                    </button>
-                </section>
-
-                {selectedMode !== ListMode.UNRANKED && <p className='ml-auto mb-1 text-gray-500 text-sm'>Drag and drop to order the games</p>}
-
-                {/* Games */}
-                <section className={`grid gap-4 grid-cols-3 sm:grid-cols-5 pb-4`}>
-                    <DragDropProvider onDragEnd={event => {
-                            if(selectedMode === ListMode.UNRANKED) return
-                            if (event.canceled) return;
-                            const { source } = event.operation
-                        
-                            if (isSortable(source)) {
-                                const { initialIndex, index } = source
-
-                                if (initialIndex !== index) {
-                                    setListContent((game:any) => {
-                                        const newItems = [...game]
-                                        const [removed] = newItems.splice(initialIndex, 1)
-                                        newItems.splice(index, 0, removed)
-                                        return newItems
-                                    })
-                                }
-                            }
-                        }}>
-                        {/* List content */}
-                        {listContent.map((game: Game, index: number) => (
-                            <SortableItem key={game.game_id} id={game.game_id} index={index} imageId={game.game_image_id} listMode={selectedMode} disabled={selectedMode === ListMode.UNRANKED}/>
-                        ))}
-                    </DragDropProvider>
-                </section>
+            {/* Subtle green glow backdrop */}
+            <div className="absolute inset-0 overflow-hidden sm:rounded-2xl pointer-events-none" aria-hidden="true">
+                <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-green-600/15 blur-3xl" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent to-zinc-950/60" />
             </div>
+
+            <Dialog.Close aria-label="Close" className="absolute z-10 right-4 top-15 sm:top-4 p-2 rounded-full text-zinc-400 transition hover:text-white hover:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            </Dialog.Close>
+
+            {/* Header */}
+            <div className="relative px-4 pt-24 sm:p-8 sm:pb-4 md:px-10 sm:pr-16">
+                <p className="text-2xl md:text-3xl font-bold leading-tight">Edit list info</p>
+                <p className="text-sm text-zinc-400 mt-1">Change the name, who can see the list and how the games are ordered.</p>
+            </div>
+
+            {isLoading ? (
+                <div className="relative flex flex-1 items-center justify-center">
+                    <div className="loader-small"></div>
+                </div>
+            ) : (
+                <>
+                    {/* Form, the only part that scrolls */}
+                    <div className="relative flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-6 px-4 py-4 sm:px-8 md:px-10 text-sm">
+
+                        <ListInfoFields
+                            listName={listName} setListName={(name) => { setListName(name); setError(null) }}
+                            listDescription={listDescription} setListDescription={setListDescription}
+                            isFeatured={isFeatured} setIsFeatured={setIsFeatured}
+                            visibility={selectedVisibility} setVisibility={setSelectedVisibility}
+                            mode={selectedMode} setMode={setSelectedMode}
+                            nameError={error} />
+
+                        {/* Games */}
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                                <p className="text-xs font-medium uppercase tracking-wider text-zinc-400">Games</p>
+                                <span className="min-w-6 h-6 px-2 flex items-center justify-center rounded-full text-xs font-semibold bg-white/5 text-zinc-400">{listContent.length}</span>
+                                {selectedMode === ListMode.RANKED && <p className="ml-auto text-xs text-zinc-500">Drag and drop to order the games</p>}
+                            </div>
+
+                            <section className="grid gap-3 sm:gap-4 grid-cols-3 sm:grid-cols-5">
+                                <DragDropProvider onDragEnd={event => {
+                                        if(selectedMode === ListMode.UNRANKED) return
+                                        if (event.canceled) return;
+                                        const { source } = event.operation
+
+                                        if (isSortable(source)) {
+                                            const { initialIndex, index } = source
+
+                                            if (initialIndex !== index) {
+                                                setListContent((game:any) => {
+                                                    const newItems = [...game]
+                                                    const [removed] = newItems.splice(initialIndex, 1)
+                                                    newItems.splice(index, 0, removed)
+                                                    return newItems
+                                                })
+                                            }
+                                        }
+                                    }}>
+                                    {/* List content */}
+                                    {listContent.map((game: Game, index: number) => (
+                                        <SortableItem key={game.game_id} id={game.game_id} index={index} imageId={game.game_image_id} listMode={selectedMode} disabled={selectedMode === ListMode.UNRANKED}/>
+                                    ))}
+                                </DragDropProvider>
+                            </section>
+                        </div>
+                    </div>
+
+                    {/* Footer, always visible */}
+                    <div className="relative flex items-center justify-end gap-3 px-4 py-4 sm:px-8 md:px-10 border-t border-white/10">
+                        <Dialog.Close className="h-10 px-4 rounded-xl text-sm text-zinc-300 transition hover:bg-white/10 hover:text-white">
+                            Cancel
+                        </Dialog.Close>
+                        <button onClick={saveChanges} disabled={isSaving}
+                            className="flex items-center h-10 px-5 rounded-xl text-sm font-semibold bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 shadow-lg shadow-green-900/40 transition duration-300 disabled:opacity-60">
+                            <img src="/staticImages/icon_confirmation.png" alt="Confirmation icon" className="w-3 mr-2" />
+                            {isSaving ? "Saving..." : "Save changes"}
+                        </button>
+                    </div>
+                </>
+            )}
         </div>
     )
 }

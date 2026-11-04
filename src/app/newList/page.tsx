@@ -41,6 +41,10 @@ export default function NewList() {
 
   const [nextSlide, setNextSlide] = useState<number>(0)
 
+  // They live here and not in EditListInfo, so they keep their value when the user goes back to the first step
+  const [listName, setListName] = useState<string>("")
+  const [listDescription, setListDescription] = useState<string>("")
+
   // Toast state
   const timerRef = useRef(0)
   const [openToast, setOpenToast] = useState(false)
@@ -167,7 +171,8 @@ export default function NewList() {
     }
 
   // When clicking the 'Next' button, we change the window to 'Edit list info'
-  if (nextSlide === 1) return (<EditListInfo setNextSlide={setNextSlide} gameList={gameList} setGameList={setGameList} />)
+  if (nextSlide === 1) return (<EditListInfo setNextSlide={setNextSlide} gameList={gameList} setGameList={setGameList}
+    listName={listName} setListName={setListName} listDescription={listDescription} setListDescription={setListDescription} />)
 
   if (nextSlide === 0)
     return (
