@@ -72,7 +72,7 @@ export default function Notifications({ userId, notificationCount }: Props) {
             </button>
 
             {dropdown &&
-                <div className="absolute inset-x-0 md:inset-x-auto md:right-0 top-full mt-2 md:mt-3 md:w-80 max-h-96 overflow-y-auto no-scrollbar flex flex-col gap-2 rounded-2xl border border-white/10 bg-zinc-950/95 p-2 text-sm text-zinc-200 shadow-2xl animate-element-appear">
+                <div className="absolute inset-x-3 md:inset-x-auto md:right-0 top-full mt-2 md:mt-3 md:w-80 max-h-96 overflow-y-auto no-scrollbar flex flex-col gap-2 rounded-2xl border border-white/10 bg-zinc-950/95 p-2 text-sm text-zinc-200 shadow-2xl animate-element-appear">
                     <p className="px-2 pt-1 font-semibold text-white">Notifications</p>
                     {notifications.map((notification: any, index: number) => (
                         <div key={index} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-2">

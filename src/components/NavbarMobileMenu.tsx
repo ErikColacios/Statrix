@@ -51,9 +51,9 @@ export default function NavbarMobileMenu({ user }: Props) {
                     : <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>}
             </button>
 
-            {/* Positioned against the navbar (nav is relative), so it takes its whole width */}
+            {/* Positioned against the navbar (nav is relative), so it takes its whole width minus a small margin */}
             {open &&
-                <div className="absolute inset-x-0 top-full mt-2 max-h-[calc(100dvh-6rem)] overflow-y-auto no-scrollbar rounded-2xl border border-white/10 bg-zinc-950/95 p-2 text-sm shadow-2xl animate-element-appear">
+                <div className="absolute inset-x-3 top-full mt-2 max-h-[calc(100dvh-6rem)] overflow-y-auto no-scrollbar rounded-2xl border border-white/10 bg-zinc-950/95 p-2 text-sm shadow-2xl animate-element-appear">
                     {user &&
                         <>
                             <Link href={`/profile/${user.userName}`} className="flex items-center gap-3 rounded-xl p-2 transition hover:bg-white/5">

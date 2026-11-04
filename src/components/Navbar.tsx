@@ -30,10 +30,9 @@ export default async function Navbar() {
         : null
 
     return (
-        <header className="pointer-events-none fixed inset-x-0 top-0 z-99 px-3 pt-3 sm:px-4 md:p-0">
-            {/* Floating bar on mobile, full width bar attached to the top on desktop. It is relative so the dropdowns can be positioned against it */}
-            <nav className="pointer-events-auto relative mx-auto flex h-14 max-w-6xl items-center gap-2 rounded-2xl border border-white/10 bg-zinc-950/70 pl-4 pr-2 text-sm text-white shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl
-                md:h-16 md:max-w-none md:rounded-none md:border-x-0 md:border-t-0 md:px-8 md:shadow-none lg:px-16">
+        <header className="fixed inset-x-0 top-0 z-99">
+            {/* Full width bar attached to the top. It is relative so the dropdowns can be positioned against it */}
+            <nav className="relative flex h-16 items-center gap-2 border-b border-white/10 bg-zinc-950/70 pl-4 pr-2 text-sm text-white backdrop-blur-xl md:px-8 lg:px-16">
                 <Link href="/" className="shrink-0">
                     <img src="/logos/st2_white.png" className="hidden h-7 w-auto sm:block" alt="Statrix Logo" />
                     <img src="/logos/st1_white.png" className="h-8 w-auto sm:hidden" alt="Statrix Logo small" />
