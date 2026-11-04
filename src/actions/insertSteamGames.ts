@@ -7,7 +7,7 @@ import { GameStatus } from "@/enums/GameStatus";
 
 export default async function insertSteamGames(steamGame: any) {
   const session: any = await getSessionUser();
-  const userId: string = session.user.id as string;
+  const userId: string = session?.user?.id as string;
   let notFoundGame: boolean = false;
 
   if (!userId) {

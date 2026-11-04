@@ -78,7 +78,7 @@ export default async function Profile({ params }: { params: { userName: string }
     userTotalReviews = await getUserTotalReviews(params.userName)
     userReviews = await getUserGameReviews(params.userName)
     favouriteGames = await getUserFavouriteGames(params.userName)
-    userActivity = (await getUserActivity(params.userName)).slice(0, 5)
+    userActivity = await getUserActivity(params.userName, 5)
     userLists = (await getListsUser(userInfo[0].user_id, true)).slice(0, 3) // We show only the top 3 featured lists
 
     return (

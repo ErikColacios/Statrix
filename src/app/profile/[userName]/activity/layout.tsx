@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Activity - Statrix',
-  description: 'See all the activity from your friends and the games you follow'
+  description: 'All the recent activity of a Statrix player'
 }
 
 export default async function ActivityLayout({ children }: { children: React.ReactNode }) {
@@ -23,7 +23,7 @@ export default async function ActivityLayout({ children }: { children: React.Rea
   }
 
   return (
-    <section className="flex justify-center text-white min-h-screen bg-linear-to-b from-black via-gray-900 to-black min-h-screen">
+    <section className="flex justify-center text-white min-h-screen bg-black">
       {children}
     </section>
   )
