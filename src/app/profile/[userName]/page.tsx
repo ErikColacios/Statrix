@@ -133,23 +133,23 @@ export default async function Profile({ params }: { params: { userName: string }
                                     <div className="flex flex-wrap items-center gap-2">
                                         {user.user_webpage &&
                                             <a href={"https://" + user.user_webpage} target="_blank" rel="noopener noreferrer"
-                                                className="flex min-w-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 transition hover:border-green-500/60 hover:text-green-400">
+                                                className="flex min-w-0 items-center gap-1.5 rounded-full bg-white/5 px-3 py-1 transition hover:bg-white/10 hover:text-green-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
                                                 <span className="truncate">{user.user_webpage}</span>
                                             </a>}
                                         {user.user_steam_url &&
                                             <a href={user.user_steam_url} target="_blank" rel="noopener noreferrer" aria-label="Steam"
-                                                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:border-green-500/60">
+                                                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 transition hover:bg-white/10">
                                                 <img src="/staticImages/icon_steam.png" alt="Steam icon" className="h-4 w-4" />
                                             </a>}
                                         {user.user_x &&
                                             <a href={user.user_x} target="_blank" rel="noopener noreferrer" aria-label="X"
-                                                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:border-green-500/60">
+                                                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 transition hover:bg-white/10">
                                                 <img src="/staticImages/icon_x.png" alt="X icon" className="h-4 w-4" />
                                             </a>}
                                         {user.user_twitch &&
                                             <a href={user.user_twitch} target="_blank" rel="noopener noreferrer" aria-label="Twitch"
-                                                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:border-green-500/60">
+                                                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 transition hover:bg-white/10">
                                                 <img src="/staticImages/icon_twitch.png" alt="Twitch icon" className="h-4 w-4" />
                                             </a>}
                                     </div>}
@@ -157,16 +157,16 @@ export default async function Profile({ params }: { params: { userName: string }
                                 {/* Numbers */}
                                 <div className="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
                                     <div>
-                                        <p className="text-xs font-medium text-zinc-400">Friends</p>
-                                        <p className="mt-1 font-semibold leading-tight">{user.friends}</p>
+                                        <p className="text-sm text-zinc-400">Friends</p>
+                                        <p className="mt-1 leading-tight">{user.friends}</p>
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium text-zinc-400">Lists</p>
-                                        <p className="mt-1 font-semibold leading-tight">{user.user_lists}</p>
+                                        <p className="text-sm text-zinc-400">Lists</p>
+                                        <p className="mt-1 leading-tight">{user.user_lists}</p>
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium text-zinc-400">Reviews</p>
-                                        <p className="mt-1 font-semibold leading-tight">{userTotalReviews}</p>
+                                        <p className="text-sm text-zinc-400">Reviews</p>
+                                        <p className="mt-1 leading-tight">{userTotalReviews}</p>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ export default async function Profile({ params }: { params: { userName: string }
                         {/* All games - widget */}
                         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-lg flex flex-col justify-between p-4">
                             <p className="text-sm text-zinc-400">All games</p>
-                            <p className="mt-2 text-5xl font-semibold">{userGameStats.gamesAll}</p>
+                            <p className="mt-2 text-5xl sm:text-6xl font-bold">{userGameStats.gamesAll}</p>
                         </div>
 
                         {/* Most played game - widget */}
@@ -220,14 +220,14 @@ export default async function Profile({ params }: { params: { userName: string }
                         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-lg flex flex-col justify-between p-4">
                             <div aria-hidden="true" className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/15 blur-2xl" />
                             <p className="text-sm text-zinc-400">Playing</p>
-                            <p className="mt-2 text-5xl font-semibold text-blue-400">{userGameStats.gamesPlaying}</p>
+                            <p className="mt-2 text-5xl sm:text-6xl font-bold text-blue-400">{userGameStats.gamesPlaying}</p>
                         </div>
 
                         {/* Completed games - widget */}
                         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-lg flex flex-col justify-between p-4">
                             <div aria-hidden="true" className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-green-500/15 blur-2xl" />
                             <p className="text-sm text-zinc-400">Completed</p>
-                            <p className="mt-2 text-5xl font-semibold text-green-400">{userGameStats.gamesCompleted}</p>
+                            <p className="mt-2 text-5xl sm:text-6xl font-bold text-green-400">{userGameStats.gamesCompleted}</p>
                         </div>
                     </div>
 
