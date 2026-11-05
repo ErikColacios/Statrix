@@ -58,7 +58,7 @@ export default async function Navbar() {
                             <Link href="/login" className="flex h-9 items-center rounded-lg px-3 font-medium text-zinc-300 transition hover:bg-white/5 hover:text-white">
                                 Log in
                             </Link>
-                            <Link href="/signup" className="flex h-9 items-center rounded-lg bg-linear-to-r from-green-500 to-lime-500 px-4 font-semibold transition duration-300 hover:from-green-500 hover:to-lime-600">
+                            <Link href="/signup" className="flex h-9 items-center rounded-lg bg-linear-to-r from-green-500 to-lime-500 px-4 transition duration-300 hover:from-green-500 hover:to-lime-600">
                                 Sign up
                             </Link>
                         </div>}

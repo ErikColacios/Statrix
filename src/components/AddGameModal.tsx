@@ -29,7 +29,8 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
     const [userGameInfo, setUserGameInfo] = useState<UserGame>()
     const [selectedStatus, setSelectedStatus] = useState<GameStatus>()
     const [starred, setStarred] = useState<boolean>(false)
-    const [hoursPlayed, setHoursPlayed] = useState<number | undefined>()
+    // Kept as the input text, so it can be empty while typing. It is converted to a number when saving
+    const [hoursPlayed, setHoursPlayed] = useState<string>("")
     const [yearCompleted, setYearCompleted] = useState<string>("-")
     const [score, setScore] = useState<number>(0)
     const [scoreColor, setScoreColor] = useState<string>("NS")
@@ -97,7 +98,8 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
             setScore(userGameInfo?.score)
             setSelectedStatus(userGameInfo?.status)
             setStarred(userGameInfo?.favourite)
-            setHoursPlayed(userGameInfo?.hours_played)
+            // 0 hours shows the field empty (with the 0 placeholder), so the user can type directly
+            setHoursPlayed(userGameInfo?.hours_played ? String(userGameInfo.hours_played) : "")
             setYearCompleted(userGameInfo?.year_completed)
         }
     }, [userGameInfo])
@@ -124,17 +126,10 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
     }
 
     function handleHoursPlayedChange(e: React.ChangeEvent<HTMLInputElement>) {
-        if (e.target.value !== "") {
-            const valueHoursPlayed = parseFloat(e.target.value)
-            if (valueHoursPlayed < 0) {
-                setHoursPlayed(0)
-            } else if (valueHoursPlayed > 100000) {
-                setHoursPlayed(undefined)
-            } else {
-                setHoursPlayed(valueHoursPlayed);
-            }
-        } else {
-            setHoursPlayed(0)
+        const value = e.target.value
+        // Empty is allowed (it is saved as 0). Negative or too big values are ignored
+        if (value === "" || (Number(value) >= 0 && Number(value) <= 100000)) {
+            setHoursPlayed(value)
         }
     }
 
@@ -174,7 +169,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
             game_base_image: `https://images.igdb.com/igdb/image/upload/t_720p/${imageId}.png`,
             favourite: starred,
             score: Number(score),
-            hours_played: hoursPlayed,
+            hours_played: hoursPlayed === "" ? 0 : parseFloat(hoursPlayed),
             status: selectedStatus,
             // Only completed games have a year completed. The state is kept, so it comes back if the user selects completed again
             year_completed: selectedStatus === GameStatus.COMPLETED ? yearCompleted : "-"
@@ -271,7 +266,7 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
                                     <div className="flex flex-col gap-2">
                                         <label htmlFor="hoursPlayed" className={labelClass}>Hours played</label>
                                         <input type="number" id={'hoursPlayed'} onChange={handleHoursPlayedChange} className="h-10 w-full rounded-lg px-3 bg-white/5 border border-white/10 outline-hidden transition focus:border-green-500 focus:bg-white/10" min={0}
-                                            value={hoursPlayed ? hoursPlayed : 0} />
+                                            inputMode="decimal" placeholder="0" value={hoursPlayed} />
                                     </div>
                                     {selectedStatus === GameStatus.COMPLETED &&
                                     <div className="relative flex flex-col gap-2 animate-element-appear">

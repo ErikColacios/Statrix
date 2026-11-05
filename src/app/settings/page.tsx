@@ -52,8 +52,8 @@ export default function Settings() {
     // Check that the image is jpeg, png or webp
     function validateImage(file: File | undefined) {
         if (!file) return false
-        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size >= 1500000) {
-            console.log("Image must be JPG, PNG or WebP and smaller than 1.5 MB")
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size >= 2000000) {
+            console.log("Image must be JPG, PNG or WebP and smaller than 2 MB")
             
             return false
         }
@@ -67,7 +67,7 @@ export default function Settings() {
         } else {
             window.clearTimeout(timerRef.current)
             timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
-            state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
+            state.error = "Image must be JPG, PNG or WebP and smaller than 2 MB"
             const avatarFile = document.getElementById("avatarFile") as HTMLInputElement
             avatarFile.value = ""
         }
@@ -80,7 +80,7 @@ export default function Settings() {
         } else {
             window.clearTimeout(timerRef.current)
             timerRef.current = window.setTimeout(() => { setOpen(true) }, 100)
-            state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
+            state.error = "Image must be JPG, PNG or WebP and smaller than 2 MB"
             const bannerFile = document.getElementById("bannerFile") as HTMLInputElement
             bannerFile.value = ""
         }

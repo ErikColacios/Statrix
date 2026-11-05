@@ -32,7 +32,7 @@ export default function LogIn() {
         }
         
         if (response?.ok) {
-            router.push("/community")
+            router.push("/")
             router.refresh()
         }
     }

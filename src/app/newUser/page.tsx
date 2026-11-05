@@ -21,8 +21,8 @@ export default function NewUser() {
 
     function validateImage(file: File | undefined) {
         if (!file) return false
-        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size >= 1500000) {
-            console.log("Image must be JPG, PNG or WebP and smaller than 1.5 MB")
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size >= 2000000) {
+            console.log("Image must be JPG, PNG or WebP and smaller than 2 MB")
             return false
         }
         return true
@@ -33,7 +33,7 @@ export default function NewUser() {
         if (validateImage(file)){
             setSelectedAvatar(file)
         } else {
-            state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
+            state.error = "Image must be JPG, PNG or WebP and smaller than 2 MB"
             const avatarFile = document.getElementById("avatarFile") as HTMLInputElement
             avatarFile.value = ""
         }
@@ -44,7 +44,7 @@ export default function NewUser() {
         if (validateImage(file)){
             setSelectedBanner(file)
         } else {
-            state.error = "Image must be JPG, PNG or WebP and smaller than 1.5 MB"
+            state.error = "Image must be JPG, PNG or WebP and smaller than 2 MB"
             const bannerFile = document.getElementById("bannerFile") as HTMLInputElement
             bannerFile.value = ""
         }
@@ -146,7 +146,7 @@ export default function NewUser() {
                         {state?.error && <div role="alert" className="flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-300">{state.error}</div>}
 
                         <div className="flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                            <p className="text-xs leading-5 text-zinc-500">JPG, PNG or WebP · Max. 1.5 MB per image</p>
+                            <p className="text-xs leading-5 text-zinc-500">JPG, PNG or WebP · Max. 2 MB per image</p>
                             <button type="submit" className="text-sm text-white px-4 py-2 rounded-lg bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Create profile</button>
                         </div>
                     </div>
