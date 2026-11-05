@@ -44,12 +44,18 @@ export default function NavbarMobileMenu({ user }: Props) {
 
     return (
         <div ref={menuRef}>
-            <button onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-white/5 hover:text-white">
-                {open
-                    ? <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                    : <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>}
-            </button>
+            {/* Logged users open the menu with their avatar, like the desktop profile button. The rest with the burger icon */}
+            {user
+                ? <button onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}
+                    className="ml-1 flex items-center rounded-full p-0.5 transition hover:bg-white/10">
+                    <img src={user.avatarImage} className={`h-8 w-8 rounded-full object-cover ring-2 transition ${open ? "ring-green-500" : "ring-white/10"}`} alt="Avatar image" />
+                </button>
+                : <button onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-300 transition hover:bg-white/5 hover:text-white">
+                    {open
+                        ? <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                        : <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>}
+                </button>}
 
             {/* Positioned against the navbar (nav is relative), so it takes its whole width minus a small margin */}
             {open &&
