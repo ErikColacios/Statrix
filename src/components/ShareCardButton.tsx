@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react";
 import getUserShareCard from "@/actions/getUserShareCard";
+import HoloCard from "./HoloCard";
 
 type Props = {
     userName: string;
@@ -78,31 +79,40 @@ export default function ShareCardButton({ userName, className }: Props) {
             </button>
 
             {open && (
-                <dialog ref={dialogRef} onClose={closeModal} className="m-auto rounded-2xl bg-transparent backdrop:bg-black/60 backdrop:backdrop-blur-xs">
-                    <div className="flex flex-col items-center rounded-2xl border border-white/10 bg-zinc-900 text-white p-6 w-[90vw] max-w-sm">
-                        <div className="flex items-center w-full mb-4">
-                            <p className="text-2xl font-black">Your Statrix card</p>
-                            <button onClick={closeModal} className="ml-auto text-gray-400 hover:text-white text-2xl leading-none" aria-label="Close">×</button>
-                        </div>
+                // Full screen and transparent: only the card and the floating buttons are seen over the blurred backdrop
+                <dialog ref={dialogRef} onClose={closeModal}
+                    className="m-0 h-dvh max-h-none w-screen max-w-none overflow-visible bg-transparent p-0 text-white backdrop:bg-black/70 backdrop:backdrop-blur-sm">
 
-                        <div className="w-full aspect-[9/16] max-h-[60vh] flex items-center justify-center rounded-lg overflow-hidden bg-black/40">
-                            {previewUrl && <img src={previewUrl} alt="Statrix card preview" className="h-full w-full object-contain" />}
-                            {!previewUrl && !error && <div className="loader" />}
-                            {error && <p className="text-gray-400 px-4 text-center">Something went wrong generating your card. Try again later.</p>}
-                        </div>
-
-                        <p className="text-sm text-gray-400 mt-4 text-center">Share it on your Instagram or TikTok stories!</p>
-
-                        <div className="flex w-full space-x-3 mt-4">
-                            {canShareFile && (
-                                <button onClick={handleShare} className="flex-1 px-4 py-2 rounded-xl bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600 transition duration-300">Share</button>
-                            )}
-                            <button onClick={handleDownload} disabled={!previewUrl}
-                                className={`flex-1 px-4 py-2 rounded-xl transition duration-300 disabled:opacity-50 ${canShareFile ? "border border-green-500 text-green-400 hover:bg-green-900/30" : "bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600"}`}>
-                                Download
-                            </button>
-                        </div>
+                    {/* Clicking the empty space around the card closes it */}
+                    <div className="flex h-full w-full items-center justify-center px-4 pb-24 pt-16" onClick={(e) => { if (e.target === e.currentTarget) closeModal() }}>
+                        {previewUrl && <HoloCard src={previewUrl} alt="Statrix card preview" className="h-[72vh] max-h-[52rem] max-w-[90vw] aspect-[9/16]" />}
+                        {!previewUrl && !error && <div className="loader" />}
+                        {error && <p className="max-w-xs text-center text-gray-300">Something went wrong generating your card. Try again later.</p>}
                     </div>
+
+                    <button onClick={closeModal} aria-label="Close"
+                        className="fixed right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 text-zinc-300 backdrop-blur-xl transition hover:bg-white/10 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                    </button>
+
+                    {/* Floating buttons */}
+                    {previewUrl &&
+                        <div className="fixed inset-x-0 bottom-6 flex flex-col items-center gap-3 px-4 animate-element-appear">
+                            <p className="text-xs text-zinc-400">Move your mouse or finger over the card!</p>
+                            <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-zinc-950/80 p-2 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+                                {canShareFile && (
+                                    <button onClick={handleShare}
+                                        className="flex h-11 items-center rounded-xl bg-linear-to-r from-green-500 to-lime-500 px-6 font-semibold transition duration-300 hover:from-green-500 hover:to-lime-600">
+                                        Share
+                                    </button>
+                                )}
+                                <button onClick={handleDownload}
+                                    className={`flex h-11 items-center gap-2 rounded-xl px-6 font-semibold transition duration-300 ${canShareFile ? "text-zinc-200 hover:bg-white/10" : "bg-linear-to-r from-green-500 to-lime-500 hover:from-green-500 hover:to-lime-600"}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /><path d="M12 15V3" /></svg>
+                                    Download
+                                </button>
+                            </div>
+                        </div>}
                 </dialog>
             )}
         </>
