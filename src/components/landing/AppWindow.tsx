@@ -49,7 +49,7 @@ export default function AppWindow() {
                         ))}
                     </div>
 
-                    <p className="hidden md:block absolute right-4 rounded-md border border-edge bg-void/60 px-3 py-1 text-xs text-smoke">
+                    <p className="hidden md:block lg:hidden absolute right-4 rounded-md border border-edge bg-void/60 px-3 py-1 text-xs text-smoke">
                         {modes[active].url}
                     </p>
                 </div>

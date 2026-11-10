@@ -32,7 +32,7 @@ export default async function Navbar() {
     return (
         <header className="fixed inset-x-0 top-0 z-99">
             {/* Full width bar attached to the top. It is relative so the dropdowns can be positioned against it */}
-            <nav className="relative flex h-16 items-center gap-2 border-b border-white/10 bg-zinc-950/70 pl-4 pr-2 text-sm text-white backdrop-blur-xl md:px-8 lg:px-16">
+            <nav className="relative flex h-14 items-center gap-2 border-b border-white/10 bg-zinc-950/70 pl-4 pr-2 text-sm text-white backdrop-blur-xl md:px-8 lg:px-16">
                 <Link href="/" className="shrink-0">
                     <img src="/logos/st2_white.png" className="hidden h-7 w-auto sm:block" alt="Statrix Logo" />
                     <img src="/logos/st1_white.png" className="h-8 w-auto sm:hidden" alt="Statrix Logo small" />

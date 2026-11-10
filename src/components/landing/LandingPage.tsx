@@ -73,17 +73,11 @@ export default function LandingPage() {
     <main className="min-h-screen bg-void text-snow overflow-hidden">
 
       {/* HERO */}
-      <section className="relative isolate px-6 pt-32 pb-24 md:pt-40 lg:pb-32">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[url(/staticImages/background_hero.jpg)] bg-cover bg-top" />
-          <div className="absolute inset-0 bg-gradient-to-t from-void via-void/80 to-void/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(48%_42%_at_50%_62%,rgba(34,197,94,0.16),transparent_72%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(36%_32%_at_22%_14%,rgba(163,230,53,0.10),transparent_70%)]" />
-        </div>
-
-        <div className="mx-auto max-w-6xl">
+      <section className="relative isolate px-6 pt-32 pb-32 md:pt-40 md:pb-40 lg:pb-56">
+        {/* Text and app window side by side on desktop, stacked on smaller screens */}
+        <div className="mx-auto grid max-w-7xl items-center gap-16 md:gap-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <h1 className="text-display font-semibold text-balance headline-sheen">
+            <h1 className="text-display lg:text-[3.75rem] xl:text-display font-semibold text-balance headline-sheen">
               <span className="block">Every game.</span>
               <span className="block">One profile.</span>
             </h1>
@@ -107,8 +101,7 @@ export default function LandingPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 }}
-            className="relative mt-16 md:mt-20">
-            <div aria-hidden="true" className="absolute -inset-x-10 -inset-y-16 -z-10 animate-glow-pulse bg-[radial-gradient(50%_50%_at_50%_50%,rgba(34,197,94,0.18),transparent_70%)] motion-reduce:animate-none" />
+            className="relative">
             <AppWindow />
           </motion.div>
         </div>
