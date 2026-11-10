@@ -4,7 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { logInUser } from "@/actions/logInUser";
 import { JWT } from "next-auth/jwt";
 import { logInUserGoogle } from "@/actions/logInUserGoogle";
-import getUserInfo from "@/actions/getUserInfo";
+import getSessionUserInfo from "@/actions/getSessionUserInfo";
+import { pool } from "@/util/postgres";
 
 /**
  * This file controls the authentication process of the app, both for Google and for the credentials (username and password)
@@ -42,13 +43,19 @@ export const authOptions: AuthOptions = {
           }
         }
         else if (credentials?.trigger === "updateUser") {
-          userLoggingIn = await getUserInfo(credentials.userNameLogIn);
+          // Refreshes the session after changing the user name in Settings.
+          // It requires the current session and reads the user by its id: the user name sent by the client
+          // is NOT trusted, otherwise anyone could log in as any user without a password
+          userLoggingIn = await getSessionUserInfo();
 
-          if(userLoggingIn?.error) {
+          if (!userLoggingIn || userLoggingIn.length === 0) {
             // When returning null, next-auth will return an error
             return null;
           }
           user = { id: userLoggingIn[0].user_id, name: userLoggingIn[0].user_name }
+        }
+        else {
+          return null;
         }
 
         // If the user is successfully logged in, we create the session with the user data (userId and userName)
@@ -63,8 +70,12 @@ export const authOptions: AuthOptions = {
         token.id = user.id
         token.isNewUser = user.isNewUser
       }
-      if (trigger === "update" && session?.name) {
-          token.name = session.name;
+      if (trigger === "update" && token.id) {
+          // The new name is read from the database, the one sent by the client (session.name) is not trusted
+          const { rows } = await pool.query(`SELECT user_name FROM users WHERE user_id = $1`, [token.id]);
+          if (rows[0]?.user_name) {
+            token.name = rows[0].user_name;
+          }
           token.isNewUser = false; // If we are updating the user, it means that the user is no longer new
       }
      
@@ -80,9 +91,10 @@ export const authOptions: AuthOptions = {
 
       return session
     },
-    async signIn({ user, account }:any) {
+    async signIn({ user, account, profile }:any) {
       if (account?.provider === "google") {
-        let userResult = await logInUserGoogle(user.id, user.email)
+        // Google tells us if the email has been verified, needed to link it to an existing account with the same email
+        let userResult = await logInUserGoogle(user.id, user.email, profile?.email_verified === true)
         // If the Google login failed (DB error, etc.) we don't let the user in
         if (!userResult) {
           return false

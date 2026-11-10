@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 import crypto from "crypto"
 import insertResetPasswordToken from './insertResetPasswordToken';
 import getUserByEmail from './getUserByEmail';
+import normalizeEmail from '@/util/normalizeEmail';
 
 /**
  * Sends an email to the mail for reseting a user's password.
@@ -12,7 +13,8 @@ import getUserByEmail from './getUserByEmail';
  * @param email
  * @returns An error message, or undefined if everything went right
  */
-export async function sendEmailResetPassword(email:string) {
+export async function sendEmailResetPassword(emailInput:string) {
+  const email: string = normalizeEmail(emailInput)
   try {
 
     // No account with this email: we finish as if the email had been sent

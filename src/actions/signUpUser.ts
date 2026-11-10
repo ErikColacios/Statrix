@@ -3,15 +3,16 @@ import { v4 as uuid } from "uuid";
 import { pool } from '@/util/postgres'
 import bcrypt from "bcryptjs";
 import { sendEmailVerifyAccount } from './sendEmailVerifyAccount';
+import normalizeEmail from '@/util/normalizeEmail';
 
 export async function signUpUser(prevState:{ error: undefined | string} , formData: FormData) {
-    
+
     // First generates a random uuid for the new user
     const userId = uuid();
 
     // Gets the data from the form
-    const userName = formData.get("userNameSignUp") as string;
-    const userEmail = formData.get("emailSignUp") as string;
+    const userName = ((formData.get("userNameSignUp") as string) ?? "").trim();
+    const userEmail = normalizeEmail(formData.get("emailSignUp") as string);
     const userPasswordPlain = formData.get("passwordSignUp") as string;
     const userBio:string = "Welcome to my profile!"
     const userLocation:string = "No mans land"
@@ -21,8 +22,8 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
             return { error: "The user name must not contain whitespaces"};
         }
 
-        // Check if there is an account with this userName or email
-        const res = await pool.query(`SELECT user_id, user_name, user_password FROM users WHERE user_name = $1 OR user_email = $2`,
+        // Check if there is an account with this userName or email (ignoring upper and lower case)
+        const res = await pool.query(`SELECT user_id FROM users WHERE LOWER(user_name) = LOWER($1) OR LOWER(user_email) = $2`,
             [userName, userEmail])
 
         if (res.rows.length === 0) {
@@ -45,7 +46,12 @@ export async function signUpUser(prevState:{ error: undefined | string} , formDa
             return { error: "There is an existing account with this user name or email" };
         }
 
-    } catch (error){
-        return { error };
+    } catch (error: any){
+        // 23505 = unique violation: another sign up with the same email was saved at the same time
+        if (error?.code === "23505") {
+            return { error: "There is an existing account with this user name or email" };
+        }
+        console.error("Error signing up user:", error);
+        return { error: "Something went wrong. Try again later." };
     }
 }

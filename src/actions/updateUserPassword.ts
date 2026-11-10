@@ -31,7 +31,7 @@ export default async function updateUserPassword(newPassword: string, token: str
 
     // And now we update it
     await pool.query(
-      `UPDATE users SET user_password = $1 WHERE user_email = $2`,
+      `UPDATE users SET user_password = $1 WHERE LOWER(user_email) = LOWER($2)`,
       [hashedPassword, userEmail],
     );
 

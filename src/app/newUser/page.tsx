@@ -87,7 +87,8 @@ export default function NewUser() {
         if (userName.includes(" ")) return { error: "User name cannot contain white spaces" }
         if (!session.data?.user?.id) return { error: "Your session could not be verified. Please try again." }
 
-        const response = await updateUserName(formData, session.data.user.id)
+        // The server takes the user from the session, not from here
+        const response = await updateUserName(formData)
         if (response?.error) {
             return { error: response?.error }
         } else {
@@ -98,8 +99,8 @@ export default function NewUser() {
             await updateUserAvatar(formData)
             await updateUserBanner(formData)
 
-            // And update the session name
-            await session.update({ name: userName })
+            // And update the session name (the server reads the new name from the database)
+            await session.update({})
             router.push("/community")
             return { success: true }
         }

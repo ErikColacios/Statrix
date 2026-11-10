@@ -98,13 +98,43 @@ describe('signUpUser', () => {
         expect(result).toEqual({ error: 'There was a problem with the email verification.' })
     })
 
-    it('returns the error if the DB query fails', async () => {
-        const dbError = new Error('DB down')
-        mockQuery.mockRejectedValueOnce(dbError)
+    it('returns a generic error (not the internal one) if the DB query fails', async () => {
+        jest.spyOn(console, 'error').mockImplementation(() => {})
+        mockQuery.mockRejectedValueOnce(new Error('DB down'))
         const formData = createFormData('erik', 'erik@test.com', '123456')
 
         const result = await signUpUser(initialState, formData)
 
-        expect(result).toEqual({ error: dbError })
+        expect(result).toEqual({ error: 'Something went wrong. Try again later.' })
+    })
+
+    it('stores the email trimmed and in lowercase, and checks it ignoring upper and lower case', async () => {
+        mockQuery
+            .mockResolvedValueOnce({ rows: [] })
+            .mockResolvedValueOnce({})
+        mockHash.mockResolvedValueOnce('hashed-password')
+        mockSendEmail.mockResolvedValueOnce({ status: 200 })
+        const formData = createFormData('erik', '  Erik@Test.COM ', '123456')
+
+        await signUpUser(initialState, formData)
+
+        const [selectSql, selectParams] = mockQuery.mock.calls[0]
+        expect(selectSql).toContain('LOWER(user_email)')
+        expect(selectParams).toEqual(['erik', 'erik@test.com'])
+        expect(mockQuery.mock.calls[1][1][2]).toBe('erik@test.com')
+    })
+
+    it('returns the existing account error if another sign up saved the same email at the same time', async () => {
+        const uniqueViolation = Object.assign(new Error('duplicate key value violates unique constraint'), { code: '23505' })
+        mockQuery
+            .mockResolvedValueOnce({ rows: [] })      // SELECT: nothing yet
+            .mockRejectedValueOnce(uniqueViolation)   // INSERT: the other request was faster
+        mockHash.mockResolvedValueOnce('hashed-password')
+        const formData = createFormData('erik', 'erik@test.com', '123456')
+
+        const result = await signUpUser(initialState, formData)
+
+        expect(result).toEqual({ error: 'There is an existing account with this user name or email' })
+        expect(mockSendEmail).not.toHaveBeenCalled()
     })
 })
