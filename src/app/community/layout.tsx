@@ -21,7 +21,7 @@ export default async function CommunityLayout({ children }: { children: React.Re
     }
 
     return (
-        <section className="flex md:px-12 text-white min-h-screen bg-black">
+        <section className="flex md:px-12 text-snow min-h-screen bg-void">
             {children}
         </section>
     )

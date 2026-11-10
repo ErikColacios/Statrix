@@ -1,4 +1,4 @@
-"use server"
+// Server-only helper, NOT a server action on purpose: "use server" would make it callable from the browser
 import { pool } from '@/util/postgres';
 import { v4 as uuid } from "uuid";
 

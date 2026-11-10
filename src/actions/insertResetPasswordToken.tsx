@@ -1,20 +1,11 @@
-"use server"
+// Server-only helper, NOT a server action on purpose: "use server" would make it callable from the browser
 import { pool } from '@/util/postgres';
 import { v4 as uuid } from "uuid";
-import getUserByEmail from './getUserByEmail';
 
+// The user is checked before in sendEmailResetPassword, which is the only place that calls this function
 export default async function insertResetPasswordToken(email: string, token: string) {
     if (!token) {
         return { success: false, message: "No secure token found." };
-    }
-
-    try {
-        const response = await getUserByEmail(email)
-        if(response == 0) {
-            return { success: false, message: "Unable to find a user with this email" };
-        }
-    } catch (error) {
-        return { success: false, message: "There was a problem searching this email in our system. Try again later." };
     }
 
     try {

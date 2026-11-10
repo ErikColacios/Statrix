@@ -1,4 +1,4 @@
-"use server"
+// Server-only helper, NOT a server action on purpose: "use server" would make it callable from the browser
 import { EmailTemplateVerifyAccount } from '@/components/EmailTemplateVerifyAccount';
 import { Resend } from 'resend';
 import crypto from "crypto"

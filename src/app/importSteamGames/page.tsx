@@ -2,8 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
 import { fetchSteamLibrary } from "@/actions/fetchSteamLibrary";
-import getSessionUser from "@/actions/getSessionUser";
-import getUserInfo from "@/actions/getUserInfo";
+import getSessionUserInfo from "@/actions/getSessionUserInfo";
 import insertSteamGames from "@/actions/insertSteamGames";
 import ImportSteamGamesModal from "@/components/ImportSteamGamesModal";
 import Link from "next/link";
@@ -29,8 +28,8 @@ export default function ImportSteamGames() {
   useEffect(() => {
     const fetchSteamGames = async () => {
       try {
-        const session = await getSessionUser()
-        const userInfo = await getUserInfo(session.user.name)
+        // The Steam id is private, so it comes from the logged user's own info
+        const userInfo = await getSessionUserInfo()
 
         if (userInfo.length === 0 || !userInfo[0].user_steam_id) {
           setHasSteamLinked(false)

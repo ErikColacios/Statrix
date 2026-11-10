@@ -12,7 +12,10 @@ export default async function getUserSearched(userSearched: string) {
     }
 
     try {
-        const query = `SELECT * FROM users usr
+        // Only the columns the friend search needs, never email or password
+        const query = `SELECT usr.user_id, usr.user_name, usr.user_avatar, usr.user_location,
+            uf.requester_id, uf.addressee_id, uf.status
+        FROM users usr
         LEFT OUTER JOIN user_friendships uf ON 
             (uf.requester_id = usr.user_id AND uf.addressee_id = $1)
             OR (uf.requester_id = $1 AND uf.addressee_id = usr.user_id)

@@ -13,8 +13,7 @@ export default function PasswordReset({ searchParams }: Props) {
 
     const router = useRouter()
     const [state, formAction] = useFormState<any, FormData>(handleSubmit, undefined)
-    const [email, setEmail] = useState<string | undefined | null>("")
-    const [tokenId, setTokenId] = useState<string | undefined | null>("")
+    const [token, setToken] = useState<string>("")
 
     useEffect(() => {
         async function verifyResetToken(){
@@ -24,9 +23,7 @@ export default function PasswordReset({ searchParams }: Props) {
             if (!response.success) {
                 router.push("/")
             } else {
-                setEmail(response?.email)
-                setTokenId(response?.tokenId)
-                console.log(response?.email, response?.tokenId)
+                setToken(token)
             }
         }
         verifyResetToken()
@@ -39,16 +36,18 @@ export default function PasswordReset({ searchParams }: Props) {
         if (newPassword === "") {
             return { error: "Introduce a valid password" };
 
-        } else if (email === "" || email === null) {
-            return { error: "Email not valid." };
+        } else if (token === "") {
+            return { error: "This reset link is not valid." };
         }
 
-        const response = await updateUserPassword(newPassword, email, tokenId)
+        // The server checks the token again and gets the email from it
+        const response = await updateUserPassword(newPassword, token)
 
         if (response.success) {
             router.push("/")
             router.refresh()
-            console.log("Password changed successfully!")
+        } else {
+            return { error: response.response };
         }
     }
 

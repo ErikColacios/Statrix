@@ -6,7 +6,7 @@ import { Dialog, Toast } from 'radix-ui'
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { signIn } from 'next-auth/react'
-import getUserInfo from '@/actions/getUserInfo'
+import getSessionUserInfo from '@/actions/getSessionUserInfo'
 import updateUser from '@/actions/updateUser'
 import SettingsModals from '@/components/SettingsModals'
 import getSessionUser from '@/actions/getSessionUser'
@@ -35,7 +35,8 @@ export default function Settings() {
         const getUserInfoSession = async () => {
             const session = await getSessionUser()
             if (session) {
-                const userInfo = await getUserInfo(session.user.name)
+                // Own private data (email, Steam id...), only available for the logged user
+                const userInfo = await getSessionUserInfo()
                 setUserInfo(userInfo)
                 setAvatarUrl(userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg")
                 setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/banner_default.jpg")
