@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Dialog } from 'radix-ui'
+import UserHoverCard from './UserHoverCard'
 
 export default function ReviewCard({ review, index, gameName, userId, handleReviewActions, openReviewId, handleLikeReview, setModalType, setReviewClicked}: any) {
     
@@ -17,13 +18,15 @@ export default function ReviewCard({ review, index, gameName, userId, handleRevi
                             `}>
             <div className="relative flex flex-col space-y-1">
                 <div className="flex flex-col space-x-2 sm:flex-row sm:items-center text-white">
-                    <Link href={`/profile/${review.user_name}`} className="relative z-10 flex items-center hover:text-green-400 cursor-pointer">
-                        <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                            <img src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="User avatar" />
-                        </div>
-                        <p className="font-bold">{review.user_name}</p>
-                        <p className="ml-2 text-gray-400">reviewed </p>
-                    </Link>
+                    <UserHoverCard userName={review.user_name}>
+                        <Link href={`/profile/${review.user_name}`} className="relative z-10 flex items-center hover:text-green-400 cursor-pointer">
+                            <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                <img src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="User avatar" />
+                            </div>
+                            <p className="font-bold">{review.user_name}</p>
+                            <p className="ml-2 text-gray-400">reviewed </p>
+                        </Link>
+                    </UserHoverCard>
                     <div className="flex items-center space-x-2 mt-2 sm:mt-0">
                         <p className="font-bold">{gameName}</p>
                         <p className={`flex justify-center items-center rounded-full w-8 h-8 font-bold border

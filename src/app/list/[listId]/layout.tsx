@@ -2,6 +2,7 @@ import React from 'react'
 import { Metadata } from 'next';
 import Link from 'next/link';
 import BackLink from '@/components/BackLink';
+import UserHoverCard from '@/components/UserHoverCard';
 import getSessionUser from '@/actions/getSessionUser'
 import { redirect } from 'next/navigation'
 import { getListInfo } from '@/actions/getListInfo';
@@ -104,7 +105,9 @@ export default async function ListLayout({ children, params }: { children: React
                   <img src={listInfo[0].user_avatar ? `https://media.statrix.app/avatars/${listInfo[0].user_id}/${listInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image" />
                 </div>
                 <div className='flex items-center space-x-4 text-sm sm:text-base'>
-                  <Link href={`/profile/${listInfo[0].user_name}`} className='text-white hover:text-green-500 ml-2'>{listInfo[0].user_name}</Link>
+                  <UserHoverCard userName={listInfo[0].user_name}>
+                    <Link href={`/profile/${listInfo[0].user_name}`} className='text-white hover:text-green-500 ml-2'>{listInfo[0].user_name}</Link>
+                  </UserHoverCard>
                   {/* Creation date */}
                   <p>{list.list_creationdate.toISOString().split('T')[0]}</p>
                   <p>{listContent.length} games</p>

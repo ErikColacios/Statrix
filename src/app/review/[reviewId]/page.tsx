@@ -6,6 +6,7 @@ import getReview from '@/actions/getReview'
 import getSessionUser from '@/actions/getSessionUser'
 import BackLink from '@/components/BackLink'
 import LikeReviewButton from '@/components/LikeReviewButton'
+import UserHoverCard from '@/components/UserHoverCard'
 
 export async function generateMetadata({ params }: { params: { reviewId: string } }): Promise<Metadata> {
     const review = await getReview(params.reviewId)
@@ -69,14 +70,16 @@ export default async function Review({ params, searchParams }: Props) {
 
                     <div className="flex flex-col min-w-0">
                         {/* Author */}
-                        <Link href={`/profile/${review.user_name}`} className="group flex items-center w-fit">
-                            <img
-                                src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"}
-                                className="w-8 h-8 rounded-full object-cover mr-2 ring-2 ring-white/10 transition group-hover:ring-green-400"
-                                alt="User avatar" />
-                            <span className="font-bold group-hover:text-green-400">{review.user_name}</span>
-                            <span className="ml-2 text-gray-400">reviewed</span>
-                        </Link>
+                        <UserHoverCard userName={review.user_name}>
+                            <Link href={`/profile/${review.user_name}`} className="group flex items-center w-fit">
+                                <img
+                                    src={review.user_avatar ? `https://media.statrix.app/avatars/${review.user_id}/${review.user_avatar}` : "/avatarImages/avatar_default.jpg"}
+                                    className="w-8 h-8 rounded-full object-cover mr-2 ring-2 ring-white/10 transition group-hover:ring-green-400"
+                                    alt="User avatar" />
+                                <span className="font-bold group-hover:text-green-400">{review.user_name}</span>
+                                <span className="ml-2 text-gray-400">reviewed</span>
+                            </Link>
+                        </UserHoverCard>
 
                         {/* Game and score */}
                         <div className="flex items-center gap-3 mt-3">

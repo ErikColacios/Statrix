@@ -5,6 +5,7 @@ import getSessionUser from "@/actions/getSessionUser";
 import getUserInfo from "@/actions/getUserInfo";
 import insertChatMessage from "@/actions/insertChatMessage";
 import LoadingAnimation from "@/components/LoadingAnimation";
+import UserHoverCard from "@/components/UserHoverCard";
 import Link from "next/link";
 import React, { useState, useEffect, FormEvent, useRef, useCallback } from "react";
 import { Socket, io } from "socket.io-client";
@@ -195,15 +196,17 @@ export default function Chat({ params }: { params: { roomId: string } }) {
         {/* Friend info */}
         {friendUser.map((friend: any, friendIdent: number) => (
           <div className="w-full flex items-center px-4 sm:px-5 py-3 border-b border-white/10 bg-white/[0.03]" key={friendIdent}>
-            <Link href={`/profile/${friend.user_name}`} className="group flex items-center gap-3 min-w-0">
-              <div className="shrink-0 w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/10 transition group-hover:ring-green-500/60">
-                <img src={friend.user_avatar ? `https://media.statrix.app/avatars/${friend.user_id}/${friend.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
-              </div>
-              <div className="min-w-0">
-                <p className="font-semibold truncate transition group-hover:text-green-400">{friend.user_name}</p>
-                <p className="text-xs text-zinc-400">View profile</p>
-              </div>
-            </Link>
+            <UserHoverCard userName={friend.user_name}>
+              <Link href={`/profile/${friend.user_name}`} className="group flex items-center gap-3 min-w-0">
+                <div className="shrink-0 w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/10 transition group-hover:ring-green-500/60">
+                  <img src={friend.user_avatar ? `https://media.statrix.app/avatars/${friend.user_id}/${friend.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image"/>
+                </div>
+                <div className="min-w-0">
+                  <p className="font-semibold truncate transition group-hover:text-green-400">{friend.user_name}</p>
+                  <p className="text-xs text-zinc-400">View profile</p>
+                </div>
+              </Link>
+            </UserHoverCard>
           </div>
         ))}
 

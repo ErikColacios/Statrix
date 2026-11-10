@@ -6,6 +6,7 @@ import Link from "next/link";
 import { insertUserFriendship } from "../actions/insertUserFriendship";
 import { FriendshipStatus } from "@/enums/FriendshipStatus";
 import updateUserFriendship from "@/actions/updateUserFriendship";
+import UserHoverCard from "./UserHoverCard";
 
 export default function AddNewFriendModal() {
 
@@ -125,11 +126,15 @@ export default function AddNewFriendModal() {
                 <div className="flex flex-col gap-2 overflow-y-auto no-scrollbar min-h-0 flex-1 sm:flex-none sm:h-80">
                     {usersFound.map((item: any) => (
                         <div key={item.user_id} className="flex items-center gap-4 p-3 sm:px-4 rounded-2xl border border-white/10 bg-white/5 transition hover:bg-white/10">
-                            <Link href={`/profile/${item.user_name}`} className="shrink-0 w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/10">
-                                <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image" />
-                            </Link>
+                            <UserHoverCard userName={item.user_name}>
+                                <Link href={`/profile/${item.user_name}`} className="shrink-0 w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/10">
+                                    <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt="Avatar image" />
+                                </Link>
+                            </UserHoverCard>
                             <div className="min-w-0 flex-1">
-                                <Link href={`/profile/${item.user_name}`} className="block font-semibold truncate hover:text-green-400">{item.user_name}</Link>
+                                <UserHoverCard userName={item.user_name}>
+                                    <Link href={`/profile/${item.user_name}`} className="block font-semibold truncate hover:text-green-400">{item.user_name}</Link>
+                                </UserHoverCard>
                                 {item.user_location && <p className="text-xs text-zinc-400 truncate">{item.user_location}</p>}
                             </div>
                             {renderUserAction(item)}

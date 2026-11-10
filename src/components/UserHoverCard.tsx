@@ -10,19 +10,25 @@ type Props = {
     children: React.ReactNode // The element that opens the card on hover, usually a link to the profile
 }
 
-// Users already fetched, shared by all the cards of the page so each user is only requested once
-const userCache = new Map<string, UserCard | null>()
+// Requests of the users, shared by all the cards of the page (e.g. the avatar and the name of the same user).
+// The promise is stored, not the result, so two cards opened at the same time share one request
+const userCache = new Map<string, Promise<UserCard | null>>()
+
+function fetchUserCard(userName: string): Promise<UserCard | null> {
+    if (!userCache.has(userName)) {
+        userCache.set(userName, getUserCard(userName).then((res) => res.success && res.user ? res.user : null))
+    }
+    return userCache.get(userName)!
+}
 
 // Shows a floating card with the banner, avatar, name and bio of a user when hovering over the children
 export default function UserHoverCard({ userName, children }: Props) {
-    const [user, setUser] = useState<UserCard | null | undefined>(userCache.get(userName))
+    const [user, setUser] = useState<UserCard | null | undefined>(undefined)
 
     async function handleOpenChange(open: boolean) {
-        if (!open || userCache.has(userName)) return
-        const res = await getUserCard(userName)
-        const fetchedUser: UserCard | null = res.success && res.user ? res.user : null
-        userCache.set(userName, fetchedUser)
-        setUser(fetchedUser)
+        if (!open || user !== undefined) return
+        // Always reads from the cache, even if another card already requested this user
+        setUser(await fetchUserCard(userName))
     }
 
     return (
@@ -32,7 +38,7 @@ export default function UserHoverCard({ userName, children }: Props) {
             </HoverCard.Trigger>
             <HoverCard.Portal>
                 <HoverCard.Content side="bottom" align="start" sideOffset={8} collisionPadding={16}
-                    className="z-50 w-80 overflow-hidden rounded-2xl border border-edge bg-card text-snow shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)]
+                    className="z-[100] w-80 overflow-hidden rounded-2xl border border-edge bg-card text-snow shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)]
                     data-[state=open]:animate-[dialog-content-show_150ms] data-[state=closed]:animate-[dialog-content-hide_150ms]">
 
                     {/* Loading */}

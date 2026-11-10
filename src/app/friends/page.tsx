@@ -12,6 +12,7 @@ import getUsersFriendship from '@/actions/getUsersFriendship'
 import SkeletonFriends from './skeleton'
 import { deleteUserFriendship } from '@/actions/deleteUserFriendship'
 import DeleteFriendModal from '@/components/DeleteFriendModal'
+import UserHoverCard from '@/components/UserHoverCard'
 
 export default function Friends() {
 
@@ -126,16 +127,18 @@ export default function Friends() {
                         {/* Users found */}
                         {usersFound.map((item: any, index: number) => (
                             <div key={index} className='flex items-center gap-4 p-3 sm:px-4 min-h-20 rounded-2xl border border-white/10 bg-white/5 transition hover:bg-white/[0.07] hover:border-white/20 animate-element-appear'>
-                                <Link href={`/profile/${item.user_name}`} className='group flex items-center gap-4 min-w-0'>
-                                    <div className="shrink-0 w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/10 transition group-hover:ring-green-500/60">
-                                        <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt='Avatar image' />
-                                    </div>
-                                    <div className='min-w-0'>
-                                        {/* User name */}
-                                        <p className='font-semibold truncate transition group-hover:text-green-400'>{item.user_name}</p>
-                                        <p className='text-xs text-zinc-400'>{getFriendSubtitle(item)}</p>
-                                    </div>
-                                </Link>
+                                <UserHoverCard userName={item.user_name}>
+                                    <Link href={`/profile/${item.user_name}`} className='group flex items-center gap-4 min-w-0'>
+                                        <div className="shrink-0 w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/10 transition group-hover:ring-green-500/60">
+                                            <img src={item.user_avatar ? `https://media.statrix.app/avatars/${item.user_id}/${item.user_avatar}` : "/avatarImages/avatar_default.jpg"} className="h-full w-full object-cover" alt='Avatar image' />
+                                        </div>
+                                        <div className='min-w-0'>
+                                            {/* User name */}
+                                            <p className='font-semibold truncate transition group-hover:text-green-400'>{item.user_name}</p>
+                                            <p className='text-xs text-zinc-400'>{getFriendSubtitle(item)}</p>
+                                        </div>
+                                    </Link>
+                                </UserHoverCard>
 
                                 {/* Friend row buttons */}
                                 <div className='ml-auto shrink-0'>
