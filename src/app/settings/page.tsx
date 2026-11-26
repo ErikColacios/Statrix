@@ -12,6 +12,7 @@ import SettingsModals from '@/components/SettingsModals'
 import getSessionUser from '@/actions/getSessionUser'
 import updateUserAvatar from '@/actions/updateUserAvatar'
 import updateUserBanner from '@/actions/updateUserBanner'
+import updateMatchmakingEnabled from '@/actions/updateMatchmakingEnabled'
 
 export default function Settings() {
     const router = useRouter()
@@ -23,6 +24,7 @@ export default function Settings() {
     const [avatarUrl, setAvatarUrl] = useState<string>("")
     const [selectedBanner, setSelectedBanner] = useState<File>()
     const [bannerUrl, setBannerUrl] = useState<string>("")
+    const [matchmakingEnabled, setMatchmakingEnabled] = useState<boolean>(false)
 
     // Toast notification state
     const [open, setOpen] = useState(false)
@@ -40,10 +42,21 @@ export default function Settings() {
                 setUserInfo(userInfo)
                 setAvatarUrl(userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg")
                 setBannerUrl(userInfo[0].user_banner ? `https://media.statrix.app/banners/${userInfo[0].user_id}/${userInfo[0].user_banner}` : "/bannerImages/banner_default.jpg")
+                setMatchmakingEnabled(userInfo[0].matchmaking_enabled === true)
             }
         }
         getUserInfoSession()
     }, [])
+
+    // The matchmaking switch is saved at the moment, without the Save changes button
+    async function handleToggleMatchmaking() {
+        const newValue = !matchmakingEnabled
+        setMatchmakingEnabled(newValue)
+        const response = await updateMatchmakingEnabled(newValue)
+        if (!response.success) {
+            setMatchmakingEnabled(!newValue)
+        }
+    }
 
     async function handleConnectSteam() {
         // Redirect the user to the Steam login page
@@ -335,6 +348,20 @@ export default function Settings() {
                                             </Dialog.Trigger>
                                         </div>
                                     )}
+                                </div>
+
+                                {/* Matchmaking */}
+                                <h3 className="text-xl font-bold text-gray-400 mt-4">Matchmaking</h3>
+                                <div className="flex space-x-4 items-center">
+                                    <div className="flex flex-col">
+                                        <p>Appear in Match</p>
+                                        <p className="text-gray-400 text-sm">Other players with games in common can find you and you can find them</p>
+                                    </div>
+                                    <button type="button" role="switch" aria-checked={matchmakingEnabled} aria-label="Appear in Match"
+                                        onClick={handleToggleMatchmaking}
+                                        className={`ml-auto shrink-0 relative w-12 h-7 rounded-full transition ${matchmakingEnabled ? 'bg-green-500' : 'bg-zinc-700'}`}>
+                                        <span className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow transition ${matchmakingEnabled ? 'translate-x-5' : ''}`} />
+                                    </button>
                                 </div>
 
                                 {/* Danger zone */}

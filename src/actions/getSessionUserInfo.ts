@@ -17,7 +17,7 @@ export default async function getSessionUserInfo() {
 
     try {
         const query = `SELECT user_id, user_name, user_email, user_lists, user_creationdate, user_bio, user_location, user_webpage,
-                user_avatar, user_banner, user_steam_url, user_x, user_twitch, user_google_id, user_steam_id,
+                user_avatar, user_banner, user_steam_url, user_x, user_twitch, user_google_id, user_steam_id, matchmaking_enabled,
                 (SELECT COUNT(1) FROM user_friendships WHERE (requester_id = $1 OR addressee_id = $1) AND status = 'Accepted') as friends
             FROM users
             WHERE user_id = $1`;
