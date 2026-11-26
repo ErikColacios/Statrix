@@ -71,9 +71,11 @@ export default function LogGameButton() {
 
                         {/* Step 2: rate the game. The key remounts it for each game, so it loads the saved data of that game */}
                         {selectedGame && (
-                            <AddGameModal key={selectedGame.id} game={selectedGame} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage}
-                                onBack={() => setSelectedGame(undefined)}
-                                onSave={() => router.refresh()} />
+                            <div className="w-full h-full animate-slide-left">
+                                <AddGameModal key={selectedGame.id} game={selectedGame} timerRef={timerRef} setOpenToast={setOpenToast} setToastMessage={setToastMessage}
+                                    onBack={() => setSelectedGame(undefined)}
+                                    onSave={() => router.refresh()} />
+                            </div>
                         )}
                     </Dialog.Content>
                 </Dialog.Portal>
