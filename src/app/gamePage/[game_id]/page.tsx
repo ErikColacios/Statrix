@@ -8,9 +8,7 @@ import SliderImages from '@/components/SliderImages'
 import ReviewSection from '@/components/ReviewSection'
 import AddGame from '@/components/AddGame'
 import getSessionUser from '@/actions/getSessionUser'
-import { GameStatus } from '@/enums/GameStatus'
 import { ReviewMode } from '@/enums/ReviewMode'
-import Link from 'next/link'
 
 export default async function GamePage({ params }: { params: { list_id: string; game_id: number } }) {
     const session = await getSessionUser()
@@ -23,19 +21,6 @@ export default async function GamePage({ params }: { params: { list_id: string; 
     const gameReviews = await getGameReviews(params.game_id, ReviewMode.POPULAR)
 
     const game = gameInfo[0]
-
-    function handleStatusChange(status: GameStatus) {
-        switch (status) {
-            case GameStatus.PLAYING:
-                break;
-            case GameStatus.COMPLETED:
-                break;
-            case GameStatus.ON_HOLD:
-                break;
-            case GameStatus.DROPPED:
-                break;
-        }
-    }
 
     if (!game) {
         return (
@@ -96,15 +81,9 @@ export default async function GamePage({ params }: { params: { list_id: string; 
             {/* MAIN CONTENT */}
             <div className="max-w-6xl mx-auto px-4 pb-20">
                 {/* USER ACTIONS */}
-                {userId && (
-                    <div className="flex flex-col">
-                        <div className="flex items-center space-x-2 text-xl mb-2">
-                            <img src={userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} className="w-6 h-6 rounded-full mr-2" alt="User avatar" />
-                            <Link href={`/profile/${userName}`} className="font-semibold hover:text-green-400 cursor-pointer">{userName}</Link>
-                            <p className="text-gray-400"> status</p>
-                        </div>
-                        <AddGame game={game}/>
-                    </div>
+                {userId && userInfo[0] && (
+                    <AddGame game={game} userName={userName as string}
+                        avatarImage={userInfo[0].user_avatar ? `https://media.statrix.app/avatars/${userInfo[0].user_id}/${userInfo[0].user_avatar}` : "/avatarImages/avatar_default.jpg"} />
                 )}
 
                 {/* About + Stats */}
