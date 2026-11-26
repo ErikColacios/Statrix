@@ -18,9 +18,10 @@ type Props = {
     setOpenToast: React.Dispatch<React.SetStateAction<boolean>>;
     setToastMessage: React.Dispatch<React.SetStateAction<string>>;
     onSave?: (userGame: UserGame) => void; // Called after the game is saved, so the parent page can update its data
+    onBack?: () => void; // If set, shows a back button (e.g. to go back to the search in LogGameButton)
 };
 
-export default function AddGameModal({ game, timerRef, setOpenToast, setToastMessage, onSave }: Props) {
+export default function AddGameModal({ game, timerRef, setOpenToast, setToastMessage, onSave, onBack }: Props) {
     const years: number[] = []
     let currentYear = new Date().getFullYear()
 
@@ -218,6 +219,12 @@ export default function AddGameModal({ game, timerRef, setOpenToast, setToastMes
                     <img src={coverSrc} alt="Game cover" className="w-full h-full object-cover scale-125 blur-3xl opacity-25" />
                     <div className={`absolute inset-0 bg-linear-to-br ${accent.tint} via-zinc-950/80 to-zinc-950/95 transition-colors duration-500`} />
                 </div>
+
+                {/* Back button, only when the modal comes from another step (e.g. the search of LogGameButton) */}
+                {onBack &&
+                    <button onClick={onBack} aria-label="Back to search" className="absolute z-10 right-14 top-15 sm:top-4 p-2 rounded-full text-zinc-400 transition hover:text-white hover:bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                    </button>}
 
                 <Dialog.Close aria-label="Close" className="absolute z-10 right-4 top-15 sm:top-4 p-2 rounded-full text-zinc-400 transition hover:text-white hover:bg-white/10">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>

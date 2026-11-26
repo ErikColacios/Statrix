@@ -7,6 +7,7 @@ import getUserInfo from "../actions/getUserInfo";
 import Notifications from "./Notifications";
 import getNotificationCount from "../actions/getNotificationCount";
 import getSessionUser from "@/actions/getSessionUser";
+import LogGameButton from "./LogGameButton";
 
 export default async function Navbar() {
 
@@ -46,6 +47,9 @@ export default async function Navbar() {
                 <div className="ml-auto flex items-center gap-1">
                     {user &&
                         <>
+                            <div className="mr-1">
+                                <LogGameButton />
+                            </div>
                             <Notifications userId={user.userId} notificationCount={notificationCount} />
                             <div className="ml-1 hidden md:block">
                                 <NavbarProfileButton avatarImage={user.avatarImage} userName={user.userName} />
