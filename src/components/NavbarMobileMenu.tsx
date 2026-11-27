@@ -74,9 +74,13 @@ export default function NavbarMobileMenu({ user }: Props) {
                     }
 
                     {mainLinks.filter(link => user || !link.requiresSession).map(link => (
-                        <Link key={link.href} href={link.href} className={linkClass(link.href)}>
-                            <span className="text-zinc-400">{link.icon}</span>
+                        <Link key={link.href} href={link.href} className={`${linkClass(link.href)} ${link.isNew ? "text-green-400!" : ""}`}>
+                            <span className={link.isNew ? "text-green-400" : "text-zinc-400"}>{link.icon}</span>
                             {link.label}
+                            {link.isNew &&
+                                <span className="px-1.5 rounded-full border border-green-500/40 bg-green-500/15 text-[10px] font-bold uppercase leading-4 tracking-wide text-green-400">
+                                    New
+                                </span>}
                         </Link>
                     ))}
 

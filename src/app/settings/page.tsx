@@ -12,7 +12,6 @@ import SettingsModals from '@/components/SettingsModals'
 import getSessionUser from '@/actions/getSessionUser'
 import updateUserAvatar from '@/actions/updateUserAvatar'
 import updateUserBanner from '@/actions/updateUserBanner'
-import updateMatchmakingEnabled from '@/actions/updateMatchmakingEnabled'
 
 export default function Settings() {
     const router = useRouter()
@@ -47,16 +46,6 @@ export default function Settings() {
         }
         getUserInfoSession()
     }, [])
-
-    // The matchmaking switch is saved at the moment, without the Save changes button
-    async function handleToggleMatchmaking() {
-        const newValue = !matchmakingEnabled
-        setMatchmakingEnabled(newValue)
-        const response = await updateMatchmakingEnabled(newValue)
-        if (!response.success) {
-            setMatchmakingEnabled(!newValue)
-        }
-    }
 
     async function handleConnectSteam() {
         // Redirect the user to the Steam login page
@@ -357,11 +346,13 @@ export default function Settings() {
                                         <p>Appear in Match</p>
                                         <p className="text-gray-400 text-sm">Other players with games in common can find you and you can find them</p>
                                     </div>
-                                    <button type="button" role="switch" aria-checked={matchmakingEnabled} aria-label="Appear in Match"
-                                        onClick={handleToggleMatchmaking}
-                                        className={`ml-auto shrink-0 relative w-12 h-7 rounded-full transition ${matchmakingEnabled ? 'bg-green-500' : 'bg-zinc-700'}`}>
-                                        <span className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow transition ${matchmakingEnabled ? 'translate-x-5' : ''}`} />
-                                    </button>
+                                    {/* Checkbox of the form with the look of a switch. It's saved with the Save changes button */}
+                                    <label className="ml-auto shrink-0 relative w-12 h-7 cursor-pointer">
+                                        <input type="checkbox" role="switch" name="matchmakingEnabled" aria-label="Appear in Match" className="peer sr-only"
+                                            checked={matchmakingEnabled} onChange={(e) => setMatchmakingEnabled(e.target.checked)} />
+                                        <span className="absolute inset-0 rounded-full bg-zinc-700 transition peer-checked:bg-green-500 peer-focus-visible:ring-2 peer-focus-visible:ring-green-400" />
+                                        <span className="absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow transition peer-checked:translate-x-5" />
+                                    </label>
                                 </div>
 
                                 {/* Danger zone */}

@@ -20,6 +20,8 @@ export default async function updateUser(prevState: any, formData: FormData) {
     const userSteam:string = formData.get("userSteam") as string;
     const userTwitch:string = formData.get("userTwitch") as string;
     const userX:string = formData.get("userX") as string;
+    // A checkbox only is in the form data when it's checked (with the value "on")
+    const matchmakingEnabled:boolean = formData.get("matchmakingEnabled") === "on";
 
     if (userName === "" || userName.includes(" ")) {
         return { error: "The user name must not be empty or contain whitespaces" };
@@ -60,9 +62,10 @@ export default async function updateUser(prevState: any, formData: FormData) {
                  user_webpage = $5,
                  user_steam_url = $6,
                  user_twitch = $7,
-                 user_x = $8
-             WHERE user_id = $9`,
-            [userName, userBio, userEmail, userLocation, userWebpage, userSteam, userTwitch, userX, userId]
+                 user_x = $8,
+                 matchmaking_enabled = $9
+             WHERE user_id = $10`,
+            [userName, userBio, userEmail, userLocation, userWebpage, userSteam, userTwitch, userX, matchmakingEnabled, userId]
         );
 
     } catch (error: any) {

@@ -18,12 +18,13 @@ export const icons = {
     logOut: <svg {...iconProps}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>,
 }
 
-// Main sections. The ones with requiresSession are only shown to logged users
-export const mainLinks = [
+// Main sections. The ones with requiresSession are only shown to logged users.
+// The ones with isNew show a small green "New" badge (remove it when the section is not new anymore)
+export const mainLinks: { href: string, label: string, icon: React.ReactNode, requiresSession: boolean, isNew?: boolean }[] = [
+    { href: "/match", label: "Match", icon: icons.match, requiresSession: true, isNew: true },
     { href: "/browseGames", label: "Games", icon: icons.games, requiresSession: false },
     { href: "/community", label: "Community", icon: icons.community, requiresSession: true },
     { href: "/friends", label: "Friends", icon: icons.friends, requiresSession: true },
-    // { href: "/match", label: "Match", icon: icons.match, requiresSession: true },
 ]
 
 // Personal pages of the logged user
