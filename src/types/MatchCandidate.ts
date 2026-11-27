@@ -17,4 +17,15 @@ export type MatchCandidate = {
     common_games: number,
     affinity: number,
     shared_games: SharedGame[],
+    // Stats of the whole library of the candidate
+    total_hours: number,
+    games_all: number,
+    games_playing: number,
+    games_completed: number,
+    most_played: {
+        game_id: number,
+        game_name: string,
+        game_base_image: string,
+        hours_played: number,
+    } | null,
 }

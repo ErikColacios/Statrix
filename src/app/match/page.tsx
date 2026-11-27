@@ -108,10 +108,10 @@ export default function Match() {
             </div>
 
             {isLoading ?
-                <div className='mt-8 w-full h-[32rem] rounded-3xl border border-white/10 bg-white/5 animate-pulse' />
+                <div className='mt-8 w-full h-[36rem] rounded-3xl border border-white/10 bg-white/5 animate-pulse' />
                 : !enabled ?
                     // Matchmaking disabled
-                    <div className='mt-8 w-full flex flex-col items-center justify-center gap-4 text-center h-[32rem] px-6 rounded-3xl border border-dashed border-white/15 bg-white/[0.03]'>
+                    <div className='mt-8 w-full flex flex-col items-center justify-center gap-4 text-center h-[36rem] px-6 rounded-3xl border border-dashed border-white/15 bg-white/[0.03]'>
                         <p className='text-4xl'>🎮</p>
                         <p className='text-lg font-semibold'>Matchmaking is disabled</p>
                         <p className='text-sm text-zinc-400'>Enable it to see other players and to appear to them. You can disable it at any time in Settings.</p>
@@ -122,7 +122,7 @@ export default function Match() {
                     </div>
                     : !hasCards ?
                         // No more candidates
-                        <div className='mt-8 w-full flex flex-col items-center justify-center gap-2 text-center h-[32rem] px-6 rounded-3xl border border-dashed border-white/15 bg-white/[0.03] text-zinc-400'>
+                        <div className='mt-8 w-full flex flex-col items-center justify-center gap-2 text-center h-[36rem] px-6 rounded-3xl border border-dashed border-white/15 bg-white/[0.03] text-zinc-400'>
                             <p className='text-2xl text-zinc-300'>(－_－) zzZ</p>
                             <p>No more players by now</p>
                             <p className='text-sm'>Add more games to your library to find more players.</p>
@@ -134,7 +134,7 @@ export default function Match() {
                         :
                         <>
                             {/* Cards */}
-                            <div className='relative mt-8 w-full h-[32rem]'>
+                            <div className='relative mt-8 w-full h-[36rem]'>
                                 {visibleCards.map(candidate => (
                                     <MatchCard key={candidate.user_id} candidate={candidate}
                                         isTop={candidate.user_id === candidates[index].user_id}
